@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block content %}
+    {% for cource in cources %}
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ" class="card-img" alt="Best Ever Content!">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cource.name}}</h5>
+                        <p class="card-text">{{cource.author}}</p>
+                        <p class="card-text">{{cource.reviews}}</p>
+                        <p class="card-text">{{cource.date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
+
+
