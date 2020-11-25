@@ -1,0 +1,114 @@
+<html>
+<head>
+    <!------------------------------------------------- Initials --------------------------------------------->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!------------------------------------------------- Importing Bootstrap file --------------------------------------------->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--        <link href="style.css" rel="stylesheet">-->
+    <!------------------------------------------------- Title --------------------------------------------->
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>Flask Blog - {{title}}</title>
+    {% else %}
+    <title> About </title>
+    {% endif %}
+</head>
+<body>
+<!--------------------------------------------------------------- Css Files -------------------------------------------------->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='main.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='sidebar.css') }}">
+<!--------------------------------------------------------------- Navbar -------------------------------------------------->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="#">NLPSE</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ">
+            <li class="nav-item active">
+                <a class="nav-link" href="layouts.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#SkillOfWeek">Skill of the week</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/login">Log In</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li>
+                <form action="/logout" method="post">
+                    <button type="submit" id="logout"
+                            class="btn btn-outline-secondary">Log Out <span class="caret"></span>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--------------------------------------------- Search Bar -------------------------------------------------------->
+
+<!--        <section class="search-bar container-fluid">-->
+
+<!--            <form class="bar">-->
+<!--                    <div >-->
+<!--                        <h1>Enter Query</h1>-->
+<!--                        <input type="text" class="form-control" id="query" placeholder="Search">-->
+<!--                        <br>-->
+<!--                        <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--                    </div>-->
+<!--            </form>-->
+
+<!--        </section>-->
+
+<!--------------------------------------------- Skill of the Week -------------------------------------------------------->
+
+
+<!---------------------------------------- Content ------------------------------------------------>
+<div class="container">
+    {% block content %} {% endblock %}
+</div>
+<!---------------------------------------- Top Skills ------------------------------------------------>
+<div class="container">
+    {% block topSills %} {% endblock %}
+</div>
+<!---------------------------------------- Jquery files ------------------------------------------------>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+
+<!--        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="../static/initFirebase.js"></script>
+
+<script src="../static/javascript/google-signin.js"></script>
+</body>
+
+</html>
