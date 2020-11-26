@@ -11,7 +11,7 @@
     <!------------------------------------------------- Title --------------------------------------------->
     <meta charset="UTF-8">
     {% if title %}
-    <title>Flask Blog - {{title}}</title>
+    <title>{{title}}</title>
     {% else %}
     <title> About </title>
     {% endif %}
@@ -32,7 +32,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto ">
             <li class="nav-item active">
-                <a class="nav-link" href="layouts.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#SkillOfWeek">Skill of the week</a>
@@ -45,9 +45,11 @@
             </li>
             <li>
                 <form action="/logout" method="post">
+                    {% if userLogin %}
                     <button type="submit" id="logout"
-                            class="btn btn-outline-secondary">Log Out <span class="caret"></span>
+                            class="btn btn-outline-secondary" >Log Out <span class="caret"></span>
                     </button>
+                    {% endif %}
                 </form>
             </li>
         </ul>
