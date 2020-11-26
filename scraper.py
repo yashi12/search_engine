@@ -81,15 +81,16 @@ class scraper(object):
 
     def Udemy(self, topic, lockDb):
         print("udemy")
-        self.browser.get("https://www.udemy.com/")
+        self.browser.get(f"https://www.udemy.com/courses/search/?lang=en&q=+{topic}+&sort=relevance&src=ukw")
+        # self.browser.get("https://www.udemy.com/")
+        # sleep(5)
+        #
+        # self.search_input = self.browser.find_element_by_xpath('//input[@placeholder="Search for anything"]')
+        # self.search_input.send_keys(topic)
+        #
+        # self.search_btn = self.browser.find_element_by_xpath('//button[@type="submit"]')
+        # self.search_btn.send_keys(Keys.ENTER)
         sleep(5)
-
-        self.search_input = self.browser.find_element_by_xpath('//input[@placeholder="Search for anything"]')
-        self.search_input.send_keys(topic)
-
-        self.search_btn = self.browser.find_element_by_xpath('//button[@type="submit"]')
-        self.search_btn.send_keys(Keys.ENTER)
-        sleep(6)
 
         self.course_title = self.browser.find_elements_by_xpath(
             '//div[@class="udlite-focus-visible-target udlite-heading-md course-card--course-title--2f7tE"]')
@@ -123,6 +124,7 @@ class scraper(object):
                 "course_image": self.course_image[i].get_attribute('src'),
                 "course_link": self.course_link[i].get_attribute('href')
             }
+            print("dictobj",dictObject)
             # d['udemy'].append(dictObject)
             # self.lstUdemy.append(dictObject)
             lst.append(dictObject)
@@ -145,14 +147,15 @@ class scraper(object):
 
     def coursera(self, topic, lockDb):
         print("coursera")
-        self.browser.get("https://www.coursera.org/")
+        # self.browser.get("https://www.coursera.org/")
+        self.browser.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
         sleep(5)
 
-        self.search_input1 = self.browser.find_element_by_xpath('//input[@placeholder="What do you want to learn?"]')
-        self.search_input1.send_keys(topic)
-
-        self.search_input1.send_keys(Keys.ENTER)
-        sleep(5)
+        # self.search_input1 = self.browser.find_element_by_xpath('//input[@placeholder="What do you want to learn?"]')
+        # self.search_input1.send_keys(topic)
+        #
+        # self.search_input1.send_keys(Keys.ENTER)
+        # sleep(5)
 
         self.course_title = self.browser.find_elements_by_xpath(
             '//h2[@class="color-primary-text card-title headline-1-text"]')
