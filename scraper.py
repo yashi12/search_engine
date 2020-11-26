@@ -124,7 +124,7 @@ class scraper(object):
                 "course_image": self.course_image[i].get_attribute('src'),
                 "course_link": self.course_link[i].get_attribute('href')
             }
-            print("dictobj",dictObject)
+            print("dictobj", dictObject)
             # d['udemy'].append(dictObject)
             # self.lstUdemy.append(dictObject)
             lst.append(dictObject)
@@ -148,7 +148,8 @@ class scraper(object):
     def coursera(self, topic, lockDb):
         print("coursera")
         # self.browser.get("https://www.coursera.org/")
-        self.browser.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+        self.browser.get(
+            f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
         sleep(5)
 
         # self.search_input1 = self.browser.find_element_by_xpath('//input[@placeholder="What do you want to learn?"]')
@@ -213,11 +214,14 @@ class scraper(object):
     def youtube(self, topic, lockDb):
         print("youtube")
         self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
-        sleep(5)
+        sleep(10)
+        # breakpoint()
         self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
         self.course_instructor = self.browser.find_elements_by_xpath(
             '//a[@class="yt-simple-endpoint style-scope yt-formatted-string"]')
-        self.course_image = self.browser.find_elements_by_xpath('//img[@class="style-scope yt-img-shadow"]')
+        self.course_image = self.browser.find_elements_by_xpath('//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
+        # for i in range(len(self.course_image)):
+        #     print(self.course_image[i].get_attribute('src'))
         self.course_link = self.browser.find_elements_by_xpath(
             '//a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]')
 
@@ -240,13 +244,13 @@ class scraper(object):
         self.browser.close()
         lockDb.writeToDb('youtube', lst, topic)
 
-    def blogs(self,topic, lockDb):
+    def blogs(self, topic, lockDb):
         print("blog section")
         self.browser.get("https://www.google.com/")
         sleep(5)
 
-        self.search_input3= self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
-        self.search_input3.send_keys('"blogurl:"'+f'{topic}' +'"')
+        self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
+        self.search_input3.send_keys('"blogurl:"' + f'{topic}' + '"')
 
         self.search_input3.send_keys(Keys.ENTER)
         sleep(5)
@@ -266,7 +270,6 @@ class scraper(object):
         print('blogs', lst)
         self.browser.close()
         lockDb.writeToDb('blogs', lst, topic)
-
 
     def saving(self, topic, d):
         self.name = []
@@ -310,6 +313,7 @@ def taskYoutube(topic, lockDb, objYoutube):
 
 def taskBlogs(topic, lockDb, objBlogs):
     objBlogs.blogs(topic, lockDb)
+
 
 def callScapraping(topic):
     objUdemy = scraper()
