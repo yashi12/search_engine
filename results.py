@@ -1,10 +1,10 @@
 from datetime import timedelta
 
-from flask import Flask, render_template, url_for, request, session,redirect
+from flask import Flask, render_template, url_for, request, session, redirect
 import firebase_admin
 import pyrebase
 import json
-from firebase_admin import credentials, auth,db
+from firebase_admin import credentials, auth, db
 from firebase import Firebase
 import os
 import threading
@@ -28,18 +28,19 @@ cources = [
         'author': 'Jmaes Bond',
         'reviews': '78',
         'date': '12/01/2000',
-        'img':'https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ" class="card-img" alt="Best Ever Content!'
+        'img': 'https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ" class="card-img" alt="Best Ever Content!'
     },
     {
         'name': 'Begineer Node Js',
         'author': 'haerry Bond',
         'reviews': '78',
         'date': '12/01/2000',
-        'img':'https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ" class="card-img" alt="Best Ever Content!'
+        'img': 'https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ" class="card-img" alt="Best Ever Content!'
     }
 ]
 users = [{'uid': 1, 'name': 'Noah Schairer'}]
 print(pyrebase)
+
 
 # Api route to get users
 @app.route('/api/userinfo')
@@ -48,23 +49,20 @@ def userinfo():
 
 
 # Main page
-@app.route('/',methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 def mainPage():
-    # top3 = pb.database().child('topic').order_by_child('count')
+    # top3 = pb.child('topic').order_by_child('count')
     # print("top3",top3.get())
     if 'idToken' in session:
         idToken = session['idToken']
         print(idToken)
-        # user = pb.auth().
+        user = pb.auth().get_account_info(id_token=idToken)
+        print("user",user)
+        return render_template('searchBar.html',userLogin=True)
         # before the 1 hour expiry:
         # user = auth.refresh(user['refreshToken'])
     return render_template('searchBar.html')
     # return render_template('skillOfWeek.html')
-
-
-@app.route('/home', methods=['POST', 'GET'])
-def home():
-    return render_template('home.html')
 
 
 # Api route to sign up a new user
@@ -94,7 +92,7 @@ def signup():
     if password != confirmPassword:
         return {'message': 'Password do not match'}, 400
     try:
-        auth.create_user_with_email_and_password(email,password)
+        auth.create_user_with_email_and_password(email, password)
         return render_template('login.html')
     except:
         return {'message': 'Error creating user'}, 400
@@ -109,12 +107,12 @@ def token():
         user = pb.auth().sign_in_with_email_and_password(email, password)
         # before the 1 hour expiry:
         user = auth.refresh(user['refreshToken'])
-        print("user",user)
-        print("acc info",auth.get_account_info(user['idToken']))
+        # print("user", user)
+        # print("acc info", auth.get_account_info(user['idToken']))
         session['idToken'] = user['idToken']
-        session.permanent = True
-        app.permanent_session_lifetime = timedelta(minutes=30)
-        print("session",session['idToken'])
+        # session.permanent = True
+        # app.permanent_session_lifetime = timedelta(minutes=30)
+        # print("session", session['idToken'])
         return redirect(url_for('mainPage'))
         # return render_template('result.html', cources=cources)
         # jwt = user['idToken']
@@ -137,7 +135,7 @@ def token2():
     # print("data",ref)
     try:
         # -----------------------------------------------------
-        topic='node js'
+        topic = 'node js'
 
         # -----------------------------------Udemy------------------------------------
         udemy_cources = []
@@ -153,7 +151,7 @@ def token2():
                 udemy_cource[key] = value
             udemy_cources.append(udemy_cource)
 
-# ----------------------------------------------Coursera-----------------------------------------
+        # ----------------------------------------------Coursera-----------------------------------------
         coursera_cources = []
 
         ref = firebase_app.database().child('topic')
@@ -184,16 +182,17 @@ def token2():
         print(youtube_cources)
 
         # --------------------------------- Render Template ---------------------------------------
-        return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,youtube_cources=youtube_cources)
+        return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
+                               youtube_cources=youtube_cources)
     except:
         print("error")
         return {'message': 'There was an error logging in'}, 400
 
 
-@app.route('/about')
-def about():
-    # return '<h1>Amount Page</h1>'
-    return render_template('about.html', title='Home')
+# @app.route('/about')
+# def about():
+#     # return '<h1>Amount Page</h1>'
+#     return render_template('about.html', title='Home')
 
 
 @app.route('/login')
@@ -205,41 +204,44 @@ def login():
 def register():
     return render_template('register.html', title='Register')
 
-@app.route('/forgotPassword',methods=['GET','POST'])
+
+@app.route('/forgotPassword', methods=['GET', 'POST'])
 def forgotPassword():
     email = request.form['email']
-    if email is None :
+    if email is None:
         return {'message': 'Error missing email'}, 400
     auth.send_password_reset_email(email)
     return redirect(url_for('login'))
 
-@app.route('/logout',methods=['POST'])
+
+@app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('idToken',None)
+    session.pop('idToken', None)
     return redirect(url_for('mainPage'))
+
 
 # @app.route('/google-login', methods =['POST','GET'])
 # def googleLogin():
 #     provider =
 
-@app.route('/result', methods=['GET','POST'])
+@app.route('/result', methods=['GET', 'POST'])
 def result():
     print("found queery")
     if 'idToken' in session:
         idToken = session['idToken']
         try:
             topic = request.args.get('query')
-            print("query",topic)
+            print("query", topic)
             ref1 = firebase_app.database().child('topic')
-            if(ref1.child(topic).get().val() is None):
-                print("snap not exist",ref1.child(topic))
+            if (ref1.child(topic).get().val() is None):
+                print("snap not exist", ref1.child(topic))
                 scraper.callScapraping(topic)
                 # threading.Thread(target=scraper.callScapraping(topic)).start()
             #     return {'message': 'Topic not found'}, 400
             else:
                 count = firebase_app.database().child('topic').child(topic).child('count').get().val()
-                firebase_app.database().child('topic').child(topic).child('count').set(count+1)
-            print("snap exist",ref1.child(topic))
+                firebase_app.database().child('topic').child(topic).child('count').set(count + 1)
+            print("snap exist", ref1.child(topic))
             # -----------------------------------Udemy------------------------------------
             udemy_cources = []
 
@@ -305,12 +307,13 @@ def result():
 
             # --------------------------------- Render Template ---------------------------------------
             return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-                                   youtube_cources=youtube_cources,blogs=blogs)
+                                   youtube_cources=youtube_cources, blogs=blogs)
         except:
             print("error")
             return {'message': 'There was an error logging in'}, 400
     else:
         return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
