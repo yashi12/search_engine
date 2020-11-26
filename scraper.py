@@ -237,6 +237,33 @@ class scraper(object):
         self.browser.close()
         lockDb.writeToDb('youtube', lst, topic)
 
+    def blogs(self,topic, lockDb):
+        print("blog section")
+        self.browser.get("https://www.google.com/")
+        sleep(5)
+
+        self.search_input3= self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
+        self.search_input3.send_keys('"blogurl:"'+f'{topic}' +'"')
+
+        self.search_input3.send_keys(Keys.ENTER)
+        sleep(5)
+
+        self.blog_title = self.browser.find_elements_by_xpath('//h3[@class="LC20lb DKV0Md"]//span')
+        self.blog_link = self.browser.find_elements_by_xpath('//div[@class="rc"]//div[@class="yuRUbf"]//a')
+        # self.blog_title_list = []
+        # self.blog_link_list = []
+
+        lst = []
+        for i in range(5):
+            dictObject = {
+                "blog_title": self.blog_title[i].text.encode('unicode-escape').decode('utf-8'),
+                "blog_link": self.blog_link[i].get_attribute('href')
+            }
+            lst.append(dictObject)
+        print('blogs', lst)
+        self.browser.close()
+        lockDb.writeToDb('blogs', lst, topic)
+
 
     def saving(self, topic, d):
         self.name = []
@@ -264,38 +291,45 @@ class scraper(object):
         json.dumps(data, indent=4)
 
 
-def task1(topic, lockDb, objUdemy):
-    # objUdemy.Udemy(topic, lockDb)
+def taskUdemy(topic, lockDb, objUdemy):
+    objUdemy.Udemy(topic, lockDb)
     print("udemy")
 
 
-def task2(topic, lockDb, objCoursera):
-    # objCoursera.coursera(topic, lockDb)
+def taskCoursera(topic, lockDb, objCoursera):
+    objCoursera.coursera(topic, lockDb)
     print("coursera")
 
 
-def task3(topic, lockDb, objYoutube):
+def taskYoutube(topic, lockDb, objYoutube):
     objYoutube.youtube(topic, lockDb)
 
+
+def taskBlogs(topic, lockDb, objBlogs):
+    objBlogs.blogs(topic, lockDb)
 
 def callScapraping(topic):
     objUdemy = scraper()
     objCoursera = scraper()
     objYoutube = scraper()
+    objBlogs = scraper()
     lockDb = LockingDb(topic)
     threads = []
     print("2")
-    thread3 = threading.Thread(target=task3, args=(topic, lockDb, objUdemy))
+    thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
     threads.append(thread3)
     thread3.start()
     print("0")
-    thread1 = threading.Thread(target=task1, args=(topic, lockDb, objCoursera))
+    thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
     threads.append(thread1)
     thread1.start()
     print("1")
-    thread2 = threading.Thread(target=task2, args=(topic, lockDb, objYoutube))
+    thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
     threads.append(thread2)
     thread2.start()
+    thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
+    threads.append(thread3)
+    thread3.start()
     firebase.database().child('topic').child(topic).child('count').set(1)
     curr_date = datetime.datetime.now()
     print("curr_date", curr_date)
