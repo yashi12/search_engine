@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from flask import Flask, render_template, url_for, request, session,redirect
 import firebase_admin
 import pyrebase
@@ -37,7 +39,7 @@ cources = [
     }
 ]
 users = [{'uid': 1, 'name': 'Noah Schairer'}]
-
+print(pyrebase)
 
 # Api route to get users
 @app.route('/api/userinfo')
@@ -48,8 +50,8 @@ def userinfo():
 # Main page
 @app.route('/',methods=['GET','POST'])
 def mainPage():
-    # top3 = pb.database().child('topic').order_by_child('count').limit_to_first(3).get()
-    # print("top3",top3.val())
+    # top3 = pb.database().child('topic').order_by_child('count')
+    # print("top3",top3.get())
     if 'idToken' in session:
         idToken = session['idToken']
         print(idToken)
@@ -110,6 +112,8 @@ def token():
         print("user",user)
         print("acc info",auth.get_account_info(user['idToken']))
         session['idToken'] = user['idToken']
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(minutes=30)
         print("session",session['idToken'])
         return redirect(url_for('mainPage'))
         # return render_template('result.html', cources=cources)
@@ -283,9 +287,25 @@ def result():
                     youtube_cources.append(youtube_cource)
             # print(youtube_cources)
 
+            # ----------------------------------------------Blogs-----------------------------------------
+            blogs = []
+
+            ref = firebase_app.database().child('topic')
+            snapshot = ref.child(topic).child('blogs').get()
+            details = snapshot.val()
+
+            if (details != None):
+                for source in details:
+                    blog = {}
+                    for key, value in source.items():
+                        # print(key, value)
+                        blog[key] = value
+                    blogs.append(blog)
+            # print(coursera_cources)
+
             # --------------------------------- Render Template ---------------------------------------
             return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-                                   youtube_cources=youtube_cources)
+                                   youtube_cources=youtube_cources,blogs=blogs)
         except:
             print("error")
             return {'message': 'There was an error logging in'}, 400
