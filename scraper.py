@@ -218,7 +218,7 @@ class scraper(object):
         # breakpoint()
         self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
         self.course_instructor = self.browser.find_elements_by_xpath(
-            '//a[@class="yt-simple-endpoint style-scope yt-formatted-string"]')
+            '//div[@class="style-scope ytd-playlist-renderer"]/a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]/ytd-video-meta-block[@class="style-scope ytd-playlist-renderer"]/div[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-video-meta-block"]/ytd-channel-name[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-channel-name"]/div[@class="style-scope ytd-channel-name"]/yt-formatted-string[@class="style-scope ytd-channel-name complex-string"]/a[@class="yt-simple-endpoint style-scope yt-formatted-string"]')
         self.course_image = self.browser.find_elements_by_xpath('//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
         # for i in range(len(self.course_image)):
         #     print(self.course_image[i].get_attribute('src'))
@@ -226,16 +226,10 @@ class scraper(object):
             '//a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]')
 
         lst = []
-        x = 0
         for i in range(3):
-            if self.course_instructor[x].text in ['', 'VIEW FULL PLAYLIST']:
-                instructor = self.course_instructor[x + 1].text
-                x += 1
-            else:
-                instructor = self.course_instructor[x].text
             dictObject = {
                 "course_title": self.course_title[i].text.encode('unicode-escape').decode('utf-8'),
-                "course_instructor": instructor,
+                "course_instructor": self.course_instructor[i].text,
                 "course_image": self.course_image[i].get_attribute('src'),
                 "course_link": self.course_link[i].get_attribute('href')
             }
