@@ -51,17 +51,31 @@ def userinfo():
 # Main page
 @app.route('/', methods=['GET', 'POST'])
 def mainPage():
-    # top3 = pb.child('topic').order_by_child('count')
-    # print("top3",top3.get())
+    lst = []
+    if pb.database().child('topic').get().val() is not None:
+        top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
+
+        topSillsTitle =top3.get().val().keys()
+
+        for skill in topSillsTitle:
+            print(skill)
+            topSkills = {
+                "skill_count":firebase_app.database().child('topic').child(skill).child('count').get().val(),
+                "skill_name":skill,
+                "skill_image":firebase_app.database().child('topic').child(skill).child('udemy').child('0').child('course_image').get().val(),
+                # "skill_link":
+            }
+            lst.append(topSkills)
+        print("lst",lst)
     if 'idToken' in session:
         idToken = session['idToken']
-        print(idToken)
+        # print(idToken)
         user = pb.auth().get_account_info(id_token=idToken)
-        print("user",user)
-        return render_template('searchBar.html',userLogin=True)
+        # print("user",user)
+        return render_template('searchBar.html',userLogin=True,topSills=lst)
         # before the 1 hour expiry:
         # user = auth.refresh(user['refreshToken'])
-    return render_template('searchBar.html')
+    return render_template('searchBar.html',topSkills=lst)
     # return render_template('skillOfWeek.html')
 
 
