@@ -309,7 +309,7 @@ def taskBlogs(topic, lockDb, objBlogs):
     objBlogs.blogs(topic, lockDb)
 
 
-def callScapraping(topic):
+def callScapraping(topic,count):
     objUdemy = scraper()
     objCoursera = scraper()
     objYoutube = scraper()
@@ -331,7 +331,7 @@ def callScapraping(topic):
     thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
     threads.append(thread3)
     thread3.start()
-    firebase.database().child('topic').child(topic).child('count').set(1)
+    firebase.database().child('topic').child(topic).child('count').set(count+1)
     curr_date = datetime.datetime.now()
     print("curr_date", curr_date)
     # firebase.database().child(topic).child('date').set(str(curr_date))
