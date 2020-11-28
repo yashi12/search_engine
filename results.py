@@ -71,17 +71,19 @@ def findTop3(lst):
         firebase_app.database().child('topSkills').child(x).set(skill)
         x += 1
 
-
-# Main page
-@app.route('/', methods=['GET', 'POST'])
-def mainPage():
-    lst = []
+def checkTop3(lst):
     if pb.database().child('topSkills').get().val() is not None:
         for skill in pb.database().child('topSkills').get().val():
             print("sk", skill)
             lst.append(skill)
     if pb.database().child('topic').get().val() is not None:
         threading.Thread(target=findTop3, args=(lst,)).start()
+
+# Main page
+@app.route('/', methods=['GET', 'POST'])
+def mainPage():
+    lst = []
+    checkTop3(lst)
     # print("lst from db",lst)
     for skill in lst:
         for title, val in skill.items():
@@ -258,6 +260,12 @@ def logout():
 # @app.route('/google-login', methods =['POST','GET'])
 # def googleLogin():
 #     provider =
+
+@app.route('/skillOfWeek',methods=['GET','POST'])
+def skillOfWeek():
+    lst=[]
+    checkTop3(lst)
+    return render_template('skillOfWeek.html',topSkills=lst)
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
