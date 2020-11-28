@@ -52,4 +52,7 @@ verifyPassword = () => {
 }
 
 
-
+searchGivenSkill = (title)=>{
+    document.getElementById("query").value = title;
+    document.getElementById("searchQuery").click();
+}
