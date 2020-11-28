@@ -8,6 +8,7 @@ from firebase_admin import credentials, auth, db
 from firebase import Firebase
 import os
 import threading
+from datetime import datetime
 
 import scraper
 
@@ -47,8 +48,9 @@ print(pyrebase)
 def userinfo():
     return {'data': users}, 200
 
+
 def findTop3(lst):
-    lst=[]
+    lst = []
     top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
 
     topSillsTitle = top3.get().val().keys()
@@ -64,10 +66,10 @@ def findTop3(lst):
         }
         lst.append(topSkills)
     print("lst", lst)
-    x=0
+    x = 0
     for skill in lst:
         firebase_app.database().child('topSkills').child(x).set(skill)
-        x+=1
+        x += 1
 
 
 # Main page
@@ -76,26 +78,25 @@ def mainPage():
     lst = []
     if pb.database().child('topSkills').get().val() is not None:
         for skill in pb.database().child('topSkills').get().val():
-            print("sk",skill)
+            print("sk", skill)
             lst.append(skill)
     if pb.database().child('topic').get().val() is not None:
-        threading.Thread(target=findTop3 ,args=(lst,)).start()
+        threading.Thread(target=findTop3, args=(lst,)).start()
     # print("lst from db",lst)
     for skill in lst:
-        for title,val in skill.items():
-            print("title",title)
-            print("val",val)
-
+        for title, val in skill.items():
+            print("title", title)
+            print("val", val)
 
     if 'idToken' in session:
         idToken = session['idToken']
         # print(idToken)
         user = pb.auth().get_account_info(id_token=idToken)
         # print("user",user)
-        return render_template('searchBar.html',userLogin=True,topSkills=lst)
+        return render_template('searchBar.html', userLogin=True, topSkills=lst)
         # before the 1 hour expiry:
         # user = auth.refresh(user['refreshToken'])
-    return render_template('searchBar.html',topSkills=lst)
+    return render_template('searchBar.html', topSkills=lst)
     # return render_template('skillOfWeek.html')
 
 
@@ -265,16 +266,26 @@ def result():
         idToken = session['idToken']
         try:
             topic = request.args.get('query')
+            count=0
             print("query", topic)
             ref1 = firebase_app.database().child('topic')
             if (ref1.child(topic).get().val() is None):
                 print("snap not exist", ref1.child(topic))
-                scraper.callScapraping(topic)
+                scraper.callScapraping(topic,count)
                 # threading.Thread(target=scraper.callScapraping(topic)).start()
             #     return {'message': 'Topic not found'}, 400
             else:
                 count = firebase_app.database().child('topic').child(topic).child('count').get().val()
                 firebase_app.database().child('topic').child(topic).child('count').set(count + 1)
+                curr_date = datetime.now()
+                days_diff =  datetime.fromtimestamp(int(datetime.timestamp(curr_date))).day - datetime.fromtimestamp(
+                    firebase_app.database().child('topic').child(topic).child('timestamp').get().val()).day
+                if days_diff >= 10:
+                    threading.Thread(target=scraper.callScapraping, args=(topic,count)).start()
+                    print("found",days_diff)
+                else:
+                    print("not found")
+
             print("snap exist", ref1.child(topic))
             # -----------------------------------Udemy------------------------------------
             udemy_cources = []
