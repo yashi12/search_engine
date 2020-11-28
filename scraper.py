@@ -52,11 +52,11 @@ class LockingDb():
         # self.topic_ref = ref.child(topic)
         with self.lock:
             firebase.database().child('topic').child(topic).child(sourceName).set(lst)
-            topSkillRef = firebase.database().child('topSkill')
-            if (topSkillRef.get().val() is None):
-                firebase.database().child('topSkill').child(topic).set(1)
-            else:
-                print("true")
+            # topSkillRef = firebase.database().child('topSkill')
+            # if (topSkillRef.get().val() is None):
+            #     firebase.database().child('topSkill').child(topic).set(1)
+            # else:
+            #     print("true")
 
 
 class scraper(object):
