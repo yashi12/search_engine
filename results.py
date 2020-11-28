@@ -47,32 +47,52 @@ print(pyrebase)
 def userinfo():
     return {'data': users}, 200
 
+def findTop3(lst):
+    lst=[]
+    top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
+
+    topSillsTitle = top3.get().val().keys()
+
+    for skill in topSillsTitle:
+        print(skill)
+        topSkills = {
+            "skill_count": firebase_app.database().child('topic').child(skill).child('count').get().val(),
+            "skill_name": skill,
+            "skill_image": firebase_app.database().child('topic').child(skill).child('udemy').child('0').child(
+                'course_image').get().val(),
+            # "skill_link":
+        }
+        lst.append(topSkills)
+    print("lst", lst)
+    x=0
+    for skill in lst:
+        firebase_app.database().child('topSkills').child(x).set(skill)
+        x+=1
+
 
 # Main page
 @app.route('/', methods=['GET', 'POST'])
 def mainPage():
     lst = []
+    if pb.database().child('topSkills').get().val() is not None:
+        for skill in pb.database().child('topSkills').get().val():
+            print("sk",skill)
+            lst.append(skill)
     if pb.database().child('topic').get().val() is not None:
-        top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
+        threading.Thread(target=findTop3 ,args=(lst,)).start()
+    # print("lst from db",lst)
+    for skill in lst:
+        for title,val in skill.items():
+            print("title",title)
+            print("val",val)
 
-        topSillsTitle =top3.get().val().keys()
 
-        for skill in topSillsTitle:
-            print(skill)
-            topSkills = {
-                "skill_count":firebase_app.database().child('topic').child(skill).child('count').get().val(),
-                "skill_name":skill,
-                "skill_image":firebase_app.database().child('topic').child(skill).child('udemy').child('0').child('course_image').get().val(),
-                # "skill_link":
-            }
-            lst.append(topSkills)
-        print("lst",lst)
     if 'idToken' in session:
         idToken = session['idToken']
         # print(idToken)
         user = pb.auth().get_account_info(id_token=idToken)
         # print("user",user)
-        return render_template('searchBar.html',userLogin=True,topSills=lst)
+        return render_template('searchBar.html',userLogin=True,topSkills=lst)
         # before the 1 hour expiry:
         # user = auth.refresh(user['refreshToken'])
     return render_template('searchBar.html',topSkills=lst)
