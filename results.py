@@ -9,6 +9,8 @@ from firebase import Firebase
 import os
 import threading
 from datetime import datetime
+from validate_email import validate_email
+import dns.resolver
 
 import scraper
 
@@ -108,7 +110,12 @@ def signup():
     email = request.form['email']
     password = request.form['password']
     confirmPassword = request.form['confirmPassword']
-
+    # is_valid = validate_email('example@example.com',check_mx=True)
+    # records = dns.resolver.query(email, 'MX')
+    # mxRecord = records[0].exchange
+    # mxRecord = str(mxRecord)
+    # print("records",records)
+    # print("mxRec",mxRecord)
     # link = auth.generate_email_verification_link(email)
     # send_custom_email(email, link)
     # try:
@@ -129,7 +136,9 @@ def signup():
     if password != confirmPassword:
         return {'message': 'Password do not match'}, 400
     try:
-        auth.create_user_with_email_and_password(email, password)
+        user = auth.create_user_with_email_and_password(email, password)
+        print(user)
+        auth.send_email_verification(user['idToken'])
         return render_template('login.html')
     except:
         return {'message': 'Error creating user'}, 400
@@ -142,18 +151,25 @@ def token():
     password = request.form['password']
     try:
         user = pb.auth().sign_in_with_email_and_password(email, password)
-        # before the 1 hour expiry:
-        user = auth.refresh(user['refreshToken'])
-        # print("user", user)
-        # print("acc info", auth.get_account_info(user['idToken']))
-        session['idToken'] = user['idToken']
-        # session.permanent = True
-        # app.permanent_session_lifetime = timedelta(minutes=30)
-        # print("session", session['idToken'])
-        return redirect(url_for('mainPage'))
-        # return render_template('result.html', cources=cources)
-        # jwt = user['idToken']
-        # return {'token': jwt}, 200
+        emailVerifyStatus = auth.get_account_info(user['idToken'])['users'][0]['emailVerified']
+        print(emailVerifyStatus)
+        if emailVerifyStatus == True:
+            print("verified")
+            # before the 1 hour expiry:
+            user = auth.refresh(user['refreshToken'])
+            # print("user", user)
+            # print("acc info", auth.get_account_info(user['idToken']))
+            session['idToken'] = user['idToken']
+            # session.permanent = True
+            # app.permanent_session_lifetime = timedelta(minutes=30)
+            # print("session", session['idToken'])
+            return redirect(url_for('mainPage'))
+            # return render_template('result.html', cources=cources)
+            # jwt = user['idToken']
+            # return {'token': jwt}, 200
+        else:
+            return {'message': 'Email not verified'}, 400
+
     except:
         return {'message': 'There was an error logging in'}, 400
 
