@@ -78,20 +78,6 @@ def nlp(text):
     return one_word_keyword,two_word_keyword,three_word_keyword
 
 
-# In[49]:
-
-<<<<<<< HEAD:Keyword Extraction.py
-
-sent = "Courses on node js not react"
-print(nlp(sent))
-
-
-# In[50]:
-
-
-sent = "How to learn Data Science"
-print(nlp(sent))
-=======
 def applyNlp(query):
     result =""
     sent = query
@@ -111,16 +97,15 @@ def applyNlp(query):
     print("result nlp",result)
     return result
 
-# applyNlp("cources on python","")
+# applyNlp("internet of things")
 # In[50]:
 
 
 # sent = "How to learn Data Science"
 # nlp(sent)
 
->>>>>>> f2e37fb15a992b87f7e79d8752ffeb4ee34ddd13:keywordExtractor.py
-
-sent = " How to amazon Web Service"
-print(nlp(sent))
+#
+# sent = " How to amazon Web Service"
+# print(nlp(sent))
 # In[ ]:
 
