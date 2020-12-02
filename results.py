@@ -133,16 +133,19 @@ def signup():
     # except:
     #      print("error")
     if email is None or password is None:
-        return {'message': 'Error missing email or password'}, 400
+        return render_template('register.html',missingEmail = "Please enter valid mail")
+        # return {'message': 'Error missing email or password'}, 400
     if password != confirmPassword:
-        return {'message': 'Password do not match'}, 400
+        return render_template('register.html',incorrectPassword = "Incorrect Password")
+        # return {'message': 'Password do not match'}, 400
     try:
         user = auth.create_user_with_email_and_password(email, password)
         print(user)
         auth.send_email_verification(user['idToken'])
         return render_template('login.html')
     except:
-        return {'message': 'Error creating user'}, 400
+        return render_template('register.html',userNotCreated = "Please try again!!")
+        # return {'message': 'Error creating user'}, 400
 
 
 # Api route to get a new token for a valid user
@@ -169,10 +172,12 @@ def token():
             # jwt = user['idToken']
             # return {'token': jwt}, 200
         else:
-            return {'message': 'Email not verified'}, 400
+            return render_template('login.html', errorLogging="PLease verify email")
+            # return {'message': 'Email not verified'}, 400
 
     except:
-        return {'message': 'There was an error logging in'}, 400
+        return render_template('login.html', errorLogging="Email or password is incorrect")
+        # return {'message': 'There was an error logging in'}, 400
 
 
 # Api route to get a new token for a valid user
