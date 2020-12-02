@@ -13,6 +13,7 @@ from validate_email import validate_email
 import dns.resolver
 
 import scraper
+import keywordExtractor
 
 firebase_app = Firebase(json.load(open('./fbconfig.json')))
 
@@ -20,7 +21,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 # Connect to firebase
 cred = credentials.Certificate('./fbAdminConfig.json')
-firebase = firebase_admin.initialize_app(cred)
+# firebase = firebase_admin.initialize_app(cred)
 pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
 
 auth = pb.auth()
@@ -91,7 +92,7 @@ def mainPage():
         for title, val in skill.items():
             print("title", title)
             print("val", val)
-
+    print("auth", auth)
     if 'idToken' in session:
         idToken = session['idToken']
         # print(idToken)
@@ -175,8 +176,11 @@ def token():
 
 
 # Api route to get a new token for a valid user
-@app.route('/google', methods=['POST', 'GET'])
+@app.route('/google', methods=['POST'])
 def token2():
+    # breakpoint()
+    print("token google")
+    # print(auth.verify_id_token(token))
     # ref=firebase_app.database().order_by_child('count')
     # snapshot = ref.get()
     # print("snapshot",ref.get())
@@ -186,60 +190,69 @@ def token2():
     # ref = db.reference('topic')
     # rootRef = ref.order_by_child('count')
     # print("data",ref)
-    try:
-        # -----------------------------------------------------
-        topic = 'node js'
 
-        # -----------------------------------Udemy------------------------------------
-        udemy_cources = []
+    # print("google methods")
+    # try:
+    #     # -----------------------------------------------------
+    #     topic = 'node js'
+    #
+    #     # -----------------------------------Udemy------------------------------------
+    #     udemy_cources = []
+    #
+    #     ref = firebase_app.database().child('topic')
+    #     snapshot = ref.child(topic).child('udemy').get()
+    #     details = snapshot.val()
+    #
+    #     for source in details:
+    #         udemy_cource = {}
+    #         for key, value in source.items():
+    #             print(key, value)
+    #             udemy_cource[key] = value
+    #         udemy_cources.append(udemy_cource)
+    #
+    #     # ----------------------------------------------Coursera-----------------------------------------
+    #     coursera_cources = []
+    #
+    #     ref = firebase_app.database().child('topic')
+    #     snapshot = ref.child(topic).child('coursera').get()
+    #     details = snapshot.val()
+    #
+    #     for source in details:
+    #         coursera_cource = {}
+    #         for key, value in source.items():
+    #             print(key, value)
+    #             coursera_cource[key] = value
+    #         coursera_cources.append(coursera_cource)
+    #     print(coursera_cources)
+    #
+    #     # --------------------------------------You tube---------------------------------------------
+    #     youtube_cources = []
+    #
+    #     ref = firebase_app.database().child('topic')
+    #     snapshot = ref.child(topic).child('youtube').get()
+    #     details = snapshot.val()
+    #
+    #     for source in details:
+    #         youtube_cource = {}
+    #         for key, value in source.items():
+    #             print(key, value)
+    #             youtube_cource[key] = value
+    #         youtube_cources.append(youtube_cource)
+    #     print(youtube_cources)
+    #
+    #     # --------------------------------- Render Template ---------------------------------------
+    #     return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
+    #                            youtube_cources=youtube_cources)
+    # except:
+    #     print("error")
+    # breakpoint()
+    # try:
+    #     print("token",token)
+    #     return redirect(url_for('mainPage'))
+    # except:
+    #     return {'message': 'There was an error'}, 400
 
-        ref = firebase_app.database().child('topic')
-        snapshot = ref.child(topic).child('udemy').get()
-        details = snapshot.val()
-
-        for source in details:
-            udemy_cource = {}
-            for key, value in source.items():
-                print(key, value)
-                udemy_cource[key] = value
-            udemy_cources.append(udemy_cource)
-
-        # ----------------------------------------------Coursera-----------------------------------------
-        coursera_cources = []
-
-        ref = firebase_app.database().child('topic')
-        snapshot = ref.child(topic).child('coursera').get()
-        details = snapshot.val()
-
-        for source in details:
-            coursera_cource = {}
-            for key, value in source.items():
-                print(key, value)
-                coursera_cource[key] = value
-            coursera_cources.append(coursera_cource)
-        print(coursera_cources)
-
-        # --------------------------------------You tube---------------------------------------------
-        youtube_cources = []
-
-        ref = firebase_app.database().child('topic')
-        snapshot = ref.child(topic).child('youtube').get()
-        details = snapshot.val()
-
-        for source in details:
-            youtube_cource = {}
-            for key, value in source.items():
-                print(key, value)
-                youtube_cource[key] = value
-            youtube_cources.append(youtube_cource)
-        print(youtube_cources)
-
-        # --------------------------------- Render Template ---------------------------------------
-        return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-                               youtube_cources=youtube_cources)
-    except:
-        print("error")
-        return {'message': 'There was an error logging in'}, 400
+    return {'message': 'There was an error'}, 200
 
 
 # @app.route('/about')
@@ -283,6 +296,74 @@ def skillOfWeek():
     checkTop3(lst)
     return render_template('skillOfWeek.html',topSkills=lst)
 
+def fetchResultFromDb(topic):
+    # -----------------------------------Udemy------------------------------------
+    udemy_cources = []
+
+    ref = firebase_app.database().child('topic')
+    snapshot = ref.child(topic).child('udemy').get()
+    details = snapshot.val()
+    if (details != None):
+
+        for source in details:
+            udemy_cource = {}
+            for key, value in source.items():
+                # print(key, value)
+                udemy_cource[key] = value
+            udemy_cources.append(udemy_cource)
+
+    # ----------------------------------------------Coursera-----------------------------------------
+    coursera_cources = []
+
+    ref = firebase_app.database().child('topic')
+    snapshot = ref.child(topic).child('coursera').get()
+    details = snapshot.val()
+
+    if (details != None):
+        for source in details:
+            coursera_cource = {}
+            for key, value in source.items():
+                # print(key, value)
+                coursera_cource[key] = value
+            coursera_cources.append(coursera_cource)
+    # print(coursera_cources)
+
+    # --------------------------------------You tube---------------------------------------------
+    youtube_cources = []
+
+    ref = firebase_app.database().child('topic')
+    snapshot = ref.child(topic).child('youtube').get()
+    details = snapshot.val()
+
+    if (details != None):
+        for source in details:
+            youtube_cource = {}
+            for key, value in source.items():
+                # print(key, value)
+                youtube_cource[key] = value
+            youtube_cources.append(youtube_cource)
+    # print(youtube_cources)
+
+    # ----------------------------------------------Blogs-----------------------------------------
+    blogs = []
+
+    ref = firebase_app.database().child('topic')
+    snapshot = ref.child(topic).child('blogs').get()
+    details = snapshot.val()
+
+    if (details != None):
+        for source in details:
+            blog = {}
+            for key, value in source.items():
+                # print(key, value)
+                blog[key] = value
+            blogs.append(blog)
+    # print(coursera_cources)
+
+    # --------------------------------- Render Template ---------------------------------------
+    return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
+                           youtube_cources=youtube_cources, blogs=blogs)
+
 @app.route('/result', methods=['GET', 'POST'])
 def result():
     print("found queery")
@@ -290,14 +371,19 @@ def result():
         idToken = session['idToken']
         try:
             topic = request.args.get('query')
+            result = ""
+            result = keywordExtractor.applyNlp(topic)
+            if result != "":
+                topic = result
             count=0
             print("query", topic)
             ref1 = firebase_app.database().child('topic')
             if (ref1.child(topic).get().val() is None):
                 print("snap not exist", ref1.child(topic))
                 scraper.callScapraping(topic,count)
+                # threading.Thread(target=scraper.callScapraping,args=(topic,count)).start()
                 # threading.Thread(target=scraper.callScapraping(topic)).start()
-            #     return {'message': 'Topic not found'}, 400
+                # return render_template('loadingPage.html')
             else:
                 count = firebase_app.database().child('topic').child(topic).child('count').get().val()
                 firebase_app.database().child('topic').child(topic).child('count').set(count + 1)
@@ -311,77 +397,83 @@ def result():
                     print("not found")
 
             print("snap exist", ref1.child(topic))
-            # -----------------------------------Udemy------------------------------------
-            udemy_cources = []
-
-            ref = firebase_app.database().child('topic')
-            snapshot = ref.child(topic).child('udemy').get()
-            details = snapshot.val()
-            if (details != None):
-
-                for source in details:
-                    udemy_cource = {}
-                    for key, value in source.items():
-                        # print(key, value)
-                        udemy_cource[key] = value
-                    udemy_cources.append(udemy_cource)
-
-            # ----------------------------------------------Coursera-----------------------------------------
-            coursera_cources = []
-
-            ref = firebase_app.database().child('topic')
-            snapshot = ref.child(topic).child('coursera').get()
-            details = snapshot.val()
-
-            if (details != None):
-                for source in details:
-                    coursera_cource = {}
-                    for key, value in source.items():
-                        # print(key, value)
-                        coursera_cource[key] = value
-                    coursera_cources.append(coursera_cource)
-            # print(coursera_cources)
-
-            # --------------------------------------You tube---------------------------------------------
-            youtube_cources = []
-
-            ref = firebase_app.database().child('topic')
-            snapshot = ref.child(topic).child('youtube').get()
-            details = snapshot.val()
-
-            if (details != None):
-                for source in details:
-                    youtube_cource = {}
-                    for key, value in source.items():
-                        # print(key, value)
-                        youtube_cource[key] = value
-                    youtube_cources.append(youtube_cource)
-            # print(youtube_cources)
-
-            # ----------------------------------------------Blogs-----------------------------------------
-            blogs = []
-
-            ref = firebase_app.database().child('topic')
-            snapshot = ref.child(topic).child('blogs').get()
-            details = snapshot.val()
-
-            if (details != None):
-                for source in details:
-                    blog = {}
-                    for key, value in source.items():
-                        # print(key, value)
-                        blog[key] = value
-                    blogs.append(blog)
-            # print(coursera_cources)
-
-            # --------------------------------- Render Template ---------------------------------------
-            return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-                                   youtube_cources=youtube_cources, blogs=blogs)
+            if (firebase_app.database().child('topic').child(topic).get().val() is None):
+                msg = "OOPS! your results could not be found, PLease try again :)"
+                return render_template('notFound.html',msg=msg)
+            return fetchResultFromDb(topic)
+            # # -----------------------------------Udemy------------------------------------
+            # udemy_cources = []
+            #
+            # ref = firebase_app.database().child('topic')
+            # snapshot = ref.child(topic).child('udemy').get()
+            # details = snapshot.val()
+            # if (details != None):
+            #
+            #     for source in details:
+            #         udemy_cource = {}
+            #         for key, value in source.items():
+            #             # print(key, value)
+            #             udemy_cource[key] = value
+            #         udemy_cources.append(udemy_cource)
+            #
+            # # ----------------------------------------------Coursera-----------------------------------------
+            # coursera_cources = []
+            #
+            # ref = firebase_app.database().child('topic')
+            # snapshot = ref.child(topic).child('coursera').get()
+            # details = snapshot.val()
+            #
+            # if (details != None):
+            #     for source in details:
+            #         coursera_cource = {}
+            #         for key, value in source.items():
+            #             # print(key, value)
+            #             coursera_cource[key] = value
+            #         coursera_cources.append(coursera_cource)
+            # # print(coursera_cources)
+            #
+            # # --------------------------------------You tube---------------------------------------------
+            # youtube_cources = []
+            #
+            # ref = firebase_app.database().child('topic')
+            # snapshot = ref.child(topic).child('youtube').get()
+            # details = snapshot.val()
+            #
+            # if (details != None):
+            #     for source in details:
+            #         youtube_cource = {}
+            #         for key, value in source.items():
+            #             # print(key, value)
+            #             youtube_cource[key] = value
+            #         youtube_cources.append(youtube_cource)
+            # # print(youtube_cources)
+            #
+            # # ----------------------------------------------Blogs-----------------------------------------
+            # blogs = []
+            #
+            # ref = firebase_app.database().child('topic')
+            # snapshot = ref.child(topic).child('blogs').get()
+            # details = snapshot.val()
+            #
+            # if (details != None):
+            #     for source in details:
+            #         blog = {}
+            #         for key, value in source.items():
+            #             # print(key, value)
+            #             blog[key] = value
+            #         blogs.append(blog)
+            # # print(coursera_cources)
+            #
+            # # --------------------------------- Render Template ---------------------------------------
+            # return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
+            #                        youtube_cources=youtube_cources, blogs=blogs)
         except:
             print("error")
-            return {'message': 'There was an error logging in'}, 400
+            msg = "OOPS! your results could not be found"
+            return render_template('notFound.html',msg=msg)
     else:
         return redirect(url_for('login'))
+
 
 
 if __name__ == '__main__':

@@ -74,16 +74,31 @@ def nlp(text):
 
 # In[49]:
 
+def applyNlp(query):
+    result =""
+    sent = query
+    keywords = nlp(sent)
+    print(keywords)
+    twoWords = keywords[1]
+    oneWord = keywords[0]
+    if twoWords!= []:
+        for x in twoWords:
+            result += x
+            result += " "
+    else:
+        for x in oneWord:
+            result += x
+            result += " "
+    result = result[:-1]
+    print("result nlp",result)
+    return result
 
-sent = "Courses on node js not react"
-nlp(sent)
-
-
+# applyNlp("cources on python","")
 # In[50]:
 
 
-sent = "How to learn Data Science"
-nlp(sent)
+# sent = "How to learn Data Science"
+# nlp(sent)
 
 
 # In[ ]:
