@@ -30,8 +30,8 @@ def StopWordRemoval(allwords):
     usefull_words = [word for word in allwords if word not in stopwords]
     return usefull_words
 
-# Stemming And Lemmatizing
-def StemmingAndLemmatizing(usefull_words):
+# Extracting One Words and Two Words
+def KeywordExtract(usefull_words):
     l=[]
     with open('All_Languages.txt' ,'r+',encoding='utf-8') as f:
         l = f.readlines()
@@ -52,8 +52,14 @@ def StemmingAndLemmatizing(usefull_words):
     for i in range(len(usefull_words[0])-1):
         if usefull_words[0][i]+" "+usefull_words[0][i+1] in languages:
             two_extract_keyword.append(usefull_words[0][i]+" "+usefull_words[0][i+1])
+
+    three_extract_keyword = []
+
+    for i in range(len(usefull_words[0])-2):
+        if usefull_words[0][i]+" "+usefull_words[0][i+1]+" "+ usefull_words[0][i+2] in languages:
+            three_extract_keyword.append(usefull_words[0][i]+" "+usefull_words[0][i+1]+" "+ usefull_words[0][i+2])
         
-    return one_keyword_extract,two_extract_keyword
+    return one_keyword_extract,two_extract_keyword,three_extract_keyword
 
 def nlp(text):
     sentences = SentenceTokenization(text.lower())
@@ -68,12 +74,24 @@ def nlp(text):
         usefull_words_in_sent = StopWordRemoval(words_in_a_sentence)
         usefull_words.append(usefull_words_in_sent)
 
-    one_word_keyword,two_word_keyword = StemmingAndLemmatizing(usefull_words)
-    return one_word_keyword,two_word_keyword
+    one_word_keyword,two_word_keyword,three_word_keyword = KeywordExtract(usefull_words)
+    return one_word_keyword,two_word_keyword,three_word_keyword
 
 
 # In[49]:
 
+<<<<<<< HEAD:Keyword Extraction.py
+
+sent = "Courses on node js not react"
+print(nlp(sent))
+
+
+# In[50]:
+
+
+sent = "How to learn Data Science"
+print(nlp(sent))
+=======
 def applyNlp(query):
     result =""
     sent = query
@@ -100,9 +118,9 @@ def applyNlp(query):
 # sent = "How to learn Data Science"
 # nlp(sent)
 
+>>>>>>> f2e37fb15a992b87f7e79d8752ffeb4ee34ddd13:keywordExtractor.py
 
+sent = " How to amazon Web Service"
+print(nlp(sent))
 # In[ ]:
-
-
-
 
