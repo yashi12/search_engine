@@ -3,7 +3,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from time import *
 import threading
-import datetime
+from datetime import datetime
+from results import *
 # from flaskthreads import AppContextThread
 
 import json
@@ -11,6 +12,7 @@ import json
 from firebase import Firebase
 
 firebase = Firebase(json.load(open('./fbconfig.json')))
+
 
 ref = firebase.database()
 # Get a database reference to our blog.
@@ -92,6 +94,17 @@ class scraper(object):
         # self.search_btn.send_keys(Keys.ENTER)
         sleep(5)
 
+        ############################################################################################
+
+        self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
+
+        if self.result != []:
+            print(self.result[0].text)
+            self.browser.close()
+            return
+
+        ######################################################################################
+
         self.course_title = self.browser.find_elements_by_xpath(
             '//div[@class="udlite-focus-visible-target udlite-heading-md course-card--course-title--2f7tE"]')
         self.course_instructor = self.browser.find_elements_by_xpath(
@@ -151,6 +164,17 @@ class scraper(object):
         self.browser.get(
             f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
         sleep(5)
+        ################################################################################################
+
+        self.result = self.browser.find_element_by_xpath(
+            '//h2[@class="rc-NumberOfResultsSection body-2-text"]//span').text
+
+        if "No results" in self.result:
+            print(self.result)
+            self.browser.close()
+            return
+
+        ##########################################################################################################################
 
         # self.search_input1 = self.browser.find_element_by_xpath('//input[@placeholder="What do you want to learn?"]')
         # self.search_input1.send_keys(topic)
@@ -332,12 +356,15 @@ def callScapraping(topic,count):
     threads.append(thread3)
     thread3.start()
     firebase.database().child('topic').child(topic).child('count').set(count+1)
-    curr_date = datetime.datetime.now()
-    print("curr_date", curr_date)
+    # curr_date = datetime.now()
+    # print("curr_date", curr_date)
     # firebase.database().child(topic).child('date').set(str(curr_date))
-    firebase.database().child('topic').child(topic).child('timestamp').set(int(datetime.datetime.timestamp(curr_date)))
-
+    firebase.database().child('topic').child(topic).child('timestamp').set(int(datetime.timestamp(datetime.now())))
     for thread in threads:
         thread.join()
-
+    if firebase.database().child('topic').child(topic).child('udemy').get().val() is None :
+        if firebase.database().child('topic').child(topic).child('coursera').get().val() is None:
+            print("data not present none")
+            firebase.database().child('topic').child(topic).remove()
     print("3")
+
