@@ -383,9 +383,13 @@ mathematica
 mathematica online
 matlab
 maxscript
+mean
+mean stack
 mel
 meq
 mercury
+mern
+mern stack
 milkscript
 minecraft
 mips
@@ -395,6 +399,7 @@ modiscript
 modula 2
 modula 3
 mongo
+mongo db
 monte
 moo
 moonscript
