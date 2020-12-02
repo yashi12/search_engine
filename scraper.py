@@ -52,6 +52,7 @@ class LockingDb():
 
     def writeToDb(self, sourceName, lst, topic):
         # self.topic_ref = ref.child(topic)
+        topic.lower()
         with self.lock:
             firebase.database().child('topic').child(topic).child(sourceName).set(lst)
             # topSkillRef = firebase.database().child('topSkill')

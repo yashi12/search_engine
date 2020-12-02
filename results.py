@@ -177,9 +177,9 @@ def token():
 
 # Api route to get a new token for a valid user
 @app.route('/google', methods=['POST'])
-def token2():
+def google():
     # breakpoint()
-    print("token google")
+
     # print(auth.verify_id_token(token))
     # ref=firebase_app.database().order_by_child('count')
     # snapshot = ref.get()
@@ -252,6 +252,8 @@ def token2():
     # except:
     #     return {'message': 'There was an error'}, 400
 
+    # auth.verify_id_token(token)
+    # print("token google",token)
     return {'message': 'There was an error'}, 200
 
 
@@ -376,6 +378,7 @@ def result():
             if result != "":
                 topic = result
             count=0
+            topic.lower()
             print("query", topic)
             ref1 = firebase_app.database().child('topic')
             if (ref1.child(topic).get().val() is None):
