@@ -1,6 +1,11 @@
 {% extends "index.html" %}
 {% block content %}
-
+<section>
+    {% if errorLogging %}
+    <div class="alert alert-danger">
+        <h2>{{errorLogging}}</h2></div>
+    {% endif %}
+</section>
 
 <section class="search-bar">
 
