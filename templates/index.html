@@ -21,6 +21,8 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='main.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='sidebar.css') }}">
+<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='normalize.css') }}">-->
+
 <!--------------------------------------------------------------- Navbar -------------------------------------------------->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="#">NLPSE</a>
@@ -111,6 +113,10 @@
 <script src="../static/initFirebase.js"></script>
 
 <script src="../static/javascript/google-signin.js"></script>
+<!--<script src="../static/javascript/modernizr-2.6.2.min.js"></script>-->
+{% block javascript %}
+{% endblock %}
+
 </body>
 
 </html>
