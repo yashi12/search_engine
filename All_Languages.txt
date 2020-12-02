@@ -34,6 +34,8 @@ algol w
 algol60
 algol68
 alore
+amazon web service
+amazon web services
 amiga e
 amos
 android
@@ -312,6 +314,8 @@ inform
 ink
 inkling
 intercal
+internet of thing
+internet of things
 io
 ioke
 iot
