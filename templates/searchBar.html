@@ -18,7 +18,8 @@
 <!--------------------------------------------- Skill of the Week -------------------------------------------------------->
 
 
-<section class="container-fluid" id="SkillOfWeek">
+<section class="container-fluid" id="skillOfWeek">
+<!--    <a href="#SkillOfWeek"></a>-->
     <h1>Skill Of the Week</h1> <br>
     <section class="row">
         {% for skill in topSkills %}
@@ -26,12 +27,12 @@
             <div class="card" style="width: 18rem;">
                 <img src="{{skill.skill_image}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{skill.skill_name}}</h5> <!-- Title -->
-                    <p class="card-text">{{skill.skill_count}} - </p>
+                    <h4 class="card-title">{{skill.skill_name}}</h4> <!-- Title -->
+                    <h5 class="card-text">Searches:  {{skill.skill_count}} </h5>
                 </div>  <!-- No. of searches -->
 
                 <div class="card-body">
-                    <button onclick="searchGivenSkill('{{ skill.skill_name }}')" class="card-link">Learn More</button>
+                    <button onclick="searchGivenSkill('{{ skill.skill_name }}')" class="btn btn-outline-info">Learn More</button>
                 </div>
             </div>
         </div>
