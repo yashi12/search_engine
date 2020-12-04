@@ -52,7 +52,7 @@ def userinfo():
     return {'data': users}, 200
 
 
-def findTop3(lst):
+def findTop3():
     lst = []
     top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
 
@@ -80,7 +80,8 @@ def checkTop3(lst):
             print("sk", skill)
             lst.append(skill)
     if pb.database().child('topic').get().val() is not None:
-        threading.Thread(target=findTop3, args=(lst,)).start()
+        print("finding")
+        threading.Thread(target=findTop3).start()
 
 # Main page
 @app.route('/', methods=['GET', 'POST'])
@@ -100,7 +101,7 @@ def mainPage():
         # print("user",user)
         return render_template('searchBar.html', userLogin=True, topSkills=lst,skillOfWeek=True)
         # before the 1 hour expiry:
-        # user = auth.refresh(user['refreshToken'])
+        user = auth.refresh(user['refreshToken'])
     return render_template('searchBar.html', topSkills=lst,skillOfWeek=True)
     # return render_template('skillOfWeek.html')
 
@@ -111,27 +112,6 @@ def signup():
     email = request.form['email']
     password = request.form['password']
     confirmPassword = request.form['confirmPassword']
-    # is_valid = validate_email('example@example.com',check_mx=True)
-    # records = dns.resolver.query(email, 'MX')
-    # mxRecord = records[0].exchange
-    # mxRecord = str(mxRecord)
-    # print("records",records)
-    # print("mxRec",mxRecord)
-    # link = auth.generate_email_verification_link(email)
-    # send_custom_email(email, link)
-    # try:
-    #     if email is None or password is None:
-    #         return {'message': 'Error missing email or password'}, 400
-    #     try:
-    #         user = auth.create_user(
-    #             email=email,
-    #             password=password
-    #         )
-    #         return {'message': f'Successfully created user {user.uid}'}, 200
-    #     except:
-    #         return {'message': 'Error creating user'}, 400
-    # except:
-    #      print("error")
     if email is None or password is None:
         return render_template('register.html',missingEmail = "Please enter valid mail")
         # return {'message': 'Error missing email or password'}, 400
@@ -180,20 +160,14 @@ def token():
         # return {'message': 'There was an error logging in'}, 400
 
 
-# Api route to get a new token for a valid user
-@app.route('/google', methods=['POST'])
-def google():
-    # breakpoint()
-    # print(request.args.get('value'))
-    # print("token",token)
-    breakpoint()
-    return {'message': 'There was an error'}, 200
-
-
-# @app.route('/about')
-# def about():
-#     # return '<h1>Amount Page</h1>'
-#     return render_template('about.html', title='Home')
+# # Api route to get a new token for a valid user
+# @app.route('/google', methods=['POST'])
+# def google():
+#     # breakpoint()
+#     # print(request.args.get('value'))
+#     # print("token",token)
+#     breakpoint()
+#     return {'message': 'There was an error'}, 200
 
 
 @app.route('/login')
@@ -224,12 +198,6 @@ def logout():
 # @app.route('/google-login', methods =['POST','GET'])
 # def googleLogin():
 #     provider =
-
-# @app.route('/skillOfWeek',methods=['GET','POST'])
-# def skillOfWeek():
-#     lst=[]
-#     checkTop3(lst)
-#     return render_template('skillOfWeek.html',topSkills=lst)
 
 def fetchResultFromDb(topic):
     # -----------------------------------Udemy------------------------------------
@@ -275,6 +243,8 @@ def fetchResultFromDb(topic):
             youtube_cource = {}
             for key, value in source.items():
                 # print(key, value)
+                if key == "course_title":
+                    value = value[:75]
                 youtube_cource[key] = value
             youtube_cources.append(youtube_cource)
     # print(youtube_cources)
@@ -337,72 +307,7 @@ def result():
                 msg = "OOPS! your results could not be found, PLease try again :)"
                 return render_template('notFound.html',msg=msg)
             return fetchResultFromDb(topic)
-            # # -----------------------------------Udemy------------------------------------
-            # udemy_cources = []
-            #
-            # ref = firebase_app.database().child('topic')
-            # snapshot = ref.child(topic).child('udemy').get()
-            # details = snapshot.val()
-            # if (details != None):
-            #
-            #     for source in details:
-            #         udemy_cource = {}
-            #         for key, value in source.items():
-            #             # print(key, value)
-            #             udemy_cource[key] = value
-            #         udemy_cources.append(udemy_cource)
-            #
-            # # ----------------------------------------------Coursera-----------------------------------------
-            # coursera_cources = []
-            #
-            # ref = firebase_app.database().child('topic')
-            # snapshot = ref.child(topic).child('coursera').get()
-            # details = snapshot.val()
-            #
-            # if (details != None):
-            #     for source in details:
-            #         coursera_cource = {}
-            #         for key, value in source.items():
-            #             # print(key, value)
-            #             coursera_cource[key] = value
-            #         coursera_cources.append(coursera_cource)
-            # # print(coursera_cources)
-            #
-            # # --------------------------------------You tube---------------------------------------------
-            # youtube_cources = []
-            #
-            # ref = firebase_app.database().child('topic')
-            # snapshot = ref.child(topic).child('youtube').get()
-            # details = snapshot.val()
-            #
-            # if (details != None):
-            #     for source in details:
-            #         youtube_cource = {}
-            #         for key, value in source.items():
-            #             # print(key, value)
-            #             youtube_cource[key] = value
-            #         youtube_cources.append(youtube_cource)
-            # # print(youtube_cources)
-            #
-            # # ----------------------------------------------Blogs-----------------------------------------
-            # blogs = []
-            #
-            # ref = firebase_app.database().child('topic')
-            # snapshot = ref.child(topic).child('blogs').get()
-            # details = snapshot.val()
-            #
-            # if (details != None):
-            #     for source in details:
-            #         blog = {}
-            #         for key, value in source.items():
-            #             # print(key, value)
-            #             blog[key] = value
-            #         blogs.append(blog)
-            # # print(coursera_cources)
-            #
-            # # --------------------------------- Render Template ---------------------------------------
-            # return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-            #                        youtube_cources=youtube_cources, blogs=blogs)
+
         except:
             print("error")
             msg = "OOPS! your results could not be found"
