@@ -98,10 +98,10 @@ def mainPage():
         # print(idToken)
         user = pb.auth().get_account_info(id_token=idToken)
         # print("user",user)
-        return render_template('searchBar.html', userLogin=True, topSkills=lst)
+        return render_template('searchBar.html', userLogin=True, topSkills=lst,skillOfWeek=True)
         # before the 1 hour expiry:
         # user = auth.refresh(user['refreshToken'])
-    return render_template('searchBar.html', topSkills=lst)
+    return render_template('searchBar.html', topSkills=lst,skillOfWeek=True)
     # return render_template('skillOfWeek.html')
 
 
@@ -184,81 +184,9 @@ def token():
 @app.route('/google', methods=['POST'])
 def google():
     # breakpoint()
-
-    # print(auth.verify_id_token(token))
-    # ref=firebase_app.database().order_by_child('count')
-    # snapshot = ref.get()
-    # print("snapshot",ref.get())
-    # print(snapshot.val())
-    # for key in snapshot.each():
-    #     print('{0} was {1} meters tall',key)
-    # ref = db.reference('topic')
-    # rootRef = ref.order_by_child('count')
-    # print("data",ref)
-
-    # print("google methods")
-    # try:
-    #     # -----------------------------------------------------
-    #     topic = 'node js'
-    #
-    #     # -----------------------------------Udemy------------------------------------
-    #     udemy_cources = []
-    #
-    #     ref = firebase_app.database().child('topic')
-    #     snapshot = ref.child(topic).child('udemy').get()
-    #     details = snapshot.val()
-    #
-    #     for source in details:
-    #         udemy_cource = {}
-    #         for key, value in source.items():
-    #             print(key, value)
-    #             udemy_cource[key] = value
-    #         udemy_cources.append(udemy_cource)
-    #
-    #     # ----------------------------------------------Coursera-----------------------------------------
-    #     coursera_cources = []
-    #
-    #     ref = firebase_app.database().child('topic')
-    #     snapshot = ref.child(topic).child('coursera').get()
-    #     details = snapshot.val()
-    #
-    #     for source in details:
-    #         coursera_cource = {}
-    #         for key, value in source.items():
-    #             print(key, value)
-    #             coursera_cource[key] = value
-    #         coursera_cources.append(coursera_cource)
-    #     print(coursera_cources)
-    #
-    #     # --------------------------------------You tube---------------------------------------------
-    #     youtube_cources = []
-    #
-    #     ref = firebase_app.database().child('topic')
-    #     snapshot = ref.child(topic).child('youtube').get()
-    #     details = snapshot.val()
-    #
-    #     for source in details:
-    #         youtube_cource = {}
-    #         for key, value in source.items():
-    #             print(key, value)
-    #             youtube_cource[key] = value
-    #         youtube_cources.append(youtube_cource)
-    #     print(youtube_cources)
-    #
-    #     # --------------------------------- Render Template ---------------------------------------
-    #     return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
-    #                            youtube_cources=youtube_cources)
-    # except:
-    #     print("error")
-    # breakpoint()
-    # try:
-    #     print("token",token)
-    #     return redirect(url_for('mainPage'))
-    # except:
-    #     return {'message': 'There was an error'}, 400
-
-    # auth.verify_id_token(token)
-    # print("token google",token)
+    # print(request.args.get('value'))
+    # print("token",token)
+    breakpoint()
     return {'message': 'There was an error'}, 200
 
 
@@ -297,11 +225,11 @@ def logout():
 # def googleLogin():
 #     provider =
 
-@app.route('/skillOfWeek',methods=['GET','POST'])
-def skillOfWeek():
-    lst=[]
-    checkTop3(lst)
-    return render_template('skillOfWeek.html',topSkills=lst)
+# @app.route('/skillOfWeek',methods=['GET','POST'])
+# def skillOfWeek():
+#     lst=[]
+#     checkTop3(lst)
+#     return render_template('skillOfWeek.html',topSkills=lst)
 
 def fetchResultFromDb(topic):
     # -----------------------------------Udemy------------------------------------
