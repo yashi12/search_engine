@@ -77,9 +77,14 @@ def applyNlp(query):
     sent = query
     keywords = nlp(sent)
     print(keywords)
-    twoWords = keywords[1]
     oneWord = keywords[0]
-    if twoWords!= []:
+    twoWords = keywords[1]
+    threeWord = keywords[2]
+    if threeWord!= []:
+        for x in threeWord:
+            result += x
+            result += " "
+    elif twoWords!= []:
         for x in twoWords:
             result += x
             result += " "
@@ -103,23 +108,24 @@ def getCloseMatches(one,two,three,x):
     
     words = []
     for i in one:
-        words.append(i)
+        # words.append(i)
         for j in difflib.get_close_matches(i,languages,1,x):
             words.append(j)
         
     for i in two:
-        words.append(i)
+        # words.append(i)
         for j in difflib.get_close_matches(i,languages,1,x):
             words.append(j)
     
     for i in three:
-        words.append(i)
+        # words.append(i)
         for j in difflib.get_close_matches(i,languages,1,x):
             words.append(j)
         
     return words
 
-x,y,z = nlp("I want to learn json")
+print(applyNlp("cources on amazon  and web  services"))
+# x,y,z = nlp("cources on react")
 
-getCloseMatches(x,y,z,0.4)
+# print(getCloseMatches(x,y,z,0.4))
 
