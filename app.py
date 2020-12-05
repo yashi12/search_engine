@@ -11,18 +11,72 @@ import threading
 from datetime import datetime
 from validate_email import validate_email
 import dns.resolver
+import os
 
 import scraper
 import keywordExtractor
+fbconfig={}
+fbAdminConfig = {
+  "type": os.environ.get('TYPE'),
+  "project_id": os.environ.get('PROJECT_ID'),
+  "private_key_id": os.environ.get('PRIVATE_KEY_ID'),
+  "private_key": os.environ.get('PRIVATE_KEY'),
+  "client_email": os.environ.get('CLIENT_EMAIL'),
+  "client_id": os.environ.get('CLIENT_ID'),
+  "auth_uri": os.environ.get('AUTH_URI'),
+  "token_uri": os.environ.get('TOKEN_URI'),
+  "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
+  "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
+}
+if os.path.isfile("fbconfig.json"): # local development
+    fbconfig = json.load(open('./fbconfig.json'))
+else:
+    fbconfig = {}
 
-firebase_app = Firebase(json.load(open('./fbconfig.json')))
+# if os.path.isfile(".env"):
+#     print("found the file")
+#     with open(".env") as f:
+#
+#         env_vars = f.readlines()
+#         for env_var in env_vars:
+#             print("env_var",env_var)
+#             k, v  = env_var.split("=")
+#             k, v  = k.strip(),v.strip()
+#
+#             if k in os.environ:
+#                 continue
+#             os.environ[k] = v
+if os.path.isfile("fbAdminConfig.json"): # local development
+    fbAdminConfig = json.load(open('./fbAdminConfig.json'))
+else:
+    fbAdminConfig = {
+        "type": os.environ.get('TYPE'),
+        "project_id": os.environ.get('PROJECT_ID'),
+        "private_key_id": os.environ.get('PRIVATE_KEY_ID'),
+        "private_key": os.environ.get('PRIVATE_KEY'),
+        "client_email": os.environ.get('CLIENT_EMAIL'),
+        "client_id": os.environ.get('CLIENT_ID'),
+        "auth_uri": os.environ.get('AUTH_URI'),
+        "token_uri": os.environ.get('TOKEN_URI'),
+        "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
+        "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
+    }
 
+# print("apikey", os.environ["apikey"])
+# print(os.environ["MAILGUN_SECRET_KEY"])
+# print(os.environ["SECRET"])
+# cr = os.environ.get('', None)
+# print("cred",os.getenv('MAILGUN_SECRET_KEY'))
+# firebase_app = Firebase(json.load(open('./fbconfig.json')))
+firebase_app = Firebase(config=fbconfig)
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 # Connect to firebase
-cred = credentials.Certificate('./fbAdminConfig.json')
+cred = credentials.Certificate(cert=fbAdminConfig)
+# cred = credentials.Certificate('./fbAdminConfig.json')
 # firebase = firebase_admin.initialize_app(cred)
-pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
+# pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
+pb = pyrebase.initialize_app(config=fbconfig)
 
 auth = pb.auth()
 
@@ -53,6 +107,7 @@ def userinfo():
 
 
 def findTop3():
+    # try:
     lst = []
     top3 = pb.database().child('topic').order_by_child('count').limit_to_last(3)
 
@@ -73,6 +128,8 @@ def findTop3():
     for skill in lst:
         firebase_app.database().child('topSkills').child(x).set(skill)
         x += 1
+    # except:
+    #     print("error")
 
 def checkTop3(lst):
     if pb.database().child('topSkills').get().val() is not None:
@@ -315,7 +372,7 @@ def result():
     else:
         return redirect(url_for('login'))
 
-
+port = int(os.environ.get("PORT", 5000))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
