@@ -41,6 +41,7 @@ amos
 android
 angelscript
 angular
+angular js
 angularjs
 ante
 antlang
@@ -511,6 +512,7 @@ radixal
 raffalang
 ratfor
 react
+react js
 react360
 reactjs
 readlink
@@ -640,6 +642,7 @@ vms
 vowels
 vrml
 vue
+web
 web development
 wenyan
 wheat

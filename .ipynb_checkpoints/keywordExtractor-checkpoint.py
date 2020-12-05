@@ -46,13 +46,23 @@ def KeywordExtract(usefull_words):
     for i in range(len(usefull_words[0])-1):
         if usefull_words[0][i]+" "+usefull_words[0][i+1] in languages:
             two_extract_keyword.append(usefull_words[0][i]+" "+usefull_words[0][i+1])
+            if usefull_words[0][i] in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[0][i])
+            if usefull_words[0][i+1] in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[0][i+1])
 
     three_extract_keyword = []
 
     for i in range(len(usefull_words[0])-2):
         if usefull_words[0][i]+" "+usefull_words[0][i+1]+" "+ usefull_words[0][i+2] in languages:
             three_extract_keyword.append(usefull_words[0][i]+" "+usefull_words[0][i+1]+" "+ usefull_words[0][i+2])
-        
+            if usefull_words[0][i] in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[0][i])
+            if usefull_words[0][i+1] in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[0][i+1])
+            if usefull_words[0][i+2] in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[0][i+2])
+                
     return one_keyword_extract,two_extract_keyword,three_extract_keyword
 
 def nlp(text):
@@ -77,9 +87,14 @@ def applyNlp(query):
     sent = query
     keywords = nlp(sent)
     print(keywords)
-    twoWords = keywords[1]
     oneWord = keywords[0]
-    if twoWords!= []:
+    twoWords = keywords[1]
+    threeWord = keywords[2]
+    if threeWord!= []:
+        for x in threeWord:
+            result += x
+            result += " "
+    elif twoWords!= []:
         for x in twoWords:
             result += x
             result += " "
@@ -91,35 +106,34 @@ def applyNlp(query):
     print("result nlp",result)
     return result
 
-def getCloseMatches(one,two,three,x):
-    
-    with open('Close Matches.txt' ,'r+',encoding='utf-8') as f:
-        l = f.readlines()
-
-    new_l  =[]
-    for i in l:
-        new_l.append(i[:-1])
-    languages = new_l
-    
+def getCloseMatches(one,two,three):
+    d = {
+        "mean":"mean stack",
+        "mern":"mern stack",
+        "node js":"nodejs",
+        "angular js":"angularjs",
+        "js":"javascript",
+        "react js":"reactjs",
+        "web":"web development"
+    }
     words = []
-    for i in one:
-        words.append(i)
-        for j in difflib.get_close_matches(i,languages,1,x):
-            words.append(j)
-        
-    for i in two:
-        words.append(i)
-        for j in difflib.get_close_matches(i,languages,1,x):
-            words.append(j)
-    
     for i in three:
         words.append(i)
-        for j in difflib.get_close_matches(i,languages,1,x):
-            words.append(j)
-        
+    
+    for i in two:
+        if i in d:
+            words.append(d[i])
+        else:
+            words.append(i)
+    
+    for i in one:
+        if i in d:
+            words.append(d[i])
+        else:
+            words.append(i)
     return words
 
-x,y,z = nlp("I want to learn json")
+# print(applyNlp("cources on amazon  and web  services"))
+# x,y,z = nlp("cources on react")
 
-getCloseMatches(x,y,z,0.4)
-
+# print(getCloseMatches(x,y,z,0.4))
