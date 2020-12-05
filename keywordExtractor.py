@@ -124,7 +124,7 @@ def getCloseMatches(one,two,three,x):
         
     return words
 
-print(applyNlp("cources on amazon  and web  services"))
+# print(applyNlp("cources on amazon  and web  services"))
 # x,y,z = nlp("cources on react")
 
 # print(getCloseMatches(x,y,z,0.4))
