@@ -121,6 +121,8 @@ def getCloseMatches(one,two,three):
         "amazon web service":"aws",
         "internet of things":"iot",
         "internet of thing":"iot",
+        "mongo":"mongodb",
+        "mongo db":"mongodb"
     }
     words = []
     for i in three:
