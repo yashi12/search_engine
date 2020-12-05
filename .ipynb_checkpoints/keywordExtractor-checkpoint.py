@@ -111,14 +111,23 @@ def getCloseMatches(one,two,three):
         "mean":"mean stack",
         "mern":"mern stack",
         "node js":"nodejs",
+        "node":"nodejs",
         "angular js":"angularjs",
         "js":"javascript",
+        "react":"reactjs",
         "react js":"reactjs",
-        "web":"web development"
+        "web":"web development",
+        "amazon web services":"aws",
+        "amazon web service":"aws",
+        "internet of things":"iot",
+        "internet of thing":"iot",
     }
     words = []
     for i in three:
-        words.append(i)
+        if i in d:
+            words.append(d[i])
+        else:
+            words.append(i)
     
     for i in two:
         if i in d:
@@ -137,3 +146,6 @@ def getCloseMatches(one,two,three):
 # x,y,z = nlp("cources on react")
 
 # print(getCloseMatches(x,y,z,0.4))
+
+x,y,z = nlp("RoadMap of mean stack")
+getCloseMatches(x,y,z)
