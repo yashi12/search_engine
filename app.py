@@ -16,23 +16,21 @@ import os
 import scraper
 import keywordExtractor
 fbconfig={}
-fbAdminConfig = {
-  "type": os.environ.get('TYPE'),
-  "project_id": os.environ.get('PROJECT_ID'),
-  "private_key_id": os.environ.get('PRIVATE_KEY_ID'),
-  "private_key": os.environ.get('PRIVATE_KEY'),
-  "client_email": os.environ.get('CLIENT_EMAIL'),
-  "client_id": os.environ.get('CLIENT_ID'),
-  "auth_uri": os.environ.get('AUTH_URI'),
-  "token_uri": os.environ.get('TOKEN_URI'),
-  "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
-  "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
-}
-if os.path.isfile("fbconfig.json"): # local development
-    fbconfig = json.load(open('./fbconfig.json'))
-else:
-    fbconfig = {}
+fbAdminConfig = {}
 
+if os.path.isfile("fbconfig.json"): # local development
+	fbconfig = json.load(open('./fbconfig.json'))
+else:
+    fbconfig = {
+        "apiKey": os.environ.get('API_KEY'),
+        "authDomain": os.environ.get('AUTH_DOMAIN'),
+        "databaseURL": os.environ.get('DATABASE_URL'),
+        "projectId": os.environ.get('PROJECT_ID'),
+        "storageBucket": os.environ.get('STORAGE_BUCKET'),
+        "messagingSenderId": os.environ.get('MESSAGING_SENDER_ID'),
+        "appId": os.environ.get('APP_ID'),
+        "measurementId": os.environ.get('MEASUREMENT_ID')
+    }
 # if os.path.isfile(".env"):
 #     print("found the file")
 #     with open(".env") as f:
