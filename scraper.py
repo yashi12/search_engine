@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from time import *
 import threading
 from datetime import datetime
-from results import *
+from app import *
 
 import json
 
