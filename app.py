@@ -65,16 +65,16 @@ else:
 # print(os.environ["SECRET"])
 # cr = os.environ.get('', None)
 # print("cred",os.getenv('MAILGUN_SECRET_KEY'))
-# firebase_app = Firebase(json.load(open('./fbconfig.json')))
-firebase_app = Firebase(config=fbconfig)
+firebase_app = Firebase(json.load(open('./fbconfig.json')))
+# firebase_app = Firebase(config=fbconfig)
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 # Connect to firebase
-cred = credentials.Certificate(cert=fbAdminConfig)
-# cred = credentials.Certificate('./fbAdminConfig.json')
+cred = credentials.Certificate(fbAdminConfig)
+cred = credentials.Certificate(json.load(open('./fbAdminConfig.json')))
 # firebase = firebase_admin.initialize_app(cred)
-# pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
-pb = pyrebase.initialize_app(config=fbconfig)
+pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
+# pb = pyrebase.initialize_app(config=fbconfig)
 
 auth = pb.auth()
 
