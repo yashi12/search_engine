@@ -18,7 +18,7 @@ import keywordExtractor
 fbconfig={}
 fbAdminConfig = {}
 
-if os.path.isfile("./fbconfig.json"): # local development
+if os.path.exists("./fbconfig.json"): # local development
 	fbconfig = json.load(open('./fbconfig.json'))
 else:
     fbconfig = {
@@ -44,7 +44,7 @@ else:
 #             if k in os.environ:
 #                 continue
 #             os.environ[k] = v
-if os.path.isfile("./fbAdminConfig.json"): # local development
+if os.path.exists("./fbAdminConfig.json"): # local development
     fbAdminConfig = json.load(open('./fbAdminConfig.json'))
 else:
     import pprint
