@@ -166,8 +166,18 @@ class scraper(object):
         # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
 
         try:
+            self.chromedriver = "./chromedriver"
+            self.options = Options()
+            self.options.add_argument("--headless")
             self.options.add_argument("--window-size=400,481")
-            self.browser.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+            self.options.add_argument("--disable-gpu")
+            self.options.add_argument("--disable-extensions")
+            self.options.add_argument("--proxy-server='direct://'")
+            self.options.add_argument("--proxy-bypass-list=*")
+            self.options.add_argument("--start-maximized")
+            self.data = []
+            self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
+            self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
 
             ################################################################################################
@@ -189,18 +199,26 @@ class scraper(object):
             # self.search_input1.send_keys(Keys.ENTER)
             # sleep(5)
 
-            self.course_title = self.browser.find_elements_by_xpath('//h2[@class="color-primary-text card-title headline-1-text"]')
-            self.course_instructor = self.browser.find_elements_by_xpath('//span[@class="partner-name m-b-1s"]')
-            self.course_rating = self.browser.find_elements_by_xpath('//span[@class="ratings-text"]')
-            self.course_level = self.browser.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
-            self.course_image = self.browser.find_elements_by_xpath('//img[@class="product-photo"]')
-            # self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
+            # self.course_title = self.browser2.find_elements_by_xpath('//h2[@class="color-primary-text card-title headline-1-text"]')
+            # self.course_instructor = self.browser2.find_elements_by_xpath('//span[@class="partner-name m-b-1s"]')
+            # self.course_rating = self.browser2.find_elements_by_xpath('//span[@class="ratings-text"]')
+            # self.course_level = self.browser2.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
+            # self.course_image = self.browser2.find_elements_by_xpath('//img[@class="product-photo"]')
+            # self.course_link = self.browser2.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
+
+            self.course_title = self.browser2.find_elements_by_xpath(
+                '//h2[@class="color-primary-text card-title headline-1-text"]')
+            self.course_instructor = self.browser2.find_elements_by_xpath('//span[@class="partner-name"]')
+            self.course_rating = self.browser2.find_elements_by_xpath('//span[@class="ratings-text"]')
+            self.course_level = self.browser2.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
+            self.course_image = self.browser2.find_elements_by_xpath('//div[@class="image-wrapper vertical-box"]//img')
+            self.course_link = self.browser2.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
             print(len(self.course_title))
             print(len(self.course_instructor))
             print(len(self.course_rating))
             print(len(self.course_level))
             print(len(self.course_image))
-            # print(len(self.course_link))
+            print(len(self.course_link))
             # self.course_title_list = []
             # self.course_instructor_list = []
             # self.course_rating_list = []
@@ -217,8 +235,9 @@ class scraper(object):
                     "course_instructor": self.course_instructor[i].text,
                     "course_rating": self.course_rating[i].text,
                     "course_image": self.course_image[i].get_attribute('src'),
-                    # "course_link": self.course_link[i].get_attribute('href'),
-                    "course_link": ""
+                    "course_level":self.course_level[i].text,
+                    "course_link": self.course_link[i].get_attribute('href'),
+                    # "course_link": ""
                 }
 
                 # d['coursera'].append(dictObject)
@@ -246,13 +265,13 @@ class scraper(object):
             # topic_ref = ref.child(topic)
             # topic_ref.child('coursera').set(lst)
             print('coursera', lst)
-            self.browser.close()
+            self.browser2.close()
             lockDb.writeToDb('coursera', lst, topic)
 
         except Exception as e:
             print(e)
             print("========================================================")
-            self.browser.close()
+            self.browser2.close()
 
     def youtube(self, topic, lockDb):
         print("youtube")
