@@ -35,7 +35,7 @@ class scraper(object):
     def __init__(self):
         self.chromedriver = "./chromedriver"
         self.options = Options()
-        self.options.add_argument("--headless")
+        # self.options.add_argument("--headless")
         self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--disable-extensions")
@@ -97,22 +97,74 @@ class scraper(object):
         except:
             self.browser.close()
 
+    # def coursera(self, topic, lockDb):
+    #     print("coursera")
+    #     # self.browser.get("https://www.coursera.org/")
+    #     try:
+    #         self.browser.get(
+    #             f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+    #         sleep(5)
+    #         ################################################################################################
+    #
+    #         self.result = self.browser.find_element_by_xpath('//h2[@class="rc-NumberOfResultsSection body-2-text"]//span').text
+    #
+    #         if "No results" in self.result:
+    #             print(self.result)
+    #             self.browser.close()
+    #             return
+    #
+    #         ##########################################################################################################################
+    #
+    #         # self.search_input1 = self.browser.find_element_by_xpath('//input[@placeholder="What do you want to learn?"]')
+    #         # self.search_input1.send_keys(topic)
+    #         #
+    #         # self.search_input1.send_keys(Keys.ENTER)
+    #         # sleep(5)
+    #
+    #         self.course_title = self.browser.find_elements_by_xpath(
+    #             '//h2[@class="color-primary-text card-title headline-1-text"]')
+    #         self.course_instructor = self.browser.find_elements_by_xpath('//span[@class="partner-name m-b-1s"]')
+    #         self.course_rating = self.browser.find_elements_by_xpath('//span[@class="ratings-text"]')
+    #         self.course_level = self.browser.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
+    #         self.course_image = self.browser.find_elements_by_xpath('//img[@class="product-photo"]')
+    #         self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-DesktopSearchCard anchor-wrapper"]')
+    #         lst = []
+    #         for i in range(min(3,len(self.course_title))):
+    #             dictObject = {
+    #                 "course_title": self.course_title[i].text,
+    #                 "course_instructor": self.course_instructor[i].text,
+    #                 "course_rating": self.course_rating[i].text,
+    #                 "course_image": self.course_image[i].get_attribute('src'),
+    #                 "course_link": self.course_link[i].get_attribute('href')
+    #             }
+    #             lst.append(dictObject)
+    #         print('coursera', lst)
+    #         # self.browser.close()
+    #         lockDb.writeToDb('coursera', lst, topic)
+    #     except:
+    #         print("courera not found")
+    #         self.browser.close()
+
     def coursera(self, topic, lockDb):
         print("coursera")
-        # self.browser.get("https://www.coursera.org/")
+        print("coursera")
+        # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
+
         try:
-            self.browser.get(
-                f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+            self.options.add_argument("--window-size=863,644")
+            self.browser.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
+
             ################################################################################################
-
-            self.result = self.browser.find_element_by_xpath(
-                '//h2[@class="rc-NumberOfResultsSection body-2-text"]//span').text
-
-            if "No results" in self.result:
-                print(self.result)
-                self.browser.close()
-                return
+            # self.result = self.browser.find_element_by_xpath(
+            # '//h2[@class="rc-NumberOfResultsSection body-2-text"]//span').text
+            #
+            # if "No results" in self.result:
+            #     print(self.result)
+            # if "No results" in self.result:
+            #     print(self.result)
+            #     self.browser.close()
+            #     return
 
             ##########################################################################################################################
 
@@ -122,27 +174,69 @@ class scraper(object):
             # self.search_input1.send_keys(Keys.ENTER)
             # sleep(5)
 
-            self.course_title = self.browser.find_elements_by_xpath(
-                '//h2[@class="color-primary-text card-title headline-1-text"]')
+            self.course_title = self.browser.find_elements_by_xpath('//h2[@class="color-primary-text card-title headline-1-text"]')
             self.course_instructor = self.browser.find_elements_by_xpath('//span[@class="partner-name m-b-1s"]')
             self.course_rating = self.browser.find_elements_by_xpath('//span[@class="ratings-text"]')
             self.course_level = self.browser.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
             self.course_image = self.browser.find_elements_by_xpath('//img[@class="product-photo"]')
-            self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-DesktopSearchCard anchor-wrapper"]')
+            self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
+            print(len(self.course_title))
+            print(len(self.course_instructor))
+            print(len(self.course_rating))
+            print(len(self.course_level))
+            print(len(self.course_image))
+            # print(len(self.course_link))
+            # self.course_title_list = []
+            # self.course_instructor_list = []
+            # self.course_rating_list = []
+            # self.course_level_list = []
+            # self.course_image_list = []
+            # self.course_link_list = []
+            # d = {
+            #     'coursera': []
+            # }
             lst = []
-            for i in range(min(3,len(self.course_title))):
+            for i in range(3):
                 dictObject = {
                     "course_title": self.course_title[i].text,
                     "course_instructor": self.course_instructor[i].text,
                     "course_rating": self.course_rating[i].text,
                     "course_image": self.course_image[i].get_attribute('src'),
-                    "course_link": self.course_link[i].get_attribute('href')
+                    "course_link": ""
+                    # "course_link": self.course_link[i].get_attribute('href')
                 }
+
+                # d['coursera'].append(dictObject)
+                # self.lstCoursera.append(dictObject)
                 lst.append(dictObject)
+                # self.course_title_list.append(self.course_title[i].text)
+                # print(self.course_title_list[i])
+                # self.course_instructor_list.append(self.course_instructor[i].text)
+                # print(self.course_instructor_list[i])
+                # self.course_rating_list.append(self.course_rating[i].text)
+                # print(self.course_rating_list[i])
+                # self.course_level_list.append(self.course_level[i].text)
+                # print(self.course_level_list[i])
+                # self.course_image_list.append(self.course_image[i].get_attribute('src'))
+                # print(self.course_image_list[i])
+                # self.course_link_list.append(self.course_link[i].get_attribute('href'))
+                # print(self.course_link_list[i])
+
+            # self.df = pd.DataFrame({'Course Title':self.course_title_list, 'Image Src':self.course_image_list,'Instructor':self.course_instructor_list,'Rating':self.course_rating_list, 'Level': self.course_level_list, 'Link':self.course_link_list})
+            # self.df.to_excel('./coursera_course_info.xlsx')
+
+            # self.browser.close()
+            # self.data.append(d)
+            # obj.saving(topic,d);
+            # topic_ref = ref.child(topic)
+            # topic_ref.child('coursera').set(lst)
             print('coursera', lst)
             self.browser.close()
             lockDb.writeToDb('coursera', lst, topic)
-        except:
+
+        except Exception as e:
+            print(e)
+            print("========================================================")
             self.browser.close()
 
     def youtube(self, topic, lockDb):
