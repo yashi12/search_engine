@@ -5,12 +5,27 @@ from time import *
 import threading
 from datetime import datetime
 from app import *
+import os
 
 import json
 
 from firebase import Firebase
-
-firebase = Firebase(json.load(open('./fbconfig.json')))
+fbconfig={}
+if os.path.exists("./fbconfig.json"): # local development
+	fbconfig = json.load(open('./fbconfig.json'))
+else:
+    fbconfig = {
+        "apiKey": os.environ.get('API_KEY'),
+        "authDomain": os.environ.get('AUTH_DOMAIN'),
+        "databaseURL": os.environ.get('DATABASE_URL'),
+        "projectId": os.environ.get('PROJECT_ID'),
+        "storageBucket": os.environ.get('STORAGE_BUCKET'),
+        "messagingSenderId": os.environ.get('MESSAGING_SENDER_ID'),
+        "appId": os.environ.get('APP_ID'),
+        "measurementId": os.environ.get('MEASUREMENT_ID')
+    }
+# firebase = Firebase(json.load(open('./fbconfig.json')))
+firebase = Firebase(config=fbconfig)
 
 ref = firebase.database()
 
