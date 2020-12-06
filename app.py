@@ -61,7 +61,7 @@ else:
         "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
         "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
     }
-
+print(fbAdminConfig)
 # print("apikey", os.environ["apikey"])
 # print(os.environ["MAILGUN_SECRET_KEY"])
 # print(os.environ["SECRET"])
