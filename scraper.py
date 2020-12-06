@@ -50,7 +50,7 @@ class scraper(object):
     def __init__(self):
         self.chromedriver = "./chromedriver"
         self.options = Options()
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
         self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--disable-extensions")
@@ -166,7 +166,7 @@ class scraper(object):
         # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
 
         try:
-            self.options.add_argument("--window-size=863,644")
+            self.options.add_argument("--window-size=400,481")
             self.browser.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
 
@@ -194,7 +194,7 @@ class scraper(object):
             self.course_rating = self.browser.find_elements_by_xpath('//span[@class="ratings-text"]')
             self.course_level = self.browser.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
             self.course_image = self.browser.find_elements_by_xpath('//img[@class="product-photo"]')
-            self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
+            # self.course_link = self.browser.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
             print(len(self.course_title))
             print(len(self.course_instructor))
             print(len(self.course_rating))
@@ -217,8 +217,8 @@ class scraper(object):
                     "course_instructor": self.course_instructor[i].text,
                     "course_rating": self.course_rating[i].text,
                     "course_image": self.course_image[i].get_attribute('src'),
+                    # "course_link": self.course_link[i].get_attribute('href'),
                     "course_link": ""
-                    # "course_link": self.course_link[i].get_attribute('href')
                 }
 
                 # d['coursera'].append(dictObject)
