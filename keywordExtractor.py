@@ -1,9 +1,5 @@
 
 import re
-import pandas as pd
-import numpy as np
-import difflib
-
 
 # Word And Sentence Tokenmization & Stop Removal 
 def SentenceTokenization(text):
@@ -82,29 +78,29 @@ def nlp(text):
     return one_word_keyword,two_word_keyword,three_word_keyword
 
 
-def applyNlp(query):
-    result =""
-    sent = query
-    keywords = nlp(sent)
-    print(keywords)
-    oneWord = keywords[0]
-    twoWords = keywords[1]
-    threeWord = keywords[2]
-    if threeWord!= []:
-        for x in threeWord:
-            result += x
-            result += " "
-    elif twoWords!= []:
-        for x in twoWords:
-            result += x
-            result += " "
-    else:
-        for x in oneWord:
-            result += x
-            result += " "
-    result = result[:-1]
-    print("result nlp",result)
-    return result
+# def applyNlp(query):
+#     result =""
+#     sent = query
+#     keywords = nlp(sent)
+#     print(keywords)
+#     oneWord = keywords[0]
+#     twoWords = keywords[1]
+#     threeWord = keywords[2]
+#     if threeWord!= []:
+#         for x in threeWord:
+#             result += x
+#             result += " "
+#     elif twoWords!= []:
+#         for x in twoWords:
+#             result += x
+#             result += " "
+#     else:
+#         for x in oneWord:
+#             result += x
+#             result += " "
+#     result = result[:-1]
+#     print("result nlp",result)
+#     return result
 
 def getCloseMatches(one,two,three):
     d = {
@@ -147,5 +143,18 @@ def getCloseMatches(one,two,three):
 
 # print(getCloseMatches(x,y,z,0.4))
 
-x,y,z = nlp("RoadMap of mean stack")
-getCloseMatches(x,y,z)
+# x,y,z = nlp("RoadMap of iot and firebase or mern")
+# print(getCloseMatches(x,y,z))
+
+def applyNlp(query):
+    result =""
+    x, y, z = nlp(query)
+    oneWord = getCloseMatches(x, y, z)
+    oneWord.sort()
+    for x in oneWord:
+        result += x
+        result += " "
+    result = result[:-1]
+    print("result nlp",result)
+    return result
+
