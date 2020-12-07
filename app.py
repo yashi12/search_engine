@@ -12,6 +12,7 @@ from datetime import datetime
 from validate_email import validate_email
 import dns.resolver
 import os
+import traceback
 
 import scraper
 import keywordExtractor
@@ -365,9 +366,9 @@ def result():
                 msg = "OOPS! your results could not be found, PLease try again :)"
                 return render_template('notFound.html',msg=msg)
             return fetchResultFromDb(topic)
-
-        except:
-            print("error")
+        except Exception as e:
+            print("error",e)
+            traceback.print_exc()
             msg = "OOPS! your results could not be found"
             return render_template('notFound.html',msg=msg)
     else:
