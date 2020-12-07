@@ -6,7 +6,7 @@ import threading
 from datetime import datetime
 from app import *
 import os
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 
 
 import json
