@@ -48,7 +48,12 @@ class LockingDb():
 class scraper(object):
 
     def __init__(self):
-        self.chromedriver = "./chromedriver"
+        # if os.path.exists("./chromedriver.exe"):
+        #     self.chromedriver = "./chromedriver.exe"
+        # else:
+        self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
+        print("path", self.chromedriver)
+        # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
         self.options.add_argument("--headless")
         self.options.add_argument("--window-size=1920,1080")
@@ -57,6 +62,11 @@ class scraper(object):
         self.options.add_argument("--proxy-server='direct://'")
         self.options.add_argument("--proxy-bypass-list=*")
         self.options.add_argument("--start-maximized")
+
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--no-sandbox")
+        self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+
         self.data = []
         self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
 
@@ -166,7 +176,11 @@ class scraper(object):
         # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
 
         try:
-            self.chromedriver = "./chromedriver"
+            # if os.path.exists("./chromedriver.exe"):
+            #     self.chromedriver = "./chromedriver.exe"
+            # else:
+            self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
+            # self.chromedriver = "./chromedriver.exe"
             self.options = Options()
             self.options.add_argument("--headless")
             self.options.add_argument("--window-size=400,481")
@@ -175,6 +189,11 @@ class scraper(object):
             self.options.add_argument("--proxy-server='direct://'")
             self.options.add_argument("--proxy-bypass-list=*")
             self.options.add_argument("--start-maximized")
+
+            self.options.add_argument("--disable-dev-shm-usage")
+            self.options.add_argument("--no-sandbox")
+            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+
             self.data = []
             self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
