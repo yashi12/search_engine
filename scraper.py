@@ -266,12 +266,14 @@ class scraper(object):
             # topic_ref.child('coursera').set(lst)
             print('coursera', lst)
             self.browser2.close()
+            self.browser.close()
             lockDb.writeToDb('coursera', lst, topic)
 
         except Exception as e:
             print(e)
             print("========================================================")
             self.browser2.close()
+            self.browser.close()
 
     def youtube(self, topic, lockDb):
         print("youtube")
@@ -327,6 +329,8 @@ class scraper(object):
                     "blog_link": self.blog_link[i].get_attribute('href')
                 }
                 # x = x+3
+                if dictObject['blog_title'] is "":
+                    dictObject['blog_title'] = topic
                 lst.append(dictObject)
             print('blogs', lst)
             self.browser.close()
