@@ -34,11 +34,12 @@ protobuf==4.0.0rc2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycryptodome==3.4.3
-Pyrebase==3.0.27
+wheel
+git+https://github.com/yashi12/Pyrebase.git
 python-dateutil==2.8.1
 python-jwt==2.0.1
 pytz==2020.4
-requests==2.18.4
+requests
 requests-toolbelt==0.7.0
 rsa==4.6
 selenium==3.141.0
@@ -46,6 +47,6 @@ six==1.15.0
 uritemplate==3.0.1
 urllib3==1.22
 validate-email==1.3
-Werkzeug==1.0.1
+Werkzeug==1.0.1python
 wtf==0.1
 WTForms==2.3.3

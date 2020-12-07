@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import Flask, render_template, url_for, request, session, redirect
 import firebase_admin
-import pyrebase
+import  custompyrebase as pyrebase
 import json
 from firebase_admin import credentials, auth, db
 from firebase import Firebase
