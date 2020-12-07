@@ -6,6 +6,8 @@ import threading
 from datetime import datetime
 from app import *
 import os
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 import json
 
@@ -49,9 +51,9 @@ class scraper(object):
 
     def __init__(self):
         # if os.path.exists("./chromedriver.exe"):
-        #     self.chromedriver = "./chromedriver.exe"
+        self.chromedriver = ChromeDriverManager().install()
         # else:
-        self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
+        # self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
         print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
@@ -177,9 +179,9 @@ class scraper(object):
 
         try:
             # if os.path.exists("./chromedriver.exe"):
-            #     self.chromedriver = "./chromedriver.exe"
+            self.chromedriver = ChromeDriverManager().install()
             # else:
-            self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
+            # self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
             # self.chromedriver = "./chromedriver.exe"
             self.options = Options()
             self.options.add_argument("--headless")
