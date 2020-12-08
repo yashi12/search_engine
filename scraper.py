@@ -67,7 +67,7 @@ class scraper(object):
 
         self.options.add_argument("--disable-dev-shm-usage")
         self.options.add_argument("--no-sandbox")
-        self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        # self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
         self.data = []
         self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
@@ -194,7 +194,7 @@ class scraper(object):
 
             self.options.add_argument("--disable-dev-shm-usage")
             self.options.add_argument("--no-sandbox")
-            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            # self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
             self.data = []
             self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
