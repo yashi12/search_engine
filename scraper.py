@@ -77,12 +77,12 @@ class scraper(object):
         self.lstYoutube = []
 
     def Udemy(self, topic, lockDb):
-        self.options.add_argument("--window-size=1920,1080")
-        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
-        # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
 
         print("udemy")
         try:
+            self.options.add_argument("--window-size=1920,1080")
+            self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             self.browser.get(f"https://www.udemy.com/courses/search/?lang=en&q=+{topic}+&sort=relevance&src=ukw")
             # self.browser.get("https://www.udemy.com/")
             # sleep(5)
@@ -305,7 +305,7 @@ class scraper(object):
             self.browser.close()
 
     def youtube(self, topic, lockDb):
-        self.options.add_argument("--window-size=400,481")
+        self.options.add_argument("--window-size=1920,1080")
         self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
 
@@ -339,7 +339,7 @@ class scraper(object):
             self.browser.close()
 
     def blogs(self, topic, lockDb):
-        self.options.add_argument("--window-size=400,481")
+        self.options.add_argument("--window-size=1920,1080")
         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
         self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
 
