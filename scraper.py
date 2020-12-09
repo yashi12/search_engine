@@ -178,7 +178,6 @@ class scraper(object):
 
     def coursera(self, topic, lockDb):
         print("coursera")
-        print("coursera")
         # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
 
         try:
@@ -302,7 +301,7 @@ class scraper(object):
             print(e)
             print("========================================================")
             self.browser2.close()
-            self.browser.close()
+            # self.browser.close()
 
     def youtube(self, topic, lockDb):
         self.options.add_argument("--window-size=1920,1080")
