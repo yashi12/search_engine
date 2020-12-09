@@ -53,8 +53,8 @@ class scraper(object):
         # if os.path.exists("./chromedriver.exe"):
         # self.chromedriver = "./chromedriver"
         # else:
-        self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
-        print("path", self.chromedriver)
+        # self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
+        # print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
         self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -70,8 +70,8 @@ class scraper(object):
         self.options.add_argument("--no-sandbox")
 
         self.data = []
-        self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
-
+        # self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
+        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
         self.lstUdemy = []
         self.lstCoursera = []
         self.lstYoutube = []
@@ -181,7 +181,7 @@ class scraper(object):
             # if os.path.exists("./chromedriver.exe"):
             # self.chromedriver = "./chromedriver"
             # else:
-            self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
+            # self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
             # self.chromedriver = "./chromedriver.exe"
             self.options = Options()
             self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -197,7 +197,8 @@ class scraper(object):
             self.options.add_argument("--no-sandbox")
 
             self.data = []
-            self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
+            # self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
+            self.browser2 = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
 
