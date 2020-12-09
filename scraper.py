@@ -57,6 +57,7 @@ class scraper(object):
         print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
+        self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         self.options.add_argument("--headless")
         self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
@@ -67,7 +68,6 @@ class scraper(object):
 
         self.options.add_argument("--disable-dev-shm-usage")
         self.options.add_argument("--no-sandbox")
-        self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
         self.data = []
         self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
@@ -184,6 +184,7 @@ class scraper(object):
             self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
             # self.chromedriver = "./chromedriver.exe"
             self.options = Options()
+            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
             self.options.add_argument("--headless")
             self.options.add_argument("--window-size=400,481")
             self.options.add_argument("--disable-gpu")
@@ -194,7 +195,6 @@ class scraper(object):
 
             self.options.add_argument("--disable-dev-shm-usage")
             self.options.add_argument("--no-sandbox")
-            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
             self.data = []
             self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
