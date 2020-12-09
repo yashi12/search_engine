@@ -59,7 +59,7 @@ class scraper(object):
         self.options = Options()
         self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         self.options.add_argument("--headless")
-        self.options.add_argument("--window-size=1920,1080")
+        # self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--disable-extensions")
         self.options.add_argument("--proxy-server='direct://'")
@@ -71,12 +71,16 @@ class scraper(object):
 
         self.data = []
         # self.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
-        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+        # self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
         self.lstUdemy = []
         self.lstCoursera = []
         self.lstYoutube = []
 
     def Udemy(self, topic, lockDb):
+        self.options.add_argument("--window-size=1920,1080")
+        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+        # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+
         print("udemy")
         try:
             self.browser.get(f"https://www.udemy.com/courses/search/?lang=en&q=+{topic}+&sort=relevance&src=ukw")
@@ -183,22 +187,25 @@ class scraper(object):
             # else:
             # self.chromedriver = os.environ.get("CHROMEDRIVER_PATH")
             # self.chromedriver = "./chromedriver.exe"
-            self.options = Options()
-            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-            self.options.add_argument("--headless")
+            # self.options = Options()
+            # self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            # self.options.add_argument("--headless")
+            # self.options.add_argument("--window-size=400,481")
+            # self.options.add_argument("--disable-gpu")
+            # self.options.add_argument("--disable-extensions")
+            # self.options.add_argument("--proxy-server='direct://'")
+            # self.options.add_argument("--proxy-bypass-list=*")
+            # self.options.add_argument("--start-maximized")
+            #
+            # self.options.add_argument("--no-sandbox")
+            # self.options.add_argument("--disable-dev-shm-usage")
             self.options.add_argument("--window-size=400,481")
-            self.options.add_argument("--disable-gpu")
-            self.options.add_argument("--disable-extensions")
-            self.options.add_argument("--proxy-server='direct://'")
-            self.options.add_argument("--proxy-bypass-list=*")
-            self.options.add_argument("--start-maximized")
 
-            self.options.add_argument("--disable-dev-shm-usage")
-            self.options.add_argument("--no-sandbox")
 
-            self.data = []
             # self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
             self.browser2 = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+            # self.browser2 = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
 
@@ -288,7 +295,7 @@ class scraper(object):
             # topic_ref.child('coursera').set(lst)
             print('coursera', lst)
             self.browser2.close()
-            self.browser.close()
+            # self.browser.close()
             lockDb.writeToDb('coursera', lst, topic)
 
         except Exception as e:
@@ -298,6 +305,10 @@ class scraper(object):
             self.browser.close()
 
     def youtube(self, topic, lockDb):
+        self.options.add_argument("--window-size=400,481")
+        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+        # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+
         print("youtube")
         try:
             self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
@@ -328,6 +339,10 @@ class scraper(object):
             self.browser.close()
 
     def blogs(self, topic, lockDb):
+        self.options.add_argument("--window-size=400,481")
+        # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+        self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+
         print("blog section")
         try:
             self.browser.get("https://www.google.com/")
