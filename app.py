@@ -14,7 +14,7 @@ import dns.resolver
 import os
 import traceback
 
-# import scraper
+import scraper
 import keywordExtractor
 fbconfig={}
 fbAdminConfig = {}
@@ -345,7 +345,7 @@ def result():
             ref1 = firebase_app.database().child('topic')
             if (ref1.child(topic).get().val() is None):
                 print("snap not exist", ref1.child(topic))
-                # scraper.callScapraping(topic,count)
+                scraper.callScapraping(topic,count)
 
                 # threading.Thread(target=scraper.callScapraping,args=(topic,count)).start()
                 # threading.Thread(target=scraper.callScapraping(topic)).start()
