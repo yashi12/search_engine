@@ -51,9 +51,9 @@ class scraper(object):
 
     def __init__(self):
         # if os.path.exists("./chromedriver.exe"):
-        self.chromedriver = "./chromedriver"
+        # self.chromedriver = "./chromedriver"
         # else:
-        # self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
+        self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
         print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
@@ -194,7 +194,7 @@ class scraper(object):
 
             self.options.add_argument("--disable-dev-shm-usage")
             self.options.add_argument("--no-sandbox")
-            # self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
             self.data = []
             self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
