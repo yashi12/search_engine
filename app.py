@@ -14,7 +14,7 @@ import dns.resolver
 import os
 import traceback
 
-import scraper
+# import scraper
 import keywordExtractor
 fbconfig={}
 fbAdminConfig = {}
