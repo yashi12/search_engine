@@ -2,11 +2,10 @@ from datetime import timedelta
 
 from flask import Flask, render_template, url_for, request, session, redirect
 import firebase_admin
-import  custompyrebase as pyrebase
+import custompyrebase as pyrebase
 import json
 from firebase_admin import credentials, auth, db
 from firebase import Firebase
-import os
 import threading
 from datetime import datetime
 from validate_email import validate_email
@@ -233,6 +232,9 @@ def token():
 def login():
     return render_template('login.html', title='Login')
 
+@app.route('/contact')
+def contact():
+    return render_template('contactUs.html', title='Contact')
 
 @app.route('/register')
 def register():
