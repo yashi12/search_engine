@@ -19,6 +19,7 @@
 <body>
 <!--------------------------------------------------------------- Css Files -------------------------------------------------->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='styleContactUs.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='main.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='sidebar.css') }}">
 <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='normalize.css') }}">-->
@@ -46,6 +47,9 @@
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/contact">Contact Us</a>
             </li>
             <li>
                 <form action="/logout" method="post">
