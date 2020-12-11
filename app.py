@@ -306,6 +306,9 @@ def fetchResultFromDb(topic):
                 # print(key, value)
                 if key == "course_title":
                     value = value[:75]
+                # if len(value)<75:
+                #     for _ in range(1,75-len(value)):
+                #         value = value+" "
                 youtube_cource[key] = value
             youtube_cources.append(youtube_cource)
     # print(youtube_cources)
