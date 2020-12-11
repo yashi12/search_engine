@@ -77,12 +77,13 @@ class scraper(object):
         self.lstYoutube = []
 
     def Udemy(self, topic, lockDb):
-         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
 
         print("udemy")
         try:
             self.options.add_argument("--window-size=1920,1080")
             self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+            # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+            self.browser.capabilities['version'] = "79.0"
             self.browser.get(f"https://www.udemy.com/courses/search/?lang=en&q=+{topic}+&sort=relevance&src=ukw")
             # self.browser.get("https://www.udemy.com/")
             # sleep(5)
@@ -201,10 +202,10 @@ class scraper(object):
             self.options.add_argument("--window-size=400,481")
 
 
-            # self.browser2 = webdriver.Chrome(executable_path=self.chromedriver, options=self.options)
+
             self.browser2 = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             # self.browser2 = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
-
+            self.browser2.capabilities['version'] = "79.0"
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
 
@@ -307,7 +308,7 @@ class scraper(object):
         self.options.add_argument("--window-size=1920,1080")
         self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
-
+        self.browser.capabilities['version'] = "79.0"
         print("youtube")
         try:
             self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
@@ -341,7 +342,7 @@ class scraper(object):
         self.options.add_argument("--window-size=1920,1080")
         # self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
         self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
-
+        self.browser.capabilities['version'] = "79.0"
         print("blog section")
         try:
             self.browser.get("https://www.google.com/")
