@@ -123,7 +123,7 @@ class scraper(object):
                 }
                 # print("dictobj", dictObject)
                 lst.append(dictObject)
-            print('udemy', lst)
+            print('udemy', lst,'length',len(self.course_title))
             self.browser.close()
             lockDb.writeToDb('udemy', lst, topic)
         except Exception as e:
@@ -203,7 +203,7 @@ class scraper(object):
                 # self.lstCoursera.append(dictObject)
                 lst.append(dictObject)
 
-            print('coursera', lst)
+            print('coursera', lst,'length',len(self.course_title))
             self.browser2.close()
             # self.browser.close()
             lockDb.writeToDb('coursera', lst, topic)
@@ -248,7 +248,7 @@ class scraper(object):
                     "course_link": self.course_link[i].get_attribute('href')
                 }
                 lst.append(dictObject)
-            print('youtube', lst)
+            print('youtube', lst,'length',len(self.course_title))
             self.browser.close()
             lockDb.writeToDb('youtube', lst, topic)
         except Exception as e:
@@ -267,7 +267,7 @@ class scraper(object):
         # self.browser.capabilities['version'] = "79.0"
         print("blog section")
         try:
-            self.browser.get("https://www.google.com/")
+            self.browser.get("https://www.google.com")
             sleep(5)
 
             self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
@@ -291,7 +291,7 @@ class scraper(object):
                 if dictObject['blog_title'] is "":
                     dictObject['blog_title'] = topic
                 lst.append(dictObject)
-            print('blogs', lst)
+            print('blogs', lst,'length',len(self.blog_title))
             self.browser.close()
             lockDb.writeToDb('blogs', lst, topic)
         except Exception as e:
