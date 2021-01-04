@@ -128,6 +128,11 @@ class scraper(object):
             lockDb.writeToDb('udemy', lst, topic)
         except Exception as e:
             print("udemy error", e)
+            print("title", len(self.course_title))
+            print("instructor", len(self.course_instructor))
+            print("rating", len(self.course_rating))
+            print("img", len(self.course_image))
+            print("link", len(self.course_link))
             print("========================================================")
             self.browser.close()
 
@@ -205,6 +210,12 @@ class scraper(object):
 
         except Exception as e:
             print("coursera error",e)
+            print("title",len(self.course_title))
+            print("instructor",len(self.course_instructor))
+            print("rating",len(self.course_rating))
+            print("level",len(self.course_level))
+            print("img",len(self.course_image))
+            print("link",len(self.course_link))
             print("========================================================")
             self.browser2.close()
             # self.browser.close()
@@ -242,6 +253,10 @@ class scraper(object):
             lockDb.writeToDb('youtube', lst, topic)
         except Exception as e:
             print("you tube error", e)
+            print("title", len(self.course_title))
+            print("instructor", len(self.course_instructor))
+            print("img", len(self.course_image))
+            print("link", len(self.course_link))
             print("========================================================")
             self.browser.close()
 
@@ -281,6 +296,8 @@ class scraper(object):
             lockDb.writeToDb('blogs', lst, topic)
         except Exception as e:
             print("blogs error", e)
+            print("title", len(self.blog_title))
+            print("link", len(self.blog_link))
             print("========================================================")
             self.browser.close()
 
