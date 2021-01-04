@@ -98,7 +98,7 @@ class scraper(object):
             self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
 
             if self.result != []:
-                print(self.result[0].text)
+                # print(self.result[0].text)
                 self.browser.close()
                 return
 
@@ -121,12 +121,14 @@ class scraper(object):
                     "course_image": self.course_image[i].get_attribute('src'),
                     "course_link": self.course_link[i].get_attribute('href')
                 }
-                print("dictobj", dictObject)
+                # print("dictobj", dictObject)
                 lst.append(dictObject)
             print('udemy', lst)
             self.browser.close()
             lockDb.writeToDb('udemy', lst, topic)
-        except:
+        except Exception as e:
+            print("udemy error", e)
+            print("========================================================")
             self.browser.close()
 
 
@@ -165,12 +167,12 @@ class scraper(object):
             self.course_level = self.browser2.find_elements_by_xpath('//div[@class="_jen3vs _1d8rgfy3"]')
             self.course_image = self.browser2.find_elements_by_xpath('//div[@class="image-wrapper vertical-box"]//img')
             self.course_link = self.browser2.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
-            print(len(self.course_title))
-            print(len(self.course_instructor))
-            print(len(self.course_rating))
-            print(len(self.course_level))
-            print(len(self.course_image))
-            print(len(self.course_link))
+            # print(len(self.course_title))
+            # print(len(self.course_instructor))
+            # print(len(self.course_rating))
+            # print(len(self.course_level))
+            # print(len(self.course_image))
+            # print(len(self.course_link))
             # self.course_title_list = []
             # self.course_instructor_list = []
             # self.course_rating_list = []
@@ -202,7 +204,7 @@ class scraper(object):
             lockDb.writeToDb('coursera', lst, topic)
 
         except Exception as e:
-            print(e)
+            print("coursera error",e)
             print("========================================================")
             self.browser2.close()
             # self.browser.close()
@@ -238,7 +240,9 @@ class scraper(object):
             print('youtube', lst)
             self.browser.close()
             lockDb.writeToDb('youtube', lst, topic)
-        except:
+        except Exception as e:
+            print("you tube error", e)
+            print("========================================================")
             self.browser.close()
 
     def blogs(self, topic, lockDb):
@@ -275,7 +279,9 @@ class scraper(object):
             print('blogs', lst)
             self.browser.close()
             lockDb.writeToDb('blogs', lst, topic)
-        except:
+        except Exception as e:
+            print("blogs error", e)
+            print("========================================================")
             self.browser.close()
 
 
@@ -302,15 +308,15 @@ def callScapraping(topic,count):
     objBlogs = scraper()
     lockDb = LockingDb(topic)
     threads = []
-    print("2")
+    print("start scraping")
     thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
     threads.append(thread3)
     thread3.start()
-    print("0")
+    # print("0")
     thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
     threads.append(thread1)
     thread1.start()
-    print("1")
+    # print("1")
     thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
     threads.append(thread2)
     thread2.start()
@@ -326,7 +332,7 @@ def callScapraping(topic,count):
         thread.join()
     if firebase.database().child('topic').child(topic).child('udemy').get().val() is None :
         if firebase.database().child('topic').child(topic).child('coursera').get().val() is None:
-            print("data not present none")
+            # print("data not present none")
             firebase.database().child('topic').child(topic).remove()
-    print("3")
+    # print("3")
 
