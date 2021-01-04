@@ -31,19 +31,7 @@ else:
         "appId": os.environ.get('APP_ID'),
         "measurementId": os.environ.get('MEASUREMENT_ID')
     }
-# if os.path.isfile(".env"):
-#     print("found the file")
-#     with open(".env") as f:
-#
-#         env_vars = f.readlines()
-#         for env_var in env_vars:
-#             print("env_var",env_var)
-#             k, v  = env_var.split("=")
-#             k, v  = k.strip(),v.strip()
-#
-#             if k in os.environ:
-#                 continue
-#             os.environ[k] = v
+
 if os.path.exists("./fbAdminConfig.json"): # local development
     fbAdminConfig = json.load(open('./fbAdminConfig.json'))
 else:
@@ -61,22 +49,14 @@ else:
         "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
         "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
     }
-print(fbAdminConfig)
-print(fbAdminConfig['private_key'])
-# print("apikey", os.environ["apikey"])
-# print(os.environ["MAILGUN_SECRET_KEY"])
-# print(os.environ["SECRET"])
-# cr = os.environ.get('', None)
-# print("cred",os.getenv('MAILGUN_SECRET_KEY'))
-# firebase_app = Firebase(json.load(open('./fbconfig.json')))
+
+
 firebase_app = Firebase(config=fbconfig)
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 # Connect to firebase
 cred = credentials.Certificate(fbAdminConfig)
-# cred = credentials.Certificate(json.load(open('./fbAdminConfig.json')))
-# firebase = firebase_admin.initialize_app(cred)
-# pb = pyrebase.initialize_app(json.load(open('./fbconfig.json')))
+
 pb = pyrebase.initialize_app(config=fbconfig)
 
 auth = pb.auth()
@@ -98,13 +78,13 @@ cources = [
     }
 ]
 users = [{'uid': 1, 'name': 'Noah Schairer'}]
-print(pyrebase)
 
 
-# Api route to get users
-@app.route('/api/userinfo')
-def userinfo():
-    return {'data': users}, 200
+#
+# # Api route to get users
+# @app.route('/api/userinfo')
+# def userinfo():
+#     return {'data': users}, 200
 
 
 def findTop3():
@@ -115,7 +95,7 @@ def findTop3():
     topSillsTitle = top3.get().val().keys()
 
     for skill in topSillsTitle:
-        print(skill)
+        print("skill",skill)
         topSkills = {
             "skill_count": firebase_app.database().child('topic').child(skill).child('count').get().val(),
             "skill_name": skill,
@@ -151,12 +131,9 @@ def mainPage():
         for title, val in skill.items():
             print("title", title)
             print("val", val)
-    print("auth", auth)
     if 'idToken' in session:
         idToken = session['idToken']
-        # print(idToken)
         user = pb.auth().get_account_info(id_token=idToken)
-        # print("user",user)
         return render_template('searchBar.html', userLogin=True, topSkills=lst,skillOfWeek=True)
         # before the 1 hour expiry:
         user = auth.refresh(user['refreshToken'])
@@ -178,7 +155,7 @@ def signup():
         # return {'message': 'Password do not match'}, 400
     try:
         user = auth.create_user_with_email_and_password(email, password)
-        print(user)
+        # print(user)
         auth.send_email_verification(user['idToken'])
         return render_template('login.html')
     except:
@@ -194,9 +171,9 @@ def token():
     try:
         user = pb.auth().sign_in_with_email_and_password(email, password)
         emailVerifyStatus = auth.get_account_info(user['idToken'])['users'][0]['emailVerified']
-        print(emailVerifyStatus)
+        # print(emailVerifyStatus)
         if emailVerifyStatus == True:
-            print("verified")
+            # print("verified")
             # before the 1 hour expiry:
             user = auth.refresh(user['refreshToken'])
             # print("user", user)
