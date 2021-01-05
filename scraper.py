@@ -7,6 +7,7 @@ import threading
 from datetime import datetime
 from app import *
 import os
+import concurrent.futures
 # from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -57,11 +58,11 @@ class scraper(object):
         # self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
         # print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
-        display = Display(visible=False)
-        display.start()
+        # display = Display(visible=False)
+        # display.start()
         self.options = Options()
         self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
         # self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--disable-extensions")
@@ -138,8 +139,6 @@ class scraper(object):
             print("link", len(self.course_link))
             print("========================================================")
             self.browser.close()
-
-
 
     def coursera(self, topic, lockDb):
         print("coursera")
@@ -306,18 +305,22 @@ class scraper(object):
 
 
 def taskUdemy(topic, lockDb, objUdemy):
+    print("call udemy")
     objUdemy.Udemy(topic, lockDb)
 
 
 def taskCoursera(topic, lockDb, objCoursera):
+    print("call coursera")
     objCoursera.coursera(topic, lockDb)
 
 
 def taskYoutube(topic, lockDb, objYoutube):
+    print("call you tube")
     objYoutube.youtube(topic, lockDb)
 
 
 def taskBlogs(topic, lockDb, objBlogs):
+    print("call blog")
     objBlogs.blogs(topic, lockDb)
 
 
@@ -329,30 +332,36 @@ def callScapraping(topic,count):
     lockDb = LockingDb(topic)
     threads = []
     print("start scraping")
-    thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
-    threads.append(thread3)
-    thread3.start()
-    # print("0")
-    thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
-    threads.append(thread1)
-    thread1.start()
-    # print("1")
-    thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
-    threads.append(thread2)
-    thread2.start()
-    thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
-    threads.append(thread3)
-    thread3.start()
+    # thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
+    # threads.append(thread3)
+    # thread3.start()
+    # thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
+    # threads.append(thread1)
+    # thread1.start()
+    # thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
+    # threads.append(thread2)
+    # thread2.start()
+    # thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
+    # threads.append(thread3)
+    # thread3.start()
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.submit(taskUdemy, topic, lockDb, objUdemy)
+        executor.submit(taskCoursera,topic, lockDb, objCoursera)
+        executor.submit(taskYoutube, topic, lockDb, objYoutube)
+        executor.submit(taskBlogs,topic, lockDb, objBlogs)
+        print("done")
+
+
     firebase.database().child('topic').child(topic).child('count').set(count+1)
-    # curr_date = datetime.now()
-    # print("curr_date", curr_date)
-    # firebase.database().child(topic).child('date').set(str(curr_date))
     firebase.database().child('topic').child(topic).child('timestamp').set(int(datetime.timestamp(datetime.now())))
-    for thread in threads:
-        thread.join()
+    # for thread in threads:
+    #     thread.join()
     if firebase.database().child('topic').child(topic).child('udemy').get().val() is None :
         if firebase.database().child('topic').child(topic).child('coursera').get().val() is None:
-            # print("data not present none")
             firebase.database().child('topic').child(topic).remove()
-    # print("3")
+
+
+
+
 
