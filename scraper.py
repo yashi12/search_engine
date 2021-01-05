@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from time import *
-from pyvirtualdisplay import Display
 import threading
 from datetime import datetime
 from app import *
@@ -58,8 +57,6 @@ class scraper(object):
         # self.chromedriver =os.environ.get("CHROMEDRIVER_PATH")
         # print("path", self.chromedriver)
         # self.chromedriver = "./chromedriver.exe"
-        # display = Display(visible=False)
-        # display.start()
         self.options = Options()
         self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         self.options.add_argument("--headless")
