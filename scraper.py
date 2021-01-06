@@ -95,7 +95,7 @@ class scraper(object):
             # self.search_btn = self.browser.find_element_by_xpath('//button[@type="submit"]')
             # self.search_btn.send_keys(Keys.ENTER)
             sleep(5)
-
+            self.browser.save_screenshot("udemy.png")
             self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
 
             if self.result != []:
@@ -151,6 +151,7 @@ class scraper(object):
             # self.browser2.capabilities['version'] = "79.0"
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
+            self.browser2.save_screenshot("coursera.png")
 
             ################################################################################################
             # self.result = self.browser.find_element_by_xpath(
@@ -228,6 +229,7 @@ class scraper(object):
         try:
             self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
             sleep(10)
+            self.browser.save_screenshot("youtube.png")
             # breakpoint()
             self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
             self.course_instructor = self.browser.find_elements_by_xpath(
@@ -268,7 +270,7 @@ class scraper(object):
         try:
             self.browser.get("https://www.google.com")
             sleep(5)
-
+            self.browser.save_screenshot("blog.png")
             self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
             self.search_input3.send_keys('blogurl:' + f'{topic}')
 
