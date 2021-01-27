@@ -119,7 +119,9 @@ def getCloseMatches(one,two,three):
         "internet of thing":"iot",
         "mongo":"mongodb",
         "mongo db":"mongodb",
-        "no sql":"nosql"
+        "no sql":"nosql",
+        "open source": "open source development",
+        "osdc": "open source development"
     }
     words = []
     for i in three:
