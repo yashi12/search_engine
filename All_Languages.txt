@@ -171,6 +171,7 @@ control language
 cool
 cor
 cow
+cryptography
 crystal
 csh
 csharp
@@ -444,7 +445,9 @@ omgrofl
 ooc
 ook
 opa
+open source
 openlaszlo
+osdc
 oraclesql
 orc
 oz
