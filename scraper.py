@@ -6,6 +6,7 @@ import threading
 from datetime import datetime
 from app import *
 import os
+import concurrent.futures
 # from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -94,7 +95,7 @@ class scraper(object):
             # self.search_btn = self.browser.find_element_by_xpath('//button[@type="submit"]')
             # self.search_btn.send_keys(Keys.ENTER)
             sleep(5)
-
+            self.browser.save_screenshot("udemy.png")
             self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
 
             if self.result != []:
@@ -136,8 +137,6 @@ class scraper(object):
             print("========================================================")
             self.browser.close()
 
-
-
     def coursera(self, topic, lockDb):
         print("coursera")
         # self.browser.get("https://www.coursera.org/")	        # self.browser.get("https://www.coursera.org/")
@@ -152,6 +151,7 @@ class scraper(object):
             # self.browser2.capabilities['version'] = "79.0"
             self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
+            self.browser2.save_screenshot("coursera.png")
 
             ################################################################################################
             # self.result = self.browser.find_element_by_xpath(
@@ -229,6 +229,7 @@ class scraper(object):
         try:
             self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
             sleep(10)
+            self.browser.save_screenshot("youtube.png")
             # breakpoint()
             self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
             self.course_instructor = self.browser.find_elements_by_xpath(
@@ -269,7 +270,7 @@ class scraper(object):
         try:
             self.browser.get("https://www.google.com")
             sleep(5)
-
+            self.browser.save_screenshot("blog.png")
             self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
             self.search_input3.send_keys('blogurl:' + f'{topic}')
 
@@ -303,18 +304,22 @@ class scraper(object):
 
 
 def taskUdemy(topic, lockDb, objUdemy):
+    print("call udemy")
     objUdemy.Udemy(topic, lockDb)
 
 
 def taskCoursera(topic, lockDb, objCoursera):
+    print("call coursera")
     objCoursera.coursera(topic, lockDb)
 
 
 def taskYoutube(topic, lockDb, objYoutube):
+    print("call you tube")
     objYoutube.youtube(topic, lockDb)
 
 
 def taskBlogs(topic, lockDb, objBlogs):
+    print("call blog")
     objBlogs.blogs(topic, lockDb)
 
 
@@ -326,30 +331,36 @@ def callScapraping(topic,count):
     lockDb = LockingDb(topic)
     threads = []
     print("start scraping")
-    thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
-    threads.append(thread3)
-    thread3.start()
-    # print("0")
-    thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
-    threads.append(thread1)
-    thread1.start()
-    # print("1")
-    thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
-    threads.append(thread2)
-    thread2.start()
-    thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
-    threads.append(thread3)
-    thread3.start()
+    # thread3 = threading.Thread(target=taskUdemy, args=(topic, lockDb, objUdemy))
+    # threads.append(thread3)
+    # thread3.start()
+    # thread1 = threading.Thread(target=taskCoursera, args=(topic, lockDb, objCoursera))
+    # threads.append(thread1)
+    # thread1.start()
+    # thread2 = threading.Thread(target=taskYoutube, args=(topic, lockDb, objYoutube))
+    # threads.append(thread2)
+    # thread2.start()
+    # thread3 = threading.Thread(target=taskBlogs, args=(topic, lockDb, objBlogs))
+    # threads.append(thread3)
+    # thread3.start()
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.submit(taskUdemy, topic, lockDb, objUdemy)
+        executor.submit(taskCoursera,topic, lockDb, objCoursera)
+        executor.submit(taskYoutube, topic, lockDb, objYoutube)
+        executor.submit(taskBlogs,topic, lockDb, objBlogs)
+        print("done")
+
+
     firebase.database().child('topic').child(topic).child('count').set(count+1)
-    # curr_date = datetime.now()
-    # print("curr_date", curr_date)
-    # firebase.database().child(topic).child('date').set(str(curr_date))
     firebase.database().child('topic').child(topic).child('timestamp').set(int(datetime.timestamp(datetime.now())))
-    for thread in threads:
-        thread.join()
+    # for thread in threads:
+    #     thread.join()
     if firebase.database().child('topic').child(topic).child('udemy').get().val() is None :
         if firebase.database().child('topic').child(topic).child('coursera').get().val() is None:
-            # print("data not present none")
             firebase.database().child('topic').child(topic).remove()
-    # print("3")
+
+
+
+
 

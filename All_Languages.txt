@@ -177,6 +177,7 @@ control language
 cool
 cor
 cow
+cryptography
 crystal
 csh
 csharp
@@ -441,6 +442,10 @@ node
 node js
 nodejs
 nosql
+<<<<<<< HEAD
+=======
+not
+>>>>>>> 292e050d23c7c5aa4bdf5ac5f4176feaf611df57
 novice
 nu
 nwscript
@@ -459,7 +464,9 @@ omgrofl
 ooc
 ook
 opa
+open source
 openlaszlo
+osdc
 oraclesql
 orc
 oz
