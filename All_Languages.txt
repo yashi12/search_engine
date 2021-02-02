@@ -48,6 +48,7 @@ antlang
 apc
 apex
 apl
+app development
 applescript
 arc
 arduino
@@ -94,6 +95,7 @@ assembler vax ultrix
 assembler z80 knightos
 assembler z80 ti83calculator
 assembler z80 zxspectrum
+assembly language
 ats2
 attache
 autohotkey
@@ -141,8 +143,10 @@ burlesque
 byter
 c
 c++
+cpp
 caml
 cardinal
+casandra
 casio basic
 cat
 cbot
@@ -158,7 +162,9 @@ cil
 clean
 clips
 clisp
+clipper
 clojure
+cmd
 cobol
 cobra
 coconut
@@ -171,10 +177,10 @@ control language
 cool
 cor
 cow
-cryptography
 crystal
 csh
 csharp
+c#
 cson
 css
 cuda
@@ -190,7 +196,7 @@ dc
 dcl
 dd dd
 decimal
-delphi
+deep learning
 delphi
 deno
 dis
@@ -211,6 +217,7 @@ dyvil
 ebuild
 ec
 echolisp
+eclipse
 efene
 egl
 eiffel
@@ -226,6 +233,7 @@ enkelt
 eoool
 erlang
 erlang escript
+esolang
 euphoria
 express
 factor
@@ -259,6 +267,7 @@ freebrain
 frink
 fsharp
 fstar
+game development
 gaml
 gammaplex
 gasoil
@@ -272,6 +281,7 @@ gml
 go
 golfscript
 golo
+google
 googleappscript
 gosu
 gosu
@@ -304,6 +314,7 @@ huf
 hy
 hypertalk
 i5
+ibm
 ibm1401
 icedcoffeescript
 ici
@@ -340,6 +351,7 @@ jsoniq
 jsx
 judoscript
 julia
+jupyter
 jython
 k
 karel
@@ -358,6 +370,8 @@ less
 leszek
 limbo
 lingo
+linux
+linux64
 lisaac
 lisp
 livescript
@@ -393,6 +407,7 @@ meq
 mercury
 mern
 mern stack
+microsoft azure
 milkscript
 minecraft
 mips
@@ -426,7 +441,6 @@ node
 node js
 nodejs
 nosql
-not
 novice
 nu
 nwscript
@@ -445,9 +459,7 @@ omgrofl
 ooc
 ook
 opa
-open source
 openlaszlo
-osdc
 oraclesql
 orc
 oz
@@ -500,6 +512,7 @@ purescript
 pyret
 python
 python3
+pytorch
 q
 qbasic
 qcl
@@ -517,6 +530,7 @@ radixal
 raffalang
 ratfor
 react
+react native
 react js
 react360
 reactjs
@@ -529,6 +543,7 @@ recurse
 red
 redis
 refal
+reinforcement learning
 restructuredtext
 retro
 rexx
@@ -555,6 +570,8 @@ scala
 scheme
 schwift
 scilab
+scripting
+scripting language
 scss
 sed
 seed
@@ -605,6 +622,7 @@ tapebagel
 tcl
 tcsh
 telephone
+tensorflow
 terra
 tex
 thp
@@ -656,6 +674,7 @@ whirl
 whitespace
 wikitext
 wml
+wolfram language
 wolframlanguage
 wren
 wsh
