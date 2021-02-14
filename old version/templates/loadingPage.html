@@ -1,0 +1,17 @@
+
+{% extends "index.html" %}
+{% block content %}
+ <div id="demo-content">
+     <header class="entry-header">
+
+         <h1 class="entry-title">{{msg}}</h1>
+     </header>
+     <div id="loader-wrapper">
+         <div id="loader"></div>
+     </div>
+ </div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="../static/javascript/loadingResult.js"></script>
+{% endblock %}
