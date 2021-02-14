@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block content %}
+<section>
+    {% if userNotCreated %}
+    <div class="alert alert-danger">
+        <h2>{{userNotCreated}}</h2></div>
+    {% endif %}
+</section>
+<section class="search-bar">
+
+    <form class="bar" action="/api/signup" role="form" method="post">
+        <div class="form-group">
+            <h1>Register</h1><br>
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required=""
+                   name="email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            {% if missingEmail %}
+            <div class="alert alert-danger">{{missingEmail}}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" required=""
+                   name="password">
+            {% if incorrectPassword %}
+            <div class="alert alert-danger">{{incorrectPassword}}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Confirm Password</label>
+            <input type="password" class="form-control" required=""
+                   name="confirmPassword">
+        </div>
+
+        <span id="confirmMessage" style="color:red"> </span>
+        <button type="submit" class="btn btn-primary">Register</button>
+
+    </form>
+
+</section>
+
+{% endblock content %}

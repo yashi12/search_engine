@@ -1,0 +1,684 @@
+05ab1e
+0815
+1c enterprise
+256
+2b
+420
+4gl
+4test
+4thdimension
+8th
+a++
+abap
+abc
+acidic
+acpi
+acronym
+acs
+actionscript
+actionscript flashmx
+actionscript2
+actionscript3
+ada
+advpl
+aeolbonn
+aeolbonn
+agda
+aheui
+aime
+aiml
+alaguf
+alda
+algae
+algol w
+algol60
+algol68
+alore
+amazon web service
+amazon web services
+amiga e
+amos
+android
+angelscript
+angular
+angular js
+angularjs
+ante
+antlang
+apc
+apex
+apl
+applescript
+arc
+arduino
+arena
+argh
+arnoldc
+artificial intelligence
+asciidots
+ash
+asm2bf
+asp
+aspectj
+assember hp 85
+assembler 6502
+assembler 6502appleii
+assembler 6502c64
+assembler 6809vectrex
+assembler 8048 videopac
+assembler arm
+assembler atari2600
+assembler bootsect
+assembler dcpu16
+assembler fasm dos
+assembler hla
+assembler ibm360
+assembler intel
+assembler lc 3
+assembler m68000 amigaos
+assembler masm dos
+assembler masm win32
+assembler masm win64
+assembler mips
+assembler mmix
+assembler nasm freebsd
+assembler nasm linux
+assembler nasm linux64
+assembler nasm macho64
+assembler nasm win32
+assembler pdp10 midas
+assembler pdp11 palx
+assembler tasm dos
+assembler tms9900 ti99 4a
+assembler vax ultrix
+assembler z80 knightos
+assembler z80 ti83calculator
+assembler z80 zxspectrum
+ats2
+attache
+autohotkey
+autoit
+avisynth
+awful
+awk
+aws
+b
+baik
+ballerina
+bash
+basic
+basic 256
+batch
+batch
+batsh
+battlestar
+bcpl
+beatnik
+beef
+befunge
+bennugd
+beta
+binaryfuck
+birl
+bit
+bitbitjump
+bitsbox
+blackrum
+blc
+blitz3d
+bloop
+blub
+bolgefuck
+boo
+boolfuck
+bosque
+brainfuck
+brainfuck 2d
+brainloller
+broccoli
+brzrk
+burlesque
+byter
+c
+c++
+caml
+cardinal
+casio basic
+cat
+cbot
+cduce
+centura
+ceylon
+cgi
+chapel
+cheddar
+chef
+chicken
+cil
+clean
+clips
+clisp
+clojure
+cobol
+cobra
+coconut
+coffeescript
+coldfusion
+common lisp
+concurnas
+continuesequation
+control language
+cool
+cor
+cow
+crystal
+csh
+csharp
+cson
+css
+cuda
+cuneiform
+curry
+cypherneo4j
+d
+dark
+dart
+data science
+db2
+dc
+dcl
+dd dd
+decimal
+delphi
+delphi
+deno
+dis
+divzeros
+dna sharp
+dna#
+dogescript
+dogo
+dongbei
+dos
+draco
+dreammaker
+drive in window
+dtrace
+dup
+dylan
+dyvil
+ebuild
+ec
+echolisp
+efene
+egl
+eiffel
+elena
+elixir
+elixir
+elm
+emacslisp
+emmental
+emojicode
+emoticon
+enkelt
+eoool
+erlang
+erlang escript
+euphoria
+express
+factor
+factors
+falcon
+false
+fancy
+fantom
+fennel
+ferite
+fetlang
+fim++
+fish
+firebase
+fjoelnir
+flascript
+flask
+flutter
+fob
+focal
+fog.fog
+foo
+forobj
+forth
+fortob
+fortran
+fortran77
+fourier
+fractran++
+freebrain
+frink
+fsharp
+fstar
+gaml
+gammaplex
+gasoil
+gdscript
+gecho
+gentzen
+geojson
+gibberish
+glass
+gml
+go
+golfscript
+golo
+googleappscript
+gosu
+gosu
+graphql
+gravity
+green marl
+gri
+gridscript
+grin
+groovy
+gui4cli
+hack
+haml
+haskell
+haxe
+hello
+hello++
+hex
+hexish
+higher subleq
+hodor
+hollow
+holyc
+homespring
+hop
+hq9+
+html
+hubot
+huf
+hy
+hypertalk
+i5
+ibm1401
+icedcoffeescript
+ici
+icon
+idl
+idris
+il
+incal
+indec
+inform
+ink
+inkling
+intercal
+internet of thing
+internet of things
+io
+ioke
+iot
+irc
+iscom
+islisp
+j
+jade
+jai
+jasmin
+jason
+java
+javascript
+jess
+js
+jsfuck
+json
+jsoniq
+jsx
+judoscript
+julia
+jython
+k
+karel
+kiml
+kipple
+kitten
+koberi c
+kotlin
+ksh
+labyrinth
+lassoscript
+latex
+lazyk
+lcoffee
+less
+leszek
+limbo
+lingo
+lisaac
+lisp
+livescript
+llvm
+lnusp
+locomotive basic
+logicode
+logo
+logtalk
+lola
+lolcode
+lolpython
+lotusscript
+lsl
+lua
+lua grimex
+m4
+machine learning
+maclisp
+macsyma
+magic
+make
+malbolge
+markdown
+mathematica
+mathematica online
+matlab
+maxscript
+mean
+mean stack
+mel
+meq
+mercury
+mern
+mern stack
+milkscript
+minecraft
+mips
+mirc
+mmmm()
+modiscript
+modula 2
+modula 3
+mongo
+mongo db
+monte
+moo
+moonscript
+morsecode
+mouse
+move
+mozart
+muf
+mumps
+mushcode
+myrddin
+mysql
+nadeshiko
+neko
+nemerle
+newtonscript
+nice
+nim
+nit
+node
+node js
+nodejs
+nosql
+not
+novice
+nu
+nwscript
+nxc
+oberon
+oberon 2
+obix
+obj
+object pascal
+objective c
+objective j
+objectstar
+ocaml
+octave
+omgrofl
+ooc
+ook
+opa
+openlaszlo
+oraclesql
+orc
+oz
+parenthetic
+parser
+pascal
+pauscal
+pawn
+pb
+pbwin
+pebble
+perl
+perl
+perl6
+perseus
+pharo
+php
+picat
+piet
+pig
+pikalang
+pike
+pit
+pizza
+plain text
+please porige hot
+pli
+plsql
+pluvo
+polynomial
+pony
+portugol
+postcss
+postgresql
+postscript
+postscript page
+posxml
+potaka
+potigol
+powershell
+processing
+profan
+prolog
+promela
+providex
+pug
+pure data
+purebasic
+purescript
+pyret
+python
+python3
+q
+qbasic
+qcl
+qore
+qsharp
+qu
+quakec
+quartzcomposer
+qugord
+quorum
+qwerty
+r
+racket
+radixal
+raffalang
+ratfor
+react
+react js
+react360
+reactjs
+readlink
+realbasic
+reason
+rebol
+rebol
+recurse
+red
+redis
+refal
+restructuredtext
+retro
+rexx
+richtea
+ride
+ring
+rivescript
+rockstar
+roco
+roy
+rpg
+rpg iv
+rtl2
+ruby
+ruota
+rust
+s algol
+sacred
+sal
+sas
+sass
+sather
+scala
+scheme
+schwift
+scilab
+scss
+sed
+seed
+seed7
+self
+semicolon
+sendstuff
+setanta
+shakespeare
+shell
+shen
+sidekiq
+sil
+simpl+
+simula
+skip
+skript
+slashes
+slim
+smali
+smalltalk
+smalltalk gnu
+smil
+sml
+snowman
+solidity
+soupscript
+sparql
+spoon
+spss
+sql
+squirrel
+standard ml
+stanza
+starlark
+streem
+stuck
+stuck 0byte
+stylus
+subleq
+supercollider
+svelte
+svg
+swift
+systemtap
+tao presentations
+tapebagel
+tcl
+tcsh
+telephone
+terra
+tex
+thp
+thue
+ti hexadecimal
+tibasic
+tk
+tri
+trollscript
+trumpscript
+tsql
+ttcn3
+turing
+turing
+typescript
+ubercode
+ubiquity
+umajin
+unicomal
+unlambda
+v
+v
+vala
+vbnet
+velato
+verbose
+verbosefuck
+verilog
+verve
+vhdl
+vi
+vimscript
+virgil
+visual basic
+visual basic for applications
+visual basic script
+visualfoxpro
+vjass
+vms
+vowels
+vrml
+vue
+web
+web development
+wenyan
+wheat
+whenever
+whirl
+whitespace
+wikitext
+wml
+wolframlanguage
+wren
+wsh
+x d
+xbase
+xbase++
+xl
+xlisp
+xlogo
+xml
+xpl0
+xquery
+xrf
+xslt
+xul
+y
+yaml
+yolang
+yoptascript
+zbd
+zepto
+zetaplex
+zim
+zimbu
+zinc
+zombie
+zonnon
+zsh
+μλ
