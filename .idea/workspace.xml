@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc486479-0793-4b9b-b415-5aa779811bc4" name="Default Changelist" comment="Old version&#10;&#10;- minor1 (backend flask)&#10;- migrate file to old version">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/search_results.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old version/.gitignore" beforeDir="false" />
+    <list default="true" id="dc486479-0793-4b9b-b415-5aa779811bc4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,13 +180,6 @@
       <workItem from="1608799432352" duration="4242000" />
       <workItem from="1610276698035" duration="1531000" />
       <workItem from="1610342221896" duration="87000" />
-    </task>
-    <task id="LOCAL-00032" summary="Fix fbconfig">
-      <created>1607174762307</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1607174762307</updated>
     </task>
     <task id="LOCAL-00033" summary="Remove print">
       <created>1607174785122</created>
@@ -531,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613309192403</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Old version&#10;&#10;- minor1 (backend flask)&#10;- migrate file to old version">
+      <created>1613314513234</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1613314513235</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="ToolWindowManager">
