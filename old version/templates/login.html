@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+{% block content %}
+<section>
+    {% if errorLogging %}
+    <div class="alert alert-danger">
+        <h2>{{errorLogging}}</h2></div>
+    {% endif %}
+</section>
+
+<section class="search-bar">
+
+    <form class="bar" role="form" method="post" action="/api/token">
+        <div class="form-group">
+            <h1>Log In</h1><br>
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required=""
+                   name="email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                   name="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+<!--        <div class="form-group">-->
+<!--            <button onclick="googleSignIn()" type="submit"-->
+<!--                    class="btn btn-primary btn-block">Google sign in-->
+<!--            </button>-->
+<!--        </div>-->
+        <div class="form-group text-center">
+            <small><button type="submit" formaction="/forgotPassword" class="btn btn-link">Forgot
+                password?</button></small>
+        </div>
+    </form>
+
+</section>
+
+{% endblock content %}

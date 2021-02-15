@@ -1,0 +1,101 @@
+{% extends "index.html" %}
+{% block content %}
+<section class="container-fluid" id="Result">
+
+    <h1>Results</h1> <br>
+
+    <h2>Udemy</h2><br>
+    <div class="row">
+        {% for cource in udemy_cources %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="{{cource.course_image}}" class="card-img" alt="Best Ever Content!" class="card-img-top"
+                     alt="...">
+                <!--                <img src="https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ"
+                                     class="card-img" alt="Best Ever Content!" class="card-img-top" alt="...">-->
+                <div class="card-body">
+                    <h5 class="card-title">{{cource.course_title}}</h5>
+                    <p class="card-text">good</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Instructor - {{cource.course_instructor}}</li>
+                    <li class="list-group-item">Rating - {{cource.course_rating}}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{{cource.course_link}}" target="_blank" class="card-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+
+    <br>
+    <h2>Coursera</h2><br>
+    <div class="row">
+        {% for cource in coursera_cources %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="{{cource.course_image}}" class="card-img" alt="Best Ever Content!" class="card-img-top"
+                     alt="...">
+                <!--                <img src="https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ"
+                                     class="card-img" alt="Best Ever Content!" class="card-img-top" alt="...">-->
+                <div class="card-body">
+                    <h5 class="card-title">{{cource.course_title}}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Instructor - {{cource.course_instructor}}</li>
+                    <li class="list-group-item">Rating - {{cource.course_rating}}</li>
+                    <li class="list-group-item">Level - {{cource.course_level}}</li>
+                </ul>
+
+                <div class="card-body">
+                    <a href="{{cource.course_link}}" target="_blank" class="card-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+    <h2>Youtube</h2><br>
+    <div class="row">
+        {% for cource in youtube_cources %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="{{cource.course_image}}" class="card-img" alt="Best Ever Content!" class="card-img-top"
+                     alt="...">
+                <!--                <img src="https://i.ytimg.com/vi/TlB_eWDSMt4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDknTftRw_zmEvsI8lqYBxE0vlKnQ"
+                                     class="card-img" alt="Best Ever Content!" class="card-img-top" alt="...">-->
+                <div class="card-body">
+                    <h5 class="card-title">{{cource.course_title}}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Instructor - {{cource.course_instructor}}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{{cource.course_link}}" target="_blank" class="card-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+    <h2>Blogs</h2><br>
+    <div class="row">
+        {% for blog in blogs %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{blog.blog_title}}</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{{blog.blog_link}}" target="_blank" class="card-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}
