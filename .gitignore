@@ -9,3 +9,7 @@
 /old version/udemy.png
 /old version/youtube.png
 /.idea
+/server/config
+/server/node_modules
+/server/nodemon.json
+/server/.idea
