@@ -130,5 +130,4 @@ module.exports = {
     getAllProfiles: getAllProfiles,
     getUserProfile: getUserProfile,
     deleteProfile: deleteProfile,
-    getGithubProfile:getGithubProfile
 }

@@ -8,7 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
-const apiCoursesRouter = require('./routes/api/courses');
+const apiSkillRouter = require('./routes/api/skill');
 const apiProfileRouter = require('./routes/api/profile');
 
 const connectDB = require('./db');
@@ -34,7 +34,7 @@ app.use('/users', usersRouter);
 app.use('/api/users',apiUserRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/profile',apiProfileRouter);
-app.use('/api/courses',apiCoursesRouter);
+app.use('/api/skill',apiSkillRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
