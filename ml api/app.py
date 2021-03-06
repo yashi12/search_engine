@@ -29,6 +29,8 @@ def result():
     lst = scraper1.callScapraping(topic);
     return {'data': lst}, 200
 
+
+
 port = int(os.environ.get("PORT", 5000))
 
 if __name__ == '__main__':
