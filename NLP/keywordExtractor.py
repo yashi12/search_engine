@@ -106,7 +106,7 @@ def nlp(text):
 #     print("result nlp",result)
 #     return result
 
-def getCloseMatches(one, two, three):
+def getCloseMatches(one, two=[], three=[]):
     d = {
         "mean": "mean stack",
         "mern": "mern stack",
