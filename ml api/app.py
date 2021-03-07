@@ -45,12 +45,12 @@ def prereq():
 
 
 @app.route('/related', methods=['GET', 'POST'])
-def prereq():
+def related():
     query = request.args.get('query')
     topic = keywordExtractor.applyNlp(query)
     print("query", topic)
     relList = PrerequtiesAndRelatedTopicsGraph.loadRelGraph(topic)
-    return {'Related Topic': relList}, 200
+    return {'RelatedTopic': relList}, 200
 
 
 port = int(os.environ.get("PORT", 5000))
