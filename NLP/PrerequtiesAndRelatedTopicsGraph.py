@@ -7,7 +7,7 @@ from NLP import keywordExtractor
 
 languages = []
 
-with open("All_Languages.txt", "r+") as f:
+with open("../NLP/All_Languages.txt", "r+") as f:
     languages = f.read().split("\n")
 
 
@@ -107,7 +107,7 @@ def loadPrereqGraph(topic):
         graph = pickle.load(f)
 
     l = []
-    if graph.neighbors[topic] is not None:
+    if graph.neighbors(topic) is not None:
         for i in graph.neighbors(topic):
             l.append(i)
     return l
@@ -126,5 +126,5 @@ def loadRelGraph(topic):
 
     l.reverse()
     l = {k: v for k, v in l}
-    return l.keys()
+    return list(l.keys())
 
