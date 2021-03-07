@@ -1,17 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from time import *
-import threading
-from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
-from app import *
 import os
-import concurrent.futures
-# from webdriver_manager.chrome import ChromeDriverManager
+from concurrent.futures import ThreadPoolExecutor
+from time import *
 
-
-import json
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 
 
 class scraper(object):
@@ -42,8 +35,20 @@ class scraper(object):
         self.lstUdemy = []
         self.lstCoursera = []
         self.lstYoutube = []
+        self.browser = []
+        self.browser2 = []
+        self.blog_link = []
+        self.blog_title = []
+        self.course_rating = []
+        self.course_title = []
+        self.course_image = []
+        self.course_level = []
+        self.course_instructor = []
+        self.search_input3 = []
+        self.result = []
+        self.course_link = []
 
-    def Udemy(self, topic,listUdemy):
+    def Udemy(self, topic, listUdemy):
 
         print("udemy")
         try:
@@ -55,7 +60,7 @@ class scraper(object):
             self.browser.save_screenshot("udemy.png")
             self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
 
-            if self.result != []:
+            if self.result:
                 self.browser.close()
                 return
 
@@ -69,7 +74,7 @@ class scraper(object):
                 '//img[@class="course-card--course-image--2sjYP browse-course-card--image--35hYN"]')
             self.course_link = self.browser.find_elements_by_xpath(
                 '//a[@class="udlite-custom-focus-visible browse-course-card--link--3KIkQ"]')
-            for i in range(min(3,len(self.course_title))):
+            for i in range(min(3, len(self.course_title))):
                 dictObject = {
                     # "course_title": self.course_title[i].text,
                     # "course_instructor": self.course_instructor[i].text,
@@ -83,7 +88,7 @@ class scraper(object):
                     "link": self.course_link[i].get_attribute('href')
                 }
                 listUdemy.append(dictObject)
-            print('udemy', listUdemy,'length',len(self.course_title))
+            print('udemy', listUdemy, 'length', len(self.course_title))
             self.browser.close()
             return listUdemy
 
@@ -97,16 +102,15 @@ class scraper(object):
             # print("========================================================")
             # self.browser.close()
 
-    def coursera(self, topic,listCoursera):
+    def coursera(self, topic, listCoursera):
         print("coursera")
         try:
             self.options.add_argument("--window-size=400,481")
 
-
-
             # self.browser2 = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             self.browser2 = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
-            self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+            self.browser2.get(
+                f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
             self.browser2.save_screenshot("coursera.png")
 
@@ -118,7 +122,6 @@ class scraper(object):
             self.course_image = self.browser2.find_elements_by_xpath('//div[@class="image-wrapper vertical-box"]//img')
             self.course_link = self.browser2.find_elements_by_xpath('//a[@class="rc-MobileSearchCard"]')
 
-            lst = []
             for i in range(3):
                 dictObject = {
                     # "course_title": self.course_title[i].text,
@@ -131,7 +134,7 @@ class scraper(object):
                     "instructor": self.course_instructor[i].text,
                     "rating": self.course_rating[i].text,
                     "image": self.course_image[i].get_attribute('src'),
-                    "level":self.course_level[i].text,
+                    "level": self.course_level[i].text,
                     "link": self.course_link[i].get_attribute('href'),
 
                 }
@@ -142,7 +145,7 @@ class scraper(object):
             return listCoursera
 
         except Exception as e:
-            print("coursera error",e)
+            print("coursera error", e)
             # print("title",len(self.course_title))
             # print("instructor",len(self.course_instructor))
             # print("rating",len(self.course_rating))
@@ -153,7 +156,7 @@ class scraper(object):
             # self.browser2.close()
             # self.browser.close()
 
-    def youtube(self, topic,listYoutube):
+    def youtube(self, topic, listYoutube):
         self.options.add_argument("--window-size=1920,1080")
         # self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
         self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
@@ -164,20 +167,22 @@ class scraper(object):
             sleep(10)
             self.browser.save_screenshot("youtube.png")
             # breakpoint()
-            self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
+            self.course_title = self.browser.find_elements_by_xpath(
+                '//span[@class="style-scope ytd-playlist-renderer"]')
             self.course_instructor = self.browser.find_elements_by_xpath(
                 '//div[@class="style-scope ytd-playlist-renderer"]/a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]/ytd-video-meta-block[@class="style-scope ytd-playlist-renderer"]/div[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-video-meta-block"]/ytd-channel-name[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-channel-name"]/div[@class="style-scope ytd-channel-name"]/yt-formatted-string[@class="style-scope ytd-channel-name complex-string"]/a[@class="yt-simple-endpoint style-scope yt-formatted-string"]')
-            self.course_image = self.browser.find_elements_by_xpath('//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
+            self.course_image = self.browser.find_elements_by_xpath(
+                '//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
             # for i in range(len(self.course_image)):
             #     print(self.course_image[i].get_attribute('src'))
             self.course_link = self.browser.find_elements_by_xpath(
                 '//a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]')
-            for i in range(min(3,len(self.course_title))):
+            for i in range(min(3, len(self.course_title))):
                 dictObject = {
-                #     "course_title": self.course_title[i].text.encode('unicode-escape').decode('utf-8'),
-                #     "course_instructor": self.course_instructor[i].text,
-                #     "course_image": self.course_image[i].get_attribute('src'),
-                #     "course_link": self.course_link[i].get_attribute('href')
+                    #     "course_title": self.course_title[i].text.encode('unicode-escape').decode('utf-8'),
+                    #     "course_instructor": self.course_instructor[i].text,
+                    #     "course_image": self.course_image[i].get_attribute('src'),
+                    #     "course_link": self.course_link[i].get_attribute('href')
                     "title": self.course_title[i].text.encode('unicode-escape').decode('utf-8'),
                     "instructor": self.course_instructor[i].text,
                     "image": self.course_image[i].get_attribute('src'),
@@ -185,7 +190,7 @@ class scraper(object):
 
                 }
                 listYoutube.append(dictObject)
-            print('youtube', listYoutube,'length',len(self.course_title))
+            print('youtube', listYoutube, 'length', len(self.course_title))
             self.browser.close()
             return listYoutube
             # lockDb.writeToDb('youtube', lst, topic)
@@ -198,7 +203,7 @@ class scraper(object):
             # print("========================================================")
             # self.browser.close()
 
-    def blogs(self, topic,listBlogs):
+    def blogs(self, topic, listBlogs):
         self.options.add_argument("--window-size=1920,1080")
         self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
         # self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
@@ -218,8 +223,7 @@ class scraper(object):
             # self.blog_title_list = []
             # self.blog_link_list = []
             # x=0
-            lst = []
-            for i in range(min(5,len(self.blog_title))):
+            for i in range(min(5, len(self.blog_title))):
                 dictObject = {
                     # "blog_title": self.blog_title[i].text.encode('unicode-escape').decode('utf-8'),
                     # "blog_link": self.blog_link[i].get_attribute('href')
@@ -233,7 +237,7 @@ class scraper(object):
                 if dictObject['title'] is "":
                     dictObject['title'] = topic
                 listBlogs.append(dictObject)
-            print('blogs', listBlogs,'length',len(self.blog_title))
+            print('blogs', listBlogs, 'length', len(self.blog_title))
             self.browser.close()
             return listBlogs
             # lockDb.writeToDb('blogs', lst, topic)
@@ -245,24 +249,24 @@ class scraper(object):
             self.browser.close()
 
 
-def taskUdemy(topic, objUdemy,listUdemy):
+def taskUdemy(topic, objUdemy, listUdemy):
     print("call udemy")
-    objUdemy.Udemy(topic,listUdemy)
+    objUdemy.Udemy(topic, listUdemy)
 
 
-def taskCoursera(topic, objCoursera,listCoursera):
+def taskCoursera(topic, objCoursera, listCoursera):
     print("call coursera")
-    objCoursera.coursera(topic,listCoursera)
+    objCoursera.coursera(topic, listCoursera)
 
 
-def taskYoutube(topic, objYoutube,listYoutube):
+def taskYoutube(topic, objYoutube, listYoutube):
     print("call you tube")
-    objYoutube.youtube(topic,listYoutube)
+    objYoutube.youtube(topic, listYoutube)
 
 
-def taskBlogs(topic, objBlogs,listBlogs):
+def taskBlogs(topic, objBlogs, listBlogs):
     print("call blog")
-    objBlogs.blogs(topic,listBlogs)
+    objBlogs.blogs(topic, listBlogs)
 
 
 def callScapraping(topic):
@@ -271,27 +275,21 @@ def callScapraping(topic):
     objYoutube = scraper()
     objBlogs = scraper()
 
-    lst={}
-    listUdemy=[]
-    listYoutube=[]
-    listCoursera=[]
-    listBlogs=[]
+    lst = {}
+    listUdemy = []
+    listYoutube = []
+    listCoursera = []
+    listBlogs = []
 
-    with ThreadPoolExecutor (max_workers=4) as e:
-        e.submit(taskUdemy,topic,objUdemy,listUdemy)
-        e.submit(taskYoutube,topic,objYoutube,listYoutube)
-        e.submit(taskCoursera,topic,objCoursera,listCoursera)
-        e.submit(taskBlogs,topic,objBlogs,listBlogs)
+    with ThreadPoolExecutor(max_workers=4) as e:
+        e.submit(taskUdemy, topic, objUdemy, listUdemy)
+        e.submit(taskYoutube, topic, objYoutube, listYoutube)
+        e.submit(taskCoursera, topic, objCoursera, listCoursera)
+        e.submit(taskBlogs, topic, objBlogs, listBlogs)
 
-    lst['udemy']=listUdemy
-    lst['youtube']=listYoutube
-    lst['coursera']=listCoursera
-    lst['blogs']=listBlogs
+    lst['udemy'] = listUdemy
+    lst['youtube'] = listYoutube
+    lst['coursera'] = listCoursera
+    lst['blogs'] = listBlogs
 
     return lst
-
-
-
-
-
-
