@@ -82,29 +82,29 @@ def Keyword_EXTRACT(usefull_words):
     one_keyword_extract = []
     for i in range(len(usefull_words)):
         if usefull_words[i].lower() in languages:
-            one_keyword_extract.append(usefull_words[i])
+            one_keyword_extract.append(usefull_words[i].lower())
 
     two_extract_keyword = []
 
     for i in range(len(usefull_words) - 1):
-        if usefull_words[i] + " " + usefull_words[i + 1] in languages:
-            two_extract_keyword.append(usefull_words[i] + " " + usefull_words[i + 1])
-            if usefull_words[i] in one_keyword_extract:
-                one_keyword_extract.remove(usefull_words[i])
-            if usefull_words[i + 1] in one_keyword_extract:
-                one_keyword_extract.remove(usefull_words[i + 1])
+        if usefull_words[i].lower() + " " + usefull_words[i + 1].lower() in languages:
+            two_extract_keyword.append(usefull_words[i].lower() + " " + usefull_words[i + 1].lower())
+            if usefull_words[i].lower() in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[i].lower())
+            if usefull_words[i + 1].lower() in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[i + 1].lower())
 
     three_extract_keyword = []
 
     for i in range(len(usefull_words) - 2):
-        if usefull_words[i] + " " + usefull_words[i + 1] + " " + usefull_words[i + 2] in languages:
-            three_extract_keyword.append(usefull_words[i] + " " + usefull_words[i + 1] + " " + usefull_words[i + 2])
-            if usefull_words[i] in one_keyword_extract:
-                one_keyword_extract.remove(usefull_words[i])
-            if usefull_words[i + 1] in one_keyword_extract:
-                one_keyword_extract.remove(usefull_words[i + 1])
-            if usefull_words[i + 2] in one_keyword_extract:
-                one_keyword_extract.remove(usefull_words[i + 2])
+        if usefull_words[i].lower() + " " + usefull_words[i + 1].lower() + " " + usefull_words[i + 2].lower() in languages:
+            three_extract_keyword.append(usefull_words[i].lower() + " " + usefull_words[i + 1].lower() + " " + usefull_words[i + 2].lower())
+            if usefull_words[i].lower() in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[i].lower())
+            if usefull_words[i + 1].lower() in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[i + 1].lower())
+            if usefull_words[i + 2].lower() in one_keyword_extract:
+                one_keyword_extract.remove(usefull_words[i + 2].lower())
 
     return keywordExtractor.getCloseMatches(one_keyword_extract, two_extract_keyword, three_extract_keyword)
 
@@ -138,4 +138,5 @@ def loadRelGraph(topic):
 
 
 if __name__ == '__main__':
+    createBothGraphAndSave()
     print(loadRelGraph("angular"))
