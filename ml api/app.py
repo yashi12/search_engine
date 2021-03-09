@@ -32,10 +32,18 @@ def result():
     topic = keywordExtractor.applyNlp(query)
     print("query", topic)
     lst = scraper1.callScapraping(topic)
+
+    return {'data': lst}, 200
+
+
+@app.route('/prerel', methods=['GET', 'POST'])
+def result():
+    print("found Topic")
+    topic = request.args.get('query')
     prereqList = PrerequtiesAndRelatedTopicsGraph.loadPrereqGraph(topic)
     relList = PrerequtiesAndRelatedTopicsGraph.loadRelGraph(topic)
 
-    return {'data': lst, 'prerequties': prereqList, 'related': relList}, 200
+    return {'prerequties': prereqList, 'related': relList}, 200
 
 
 port = int(os.environ.get("PORT", 5000))
