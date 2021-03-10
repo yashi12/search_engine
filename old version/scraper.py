@@ -270,7 +270,6 @@ class scraper(object):
         try:
             self.browser.get("https://www.google.com")
             sleep(5)
-            self.browser.save_screenshot("blog.png")
             self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
             self.search_input3.send_keys('blogurl:' + f'{topic}')
 

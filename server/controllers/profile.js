@@ -116,13 +116,68 @@ const deleteProfile = (req, res, next) => {
                     res.json({msg: 'User deleted'});
                 });
         })
-        .catch(err=>{
+        .catch(err => {
             console.log(err.message);
             return res.status(500).send('Server error...');
         });
 };
 
+const addExperience = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
 
+    const {title, company, from, to, current, description} = req.body;
+
+    const newExp = {
+        title:title,
+        company:company,
+        from:from,
+        to:to,
+        current:current,
+        description:description
+    };
+
+    Profile.findOne({user:req.user.id})
+        .then(profile=>{
+            if(!profile)
+                res.status(400).send('Profile not found');
+            else{
+                profile.experience.unshift(newExp);
+                return profile.save();
+            }
+        })
+        .then(profile=>{
+            res.json(profile);
+        })
+        .catch(err=>{
+            console.log(err.message);
+            res.status(500).send('Server Error');
+        })
+};
+
+const deleteExperience = (req,res,next)=>{
+    Profile.findOne({user:req.user.id})
+        .then(profile=>{
+            if(!profile)
+                res.status(400).send('Profile not found');
+            else{
+                const removeIndex = profile.experience.map(item => item._id)
+                    .indexOf(req.params.exp_id);
+
+                profile.experience.splice(removeIndex , 1);
+                return profile.save();
+            }
+        })
+        .then(profile=>{
+            res.json(profile);
+        })
+        .catch(err=>{
+            console.log(err.message);
+            res.status(500).send('Server Error');
+        });
+}
 
 module.exports = {
     getProfile: getProfile,
@@ -130,4 +185,6 @@ module.exports = {
     getAllProfiles: getAllProfiles,
     getUserProfile: getUserProfile,
     deleteProfile: deleteProfile,
+    addExperience: addExperience,
+    deleteExperience:deleteExperience
 }
