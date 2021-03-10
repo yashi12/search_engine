@@ -25,19 +25,24 @@ def userinfo():
     return {'data': users}, 200
 
 
-@app.route('/result', methods=['GET', 'POST'])
-def result():
+@app.route('/query', methods=['GET', 'POST'])
+def query():
     print("found queery")
     query = request.args.get('query')
     topic = keywordExtractor.applyNlp(query)
-    print("query", topic)
+    return {'topic': topic}, 200
+
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+    print("found queery")
+    topic = request.args.get('query')
     lst = scraper1.callScapraping(topic)
 
     return {'data': lst}, 200
 
 
 @app.route('/prerel', methods=['GET', 'POST'])
-def result():
+def prerel():
     print("found Topic")
     topic = request.args.get('query')
     prereqList = PrerequtiesAndRelatedTopicsGraph.loadPrereqGraph(topic)
