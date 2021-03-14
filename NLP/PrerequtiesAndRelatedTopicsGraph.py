@@ -106,25 +106,28 @@ def loadPrereqGraph(topic):
     with open("../NLP/Prerequties Graph.pkl", "rb+") as f:
         graph = pickle.load(f)
 
-    l = []
-    if graph.neighbors(topic) is not None:
+    try:
+        l = []
         for i in graph.neighbors(topic):
             l.append(i)
-    return l
+        return l
+    except:
+        return []
 
 
 def loadRelGraph(topic):
     with open("../NLP/Related Topic Graph.pkl", "rb+") as f:
         graph = pickle.load(f)
-
-    l = {}
-    if graph.neighbors(topic) is not None:
+    try:
+        l = {}
         for i in graph.neighbors(topic):
             l[i] = graph.edges[(topic, i)]['weight']
 
-    l = sorted(l.items(), key=lambda x: x[1])
+        l = sorted(l.items(), key=lambda x: x[1])
 
-    l.reverse()
-    l = {k: v for k, v in l}
-    return list(l.keys())
+        l.reverse()
+        l = {k: v for k, v in l}
+        return list(l.keys())
+    except:
+        return []
 
