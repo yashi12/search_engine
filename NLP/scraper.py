@@ -27,11 +27,9 @@ else:
         "appId": os.environ.get('APP_ID'),
         "measurementId": os.environ.get('MEASUREMENT_ID')
     }
-# firebase = Firebase(json.load(open('./fbconfig.json')))
 firebase = Firebase(config=fbconfig)
 
 ref = firebase.database()
-
 class LockingDb():
     def __init__(self, topic):
         self.lock = threading.Lock()

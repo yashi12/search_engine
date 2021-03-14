@@ -3,7 +3,7 @@ import pickle
 import networkx as nx
 import pandas as pd
 
-from NLP import keywordExtractor
+import keywordExtractor
 
 languages = []
 
@@ -20,7 +20,7 @@ def count(l, x):
 
 
 def createBothGraphAndSave():
-    df = pd.read_csv("DESTO.csv")
+    df = pd.read_csv("../NLP/DESTO.csv")
 
     d = {}
 
