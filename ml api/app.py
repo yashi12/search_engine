@@ -4,7 +4,8 @@ from flask import Flask, request
 
 import scraper1
 
-from NLP import keywordExtractor, PrerequtiesAndRelatedTopicsGraph
+
+import keywordExtractor, PrerequtiesAndRelatedTopicsGraph
 
 app = Flask(__name__)
 users = [
