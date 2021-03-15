@@ -1,15 +1,10 @@
-from datetime import timedelta
-
 from flask import Flask, render_template, url_for, request, session, redirect
-import firebase_admin
 import custompyrebase as pyrebase
 import json
-from firebase_admin import credentials, auth, db
+from firebase_admin import credentials, auth
 from firebase import Firebase
 import threading
 from datetime import datetime
-from validate_email import validate_email
-import dns.resolver
 import os
 import traceback
 
@@ -327,7 +322,7 @@ def result():
             ref1 = firebase_app.database().child('topic')
             if (ref1.child(topic).get().val() is None):
                 print("snap not exist", ref1.child(topic))
-                scraper.callScapraping(topic,count)
+                scraper.callScapraping(topic, count)
 
                 # threading.Thread(target=scraper.callScapraping,args=(topic,count)).start()
                 # threading.Thread(target=scraper.callScapraping(topic)).start()
@@ -339,7 +334,7 @@ def result():
                 days_diff =  datetime.fromtimestamp(int(datetime.timestamp(curr_date))).day - datetime.fromtimestamp(
                     firebase_app.database().child('topic').child(topic).child('timestamp').get().val()).day
                 if days_diff >= 10:
-                    threading.Thread(target=scraper.callScapraping, args=(topic,count)).start()
+                    threading.Thread(target=scraper.callScapraping, args=(topic, count)).start()
                     print("found",days_diff)
                 else:
                     print("not found")
