@@ -15,3 +15,5 @@
 /server/.idea
 /ml api/chromedriver.exe
 /client/node_modules
+/.DS_Store
+/Client/src/components/.DS_Store
