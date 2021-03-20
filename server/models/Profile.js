@@ -21,6 +21,9 @@ const ProfileSchema = new mongoose.Schema({
         },
         twitter:{
             type:String
+        },
+        stackoverflow:{
+            type:String
         }
     },
     date:{

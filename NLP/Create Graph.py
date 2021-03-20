@@ -21,7 +21,7 @@ with open("Similar Words.json","r+") as f:
 
 
 languages = []
-with open("All_Languages.txt","r+") as f:
+with open("All_Languages.txt", "r+") as f:
     languages = f.read().split("\n")
 
 

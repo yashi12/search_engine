@@ -211,14 +211,13 @@ class scraper(object):
         try:
             self.browser.get("https://www.google.com")
             sleep(5)
-            self.browser.save_screenshot("blog.png")
             self.search_input3 = self.browser.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
             self.search_input3.send_keys('blogurl:' + f'{topic}')
 
             self.search_input3.send_keys(Keys.ENTER)
             sleep(5)
 
-            self.blog_title = self.browser.find_elements_by_xpath('//h3[@class="LC20lb DKV0Md"]//span')
+            self.blog_title = self.browser.find_elements_by_xpath('//*[@id="rso"]/div/div/div/div/a/h3')
             self.blog_link = self.browser.find_elements_by_xpath('//div[@class="tF2Cxc"]/div[@class="yuRUbf"]/a')
             # self.blog_title_list = []
             # self.blog_link_list = []

@@ -165,4 +165,7 @@ def applyNlp(query):
         result += x
         result += " "
     result = result[:-1]
-    return result
+    if len(result)!=0:
+        return result
+    else:
+        return query
