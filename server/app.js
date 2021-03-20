@@ -14,6 +14,7 @@ const apiPostRouter = require('./routes/api/posts');
 
 const connectDB = require('./db');
 
+
 const app = express();
 //Connect Database
 connectDB();

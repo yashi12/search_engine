@@ -23,6 +23,11 @@ router.post('/',[auth,[
 // @access Public
 router.get('/',profileController.getAllProfiles);
 
+// @route GET api/profile/filter
+// @desc Get all profiles
+// @access Public
+router.get('/filter',profileController.getProfilesBySkill);
+
 // @route GET api/profile/user/:user_id
 // @desc Get profile by user id
 // @access Public
