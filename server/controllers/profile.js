@@ -82,7 +82,20 @@ const getAllProfiles = (req, res, next) => {
         .catch(err => {
             console.log(err.message);
             return res.status(500).send('Server Error...');
+        });
+
+};
+
+const getProfilesBySkill = (req, res, next) => {
+    const skill = req.body.skills;
+    Profile.find({skills:{ $in: skill }}).populate('user', ['name'])
+        .then(profiles => {
+            res.json(profiles);
         })
+        .catch(err => {
+            console.log(err.message);
+            return res.status(500).send('Server Error...');
+        });
 
 };
 
@@ -183,6 +196,7 @@ module.exports = {
     getProfile: getProfile,
     addProfile: addProfile,
     getAllProfiles: getAllProfiles,
+    getProfilesBySkill:getProfilesBySkill,
     getUserProfile: getUserProfile,
     deleteProfile: deleteProfile,
     addExperience: addExperience,
