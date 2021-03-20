@@ -1,16 +1,10 @@
 const LogIn = () => {
     return (
-        <div>
-            <section>
-                
-                <div className="alert alert-danger">
-                    <h2></h2>
-                </div>
-                
-            </section>
-
+        <div className="row">
+            <div className="col"></div>
+            <div className="col">
+            <br/><br/>
             <section className="search-bar">
-
                 <form className="bar" role="form" method="post" action="/api/token">
                     <div className="form-group">
                         <h1>Log In</h1><br/>
@@ -30,7 +24,9 @@ const LogIn = () => {
                     </div>
                 </form>
 
-            </section>
+                </section>
+            </div>
+            <div className="col"></div>
         </div>
     )
 }
