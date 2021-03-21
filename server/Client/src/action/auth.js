@@ -5,16 +5,17 @@ import {
 } from './types'
 
 // Register User
-export const register = ({email, password}) => async dispatch => {
+export const register = ({name, email, password}) => async dispatch => {
     const config = {
         header: {
             'Content-Type': 'application/json'
         }
     }
 
-    // const body = JSON.stringify( {email, password} )
-    const body = {email,password}
-    // console.log("ui body", body.email);
+    // const body = JSON.stringify( {name, email, password} )
+    const body = {name, email, password}
+    console.log("ui body", body);
+
     try {
         const res = await axios.post('http://localhost:3000/api/users', body, config)
 
@@ -24,9 +25,8 @@ export const register = ({email, password}) => async dispatch => {
         })
     }
     catch(err) {
-        // console.log("error",err);
         const error = err.response.data.error;
-        
+
         if (error){
             error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
         }
