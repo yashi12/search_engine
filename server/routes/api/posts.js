@@ -18,6 +18,11 @@ router.post('/', [auth, [
 // @access Private
 router.get('/', auth, postsController.getAllPosts);
 
+// @route GET api/posts/filter
+// @desc Get all posts by title filter
+// @access Private
+router.get('/filter', auth, postsController.getPostsByTitleFilter);
+
 // @route GET api/posts/:id
 // @desc Get post by ID
 // @access Private

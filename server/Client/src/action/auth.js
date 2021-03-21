@@ -12,10 +12,11 @@ export const register = ({email, password}) => async dispatch => {
         }
     }
 
-    const body = JSON.stringify( {email, password} )
-
+    // const body = JSON.stringify( {email, password} )
+    const body = {email,password}
+    // console.log("ui body", body.email);
     try {
-        const res = await axios.post('/api/user', body, config)
+        const res = await axios.post('http://localhost:3000/api/users', body, config)
 
         dispatch ({
             type: REGISTER_SUCCESS,
@@ -23,6 +24,7 @@ export const register = ({email, password}) => async dispatch => {
         })
     }
     catch(err) {
+        // console.log("error",err);
         const error = err.response.data.error;
         
         if (error){

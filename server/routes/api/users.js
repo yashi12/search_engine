@@ -9,7 +9,7 @@ const userController = require('../../controllers/user');
 // @desc Register user
 // @access Public
 router.post('/', [
-    check('name', 'Name is required').not().isEmpty(),
+    // check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please enter a valid email').isEmail().normalizeEmail(),
     check('password', 'Password should have 6 or more characters').isLength({min: 6}).bail().isAlphanumeric().trim()
 ], userController.postAddUser);

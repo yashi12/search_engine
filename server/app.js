@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+var cors = require('cors');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const apiAuthRouter = require('./routes/api/auth');
@@ -14,7 +16,31 @@ const apiPostRouter = require('./routes/api/posts');
 
 const connectDB = require('./db');
 
+
 const app = express();
+
+// Then use it before your routes are set up:
+app.use( (req, res, next)=> {
+  // Website you wish to allow to connect
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
+
 //Connect Database
 connectDB();
 

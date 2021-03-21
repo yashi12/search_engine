@@ -10,10 +10,14 @@ const User = require('../models/User');
 const postAddUser = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        console.log(errors.array());
+        // return res.status(400).json({errors: errors.array()});
     }
 
-    const {name, email, password} = req.body;
+    console.log("body",req.body);
+    const { email, password} = req.body;
+    console.log("email",req.body.email);
+    console.log("password",req.body.password);
 
     User.findOne({email: email})
         .then(user => {
