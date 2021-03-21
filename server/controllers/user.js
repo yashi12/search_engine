@@ -15,7 +15,7 @@ const postAddUser = (req, res, next) => {
     }
 
     console.log("body",req.body);
-    const { email, password} = req.body;
+    const {name, email, password} = req.body;
     console.log("email",req.body.email);
     console.log("password",req.body.password);
 
