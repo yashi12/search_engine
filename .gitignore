@@ -16,4 +16,3 @@
 /ml api/chromedriver.exe
 /server/Client/node_modules
 /.DS_Store
-/Client/src/components/.DS_Store
