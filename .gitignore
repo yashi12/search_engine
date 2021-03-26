@@ -14,3 +14,4 @@
 /server/nodemon.json
 /server/.idea
 /ml api/chromedriver.exe
+/Client/node_modules
