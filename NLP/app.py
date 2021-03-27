@@ -10,11 +10,12 @@ import traceback
 
 import scraper
 import keywordExtractor
-fbconfig={}
+
+fbconfig = {}
 fbAdminConfig = {}
 
-if os.path.exists("./fbconfig.json"): # local development
-	fbconfig = json.load(open('./fbconfig.json'))
+if os.path.exists("./fbconfig.json"):  # local development
+    fbconfig = json.load(open('./fbconfig.json'))
 else:
     fbconfig = {
         "apiKey": os.environ.get('API_KEY'),
@@ -27,10 +28,11 @@ else:
         "measurementId": os.environ.get('MEASUREMENT_ID')
     }
 
-if os.path.exists("./fbAdminConfig.json"): # local development
+if os.path.exists("./fbAdminConfig.json"):  # local development
     fbAdminConfig = json.load(open('./fbAdminConfig.json'))
 else:
     import pprint
+
     pprint.pprint(os.environ)
     fbAdminConfig = {
         "type": os.environ.get('TYPE'),
@@ -44,7 +46,6 @@ else:
         "auth_provider_x509_cert_url": os.environ.get('AUTH_PROVIDER_X509_CERT_URL'),
         "client_x509_cert_url": os.environ.get('CLIENT_X509_CERT_URL')
     }
-
 
 firebase_app = Firebase(config=fbconfig)
 app = Flask(__name__)
@@ -90,7 +91,7 @@ def findTop3():
     topSillsTitle = top3.get().val().keys()
 
     for skill in topSillsTitle:
-        print("skill",skill)
+        print("skill", skill)
         topSkills = {
             "skill_count": firebase_app.database().child('topic').child(skill).child('count').get().val(),
             "skill_name": skill,
@@ -107,6 +108,7 @@ def findTop3():
     # except:
     #     print("error")
 
+
 def checkTop3(lst):
     if pb.database().child('topSkills').get().val() is not None:
         for skill in pb.database().child('topSkills').get().val():
@@ -115,6 +117,7 @@ def checkTop3(lst):
     if pb.database().child('topic').get().val() is not None:
         print("finding")
         threading.Thread(target=findTop3).start()
+
 
 # Main page
 @app.route('/', methods=['GET', 'POST'])
@@ -129,10 +132,10 @@ def mainPage():
     if 'idToken' in session:
         idToken = session['idToken']
         user = pb.auth().get_account_info(id_token=idToken)
-        return render_template('searchBar.html', userLogin=True, topSkills=lst,skillOfWeek=True)
+        return render_template('searchBar.html', userLogin=True, topSkills=lst, skillOfWeek=True)
         # before the 1 hour expiry:
         user = auth.refresh(user['refreshToken'])
-    return render_template('searchBar.html', topSkills=lst,skillOfWeek=True)
+    return render_template('searchBar.html', topSkills=lst, skillOfWeek=True)
     # return render_template('skillOfWeek.html')
 
 
@@ -143,10 +146,10 @@ def signup():
     password = request.form['password']
     confirmPassword = request.form['confirmPassword']
     if email is None or password is None:
-        return render_template('register.html',missingEmail = "Please enter valid mail")
+        return render_template('register.html', missingEmail="Please enter valid mail")
         # return {'message': 'Error missing email or password'}, 400
     if password != confirmPassword:
-        return render_template('register.html',incorrectPassword = "Incorrect Password")
+        return render_template('register.html', incorrectPassword="Incorrect Password")
         # return {'message': 'Password do not match'}, 400
     try:
         user = auth.create_user_with_email_and_password(email, password)
@@ -154,7 +157,7 @@ def signup():
         auth.send_email_verification(user['idToken'])
         return render_template('login.html')
     except:
-        return render_template('register.html',userNotCreated = "Please try again!!")
+        return render_template('register.html', userNotCreated="Please try again!!")
         # return {'message': 'Error creating user'}, 400
 
 
@@ -204,9 +207,11 @@ def token():
 def login():
     return render_template('login.html', title='Login')
 
+
 @app.route('/contact')
 def contact():
     return render_template('contactUs.html', title='Contact')
+
 
 @app.route('/register')
 def register():
@@ -305,6 +310,7 @@ def fetchResultFromDb(topic):
     return render_template('result.html', udemy_cources=udemy_cources, coursera_cources=coursera_cources,
                            youtube_cources=youtube_cources, blogs=blogs)
 
+
 @app.route('/result', methods=['GET', 'POST'])
 def result():
     print("found queery")
@@ -316,7 +322,7 @@ def result():
             result = keywordExtractor.applyNlp(topic)
             if result != "":
                 topic = result
-            count=0
+            count = 0
             topic.lower()
             print("query", topic)
             ref1 = firebase_app.database().child('topic')
@@ -331,26 +337,27 @@ def result():
                 count = firebase_app.database().child('topic').child(topic).child('count').get().val()
                 firebase_app.database().child('topic').child(topic).child('count').set(count + 1)
                 curr_date = datetime.now()
-                days_diff =  datetime.fromtimestamp(int(datetime.timestamp(curr_date))).day - datetime.fromtimestamp(
+                days_diff = datetime.fromtimestamp(int(datetime.timestamp(curr_date))).day - datetime.fromtimestamp(
                     firebase_app.database().child('topic').child(topic).child('timestamp').get().val()).day
                 if days_diff >= 10:
                     threading.Thread(target=scraper.callScapraping, args=(topic, count)).start()
-                    print("found",days_diff)
+                    print("found", days_diff)
                 else:
                     print("not found")
 
             print("snap exist", ref1.child(topic))
             if (firebase_app.database().child('topic').child(topic).get().val() is None):
                 msg = "OOPS! your results could not be found, PLease try again :)"
-                return render_template('notFound.html',msg=msg)
+                return render_template('notFound.html', msg=msg)
             return fetchResultFromDb(topic)
         except Exception as e:
-            print("error",e)
+            print("error", e)
             traceback.print_exc()
             msg = "OOPS! your results could not be found"
-            return render_template('notFound.html',msg=msg)
+            return render_template('notFound.html', msg=msg)
     else:
         return redirect(url_for('login'))
+
 
 port = int(os.environ.get("PORT", 5000))
 

@@ -67,12 +67,13 @@ def intersection(x, y, topic):
 @app.route('/next-route', methods=['GET', 'POST'])
 def nextRoute():
     # topics = request.args.get('query')
-    topics = ['Android', 'Java', 'Kotlin']
+    topics = ['javascript', 'html', 'css']
     for i in range(len(topics)):
         topics[i] = topics[i].lower()
     relList = []
     for topic in topics:
-        relList.append(PrerequtiesAndRelatedTopicsGraph.loadRelGraph(topic))
+        relList.append(PrerequtiesAndRelatedTopicsGraph.loadReverseRelGraph(topic))
+    print(relList)
     output = []
     for i in range(0, len(topics)):
         for j in range(i + 1, len(topics)):
