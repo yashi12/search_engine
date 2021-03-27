@@ -4,6 +4,13 @@ const crypto = require('crypto');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+
+const CLIENT_ID = config.get('CLIENT_ID');
+const CLIENT_SECRET = config.get('CLIENT_SECRET');
+const REDIRECT_URI = config.get('REDIRECT_URI');
+const REFRESH_TOKEN = config.get('REFRESH_TOKEN');
 
 const User = require('../models/User');
 
@@ -30,6 +37,38 @@ const postAddUser = (req, res, next) => {
                     const user = new User({
                         name, email, password: hashedPassword
                     });
+                    const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI);
+                    oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN});
+                    const sendMail = async ()=>{
+                        try {
+                            const accessToken = await oAuth2Client.getAccessToken();
+                            const transport = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    type: 'OAuth2',
+                                    user: 'yashiagarwal1812@gmail.com',
+                                    clientId :CLIENT_ID,
+                                    clientSecret: CLIENT_SECRET,
+                                    refreshToken: REFRESH_TOKEN,
+                                    accessToken: accessToken
+                                }
+                            });
+                            console.log("email user",email);
+                            const mailOptions = {
+                                from: 'CONNECT DEV  <yashiagarwal1812@gmail.com>',
+                                to: email,
+                                subject: "Verify your mail",
+                                text: "In order to continue need to verify email",
+                                html: '<h1>In order to continue need to verify email</h1>'
+                            };
+                            return await transport.sendMail(mailOptions);
+                        }catch (err) {
+                            return err;
+                        }
+                    };
+                    sendMail()
+                        .then(result=> console.log('Email sent...', result))
+                        .catch(err=>console.log(err.message));
                     return user.save();
                 })
                 .then(user => {
