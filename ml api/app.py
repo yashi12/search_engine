@@ -52,6 +52,37 @@ def prerel():
     return {'prerequties': prereqList, 'related': relList}, 200
 
 
+def intersection(x, y, topic):
+    l = []
+    for i in x:
+        if i in y and i not in topic and i not in l:
+            l.append(i)
+
+    for j in y:
+        if j in x and j not in topic and i not in l:
+            l.append(j)
+    return l
+
+
+@app.route('/next-route', methods=['GET', 'POST'])
+def nextRoute():
+    # topics = request.args.get('query')
+    topics = ['Android', 'Java', 'Kotlin']
+    for i in range(len(topics)):
+        topics[i] = topics[i].lower()
+    relList = []
+    for topic in topics:
+        relList.append(PrerequtiesAndRelatedTopicsGraph.loadRelGraph(topic))
+    output = []
+    for i in range(0, len(topics)):
+        for j in range(i + 1, len(topics)):
+            output.extend(intersection(relList[i], relList[j], topics))
+
+    output = set(output)
+
+    return {'New Skills To Achive': list(output)}, 200
+
+
 port = int(os.environ.get("PORT", 5000))
 
 if __name__ == '__main__':
