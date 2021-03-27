@@ -13,9 +13,10 @@ import concurrent.futures
 import json
 
 from firebase import Firebase
-fbconfig={}
-if os.path.exists("./fbconfig.json"): # local development
-	fbconfig = json.load(open('./fbconfig.json'))
+
+fbconfig = {}
+if os.path.exists("./fbconfig.json"):  # local development
+    fbconfig = json.load(open('./fbconfig.json'))
 else:
     fbconfig = {
         "apiKey": os.environ.get('API_KEY'),
@@ -30,6 +31,8 @@ else:
 firebase = Firebase(config=fbconfig)
 
 ref = firebase.database()
+
+
 class LockingDb():
     def __init__(self, topic):
         self.lock = threading.Lock()
@@ -112,7 +115,7 @@ class scraper(object):
             self.course_link = self.browser.find_elements_by_xpath(
                 '//a[@class="udlite-custom-focus-visible browse-course-card--link--3KIkQ"]')
             lst = []
-            for i in range(min(3,len(self.course_title))):
+            for i in range(min(3, len(self.course_title))):
                 dictObject = {
                     "course_title": self.course_title[i].text,
                     "course_instructor": self.course_instructor[i].text,
@@ -122,7 +125,7 @@ class scraper(object):
                 }
                 # print("dictobj", dictObject)
                 lst.append(dictObject)
-            print('udemy', lst,'length',len(self.course_title))
+            print('udemy', lst, 'length', len(self.course_title))
             self.browser.close()
             lockDb.writeToDb('udemy', lst, topic)
         except Exception as e:
@@ -142,12 +145,11 @@ class scraper(object):
         try:
             self.options.add_argument("--window-size=400,481")
 
-
-
             self.browser2 = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             # self.browser2 = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
             # self.browser2.capabilities['version'] = "79.0"
-            self.browser2.get(f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
+            self.browser2.get(
+                f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
             self.browser2.save_screenshot("coursera.png")
 
@@ -161,7 +163,6 @@ class scraper(object):
             #     print(self.result)
             #     self.browser.close()
             #     return
-
 
             self.course_title = self.browser2.find_elements_by_xpath(
                 '//h2[@class="color-primary-text card-title headline-1-text"]')
@@ -192,7 +193,7 @@ class scraper(object):
                     "course_instructor": self.course_instructor[i].text,
                     "course_rating": self.course_rating[i].text,
                     "course_image": self.course_image[i].get_attribute('src'),
-                    "course_level":self.course_level[i].text,
+                    "course_level": self.course_level[i].text,
                     "course_link": self.course_link[i].get_attribute('href'),
                     # "course_link": ""
                 }
@@ -201,19 +202,19 @@ class scraper(object):
                 # self.lstCoursera.append(dictObject)
                 lst.append(dictObject)
 
-            print('coursera', lst,'length',len(self.course_title))
+            print('coursera', lst, 'length', len(self.course_title))
             self.browser2.close()
             # self.browser.close()
             lockDb.writeToDb('coursera', lst, topic)
 
         except Exception as e:
-            print("coursera error",e)
-            print("title",len(self.course_title))
-            print("instructor",len(self.course_instructor))
-            print("rating",len(self.course_rating))
-            print("level",len(self.course_level))
-            print("img",len(self.course_image))
-            print("link",len(self.course_link))
+            print("coursera error", e)
+            print("title", len(self.course_title))
+            print("instructor", len(self.course_instructor))
+            print("rating", len(self.course_rating))
+            print("level", len(self.course_level))
+            print("img", len(self.course_image))
+            print("link", len(self.course_link))
             print("========================================================")
             self.browser2.close()
             # self.browser.close()
@@ -229,17 +230,19 @@ class scraper(object):
             sleep(10)
             self.browser.save_screenshot("youtube.png")
             # breakpoint()
-            self.course_title = self.browser.find_elements_by_xpath('//span[@class="style-scope ytd-playlist-renderer"]')
+            self.course_title = self.browser.find_elements_by_xpath(
+                '//span[@class="style-scope ytd-playlist-renderer"]')
             self.course_instructor = self.browser.find_elements_by_xpath(
                 '//div[@class="style-scope ytd-playlist-renderer"]/a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]/ytd-video-meta-block[@class="style-scope ytd-playlist-renderer"]/div[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-video-meta-block"]/ytd-channel-name[@class="style-scope ytd-video-meta-block"]/div[@class="style-scope ytd-channel-name"]/div[@class="style-scope ytd-channel-name"]/yt-formatted-string[@class="style-scope ytd-channel-name complex-string"]/a[@class="yt-simple-endpoint style-scope yt-formatted-string"]')
-            self.course_image = self.browser.find_elements_by_xpath('//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
+            self.course_image = self.browser.find_elements_by_xpath(
+                '//a[@class="yt-simple-endpoint style-scope ytd-playlist-thumbnail"]/div[@class="style-scope ytd-playlist-thumbnail"]/ytd-playlist-video-thumbnail-renderer[@class="style-scope ytd-playlist-thumbnail"]/yt-img-shadow[@class="style-scope ytd-playlist-video-thumbnail-renderer no-transition"]/img[@class="style-scope yt-img-shadow"]')
             # for i in range(len(self.course_image)):
             #     print(self.course_image[i].get_attribute('src'))
             self.course_link = self.browser.find_elements_by_xpath(
                 '//a[@class="yt-simple-endpoint style-scope ytd-playlist-renderer"]')
 
             lst = []
-            for i in range(min(3,len(self.course_title))):
+            for i in range(min(3, len(self.course_title))):
                 dictObject = {
                     "course_title": self.course_title[i].text.encode('unicode-escape').decode('utf-8'),
                     "course_instructor": self.course_instructor[i].text,
@@ -247,7 +250,7 @@ class scraper(object):
                     "course_link": self.course_link[i].get_attribute('href')
                 }
                 lst.append(dictObject)
-            print('youtube', lst,'length',len(self.course_title))
+            print('youtube', lst, 'length', len(self.course_title))
             self.browser.close()
             lockDb.writeToDb('youtube', lst, topic)
         except Exception as e:
@@ -280,7 +283,7 @@ class scraper(object):
             # self.blog_link_list = []
             # x=0
             lst = []
-            for i in range(min(5,len(self.blog_title))):
+            for i in range(min(5, len(self.blog_title))):
                 dictObject = {
                     "blog_title": self.blog_title[i].text.encode('unicode-escape').decode('utf-8'),
                     "blog_link": self.blog_link[i].get_attribute('href')
@@ -289,7 +292,7 @@ class scraper(object):
                 if dictObject['blog_title'] is "":
                     dictObject['blog_title'] = topic
                 lst.append(dictObject)
-            print('blogs', lst,'length',len(self.blog_title))
+            print('blogs', lst, 'length', len(self.blog_title))
             self.browser.close()
             lockDb.writeToDb('blogs', lst, topic)
         except Exception as e:
@@ -320,7 +323,7 @@ def taskBlogs(topic, lockDb, objBlogs):
     objBlogs.blogs(topic, lockDb)
 
 
-def callScapraping(topic,count):
+def callScapraping(topic, count):
     objUdemy = scraper()
     objCoursera = scraper()
     objYoutube = scraper()
@@ -343,21 +346,15 @@ def callScapraping(topic,count):
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.submit(taskUdemy, topic, lockDb, objUdemy)
-        executor.submit(taskCoursera,topic, lockDb, objCoursera)
+        executor.submit(taskCoursera, topic, lockDb, objCoursera)
         executor.submit(taskYoutube, topic, lockDb, objYoutube)
-        executor.submit(taskBlogs,topic, lockDb, objBlogs)
+        executor.submit(taskBlogs, topic, lockDb, objBlogs)
         print("done")
 
-
-    firebase.database().child('topic').child(topic).child('count').set(count+1)
+    firebase.database().child('topic').child(topic).child('count').set(count + 1)
     firebase.database().child('topic').child(topic).child('timestamp').set(int(datetime.timestamp(datetime.now())))
     # for thread in threads:
     #     thread.join()
-    if firebase.database().child('topic').child(topic).child('udemy').get().val() is None :
+    if firebase.database().child('topic').child(topic).child('udemy').get().val() is None:
         if firebase.database().child('topic').child(topic).child('coursera').get().val() is None:
             firebase.database().child('topic').child(topic).remove()
-
-
-
-
-
