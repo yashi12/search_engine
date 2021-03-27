@@ -15,6 +15,10 @@ const PostSchema = new Schema({
         required: true,
         validate: [arrayLimit, '{PATH} exceeds the limit of 2']
     },
+    likeCount:{
+        type: Number,
+        default: 0
+    },
     likes: [
         {
             user: {
