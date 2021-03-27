@@ -233,7 +233,7 @@ class scraper(object):
                 # x = x+3
                 # if dictObject['blog_title'] is "":
                 #     dictObject['blog_title'] = topic
-                if dictObject['title'] is "":
+                if dictObject['title'] == "":
                     dictObject['title'] = topic
                 listBlogs.append(dictObject)
             print('blogs', listBlogs, 'length', len(self.blog_title))
