@@ -131,3 +131,19 @@ def loadRelGraph(topic):
     except:
         return []
 
+def loadReverseRelGraph(topic):
+    with open("../NLP/Related Topic Graph.pkl", "rb+") as f:
+        graph = pickle.load(f)
+    try:
+        graph = nx.DiGraph.reverse(graph)
+        l = {}
+        for i in graph.neighbors(topic):
+            l[i] = graph.edges[(topic, i)]['weight']
+
+        l = sorted(l.items(), key=lambda x: x[1])
+
+        l.reverse()
+        l = {k: v for k, v in l}
+        return list(l.keys())
+    except:
+        return []
