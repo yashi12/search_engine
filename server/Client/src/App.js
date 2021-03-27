@@ -7,22 +7,24 @@ import LogIn from './components/LogIn'
 import Learn from './components/SearchBar'
 import Register from './components/Register'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import React , { Fragment } from 'react'
+import React , { Fragment, useEffect } from 'react'
 // Redux
 import { Provider } from 'react-redux'
 import store from './components/Store'
 import Alert from './components/Alert'
+import { loadUser } from './action/auth'
+import setAuthToken from './utils/setAuthToken'
+
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 function App() {
 
-  let details = {
-    'Github':'abc',
-    'Linked In':'hell',
-    'twitter':'yoy',
-    'bio':'none',
-    'skills':'python',
-    'experience':'5'
-  }
+  useEffect(()=>{
+    store.dispatch(loadUser())
+  }, [])
 
   return (
     <Provider store={store}>
