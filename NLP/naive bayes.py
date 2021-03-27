@@ -20,7 +20,7 @@ tokenizer = RegexpTokenizer('\w+')
 ps = PorterStemmer()
 stopwords = []
 
-with open('All_Languages.txt' ,'r+',encoding='utf-8') as f:
+with open('All_Languages.txt', 'r+', encoding='utf-8') as f:
     l = f.readlines()
 new_l  =[]
 for i in l:
@@ -66,7 +66,7 @@ def StopWordRemoval(allwords):
 def StemmingAndLemmatizing(usefull_words):
     ps = PorterStemmer()
     
-    with open("All_Languages.txt","r+",encoding='utf-8') as f:
+    with open("All_Languages.txt", "r+", encoding='utf-8') as f:
         languages = f.read()
         
     keyword_extract = []

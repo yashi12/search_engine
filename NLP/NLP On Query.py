@@ -42,7 +42,7 @@ def StemmingAndLemmatizing(usefull_words):
     ls = LancasterStemmer()
     wl = WordNetLemmatizer()
     l=[]
-    with open('All_Languages.txt' ,'r+',encoding='utf-8') as f:
+    with open('All_Languages.txt', 'r+', encoding='utf-8') as f:
         l = f.readlines()
 
     new_l  =[]
@@ -173,7 +173,7 @@ embedding_matrix_train.shape
 # In[63]:
 
 
-with open('All_Languages.txt' ,'r+',encoding='utf-8') as f:
+with open('All_Languages.txt', 'r+', encoding='utf-8') as f:
     l = f.readlines()
 new_l  =[]
 for i in l:
