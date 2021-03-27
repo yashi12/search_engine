@@ -73,7 +73,7 @@ def nextRoute():
     relList = []
     for topic in topics:
         relList.append(PrerequtiesAndRelatedTopicsGraph.loadReverseRelGraph(topic))
-    print(relList)
+
     output = []
     for i in range(0, len(topics)):
         for j in range(i + 1, len(topics)):
