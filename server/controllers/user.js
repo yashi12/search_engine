@@ -4,8 +4,47 @@ const crypto = require('crypto');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
 
 const User = require('../models/User');
+
+const sendMail = async (userId,userEmail,task)=>{
+    try {
+        const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI);
+        oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN});
+        const accessToken = await oAuth2Client.getAccessToken();
+        const transport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: 'yashiagarwal1812@gmail.com',
+                clientId :CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken
+            }
+        });
+        const url = `http://localhost:3000/${task}/${userId}`;
+        console.log("email user",userEmail);
+        const mailOptions = {
+            from: 'CONNECT DEV  <yashiagarwal1812@gmail.com>',
+            to: userEmail,
+            subject: "Verify your mail",
+            text: 'Confirm Your Email!',
+            html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
+        };
+        return await transport.sendMail(mailOptions);
+    }catch (err) {
+        return err;
+    }
+};
 
 const postAddUser = (req, res, next) => {
     const errors = validationResult(req);
@@ -33,6 +72,11 @@ const postAddUser = (req, res, next) => {
                     return user.save();
                 })
                 .then(user => {
+                    let task = "emailConfirmation";
+                    sendMail(user._id,user.email,task)
+                        .then(result=> console.log('Email sent...', result))
+                        .catch(err=>console.log(err.message));
+
                     const payload = {
                         user: {
                             id: user._id
