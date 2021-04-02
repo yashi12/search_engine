@@ -56,7 +56,7 @@ const addSkill =  async (req, res, next) => {
     const fetchRespQuery = await fetch(apiUrlQuery);
     const jsonQuery = await fetchRespQuery.json();
     const topic = jsonQuery.topic;
-
+    console.log("fetch query",topic);
     const finalResult = {
         "data":{},
         "prerequisites":{},
