@@ -11,7 +11,6 @@
 /.idea
 /server/config
 /server/node_modules
-/server/nodemon.json
 /server/.idea
 /ml api/chromedriver.exe
 /server/Client/node_modules
