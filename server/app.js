@@ -8,8 +8,6 @@ const multer = require('multer');
 
 var cors = require('cors');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
 const apiSkillRouter = require('./routes/api/skill');
@@ -42,11 +40,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(multer({storage}).single('image'));
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('server/Client'))
+}
+
 
 //Define Routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 app.use('/api/users',apiUserRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/profile',apiProfileRouter);
