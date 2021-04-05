@@ -1,9 +1,21 @@
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getCurrentProfile } from '../action/profile'
+import { Fragment, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import Spinner from '../components/spinner'
 
-const AccountDetails = () => {
+
+const Profile = ({getCurrentProfile,
+     auth: { user }, 
+     profile:{profile, loading}}) => {
+
+    useEffect(() => {
+        getCurrentProfile()
+    }, [])
 
     let details = {
-        'Github':'abc',
+        'Github':user.name,
         'Linked In':'hell',
         'twitter':'yoy',
         'bio':'none',
@@ -11,7 +23,7 @@ const AccountDetails = () => {
         'experience':'5'
       }
 
-    return (
+    return loading && profile === null ? <Spinner />:(<Fragment>
         <div>
             <div class="row">
                 <div class="col-3"></div>
@@ -59,8 +71,19 @@ const AccountDetails = () => {
             </div>
             
         </div>
-        
-    )
+    </Fragment>)
+    
 }
 
-export default AccountDetails
+Profile.prototype = {
+    getCurrentProfile: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    profile: state.profile
+})
+
+export default connect(mapStateToProps, { getCurrentProfile })(Profile)

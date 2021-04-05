@@ -18,3 +18,7 @@
 /Client/src/components/.DS_Store
 /ml api/.env
 /server/.env
+
+/server/.DS_Store
+/server/Client/.DS_Store
+/server/Client/src/.DS_Store
