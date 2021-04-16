@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getPosts } from '../action/post'
-import LoadingPage from '../components/LoadingPage'
+import Spinner from './Spinner'
 
 const Posts = ({ getPosts, post: {posts, loading} }) => {
 
@@ -10,7 +10,7 @@ const Posts = ({ getPosts, post: {posts, loading} }) => {
         getPosts()
     }, [getPosts])
 
-    return ( loading ? <LoadingPage /> :
+    return ( loading ? <Spinner /> :
     <div>
         <div className="row">
             <br/>
