@@ -1,16 +1,11 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getPosts } from '../action/post'
-import LoadingPage from '../components/LoadingPage'
+import { addLike, removeLike } from '../action/post'
 
-const Posts = ({ getPosts, post: {posts, loading} }) => {
+const Posts = ({ addLike, removeLike,auth , post: {_id, text, name, user, like} }) => {
 
-    useEffect(() => {
-        getPosts()
-    }, [getPosts])
-
-    return ( loading ? <LoadingPage /> :
+    return ( 
     <div>
         <div className="row">
             <br/>
@@ -34,7 +29,7 @@ const Posts = ({ getPosts, post: {posts, loading} }) => {
                         <div class="col-9"></div>
                         <div class="col-3">
                             <div class="card-body">
-                                <button type="button" class="btn btn-primary">
+                                <button onClick={e => addLike(_id)} type="button" class="btn btn-primary">
                                 Like <span class="badge bg-secondary">9</span>
                                 </button>
                             </div>
@@ -50,12 +45,14 @@ const Posts = ({ getPosts, post: {posts, loading} }) => {
 }
 
 Posts.propTypes = {
-    getPosts: PropTypes.func.isRequired,
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    addLike: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    post: state.post
+    auth: state.auth
 })
 
-export default connect(mapStateToProps, {getPosts})(Posts)
+export default connect(mapStateToProps, {addLike, removeLike})(Posts)
