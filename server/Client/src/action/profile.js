@@ -15,8 +15,9 @@ import {
 
 export const getCurrentProfile = () => async dispatch => {
     try {
-        const res = await axios.get('/api/profile/me')
-
+        console.log("enter get profile")
+        const res = await axios.get('http://localhost:3000/api/profile/me')
+        console.log("res",res)
         dispatch ({
             type: GET_PROFILE,
             payload: res.data
