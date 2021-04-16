@@ -5,7 +5,6 @@ import { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '../components/spinner'
 
-
 const Profile = ({getCurrentProfile,
      auth: { user }, 
      profile:{profile, loading}}) => {
@@ -15,7 +14,7 @@ const Profile = ({getCurrentProfile,
     }, [])
 
     let details = {
-        'Github':user.name,
+        'Github':'',
         'Linked In':'hell',
         'twitter':'yoy',
         'bio':'none',
