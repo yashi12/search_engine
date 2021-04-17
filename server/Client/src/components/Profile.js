@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { getCurrentProfile } from '../action/profile'
 import { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Spinner from '../components/spinner'
+import Spinner from './Spinner'
+import auth from "../reducers/auth";
 
 const Profile = ({getCurrentProfile,
      auth: { user }, 
@@ -22,7 +23,7 @@ const Profile = ({getCurrentProfile,
         'experience':'5'
       }
 
-    return loading && profile === null ? <Spinner />:(<Fragment>
+    return (loading && profile === null ? <Spinner />:(<Fragment>
         <div>
             <div class="row">
                 <div class="col-3"></div>
@@ -70,7 +71,7 @@ const Profile = ({getCurrentProfile,
             </div>
             
         </div>
-    </Fragment>)
+    </Fragment>))
     
 }
 

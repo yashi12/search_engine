@@ -40,7 +40,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                 <br/><br/>
                 <section className="search-bar">
 
-                    <form className="bar" action="/api/signup" onSubmit={e => onSubmit(e)} role="form" method="post">
+                    <form className="bar"  onSubmit={e => onSubmit(e)} role="form" method="post">
                         <div className="form-group">
                             <h1>Register</h1><br/>
                             <label for="exampleInputEmail1">Email address</label>
