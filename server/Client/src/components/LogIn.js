@@ -32,7 +32,7 @@ const LogIn = ({ login, isAuthenticated }) => {
             <div className="col">
             <br/><br/>
             <section className="search-bar">
-                <form className="bar" role="form" method="post" action="/api/token" onSubmit={e => onSubmit(e)}>
+                <form className="bar" role="form" method="post" onSubmit={e => onSubmit(e)}>
                     <div className="form-group">
                         <h1>Log In</h1><br/>
                         <label for="exampleInputEmail1">Email address</label>

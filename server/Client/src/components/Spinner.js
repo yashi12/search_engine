@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LoadingPage = props => {
+const Spinner = props => {
     return (
         <div>
             <div class="spinner-border" role="status">
@@ -10,8 +10,8 @@ const LoadingPage = props => {
     )
 }
 
-LoadingPage.propTypes = {
+Spinner.propTypes = {
 
 }
 
-export default LoadingPage
+export default Spinner
