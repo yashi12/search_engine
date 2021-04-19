@@ -7,7 +7,7 @@ import { Fragment } from 'react'
 const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
     const authLinks = (
-        <ul className="navbar-nav mr-auto ">
+        <ul className="navbar navbar-nav mr-auto navbar-expand-lg">
             <li className="nav-item active">
                 <Link className="nav-link" to="/feed">Feed</Link>
             </li>
@@ -19,11 +19,11 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
-                <a onClick={logout} >Log Out</a>
+                <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form className="d-flex">
+                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
         </ul>
     )
