@@ -19,13 +19,13 @@ const AddExperience = ({ addExperience, history }) => {
 
     const { company, designation, start, end, current } = formData
 
-    const onChange = e = setFormData({...formData}, [e.target.id]= e.target.value)
+    const onChange = e => setFormData({...formData}, [e.target.id]= e.target.value)
 
     return (
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-                <br/><br/>
+                <br/>
                 <div class="card">
                     <div class="card-body">
                         <form onSubmit={e => {
@@ -33,23 +33,25 @@ const AddExperience = ({ addExperience, history }) => {
                             addExperience(formData, history)
                         }}>
                             <div class="form-group">
+                                <h2>Add Experience</h2>
                                 <label>Company</label>
-                                <input onChange={e => onChange(e)} type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company"></input>
+                                <input onChange={e => onChange(e)} type="text" class="form-control"  id="Company"></input>
                                 <br/>
                                 <label>Designation</label>
-                                <input onChange={e => onChange(e)} type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Designation"></input>
+                                <input onChange={e => onChange(e)} type="text" class="form-control"  id="Designation"></input>
                                 <br/>
                                 <label>Current Job</label>
-                                <input type="checkbox" class="form-control" checked={current} id="current" onChange={e => {
+                                <br />
+                                <input type="checkbox" class="" checked={current} id="current" onChange={e => {
                                     setFormData({...formData, current: !current})
                                     toggleDisabled(!toDateDisabled)
                                 }} />
                                 <br/>
                                 <label >Start</label>
-                                <input onChange={e => onChange(e)} type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Start Year"></input>
+                                <input onChange={e => onChange(e)} type="date" class="form-control"  id="start"></input>
                                 <br/>
                                 <label >End</label>
-                                <input onChange={e => onChange(e)} type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="End Year" disabled={toDateDisabled ? 'disabled':''}></input>
+                                <input onChange={e => onChange(e)} type="date" class="form-control"  id="end" disabled={toDateDisabled ? 'disabled':''}></input>
                                 <br/>
                                 
                                 <button type="submit" class="btn btn-primary">Add</button>

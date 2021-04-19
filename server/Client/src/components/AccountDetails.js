@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { createProfile } from '../action/profile'
 import { Link, withRouter } from 'react-router-dom'
 
-
 const AccountDetails = ({ createProfile, history }) => {
 
     const [formData, setFormData] = useState({
