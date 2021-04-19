@@ -6,7 +6,9 @@ import Feed from './components/Feed'
 import LogIn from './components/LogIn'
 import Learn from './components/SearchBar'
 import Register from './components/Register'
+import AddPost from './components/AddPost'
 import PrivateRoute from './components/route/PrivateRoute'
+import AddExperience from './components/AddExperience'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 
@@ -16,6 +18,7 @@ import store from './components/Store'
 import Alert from './components/Alert'
 import { loadUser } from './action/auth'
 import setAuthToken from './utils/setAuthToken'
+import { addExperience } from './action/profile'
 
 
 if (localStorage.token) {
@@ -43,6 +46,8 @@ function App() {
               <Route exact path="/login" component={LogIn}/>
               <Route exact path="/register" component={Register}/>
               <PrivateRoute exact path="/profile" component={Profile}/>
+              <Route exact path="/addPost" component={AddPost}/>
+              <Route exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>
         </Fragment>
