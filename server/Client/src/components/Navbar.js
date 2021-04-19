@@ -19,6 +19,9 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/addPost">Add Post</Link>
+            </li>
+            <li className="nav-item active">
                 <a onClick={logout} >Log Out</a>
             </li>
             <form class="d-flex">
