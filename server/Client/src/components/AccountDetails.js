@@ -30,8 +30,11 @@ const AccountDetails = ({ createProfile, history }) => {
                     <form onSubmit={e => onSubmit(e)}>
                         <br/><br/>
                         <div class="row">
-                            <button type="button" onClick={()=>toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
+                            <button type="button" class="btn btn-primary" onClick={()=>toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
+                        </div>
+                        <div className="row">
                             { displaySocialInputs &&( <div>
+                                <br />
                                 <div class="col">
                                     <label>Github</label>
                                     <input type="text" class="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)}></input>
@@ -41,14 +44,13 @@ const AccountDetails = ({ createProfile, history }) => {
                                     <input type="text" class="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)}></input>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="col">
                                     <label>Twitter</label>
                                     <input type="text" class="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)}></input>
                                 </div>
-                            </div>)
-                            }
-
+                                </div>)}
                         </div>
+                        <br />
                         <div class="form-group">
                             <label >Bio</label>
                             <textarea name="bio" class="form-control" rows="5" maxLength="200" onChange={e => onChange(e)}></textarea>
@@ -57,6 +59,7 @@ const AccountDetails = ({ createProfile, history }) => {
                             <label >Skills</label>
                             <input type="text" class="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)}></input>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

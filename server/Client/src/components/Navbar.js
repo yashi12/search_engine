@@ -22,16 +22,19 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/addPost">Add Post</Link>
             </li>
             <li className="nav-item active">
-                <a onClick={logout} >Log Out</a>
+                <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/searchPost">Search Post</Link>
+            </li>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/searchProfile">Search Profile</Link>
+            </li>
         </ul>
     )
 
     const guestLinks = (
+        <div>
         <ul className="navbar-nav mr-auto ">
             <li className="nav-item active">
                 <Link className="nav-link" to="/register">Register</Link>
@@ -40,6 +43,7 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/login">Log In</Link>
             </li>
         </ul>
+      </div>
     )
 
     return (
