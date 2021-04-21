@@ -35,7 +35,7 @@ const Posts = ({ addLike, deletePost ,auth , post: {_id, text,user, userName, li
                             { !auth.loading && user === auth.user._id && (
                                 <div class="card-body">
                                 <button onClick={e => deletePost(_id)} type="button" class="btn btn-primary">
-                                Delete Post <span class="badge bg-secondary"></span>
+                                Delete Post <span class="badge bg-danger"></span>
                                 </button>
                                 </div>
                             )}
