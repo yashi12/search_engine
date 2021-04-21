@@ -6,6 +6,10 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
+    userName:{
+        type: String,
+        default: "Anonymous"
+    },
     text: {
         type: String,
         required: true
