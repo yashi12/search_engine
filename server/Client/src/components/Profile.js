@@ -13,15 +13,8 @@ const Profile = ({getCurrentProfile,
     useEffect(() => {
         getCurrentProfile()
     }, [])
-
-    let details = {
-        'Github':'',
-        'Linked In':'hell',
-        'twitter':'yoy',
-        'bio':'none',
-        'skills':'python',
-        'experience':'5'
-      }
+    console.log("profile",profile);
+    // const {githubusername, linkedIn, twitter, bio, skills} = profile;
 
     return (loading && profile === null ? <Spinner />:(<Fragment>
         <div>
@@ -33,29 +26,29 @@ const Profile = ({getCurrentProfile,
                     <div class="row">
                         <div class="col">
                             <h5>Github</h5>
-                            <p>{details['Github']}</p>
+                            {/*<p>{githubusername}</p>*/}
                         </div>
                         <div class="col">
                             <h5>Linked In</h5>
-                            <p>{details['Linked In']}</p>
+                            {/*<p>{linkedIn}</p>*/}
                         </div>
                         
                         <div class="form-group">
                             <h5>Twitter</h5>
-                            <p>{details['twitter']}</p>
+                            {/*<p>{twitter}</p>*/}
                         </div>
                     </div>
                     <div class="form-group">
                         <h5 >Bio</h5>
-                        <p>{details['bio']}</p>
+                        {/*<p>{bio}</p>*/}
                     </div>
                     <div class="form-group">
                         <h5 >Skills</h5>
-                        <p>{details['skills']}</p>
+                        {/*<p>{skills}</p>*/}
                     </div>
                     <div class="form-group">
                         <h5 >Experience</h5>
-                        <p>{details['experience']}</p>
+                        <p>yet to be added</p>
                     </div>
                     <div className="row">
                         

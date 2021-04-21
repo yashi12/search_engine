@@ -29,20 +29,18 @@ const addProfile = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-    const {loaction, bio, status, skills, githubusername, linkedIn, twitter} = req.body;
+    const { bio, skills, githubusername, linkedIn, twitter} = req.body;
 
     //Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
-    if (loaction) profileFields.location = loaction;
     if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
         profileFields.skills = skills.split(',').map(skill => skill.trim().toLowerCase());
     }
     //Build social object
     profileFields.social = {};
+    if (githubusername) profileFields.social.githubusername = githubusername;
     if (linkedIn) profileFields.social.linkedIn = linkedIn;
     if (twitter) profileFields.social.twitter = twitter;
 
