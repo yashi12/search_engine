@@ -13,9 +13,6 @@ const Feeds = ({ getPosts, post: { posts } }) => {
     return (
         <Fragment>
             <h1 className="large text-primary">Posts</h1>
-            <p className="lead">
-                <i className="fas fa-user" /> Welcome to the community
-            </p>
             <div >
                 {posts.map((post) => (
                     <Posts key={post._id} post={post} />

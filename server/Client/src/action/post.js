@@ -6,7 +6,8 @@ import {
     POST_ERROR,
     UPDATE_LIKES,
     DELETE_POST,
-    ADD_POST
+    ADD_POST,
+    SEARCH_POST
 } from './types'
 
 // Get Posts
@@ -17,6 +18,26 @@ export const getPosts = () => async dispatch => {
 
         dispatch({
             type: GET_POSTS,
+            payload: res.data
+        })
+
+    } catch (err) {
+        dispatch({
+            type: POST_ERROR,
+            payload: {msg: err.response,
+            status: err.response}
+        })
+    }
+}
+
+// Search Post
+export const searchPosts = (topic) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:3000/api/${topic}`)
+        console.log("res posts ui", res);
+
+        dispatch({
+            type: SEARCH_POST,
             payload: res.data
         })
 

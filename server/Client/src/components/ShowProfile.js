@@ -7,7 +7,7 @@ import Spinner from './Spinner'
 import auth from "../reducers/auth";
 import ProfileExperience from '../components/ProfileExperience'
 
-const Profile = ({getCurrentProfile,
+const ShowProfile = ({getCurrentProfile,
      auth: { user }, 
      profile:{profile, loading}}) => {
 
@@ -64,12 +64,11 @@ const Profile = ({getCurrentProfile,
                     </div>
                     <div className="row">
                         
-                        <div className="col">
-                        <Link to='/update'><button type="button" class="btn btn-primary">Update Profile</button></Link>
-                        </div>
+                        
                         <div className="col">
                             <Link to='/addExperience'><button className="btn btn-primary">Add Experience</button></Link>
                         </div>
+                        <div className="col"></div>
                     </div>
 
 
@@ -82,7 +81,7 @@ const Profile = ({getCurrentProfile,
     
 }
 
-Profile.prototype = {
+ShowProfile.prototype = {
     getCurrentProfile: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired
@@ -93,4 +92,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 })
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile)
+export default connect(mapStateToProps, { getCurrentProfile })(ShowProfile)
