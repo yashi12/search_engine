@@ -39,14 +39,14 @@ function App() {
           <Route exact path="/" component={Profile}/>
           <section className="container-fluid">
             <Route exact path="/learn" component={Learn}/>
-            <Route exact path="/update" component={AccountDetails}/>
+            <PrivateRoute exact path="/update" component={AccountDetails}/>
             <Route exact path="/feed" component={Feed}/>
             <Alert />
             <Switch>
               <Route exact path="/login" component={LogIn}/>
               <Route exact path="/register" component={Register}/>
               <PrivateRoute exact path="/profile" component={Profile}/>
-              <Route exact path="/addPost" component={AddPost}/>
+              <PrivateRoute exact path="/addPost" component={AddPost}/>
               <Route exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>

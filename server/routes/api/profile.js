@@ -14,8 +14,7 @@ router.get('/me',auth,profileController.getProfile);
 // @desc Create and update user profile
 // @access Private
 router.post('/',[auth,[
-    check('status','Status is required').not().isEmpty(),
-    check('skills','Skills is required').not().isEmpty()
+    check('skills','Skill is required').not().isEmpty(),
 ]],profileController.addProfile);
 
 // @route GET api/profile/

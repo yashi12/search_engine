@@ -29,28 +29,54 @@ const addPost = async (req, res, next) => {
         else if (req.body.title.length > 5)
             res.status(404).send('Max 5 titles...');
         else {
-            const file = req.file.originalname.split(".");
-            const fileType = file[file.length - 1];
-            const currDate = new Date().toISOString();
-            const params = {
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: `${currDate}.${fileType}`,
-                Body: req.file.buffer,
-                ContentType: 'file'
-            };
-            s3.upload(params, async (error, data) => {
-                if (error) {
-                    res.status(500).send(error);
-                }
-                const newPost = new Post({
-                    text: req.body.text,
-                    title: req.body.title,
-                    user: req.user.id,
-                    image: data.Location
-                });
-                const post =await newPost.save();
-                res.json(post);
+            // if(req.file){
+            //     const file = req.file.originalname.split(".");
+            //     const fileType = file[file.length - 1];
+            //     const currDate = new Date().toISOString();
+            //     const params = {
+            //         Bucket: process.env.AWS_BUCKET_NAME,
+            //         Key: `${currDate}.${fileType}`,
+            //         Body: req.file.buffer,
+            //         ContentType: 'file'
+            //     };
+            //     s3.upload(params, async (error, data) => {
+            //         console.log("data",data);
+            //         if (error) {
+            //             res.status(500).send(error);
+            //         }
+            //         const newPost = new Post({
+            //             text: req.body.text,
+            //             title: req.body.title,
+            //             user: req.user.id,
+            //             image: data.Location,
+            //             userName: req.user.name
+            //         });
+            //         const post =await newPost.save();
+            //         res.json(post);
+            //     });
+            // }
+            // else {
+            //     // If image not found
+            // }
+            //extra code----------------------------------
+            let userName = await User.findById(req.user.id)
+                .then(user =>{
+                    return user.name
+                })
+                .catch(err=>{
+                    console.log(err.message);
+                    res.status(500).send('Server Error...');
+                })
+            const newPost = new Post({
+                text: req.body.text,
+                title: req.body.title,
+                user: req.user.id,
+                userName: userName
             });
+            const post =await newPost.save();
+            res.json(post);
+            // -----------------------------------------------------
+
         }
     }
     catch (err){

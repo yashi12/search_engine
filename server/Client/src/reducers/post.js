@@ -7,15 +7,16 @@ import {
 } from '../action/types'
 
 const initialState = {
-    post: [],
+    posts: [],
     post: null,
     loading: true,
     error: {}
+
 }
 
 export default function(state = initialState, action){
     const { type, payload} = action
-
+    console.log("current state ui",state.posts )
     switch( type){
         case GET_POSTS:
             return {
@@ -24,6 +25,7 @@ export default function(state = initialState, action){
                 loading: false
             }
         case ADD_POST:
+            console.log("posts", state);
             return {
                 ...state,
                 posts: [payload, ...state.posts],
@@ -44,10 +46,10 @@ export default function(state = initialState, action){
         case UPDATE_LIKES:
             return {
                 ...state,
-                posts: state.post.map(post => post._id === payload.id ? { ...post,likes: payload.likes } :post),
+                posts: state.posts.map(post => post._id === payload.id ? { ...post,likes: payload.likes } :post),
                 loading: false 
             }
         default:
-            return { state }
+            return state
     }
 }

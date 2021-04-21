@@ -1,34 +1,37 @@
-import React, {useEffect, Fragment} from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getPosts } from '../action/post'
-import Spinner from './Spinner'
-import Posts from './Posts'
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Posts from './Posts';
+import { getPosts } from '../action/post';
 
-const Feed = ({ getPosts, post: {posts, loading} }) => {
-
+const Feeds = ({ getPosts, post: { posts } }) => {
     useEffect(() => {
-        getPosts()
-    }, [getPosts])
+        getPosts();
+        console.log("call get post");
+    }, []);
 
-    return ( loading ? <Spinner /> :
-    <Fragment>
-        {
-            posts.map(post => (
-                <Posts key={post._id} post={post} />
-            ))
-        }
-    </Fragment>
-    )
-}
+    return (
+        <Fragment>
+            <h1 className="large text-primary">Posts</h1>
+            <p className="lead">
+                <i className="fas fa-user" /> Welcome to the community
+            </p>
+            <div >
+                {posts.map((post) => (
+                    <Posts key={post._id} post={post} />
+                ))}
+            </div>
+        </Fragment>
+    );
+};
 
 Posts.propTypes = {
     getPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
     post: state.post
-})
+});
 
-export default connect(mapStateToProps, {getPosts})(Feed)
+export default connect(mapStateToProps, { getPosts })(Feeds);

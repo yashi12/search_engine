@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addLike, removeLike, deletePost } from '../action/post'
+import { addLike, deletePost } from '../action/post'
 
-const Posts = ({ addLike, removeLike, deletePost ,auth , post: {_id, text, name, user, like} }) => {
+const Posts = ({ addLike, deletePost ,auth , post: {_id, text,user, userName, likeCount} }) => {
 
     return ( 
     <div>
@@ -20,7 +20,7 @@ const Posts = ({ addLike, removeLike, deletePost ,auth , post: {_id, text, name,
                     <div class="col-md-8">
                         <div class="row g-0">
                             <div class="card-body">
-                                <h5 class="card-title">{name}</h5>
+                                <h5 class="card-title">{userName}</h5>
                                 <p class="card-text">{text}</p>  
                             </div>
                         </div>
@@ -29,12 +29,7 @@ const Posts = ({ addLike, removeLike, deletePost ,auth , post: {_id, text, name,
                         <div class="col-3">
                             <div class="card-body">
                                 <button onClick={e => addLike(_id)} type="button" class="btn btn-primary">
-                                Like <span class="badge bg-secondary">{like.length}</span>
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <button onClick={e => removeLike(_id)} type="button" class="btn btn-primary">
-                                Unlike <span class="badge bg-secondary">{like.length}</span>
+                                Like <span class="badge bg-secondary">{likeCount}</span>
                                 </button>
                             </div>
                             { !auth.loading && user === auth.user._id && (
@@ -60,7 +55,6 @@ Posts.propTypes = {
     post: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     addLike: PropTypes.func.isRequired,
-    removeLike: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired
 }
 
@@ -68,4 +62,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {addLike, removeLike, deletePost})(Posts)
+export default connect(mapStateToProps, {addLike, deletePost})(Posts)

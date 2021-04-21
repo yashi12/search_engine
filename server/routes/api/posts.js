@@ -10,7 +10,7 @@ const auth = require('../../middleware/auth');
 // @access Private
 router.post('/', [auth, [
     check('text', 'Text is required').not().isEmpty(),
-    check('title', 'Minimum 1 & maximum 5 Titles are required').not().isEmpty().bail().isArray({min: 1, max: 5}),
+    check('title', 'Minimum 1 & maximum 5 Titles are required').isArray({min: 1, max: 5})
 ]], postsController.addPost);
 
 // @route GET api/posts

@@ -12,9 +12,6 @@ const ProfileSchema = new mongoose.Schema({
     bio:{
         type:String
     },
-    githubusername:{
-        type:String
-    },
     social:{
         linkedIn:{
             type:String
@@ -22,7 +19,7 @@ const ProfileSchema = new mongoose.Schema({
         twitter:{
             type:String
         },
-        stackoverflow:{
+        githubusername:{
             type:String
         }
     },
