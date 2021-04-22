@@ -8,7 +8,7 @@ import {
     ACCOUNT_DELETED,
     GET_PROFILES,
     CLEAR_PROFILE,
-    CLEAR_PROFILES
+    CLEAR_PROFILES, SEARCH_PROFILE
 } from './types'
 
 // Get current user
@@ -39,7 +39,7 @@ export const getProfiles = () => async dispatch => {
         type: CLEAR_PROFILES
     })
     try {
-        const res = await axios.get('/api/profile')
+        const res = await axios.get('http://localhost:3000/api/profile')
 
         dispatch({
             type: GET_PROFILES,
@@ -56,14 +56,38 @@ export const getProfiles = () => async dispatch => {
     }
 }
 
+// Get profiles by skill filter
+export const getProfilesBySkill = skill => async dispatch => {
+    console.log("skill in action", skill);
+    try {
+        const res = await axios.get(`
+http://localhost:3000/api/profile/filter/${skill}`)
+
+        console.log("res",res.data);
+        dispatch({
+            type: SEARCH_PROFILE,
+            payload: res.data
+        })
+    } catch (err) {
+        console.log("err profile filter",err);
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status
+            }
+        })
+    }
+}
+
 // Get profile by ID
 
 export const getProfileById = userId => async dispatch => {
     try {
-        const res = await axios.get(`/api/profile/${userId}`)
+        const res = await axios.get(`http://localhost:3000/api/profile/user/${userId}`)
 
         dispatch({
-            type: GET_PROFILES,
+            type: SEARCH_PROFILE,
             payload: res.data
         })
     } catch (err) {

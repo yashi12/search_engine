@@ -18,7 +18,7 @@ class scraper(object):
         # self.chromedriver = "./chromedriver.exe"
         self.options = Options()
         self.options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
         # self.options.add_argument("--window-size=1920,1080")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--disable-extensions")
@@ -53,11 +53,10 @@ class scraper(object):
         print("udemy")
         try:
             self.options.add_argument("--window-size=1920,1080")
-            # self.browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
+            # self.browser = webdriver.Chrome(executable_   path=os.environ.get("CHROMEDRIVER_PATH"), options=self.options)
             self.browser = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
             self.browser.get(f"https://www.udemy.com/courses/search/?lang=en&q=+{topic}+&sort=relevance&src=ukw")
             sleep(5)
-            self.browser.save_screenshot("udemy.png")
             self.result = self.browser.find_elements_by_xpath('//h1[@class="udlite-heading-xl"]')
 
             if self.result:
@@ -112,7 +111,6 @@ class scraper(object):
             self.browser2.get(
                 f"https://www.coursera.org/search?query=+{topic}+&index=prod_all_products_term_optimization&allLanguages=English")
             sleep(5)
-            self.browser2.save_screenshot("coursera.png")
 
             self.course_title = self.browser2.find_elements_by_xpath(
                 '//h2[@class="color-primary-text card-title headline-1-text"]')
@@ -165,7 +163,6 @@ class scraper(object):
         try:
             self.browser.get(f"https://www.youtube.com/results?search_query=playlist+{topic}")
             sleep(10)
-            self.browser.save_screenshot("youtube.png")
             # breakpoint()
             self.course_title = self.browser.find_elements_by_xpath(
                 '//span[@class="style-scope ytd-playlist-renderer"]')
