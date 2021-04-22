@@ -11,13 +11,14 @@ const initialState = {
     posts: [],
     post: null,
     loading: true,
-    error: {}
+    error: {},
+    searchPostArr: []
 
 }
 
 export default function(state = initialState, action){
     const { type, payload} = action
-    console.log("current state ui",state.posts )
+    console.log("current state ui payload",payload)
     switch( type){
         case GET_POSTS:
             return {
@@ -47,7 +48,7 @@ export default function(state = initialState, action){
         case SEARCH_POST:
             return {
                 ...state,
-                error: payload,
+                searchPostArr: payload,
                 loading: false
             }
         case UPDATE_LIKES:

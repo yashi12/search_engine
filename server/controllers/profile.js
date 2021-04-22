@@ -84,9 +84,18 @@ const getAllProfiles = (req, res, next) => {
 
 };
 
-const getProfilesBySkill = (req, res, next) => {
-    const skill = req.body.skills;
-    Profile.find({skills:{ $in: skill }}).populate('user', ['name'])
+const getProfilesBySkill = (req, res, next) =>{
+
+    // const skill = req.body.skills;
+    const skill = req.params.skill;
+    let newSkill=[];
+    const title = skill.split(',');
+    title.map(tag=>{
+        tag=tag.toString().trim();
+        tag=tag.toString().toLowerCase();
+        newSkill.push(tag);
+    });
+    Profile.find({skills:{ $in: newSkill }}).populate('user', ['name'])
         .then(profiles => {
             res.json(profiles);
         })
