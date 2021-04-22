@@ -32,20 +32,27 @@ export const getPosts = () => async dispatch => {
 
 // Search Post
 export const searchPosts = (topic) => async dispatch => {
+    console.log("search post")
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    const tags = topic.title.split(',')
+    const body = {title:tags}
     try {
-        const res = await axios.get(`http://localhost:3000/api/${topic}`)
-        console.log("res posts ui", res);
-
+        console.log( "text body",body);
+        const res = await axios.get('http://localhost:3000/api/posts/filter', body, config)
+        console.log("result filter",res)
         dispatch({
             type: SEARCH_POST,
             payload: res.data
         })
 
     } catch (err) {
+        console.log("error add post dispatch",err);
         dispatch({
             type: POST_ERROR,
             payload: {msg: err.response,
-            status: err.response}
+                status: err.response}
         })
     }
 }

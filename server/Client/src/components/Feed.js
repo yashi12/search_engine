@@ -8,7 +8,7 @@ const Feeds = ({ getPosts, post: { posts } }) => {
     useEffect(() => {
         getPosts();
         console.log("call get post");
-    }, []);
+    }, [getPosts]);
 
     return (
         <Fragment>
@@ -27,7 +27,7 @@ Posts.propTypes = {
     post: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     post: state.post
 });
 
