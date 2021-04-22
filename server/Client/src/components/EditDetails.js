@@ -6,6 +6,14 @@ import { Link, withRouter } from 'react-router-dom'
 import profile from '../reducers/profile'
 import { loadUser } from '../action/auth'
 
+const initialState = {
+    company: '',
+    skills: '',
+    githubusername: '',
+    bio: '',
+    twitter: '',
+    linkedIn: ''
+};
 
 const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProfile, history }) => {
 
@@ -14,19 +22,42 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
         linked_in:'',
         twitter:'',
         bio:'',
-        skills:'',
-        experience:''
+        skills:''
     })
 
     const [displaySocialInputs, toggleSocialInputs] = useState(false)
 
     useEffect( () =>{
-        getCurrentProfile()
-        
-        setFormData({
-            Github: loading || !profile.github ? '' : profile.github
-        })
-    }, [loading])
+        if (!profile) getCurrentProfile();
+        if (!loading && profile) {
+            const profileData = { ...initialState };
+            for (const key in profile) {
+                if (key in profileData) profileData[key] = profile[key];
+            }
+            for (const key in profile.social) {
+                if (key in profileData) profileData[key] = profile.social[key];
+            }
+            if (Array.isArray(profileData.skills))
+                profileData.skills = profileData.skills.join(', ');
+            setFormData(profileData);
+        }
+    }, [loading, getCurrentProfile, profile]);
+
+    const {
+        company,
+        skills,
+        githubusername,
+        bio,
+        twitter,
+        linkedIn
+    } = formData;
+
+    //     getCurrentProfile()
+    //
+    //     setFormData({
+    //         Github: loading || !profile.github ? '' : profile.github
+    //     })
+    // }, [loading])
 
     const onChange = e => setFormData(...formData, [e.target.id]= e.target.value)
 
@@ -47,7 +78,7 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
                             { displaySocialInputs && <div>
                                 <div class="col">
                                     <label>Github</label>
-                                    <input onChange={e => onChange(e)} type="text" class="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                                    <input onChange={e => onChange(e)} type="text" class="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}></input>
                                 </div>
                                 <div class="col">
                                     <label>Linked In</label>

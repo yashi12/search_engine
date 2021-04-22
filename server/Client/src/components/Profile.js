@@ -8,8 +8,8 @@ import auth from "../reducers/auth";
 import ProfileExperience from '../components/ProfileExperience'
 
 const Profile = ({getCurrentProfile,
-     auth: { user }, 
-     profile:{profile, loading}}) => {
+                     auth: { user },
+                     profile:{profile, loading}}) => {
 
     useEffect(() => {
         getCurrentProfile()
@@ -22,50 +22,65 @@ const Profile = ({getCurrentProfile,
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6 ">
-                    
+
                     <br/><br/>
                     <div class="row">
                         <div class="col">
                             <h5>Github</h5>
-                            {/*<p>{profile.social.githubusername}</p>*/}
+                            <p>{profile["social"].githubusername}</p>
                         </div>
                         <div class="col">
                             <h5>Linked In</h5>
-                            {/*<p>{profile.social.linkedIn}</p>*/}
+                            <p>{profile["social"].linkedIn}</p>
                         </div>
-                        
+
                         <div class="form-group">
                             <h5>Twitter</h5>
-                            {/*<p>{profile.social.twitter}</p>*/}
+                            <p>{profile["social"].twitter}</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <h5 >Bio</h5>
-                        {/*<p>{profile.bio}</p>*/}
+                        <p>{profile["bio"]}</p>
                     </div>
                     <div class="form-group">
                         <h5 >Skills</h5>
-                        {/*<p>{skills}</p>*/}
+                        {profile["skills"].map((skill)=>(
+                            <li >
+                                <i className="fas fa-check"></i> {skill}
+                            </li>
+                        ))}
                     </div>
                     <div class="form-group">
                         <h5 >Experience</h5>
-                        {profile.experience.length > 0 ? (
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Company</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>
+                                <th scope="col">Current</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        {profile["experience"].length> 0 ? (
                             <Fragment>
-                            {profile.experience.map((experience) => (
-                                <ProfileExperience
-                                key={experience._id}
-                                experience={experience}
-                                />
-                            ))}
+                                {profile["experience"].map((experience) => (
+                                    <ProfileExperience
+                                        key={experience._id}
+                                        experience={experience}
+                                    />
+                                ))}
                             </Fragment>
                         ) : (
                             <h4>No experience credentials</h4>
                         )}
                     </div>
                     <div className="row">
-                        
+
                         <div className="col">
-                        <Link to='/update'><button type="button" class="btn btn-primary">Update Profile</button></Link>
+                            <Link to='/update'><button type="button" class="btn btn-primary">Update Profile</button></Link>
                         </div>
                         <div className="col">
                             <Link to='/addExperience'><button className="btn btn-primary">Add Experience</button></Link>
@@ -74,12 +89,12 @@ const Profile = ({getCurrentProfile,
 
 
                 </div>
-                
+
             </div>
-            
+
         </div>
     </Fragment>))
-    
+
 }
 
 Profile.prototype = {
