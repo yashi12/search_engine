@@ -2,27 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const ProfileExperience = ({
-    experience: { company, title, to, from }
-  }) => {
+                               experience: { company, title, to, from, current }
+                           }) => {
     return (
         <div>
             <table class="table">
-            <thead>
+                <tbody>
                 <tr>
-                <th scope="col">Company</th>
-                <th scope="col">Designation</th>
-                <th scope="col">Start</th>
-                <th scope="col">End</th>
+                    <th>{company}</th>
+                    <td>{title}</td>
+                    <td>{from}</td>
+                    <td >{ current ? <td> - </td> : <td>{to}</td>}</td>
+                    <td class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked={current ? 'checked':''}></input>
+                    </td>
+
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th>{company}</th>
-                <td>{title}</td>
-                <td>{from}</td>
-                <td>{to}</td>
-                </tr>
-            </tbody>
+                </tbody>
             </table>
         </div>
     )

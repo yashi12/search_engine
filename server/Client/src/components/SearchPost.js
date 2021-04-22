@@ -5,14 +5,17 @@ import Posts from './Posts';
 import { searchPosts } from '../action/post';
 
 const SearchPost = ({ searchPosts, post: { posts } }) => {
-    const onSubmit = () => {
-        searchPosts();
+    console.log("serach")
+    const onSubmit = e => {
+        console.log("call submit",topic)
+        e.preventDefault()
+        searchPosts(topic);
         console.log("call get post");
     };
 
-    const [topic, setTopic] = useState('')
+    const [topic, setTopic] = useState({title:''})
 
-    const onClick = e => { setTopic(e.target.value) }
+    const onChange = e => setTopic({ ...topic,[e.target.id]: e.target.value })
 
     return (
         <Fragment>
@@ -20,12 +23,12 @@ const SearchPost = ({ searchPosts, post: { posts } }) => {
             
             <div className="col">
             <br/>
-            <form className="bar" method="get" action="/result">
+            <form className="bar" method="get" >
                 <div>
                     <h5>Enter Topic</h5>
-                    <input onClick={e => onClick(e)} type="text" className="form-control" id="query" placeholder="Search Post" name="query"></input>
+                    <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Post" name="title"></input>
                     <br/>
-                    <button onSubmit={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
+                    <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                 </div>
             </form>
             </div>
