@@ -1,11 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Posts from './Posts';
 import { searchPosts } from '../action/post';
 
-const SearchPost = ({ searchPosts, post: { posts } }) => {
-    console.log("serach")
+const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
+    useEffect(() => {
+        searchPosts();
+        console.log("call get post");
+    }, [searchPosts]);
+
+
     const onSubmit = e => {
         console.log("call submit",topic)
         e.preventDefault()
@@ -36,7 +41,7 @@ const SearchPost = ({ searchPosts, post: { posts } }) => {
             <div className="col"></div>
         </div>
             <div >
-                {posts.map((post) => (
+                {searchPostArr.map((post) => (
                     <Posts key={post._id} post={post} />
                 ))}
             </div>

@@ -21,7 +21,7 @@ router.get('/', auth, postsController.getAllPosts);
 // @route GET api/posts/filter
 // @desc Get all posts by title filter
 // @access Private
-router.get('/filter', auth, postsController.getPostsByTitleFilter);
+router.get('/filter/:title', auth, postsController.getPostsByTitleFilter);
 
 // @route GET api/posts/:id
 // @desc Get post by ID
