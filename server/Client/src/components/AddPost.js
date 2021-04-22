@@ -23,29 +23,29 @@ const AddPost = ({addPost}) => {
     }
 
     return (
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
+        <div className="row">
+            <div className="col-3"></div>
+            <div className="col-6">
                 <br/><br/>
-                <div class="card">
-                    <div class="card-body">
+                <div className="card">
+                    <div className="card-body">
                         <form onSubmit={e => onSubmit(e)}>
-                            <div class="form-group">
-                                {/*<div class="mb-3">*/}
-                                {/*    <label for="formFile" class="form-label">Add Image</label>*/}
-                                {/*    <input class="form-control" type="file" id="image"></input>*/}
+                            <div className="form-group">
+                                {/*<div className="mb-3">*/}
+                                {/*    <label for="formFile" className="form-label">Add Image</label>*/}
+                                {/*    <input className="form-control" type="file" id="image"></input>*/}
                                 {/*</div>*/}
-                                <div class="mb-3">
+                                <div className="mb-3">
                                     <label>Add Caption</label>
                                     <small>(Max 200 words)</small>
-                                    <textarea onChange={e => onChange(e)} class="form-control" id="text" rows="3"></textarea>
+                                    <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea>
                                 </div>
-                                <div class="mb-3">
+                                <div className="mb-3">
                                 <label>Add Tags</label>
                                 <small>(Please don't add more than 30 tags)</small>
-                                <textarea onChange={e => onChange(e)} class="form-control" id="title" rows="3"></textarea>
+                                <textarea onChange={e => onChange(e)} className="form-control" id="title" rows="3"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Post</button>
+                                <button type="submit" className="btn btn-primary">Post</button>
                             </div>
                         </form>
                     </div>

@@ -19,39 +19,39 @@ const Profile = ({getCurrentProfile,
 
     return (loading && profile === null ? <Spinner />:(<Fragment>
         <div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6 ">
+            <div className="row">
+                <div className="col-3"></div>
+                <div className="col-6 ">
 
                     <br/><br/>
-                    <div class="row">
-                        <div class="col">
+                    <div className="row">
+                        <div className="col">
                             <h5>Github</h5>
                             <p>{profile["social"].githubusername}</p>
                         </div>
-                        <div class="col">
+                        <div className="col">
                             <h5>Linked In</h5>
                             <p>{profile["social"].linkedIn}</p>
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
                             <h5>Twitter</h5>
                             <p>{profile["social"].twitter}</p>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <h5 >Bio</h5>
                         <p>{profile["bio"]}</p>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <h5 >Skills</h5>
                         {profile["skills"].map((skill)=>(
                             <span className="badge badge-secondary">{skill}</span>
                         ))}
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <h5 >Experience</h5>
-                        <table class="table">
+                        <table className="table">
                             <thead>
                             <tr>
                                 <th scope="col">Company</th>
@@ -78,7 +78,7 @@ const Profile = ({getCurrentProfile,
                     <div className="row">
 
                         <div className="col">
-                            <Link to='/update'><button type="button" class="btn btn-primary">Update Profile</button></Link>
+                            <Link to='/update'><button type="button" className="btn btn-primary">Update Profile</button></Link>
                         </div>
                         <div className="col">
                             <Link to='/addExperience'><button className="btn btn-primary">Add Experience</button></Link>

@@ -68,43 +68,43 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
 
     return (
         <div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
+            <div className="row">
+                <div className="col-3"></div>
+                <div className="col-6">
                     <form onSubmit={e => onSubmit(e)}>
                         <br/><br/>
-                        <div class="row">
+                        <div className="row">
                             <button onClick={toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
                             { displaySocialInputs && <div>
-                                <div class="col">
+                                <div className="col">
                                     <label>Github</label>
-                                    <input onChange={e => onChange(e)} type="text" class="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}></input>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}></input>
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                     <label>Linked In</label>
-                                    <input onChange={e => onChange(e)} type="text" class="form-control" name="linked_in" placeholder="Password"></input>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="linked_in" placeholder="Password"></input>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div className="form-group">
                                     <label>Twitter</label>
-                                    <input onChange={e => onChange(e)} type="text" class="form-control" name="twitter" placeholder="Password"></input>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="twitter" placeholder="Password"></input>
                                 </div>
                             </div> }
                             
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label >Bio</label>
-                            <textarea onChange={e => onChange(e)} name="bio" class="form-control" rows="5" maxLength="200"></textarea>
+                            <textarea onChange={e => onChange(e)} name="bio" className="form-control" rows="5" maxLength="200"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label >Skills</label>
-                            <input onChange={e => onChange(e)} type="text" class="form-control" name="skill" placeholder="Password"></input>
+                            <input onChange={e => onChange(e)} type="text" className="form-control" name="skill" placeholder="Password"></input>
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label >Experience</label>
-                            <input onChange={e => onChange(e)} type="text" class="form-control" name="experience" placeholder="Password"></input>
+                            <input onChange={e => onChange(e)} type="text" className="form-control" name="experience" placeholder="Password"></input>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
                 </div>
                 

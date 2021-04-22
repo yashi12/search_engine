@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {addLike, deletePost} from '../action/post'
 import post from "../reducers/post";
 
-const Posts = ({addLike, deletePost, auth, post: {_id, text, user, userName, likeCount, title}}, showActions) => {
+const Posts = ({addLike, deletePost, auth, post}, showActions) => {
     return (
         <div>
             <div className="row">
@@ -22,10 +22,10 @@ const Posts = ({addLike, deletePost, auth, post: {_id, text, user, userName, lik
                         <div className="col-md-8">
                             <div className="row g-0">
                                 <div className="card-body">
-                                    <h5 className="card-title">{userName}</h5>
-                                    <p className="card-text">{text}</p>
+                                    <h5 className="card-title">{post.userName}</h5>
+                                    <p className="card-text">{post.text}</p>
                                     <div>
-                                        {title.map((tag) => (
+                                        {post.title.map((tag) => (
                                             <span className="badge badge-secondary">{tag}</span>
                                         ))}
                                     </div>
@@ -36,15 +36,15 @@ const Posts = ({addLike, deletePost, auth, post: {_id, text, user, userName, lik
                                     <div className="col-9"></div>
                                     <div className="col-3">
                                         <div className="card-body">
-                                            <button onClick={e => addLike(_id)} type="button" className="btn btn-primary">
-                                                Like <span className="badge bg-secondary">{likeCount}</span>
+                                            <button onClick={e => addLike(post._id)} type="button" className="btn btn-primary">
+                                                Like <span className="badge bg-secondary">{post.likeCount}</span>
                                             </button>
                                         </div>
-                                        {!auth.loading && user === auth.user._id && (
+                                        {!auth.loading && post.user === auth.user._id && (
                                             <div className="card-body">
-                                                <button onClick={() => deletePost(_id)} type="button"
+                                                <button onClick={() => deletePost(post._id)} type="button"
                                                         className="btn btn-primary">
-                                                    Delete Post <span className="badge bg-danger"></span>
+                                                     <span className="badge bg-danger">Delete Post</span>
                                                 </button>
                                             </div>
                                         )}

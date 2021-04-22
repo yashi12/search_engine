@@ -63,46 +63,46 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
     };
     return (
         <div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
+            <div className="row">
+                <div className="col-3"></div>
+                <div className="col-6">
                     <form onSubmit={onSubmit}>
                         <br/><br/>
-                        <div class="row">
-                            <button type="button" class="btn btn-primary" onClick={()=>toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
+                        <div className="row">
+                            <button type="button" className="btn btn-primary" onClick={()=>toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
                         </div>
                         <div className="row">
                             { displaySocialInputs &&( <div>
                                 <br />
-                                <div class="col">
+                                <div className="col">
                                     <label>Github</label>
-                                    <input type="text" class="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}></input>
+                                    <input type="text" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}></input>
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                     <label>Linked In</label>
-                                    <input type="text" class="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}></input>
+                                    <input type="text" className="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}></input>
                                 </div>
 
-                                <div class="col">
+                                <div className="col">
                                     <label>Twitter</label>
-                                    <input type="text" class="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}></input>
+                                    <input type="text" className="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}></input>
                                 </div>
                                 </div>)}
                         </div>
                         <br />
-                        <div class="form-group">
+                        <div className="form-group">
                             <label >Bio</label>
-                            <textarea name="bio" class="form-control" rows="5" maxLength="200" onChange={e => onChange(e)} value={bio}></textarea>
+                            <textarea name="bio" className="form-control" rows="5" maxLength="200" onChange={e => onChange(e)} value={bio}></textarea>
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label >Skills</label>
-                            <input type="text" class="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)} value={skills}></input>
+                            <input type="text" className="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)} value={skills}></input>
                         </div>
                         <input type="submit" className="btn btn-primary my-1" />
                         <Link className="btn btn-light my-1" to="/profile">
                             Go Back
                         </Link>
-                        {/*<button type="submit" class="btn btn-primary"><Link to='/profile'>Submit</Link></button>*/}
+                        {/*<button type="submit" className="btn btn-primary"><Link to='/profile'>Submit</Link></button>*/}
                     </form>
                 </div>
 
