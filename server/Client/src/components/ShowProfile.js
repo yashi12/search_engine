@@ -13,31 +13,31 @@ const ShowProfile = ({
     console.log("profile show",social,skills,_id);
     return (
         <div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6 ">
+            <div className="row">
+                <div className="col-3"></div>
+                <div className="col-6 ">
 
                     <br/><br/>
-                    <div class="row">
-                        <div class="col">
+                    <div className="row">
+                        <div className="col">
                             <h5>Github</h5>
                             <p>{social.githubusername}</p>
                         </div>
-                        <div class="col">
+                        <div className="col">
                             <h5>Linked In</h5>
                             <p>{social.linkedIn}</p>
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
                             <h5>Twitter</h5>
                             <p>{social.twitter}</p>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <h5>Bio</h5>
                         <p>{bio}</p>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <h5>Skills</h5>
                         {skills.map((skill) => (
                             <span className="badge badge-secondary">{skill}</span>
