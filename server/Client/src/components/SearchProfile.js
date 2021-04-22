@@ -1,18 +1,25 @@
-import React, { Fragment, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ShowProfile from './ShowProfile';
-import { getProfileById } from '../action/profile';
+import { getProfilesBySkill } from '../action/profile';
 
-const SearchProfile = ({ searchPosts, post: { posts } }) => {
-    const onSubmit = () => {
-        getProfileById();
+const SearchProfile = ({ getProfilesBySkill, profile: { searchProfiles } }) => {
+    useEffect(() => {
+        getProfilesBySkill();
         console.log("call get post");
+    }, [getProfilesBySkill]);
+
+
+    const onSubmit = e => {
+        e.preventDefault()
+        getProfilesBySkill(topic.skill);
     };
 
-    const [topic, setTopic] = useState('')
+    const [topic, setTopic] = useState({skill:''})
 
-    const onClick = e => { setTopic(e.target.value) }
+    const onChange = e => setTopic({ ...topic,[e.target.id]: e.target.value })
+
 
     return (
         <Fragment>
@@ -20,12 +27,12 @@ const SearchProfile = ({ searchPosts, post: { posts } }) => {
             
             <div className="col">
             <br/>
-            <form className="bar" method="get" action="/result">
+            <form className="bar" method="get" >
                 <div>
                     <h5>Enter Topic</h5>
-                    <input onClick={e => onClick(e)} type="text" className="form-control" id="query" placeholder="Search Post" name="query"></input>
+                    <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"></input>
                     <br/>
-                    <button onSubmit={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
+                    <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                 </div>
             </form>
             </div>
@@ -33,8 +40,8 @@ const SearchProfile = ({ searchPosts, post: { posts } }) => {
             <div className="col"></div>
         </div>
             <div >
-                {posts.map((post) => (
-                    <ShowProfile key={post._id} post={post} />
+                {searchProfiles.map((profile) => (
+                    <ShowProfile key={profile._id} profile={profile} />
                 ))}
             </div>
         </Fragment>
@@ -42,12 +49,12 @@ const SearchProfile = ({ searchPosts, post: { posts } }) => {
 };
 
 SearchProfile.propTypes = {
-    getProfileById: PropTypes.func.isRequired,
-    post: PropTypes.object.isRequired
+    getProfilesBySkill: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    post: state.post
+    profile: state.profile
 });
 
-export default connect(mapStateToProps, { getProfileById })(SearchProfile);
+export default connect(mapStateToProps, { getProfilesBySkill })(SearchProfile);

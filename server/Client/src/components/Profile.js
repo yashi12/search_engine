@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCurrentProfile } from '../action/profile'
-import { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from './Spinner'
 import auth from "../reducers/auth";
@@ -46,9 +46,7 @@ const Profile = ({getCurrentProfile,
                     <div class="form-group">
                         <h5 >Skills</h5>
                         {profile["skills"].map((skill)=>(
-                            <li >
-                                <i className="fas fa-check"></i> {skill}
-                            </li>
+                            <span className="badge badge-secondary">{skill}</span>
                         ))}
                     </div>
                     <div class="form-group">
