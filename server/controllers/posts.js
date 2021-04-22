@@ -97,8 +97,17 @@ const getAllPosts = (req, res, next) => {
 };
 
 const getPostsByTitleFilter = (req, res, next) => {
-    const title = req.body.title;
-    Post.find({title: {$in: title}}).sort({likeCount: -1, date: -1})
+    const tags = req.params.title;
+    console.log("tags",tags);
+    let newTitle=[];
+    const title = tags.split(',');
+    title.map(tag=>{
+        tag=tag.toString().trim();
+        tag=tag.toString().toLowerCase();
+        newTitle.push(tag);
+    });
+
+    Post.find({title: {$in: newTitle}}).sort({likeCount: -1, date: -1})
         .then(posts => {
             res.json(posts);
         })

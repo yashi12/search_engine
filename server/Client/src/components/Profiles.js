@@ -1,30 +1,35 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { useState, useEffect } from 'react'
-import { getProfiles } from '../action/profile'
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ShowProfiles from './ShowProfile';
+import { getProfiles } from '../action/profile';
+import ShowProfile from "./ShowProfile";
 
-const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
-
-    useEffect (() => {
-        getProfiles()
-    }, [])
+const Profiles = ({ getProfiles, profile: { profiles } }) => {
+    useEffect(() => {
+        getProfiles();
+        console.log("call get post");
+    }, [getProfiles]);
 
     return (
-        <div>
-        { loading ? <Spinner /> : <div></div>}
-            
-        </div>
-    )
-}
+        <Fragment>
+            <h1 className="large text-primary">Profiles</h1>
+            <div >
+                {profiles.map((profile) => (
+                    <ShowProfile key={profile._id} profile={profile} />
+                ))}
+            </div>
+        </Fragment>
+    );
+};
 
 Profiles.propTypes = {
     getProfiles: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
-}
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     profile: state.profile
-})
+});
 
-export default connect(mapStateToProps, {getProfiles})(Profiles)
+export default connect(mapStateToProps, { getProfiles })(Profiles);

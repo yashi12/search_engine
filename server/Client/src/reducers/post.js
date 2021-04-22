@@ -11,13 +11,13 @@ const initialState = {
     posts: [],
     post: null,
     loading: true,
-    error: {}
+    error: {},
+    searchPostArr: []
 
 }
 
 export default function(state = initialState, action){
     const { type, payload} = action
-    console.log("current state ui",state.posts )
     switch( type){
         case GET_POSTS:
             return {
@@ -47,13 +47,13 @@ export default function(state = initialState, action){
         case SEARCH_POST:
             return {
                 ...state,
-                error: payload,
+                searchPostArr: payload,
                 loading: false
             }
         case UPDATE_LIKES:
             return {
                 ...state,
-                posts: state.posts.map(post => post._id === payload.id ? { ...post,likes: payload.likes } :post),
+                posts: state.posts.map((post) => post._id === payload.id ? { ...post,likes: payload.likes } :post),
                 loading: false 
             }
         default:

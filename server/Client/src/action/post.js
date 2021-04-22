@@ -36,11 +36,11 @@ export const searchPosts = (topic) => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
-    const tags = topic.title.split(',')
-    const body = {title:tags}
+    // const tags = topic.title.split(',')
+    // const body = {title:tags}
     try {
-        console.log( "text body",body);
-        const res = await axios.get('http://localhost:3000/api/posts/filter', body, config)
+        console.log( "text body 1",topic.title);
+        const res = await axios.get(`http://localhost:3000/api/posts/filter/${topic.title}`, config)
         console.log("result filter",res)
         dispatch({
             type: SEARCH_POST,
@@ -64,7 +64,7 @@ export const addLike = postId => async dispatch => {
 
         dispatch({
             type: UPDATE_LIKES,
-            payload: { postId, likes: res.data }
+            payload: { postId, likes: res.data  }
         })
 
     } catch (err) {
