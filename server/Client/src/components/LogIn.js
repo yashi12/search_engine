@@ -46,7 +46,7 @@ const LogIn = ({ login, isAuthenticated }) => {
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
                     <div className="form-group text-center">
-                        <small><button type="submit" formaction="/forgotPassword" className="btn btn-link">Forgot
+                        <small><button type="submit"  className="btn btn-link">Forgot
                             password?</button></small>
                     </div>
                 </form>

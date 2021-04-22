@@ -28,36 +28,36 @@ const AddExperience = ({ addExperience, history }) => {
     }
 
     return (
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
+        <div className="row">
+            <div className="col-3"></div>
+            <div className="col-6">
                 <br/>
-                <div class="card">
-                    <div class="card-body">
+                <div className="card">
+                    <div className="card-body">
                         <form onSubmit={e => onSubmit(e)}>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <h2>Add Experience</h2>
                                 <label>Company</label>
-                                <input onChange={e => onChange(e)} type="text" class="form-control"  id="company"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="company"></input>
                                 <br/>
                                 <label>Designation</label>
-                                <input onChange={e => onChange(e)} type="text" class="form-control"  id="title"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="title"></input>
                                 <br/>
                                 <label>Current Job</label>
                                 <br />
-                                <input type="checkbox" class="" checked={current} id="current" onChange={e => {
+                                <input type="checkbox" className="" checked={current} id="current" onChange={e => {
                                     setFormData({...formData, current: !current})
                                     toggleDisabled(!toDateDisabled)
                                 }} />
                                 <br/>
                                 <label >Start</label>
-                                <input onChange={e => onChange(e)} type="date" class="form-control"  id="from"></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="from"></input>
                                 <br/>
                                 <label >End</label>
-                                <input onChange={e => onChange(e)} type="date" class="form-control"  id="to" disabled={toDateDisabled ? 'disabled':''}></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="to" disabled={toDateDisabled ? 'disabled':''}></input>
                                 <br/>
                                 
-                                <button type="submit" class="btn btn-primary">Add</button>
+                                <button type="submit" className="btn btn-primary">Add</button>
                             </div>
                         </form>
                     </div>
