@@ -18,7 +18,6 @@ const initialState = {
 
 export default function(state = initialState, action){
     const { type, payload} = action
-    console.log("current state ui payload",payload)
     switch( type){
         case GET_POSTS:
             return {
@@ -54,7 +53,7 @@ export default function(state = initialState, action){
         case UPDATE_LIKES:
             return {
                 ...state,
-                posts: state.posts.map(post => post._id === payload.id ? { ...post,likes: payload.likes } :post),
+                posts: state.posts.map((post) => post._id === payload.id ? { ...post,likes: payload.likes } :post),
                 loading: false 
             }
         default:

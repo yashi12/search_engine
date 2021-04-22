@@ -39,7 +39,7 @@ export const getProfiles = () => async dispatch => {
         type: CLEAR_PROFILES
     })
     try {
-        const res = await axios.get('/api/profile')
+        const res = await axios.get('http://localhost:3000/api/profile')
 
         dispatch({
             type: GET_PROFILES,
