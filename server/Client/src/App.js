@@ -4,7 +4,6 @@ import Profile from './components/Profile'
 import AccountDetails from './components/AccountDetails'
 import Feed from './components/Feed'
 import LogIn from './components/LogIn'
-import Learn from './components/SearchBar'
 import Register from './components/Register'
 import AddPost from './components/AddPost'
 import PrivateRoute from './components/route/PrivateRoute'
@@ -13,6 +12,8 @@ import ShowProfile from './components/ShowProfile'
 import SearchPost from './components/SearchPost'
 import SearchProfile from './components/SearchProfile'
 import Profiles from './components/Profiles'
+import Result from './components/Result'
+import SearchBar from './components/SearchBar'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 
@@ -42,7 +43,6 @@ function App() {
           <Navbar/>
           <Route exact path="/" component={LogIn}/>
           <section className="container-fluid">
-            <PrivateRoute exact path="/learn" component={Learn}/>
             <PrivateRoute exact path="/update" component={AccountDetails}/>
             <PrivateRoute exact path="/feed" component={Feed}/>
             <PrivateRoute exact path="/searchPost" component={SearchPost}/>
@@ -53,6 +53,8 @@ function App() {
             <Switch>
               <Route exact path="/login" component={LogIn}/>
               <Route exact path="/register" component={Register}/>
+              <Route exact path="/search" component={SearchBar}/>
+              <Route exact path="/result" component={Result}/>
               <PrivateRoute exact path="/profile" component={Profile}/>
               <PrivateRoute exact path="/addPost" component={AddPost}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
