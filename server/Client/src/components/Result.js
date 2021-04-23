@@ -1,4 +1,8 @@
-const Result = () => {
+import React, {useEffect} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+
+const Result = ({addLike, deletePost, auth, post}) => {
     return (
         <div>
             <section className="container-fluid" id="Result">
@@ -9,7 +13,7 @@ const Result = () => {
                 <div className="row">
                     
                     <div className="col">
-                        <div className="card" style="width: 18rem;">
+                        <div className="card" >
                             <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
                                 alt="..."></img>
                         
@@ -22,7 +26,7 @@ const Result = () => {
                                 <li className="list-group-item">Rating - </li>
                             </ul>
                             <div className="card-body">
-                                <a href="{{cource.course_link}}" target="_blank" className="card-link">Learn More</a>
+                                <a  target="_blank" className="card-link">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +39,7 @@ const Result = () => {
                 <div className="row">
 
                     <div className="col">
-                        <div className="card" style="width: 18rem;">
+                        <div className="card" >
                             <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
                                 alt="..."></img>
                            
@@ -49,7 +53,7 @@ const Result = () => {
                             </ul>
 
                             <div className="card-body">
-                                <a href="{{cource.course_link}}" target="_blank" className="card-link">Learn More</a>
+                                <a target="_blank" className="card-link">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -61,7 +65,7 @@ const Result = () => {
                 <div className="row">
                     
                     <div className="col">
-                        <div className="card" style="width: 18rem;">
+                        <div className="card" >
                             <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
                                 alt="..."></img>
                            
@@ -72,7 +76,7 @@ const Result = () => {
                                 <li className="list-group-item">Instructor - </li>
                             </ul>
                             <div className="card-body">
-                                <a href="{{cource.course_link}}" target="_blank" className="card-link">Learn More</a>
+                                <a target="_blank" className="card-link">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -84,7 +88,7 @@ const Result = () => {
                 <div className="row">
                     
                     <div className="col">
-                        <div className="card" style="width: 18rem;">
+                        <div className="card" >
                             <div className="card-body">
                                 <h5 className="card-title"></h5>
                             </div>
@@ -100,4 +104,14 @@ const Result = () => {
     )
 }
 
-export default Result
+
+Result.propTypes = {
+    result: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps)(Result)
