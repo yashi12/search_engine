@@ -4,7 +4,7 @@ import {
     UPDATE_LIKES,
     DELETE_POST,
     ADD_POST,
-    SEARCH_POST
+    SEARCH_POST, SEARCH_QUERY, SEARCH_ERROR
 } from '../action/types'
 
 const initialState = {
@@ -12,7 +12,8 @@ const initialState = {
     post: null,
     loading: true,
     error: {},
-    searchPostArr: []
+    searchPostArr: [],
+    query: []
 
 }
 
@@ -56,6 +57,8 @@ export default function(state = initialState, action){
                 posts: state.posts.map((post) => post._id === payload.id ? { ...post,likes: payload.likes } :post),
                 loading: false 
             }
+
+
         default:
             return state
     }

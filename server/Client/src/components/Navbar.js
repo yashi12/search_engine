@@ -12,7 +12,7 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/feed">Feed</Link>
             </li>
             <li className="nav-item active">
-                <Link className="nav-link" to="/learn">Learn</Link>
+                <Link className="nav-link" to="/search">Learn</Link>
             </li>
             
             <li className="nav-item active">

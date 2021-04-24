@@ -1,11 +1,20 @@
-import { GET_PROFILE, PROFILE_ERROR,SEARCH_PROFILE, CLEAR_PROFILE, UPDATE_PROFILE, GET_PROFILES } from "../action/types"
+import {
+    GET_PROFILE,
+    PROFILE_ERROR,
+    SEARCH_PROFILE,
+    CLEAR_PROFILE,
+    UPDATE_PROFILE,
+    GET_PROFILES,
+    SEARCH_QUERY, SEARCH_ERROR
+} from "../action/types"
 
 const initialState = {
     profile: null,
     profiles: [],
     loading: true,
     error: {},
-    searchProfiles: []
+    searchProfiles: [],
+    query: []
 }
 
 export default function(state = initialState, action){
@@ -32,6 +41,7 @@ export default function(state = initialState, action){
                 loading: false
             }
         case PROFILE_ERROR:
+        case SEARCH_ERROR:
             return {
                 ...state,
                 error: payload,
@@ -42,6 +52,12 @@ export default function(state = initialState, action){
                 ...state,
                 profile: null,
                 repos: [],
+                loading: false
+            }
+        case SEARCH_QUERY:
+            return {
+                ...state,
+                query: payload,
                 loading: false
             }
         default:
