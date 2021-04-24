@@ -37,7 +37,7 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                                     <div className="col-3">
                                         <div className="card-body">
                                             <button onClick={e => addLike(post._id)} type="button" className="btn btn-primary">
-                                                Like <span className="badge bg-secondary">{post.likeCount}</span>
+                                                Like <span className="badge bg-secondary">{post.likes.length}</span>
                                             </button>
                                         </div>
                                         {!auth.loading && post.user === auth.user._id && (
