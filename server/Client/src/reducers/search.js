@@ -11,12 +11,13 @@ const initialState = {
 }
 
 export default function(state = initialState, action){
+    console.log("state", state);
     const { type, payload} = action
     switch( type){
         case SEARCH_QUERY:
             return {
                 ...state,
-                posts: payload,
+                results: payload,
                 loading: false
             }
         case SEARCH_ERROR:

@@ -2,7 +2,19 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-const Result = ({addLike, deletePost, auth, post}) => {
+
+const Result = query => {
+
+    const dat = query.query.data
+
+    console.log("coursera",dat.coursera)
+
+    console.log("query data",dat)
+    const udemy = dat.udemy
+    const coursera = dat.coursera
+    const youtube = dat.youtube
+
+    const blogs = dat.blog
     return (
         <div>
             <section className="container-fluid" id="Result">
@@ -11,25 +23,30 @@ const Result = ({addLike, deletePost, auth, post}) => {
 
                 <h2>Udemy</h2><br/>
                 <div className="row">
-                    
-                    <div className="col">
-                        <div className="card" >
-                            <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
-                                alt="..."></img>
-                        
-                            <div className="card-body">
-                                <h5 className="card-title"></h5>
-                                <p className="card-text">good</p>
-                            </div>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Instructor - </li>
-                                <li className="list-group-item">Rating - </li>
-                            </ul>
-                            <div className="card-body">
-                                <a  target="_blank" className="card-link">Learn More</a>
+                    {udemy.map((UdemyData) => (
+
+                        <div className="col">
+                            <div className="card">
+                                <img src={UdemyData.image} className="card-img" alt="Best Ever Content!"
+                                     className="card-img-top"
+                                     alt="..."></img>
+
+                                <div className="card-body">
+                                    <h5 className="card-title"></h5>
+                                    <p className="card-text">{UdemyData.title}</p>
+                                </div>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item">Instructor -{UdemyData.instructor} </li>
+                                    <li className="list-group-item">Rating -{UdemyData.rating} </li>
+                                </ul>
+                                <div className="card-body">
+                                    <a href={UdemyData.link} target="_blank" className="card-link">Learn More</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))
+
+                    }
                    
                 </div>
                 <br/>
@@ -37,68 +54,54 @@ const Result = ({addLike, deletePost, auth, post}) => {
                 <br/>
                 <h2>Coursera</h2><br/>
                 <div className="row">
-
+                    {coursera.map((CourseraData) => (
                     <div className="col">
                         <div className="card" >
-                            <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
+                            <img src={CourseraData.image} className="card-img" alt="Best Ever Content!" className="card-img-top"
                                 alt="..."></img>
                            
                             <div className="card-body">
-                                <h5 className="card-title"></h5>
+                                <h5 className="card-title">{CourseraData.title}</h5>
                             </div>
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Instructor - </li>
-                                <li className="list-group-item">Rating - </li>
-                                <li className="list-group-item">Level - </li>
+                                <li className="list-group-item">Instructor -{CourseraData.instructor} </li>
+                                <li className="list-group-item">Rating - {CourseraData.rating}</li>
+                                <li className="list-group-item">Level - {CourseraData.level}</li>
                             </ul>
 
                             <div className="card-body">
-                                <a target="_blank" className="card-link">Learn More</a>
+                                <a href={CourseraData.link} target="_blank" className="card-link">Learn More</a>
                             </div>
                         </div>
                     </div>
-                    
+                        ))}
                 </div>
 
                 <br/>
                 <h2>Youtube</h2><br/>
                 <div className="row">
-                    
+                    {youtube.map((YoutubeData) => (
                     <div className="col">
                         <div className="card" >
-                            <img src="{{cource.course_image}}" className="card-img" alt="Best Ever Content!" className="card-img-top"
+                            <img src={YoutubeData.image} className="card-img" alt="Best Ever Content!" className="card-img-top"
                                 alt="..."></img>
                            
                             <div className="card-body">
-                                <h5 className="card-title"></h5>
+                                <h5 className="card-title">{YoutubeData.title}</h5>
                             </div>
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Instructor - </li>
+                                <li className="list-group-item">Instructor -{YoutubeData.instructor} </li>
                             </ul>
                             <div className="card-body">
-                                <a target="_blank" className="card-link">Learn More</a>
+                                <a href={YoutubeData.link} target="_blank" className="card-link">Learn More</a>
                             </div>
                         </div>
                     </div>
-                  
+                        ))}
                 </div>
 
                 <br/>
-                <h2>Blogs</h2><br/>
-                <div className="row">
-                    
-                    <div className="col">
-                        <div className="card" >
-                            <div className="card-body">
-                                <h5 className="card-title"></h5>
-                            </div>
-                            <div className="card-body">
-                                <a href="{{blog.blog_link}}" target="_blank" className="card-link">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-               
-                </div>
+
             </section>
         </div>
     )
