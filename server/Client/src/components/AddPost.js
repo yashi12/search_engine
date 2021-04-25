@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import { addPost } from '../action/post'
 import PropTypes from 'prop-types'
+import ImageUploader from 'react-images-upload';
 
 const AddPost = ({addPost}) => {
 
@@ -13,12 +14,13 @@ const AddPost = ({addPost}) => {
     const {text,title} = formData
 
     const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
+    
+    const onDrop = e => setFormData({...formData, image : e.target.files[0] })
 
     const onSubmit = e => {
         e.preventDefault()
+
         // setFormData({...formData, tags : tags.split(' ')})
-        console.log("formdata",formData)
-        console.log("text",text,"tags",title);
         addPost({text, title})
     }
 
@@ -29,11 +31,19 @@ const AddPost = ({addPost}) => {
                 <br/><br/>
                 <div className="card">
                     <div className="card-body">
-                        <form onSubmit={e => onSubmit(e)}>
+                        <form onSubmit={e => onSubmit(e)} id="add-post-form">
                             <div className="form-group">
+                                {/*<ImageUploader*/}
+                                {/*    withIcon={true}*/}
+                                {/*    withPreview={true}*/}
+                                {/*    buttonText='Choose image'*/}
+                                {/*    onChange={e => onDrop(e)}*/}
+                                {/*    imgExtension={['.jpg', '.gif', '.png', '.jpeg']}*/}
+                                {/*    maxFileSize={5242880}*/}
+                                {/*/>*/}
                                 {/*<div className="mb-3">*/}
                                 {/*    <label for="formFile" className="form-label">Add Image</label>*/}
-                                {/*    <input className="form-control" type="file" id="image"></input>*/}
+                                {/*    <input onChange={e => onDrop(e)} className="form-control" type="file" id="image"></input>*/}
                                 {/*</div>*/}
                                 <div className="mb-3">
                                     <label>Add Caption</label>
