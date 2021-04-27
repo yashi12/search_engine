@@ -1,16 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator');
+const multer = require('multer')
 
 const postsController = require('../../controllers/posts');
 const auth = require('../../middleware/auth');
 
+const upload = multer();
+
+
 // @route POST api/posts
 // @desc Create a post
 // @access Private
-router.post('/', [auth, [
+router.post('/', [upload.single("image"),auth,  [
     check('text', 'Text is required').not().isEmpty(),
-    check('title', 'Minimum 1 & maximum 5 Titles are required').isArray({min: 1, max: 5})
+    check('title', 'Minimum 1 & maximum 5 Titles are required').isArray({min: 2, max: 5})
 ]], postsController.addPost);
 
 // @route GET api/posts
