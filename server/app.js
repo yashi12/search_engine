@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(multer({storage}).single('image'));
+// app.use(multer({storage}).single('image'));
 
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static('server/Client'))

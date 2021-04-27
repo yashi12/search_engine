@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import { addPost } from '../action/post'
 import PropTypes from 'prop-types'
-import ImageUploader from 'react-images-upload';
+import Axios from 'axios'
 
 const AddPost = ({addPost}) => {
 
@@ -10,18 +10,28 @@ const AddPost = ({addPost}) => {
         text: '',
         title:""
     })
+    const [image,setImage] = useState()
 
     const {text,title} = formData
 
     const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
-    
-    const onDrop = e => setFormData({...formData, image : e.target.files[0] })
 
     const onSubmit = e => {
         e.preventDefault()
+        const data = new FormData();
+        data.append("text",formData.text);
+        const tags = formData.title.split(',')
+        tags.forEach(item => {
+            data.append(
+                "title",item
+            ); });
+        data.append("image",image);
 
-        // setFormData({...formData, tags : tags.split(' ')})
-        addPost({text, title})
+        // Axios.post("https://httpbin.org/anything",data)
+        //     .then(res =>console.log("res",res))
+        //     .catch(err =>console.log("err",err))
+        console.log("buffer",data);
+        addPost(data)
     }
 
     return (
@@ -31,20 +41,16 @@ const AddPost = ({addPost}) => {
                 <br/><br/>
                 <div className="card">
                     <div className="card-body">
-                        <form onSubmit={e => onSubmit(e)} id="add-post-form">
+                        <form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
                             <div className="form-group">
-                                {/*<ImageUploader*/}
-                                {/*    withIcon={true}*/}
-                                {/*    withPreview={true}*/}
-                                {/*    buttonText='Choose image'*/}
-                                {/*    onChange={e => onDrop(e)}*/}
-                                {/*    imgExtension={['.jpg', '.gif', '.png', '.jpeg']}*/}
-                                {/*    maxFileSize={5242880}*/}
-                                {/*/>*/}
-                                {/*<div className="mb-3">*/}
-                                {/*    <label for="formFile" className="form-label">Add Image</label>*/}
-                                {/*    <input onChange={e => onDrop(e)} className="form-control" type="file" id="image"></input>*/}
-                                {/*</div>*/}
+                                <div className="mb-3">
+                                    <label for="formFile" className="form-label">Add Image</label>
+                                    <input onChange={e => {
+                                        const file = e.target.files[0];
+                                        setImage(file);
+                                    }
+                                    } className="form-control" type="file" id="image"></input>
+                                </div>
                                 <div className="mb-3">
                                     <label>Add Caption</label>
                                     <small>(Max 200 words)</small>

@@ -16,8 +16,8 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                     <div className="row g-0">
                         <div className="col-md-4 mb-3">
                             <img width="200" height="200"
-                                 // src={post.image}
-                                 src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+                                 src={post.image}
+                                 // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
                                  alt="..."></img>
                         </div>
                         <div className="col-md-8">
