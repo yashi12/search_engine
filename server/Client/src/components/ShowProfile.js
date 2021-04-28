@@ -66,20 +66,20 @@ const ShowProfile = ({
                     {displaySocialInputs && (
                         <div className="form-group">
                             <br/>
-                            <h5>Experience</h5>
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Company</th>
-                                    <th scope="col">Designation</th>
-                                    <th scope="col">Start</th>
-                                    <th scope="col">End</th>
-                                    <th scope="col">Current</th>
-                                </tr>
-                                </thead>
-
                                 {experience.length > 0 ? (
                                     <Fragment>
+                                        <h5>Experience</h5>
+                                        <table className="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Company</th>
+                                                <th scope="col">Designation</th>
+                                                <th scope="col">Start</th>
+                                                <th scope="col">End</th>
+                                                <th scope="col">Current</th>
+                                            </tr>
+                                            </thead>
+
                                         {experience.map((experience) => (
                                             <tbody>
                                             <tr>
@@ -99,11 +99,12 @@ const ShowProfile = ({
                                             </tr>
                                             </tbody>
                                         ))}
+                                        </table>
                                     </Fragment>
                                 ) : (
                                     <h4>No experience credentials</h4>
                                 )}
-                            </table>
+
                         </div>
                     )}
                     {!auth.loading && user._id === auth.user._id && (
