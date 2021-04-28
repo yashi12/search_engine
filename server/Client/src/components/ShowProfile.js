@@ -23,24 +23,29 @@ const ShowProfile = ({
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/><br/>
+                    {social ?
                     <div className="row card-body ">
                         <div className="col">
                             <h5>Github</h5>
-                            <p>{social.githubusername}</p>
+                            {social.githubusername ?
+                                <p>{social.githubusername}</p> : <div></div>}
                         </div>
                         <div className="col">
                             <h5>Linked In</h5>
-                            <p>{social.linkedIn}</p>
+                            {social.linkedIn ?
+                                <p>{social.linkedIn}</p> : <div></div>}
                         </div>
 
                         <div className="form-group">
                             <h5>Twitter</h5>
-                            <p>{social.twitter}</p>
+                            {social.twitter ?
+                                <p>{social.twitter}</p> : <div></div>}
                         </div>
-                    </div>
+                    </div>:<div></div>}
                     <div className="form-group">
                         <h5>Bio</h5>
-                        <p>{bio}</p>
+                        {bio ?
+                            <p>{bio}</p> : <div></div>}
                     </div>
                     <div className="form-group">
                         <h5>Skills</h5>
