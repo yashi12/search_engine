@@ -15,10 +15,16 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                 <div className="card mb-3 col-8">
                     <div className="row g-0">
                         <div className="col-md-4 mb-3">
-                            <img width="200" height="200"
-                                 // src={post.image}
-                                 src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                 alt="..."></img>
+                            {post.image ?
+                                <img width="300" height="300"
+                                     src={post.image}
+                                    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+                                     alt="..."></img>
+                                : <img width="300" height="300"
+                                       // src={post.image}
+                                    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+                                       alt="..."></img>
+                            }
                         </div>
                         <div className="col-md-8">
                             <div className="row g-0">
@@ -38,14 +44,13 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                                     <div className="col-3">
                                         <div className="card-body">
                                             <button onClick={e => addLike(post._id)} type="button" className="btn btn-primary">
-                                                Like <span className="badge bg-secondary">{post.likes.length}</span>
+                                                Like <span className="badge bg-secondary">{post.likeCount }</span>
                                             </button>
                                         </div>
                                         {!auth.loading && post.user === auth.user._id && (
                                             <div className="card-body">
                                                 <button onClick={() => deletePost(post._id)} type="button"
-                                                        className="btn btn-primary">
-                                                     <span className="badge bg-danger">Delete Post</span>
+                                                        className="btn btn-danger">Delete
                                                 </button>
                                             </div>
                                         )}
