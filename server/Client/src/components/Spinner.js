@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Spinner = props => {
+    console.log("spinner");
     return (
         <div className="row">
             <div className="col"></div>

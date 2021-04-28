@@ -99,16 +99,13 @@ export const deletePost = postId => async dispatch => {
 }
 
 // Add  post
-export const addPost = ({text,title}) => async dispatch => {
-    console.log("eneter add post");
+export const addPost = (data) => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
-    let tags = title.split(' ')
-    const body = {text:text,title:tags}
     try {
-        console.log( "text body",body);
-        const res = await axios.post('http://localhost:3000/api/posts', body, config)
+        // console.log( "text body",body);
+        const res = await axios.post('http://localhost:3000/api/posts', data, config)
         dispatch({
             type: ADD_POST,
             payload: res.data

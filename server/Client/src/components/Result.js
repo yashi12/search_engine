@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react'
+import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Spinner from './Spinner'
 
 
 const Result = query => {
-    console.log("query data",query)
-    if(query.query.data ) {
+    console.log("query data", query)
+    if (query.query.data) {
         const dat = query.query.data
         // const dat = query
 
@@ -20,23 +20,30 @@ const Result = query => {
                 <section className="container-fluid" id="Result">
 
                     <h1>Results</h1> <br/>
-                    <h2>Related Topics</h2>
-                    <div className="row">
-                        <ul>{
-                            query.query.related.map((topic) => (
-                                <li className="badge badge-info">{topic}</li>
-                            ))
-                        }
-                        </ul>
-                    </div>
-                    <h2>Prerequisites</h2>
-                    <div className="row">
-                        {
-                            query.query.prerequisites.map((topic) => (
-                                <span className="badge badge-info">{topic}</span>
-                            ))
-                        }
-                    </div>
+                    {query.query.related.length == 0 ? <div></div> :
+                        <Fragment>
+                            <h2>Related Topics</h2>
+                            <div className="row">
+                                <ul>{
+                                    query.query.related.map((topic) => (
+                                        <li className="badge badge-info">{topic}</li>
+                                    ))
+                                }
+                                </ul>
+                            </div>
+                        </Fragment>}
+                    {query.query.prerequisites.length ==0 ? <div></div> :
+                        <Fragment>
+                            <h2>Prerequisites</h2>
+                            <div className="row">
+                                {
+                                    query.query.prerequisites.map((topic) => (
+                                        <span className="badge badge-info">{topic}</span>
+                                    ))
+                                }
+                            </div>
+                        </Fragment>
+                    }
                     <h2>Udemy</h2><br/>
                     <div className="row">
                         {udemy.map((UdemyData) => (
@@ -123,11 +130,10 @@ const Result = query => {
                 </section>
             </div>
         )
-    }
-    else{
+    } else {
         return (
             <div>
-                <Spinner />
+                <Spinner/>
                 <div>Fetching..</div>
             </div>
         )
