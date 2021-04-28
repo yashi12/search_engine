@@ -17,12 +17,12 @@ export const loadUser = () => async dispatch => {
     try {
         const res = await axios.get('http://localhost:3000/api/auth')
 
+        console.log("result",res);
         dispatch ({
             type : USER_LOADED,
             payload : res.data
 
         })
-        console.log("payload",res.data);
 
     } catch (err) {
         dispatch ({
@@ -54,10 +54,10 @@ export const register = ({name, email, password}) => async dispatch => {
         dispatch(loadUser())
     }
     catch(err) {
-        const error = err.response.data.error;
+        const error = err.response.data.errors;
 
         if (error){
-            error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
 
         dispatch ({
@@ -80,7 +80,6 @@ export const login = ({ email, password}) => async dispatch => {
 
     try {
         const res = await axios.post('http://localhost:3000/api/auth', body, config)
-        console.log("res login", res);
         dispatch ({
             type: LOGIN_SUCCESS,
             payload: res.data
@@ -89,10 +88,10 @@ export const login = ({ email, password}) => async dispatch => {
         dispatch(loadUser())
     }
     catch(err) {
+        console.log("errror",err);
         const error = err.response;
-        console.log("error",err)
         if (error){
-            error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
 
         dispatch ({

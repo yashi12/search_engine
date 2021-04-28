@@ -45,10 +45,6 @@ const LogIn = ({ login, isAuthenticated }) => {
                         <input onChange={e => onChange(e)} type="password" className="form-control" id="exampleInputPassword1" name="password"></input>
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
-                    <div className="form-group text-center">
-                        <small><button type="submit"  className="btn btn-link">Forgot
-                            password?</button></small>
-                    </div>
                 </form>
 
                 </section>

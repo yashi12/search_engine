@@ -1,23 +1,28 @@
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { getCurrentProfile } from '../action/profile'
-import React, { Fragment, useEffect } from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getCurrentProfile} from '../action/profile'
+import React, {Fragment, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Spinner from './Spinner'
+import Moment from 'react-moment';
 import auth from "../reducers/auth";
 import ProfileExperience from '../components/ProfileExperience'
 
-const Profile = ({getCurrentProfile,
-                     auth: { user },
-                     profile:{profile, loading}}) => {
+const Profile = ({
+                     getCurrentProfile,
+                     auth: {user},
+                     profile: {profile, loading}
+                 }) => {
 
     useEffect(() => {
         getCurrentProfile()
     }, [])
-    console.log("profile",profile);
+    console.log("profile log:", profile);
+
+
     // const {githubusername, linkedIn, twitter, bio, skills} = profile;
 
-    return (loading && profile === null ? <Spinner />:(<Fragment>
+    return (loading && profile === null ? <Spinner/> : !profile.hasOwnProperty("msg") ? (<Fragment>
         <div>
             <div className="row">
                 <div className="col-3"></div>
@@ -25,45 +30,54 @@ const Profile = ({getCurrentProfile,
 
                     <br/><br/>
                     <div className="row">
-                        <div className="col">
-                            <h5>Github</h5>
-                            <p>{profile["social"].githubusername}</p>
-                        </div>
-                        <div className="col">
-                            <h5>Linked In</h5>
-                            <p>{profile["social"].linkedIn}</p>
-                        </div>
+                        {profile["social"] ?
+                            <Fragment>
+                                <div className="col">
+                                    <h5>Github</h5>
+                                    {profile["social"].githubusername ?
+                                        <p>{profile["social"].githubusername}</p> : <div></div>}
+                                </div>
+                                <div className="col">
+                                    <h5>Linked In</h5>
+                                    {profile["social"].linkedIn ?
+                                        <p>{profile["social"].linkedIn}</p> : <div></div>}
+                                </div>
 
-                        <div className="form-group">
-                            <h5>Twitter</h5>
-                            <p>{profile["social"].twitter}</p>
-                        </div>
+                                <div className="form-group">
+                                    <h5>Twitter</h5>
+                                    {profile["social"].twitter ?
+                                        <p>{profile["social"].twitter}</p> : <div></div>}
+                                </div>
+                            </Fragment>
+                            : <div></div>}
                     </div>
                     <div className="form-group">
-                        <h5 >Bio</h5>
-                        <p>{profile["bio"]}</p>
+                        <h5>Bio</h5>
+                        {profile["bio"] ?
+                            <p>{profile["bio"]}</p> : <div></div>}
                     </div>
                     <div className="form-group">
-                        <h5 >Skills</h5>
-                        {profile["skills"].map((skill)=>(
-                            <span className="badge badge-secondary">{skill}</span>
+                        <h5>Skills</h5>
+                        {profile["skills"].map((skill) => (
+                            <h3><span className="badge badge-info">{skill}</span></h3>
                         ))}
                     </div>
                     <div className="form-group">
-                        <h5 >Experience</h5>
-                        <table className="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Company</th>
-                                <th scope="col">Designation</th>
-                                <th scope="col">Start</th>
-                                <th scope="col">End</th>
-                                <th scope="col">Current</th>
-                            </tr>
-                            </thead>
-                        </table>
-                        {profile["experience"].length> 0 ? (
+
+                        {profile["experience"].length > 0 ? (
                             <Fragment>
+                                <h5>Experience</h5>
+                                <table className="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Company</th>
+                                        <th scope="col">Designation</th>
+                                        <th scope="col">Start</th>
+                                        <th scope="col">End</th>
+                                        <th scope="col">Current</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                                 {profile["experience"].map((experience) => (
                                     <ProfileExperience
                                         key={experience._id}
@@ -78,10 +92,14 @@ const Profile = ({getCurrentProfile,
                     <div className="row">
 
                         <div className="col">
-                            <Link to='/update'><button type="button" className="btn btn-primary">Update Profile</button></Link>
+                            <Link to='/update'>
+                                <button type="button" className="btn btn-primary">Update Profile</button>
+                            </Link>
                         </div>
                         <div className="col">
-                            <Link to='/addExperience'><button className="btn btn-primary">Add Experience</button></Link>
+                            <Link to='/addExperience'>
+                                <button className="btn btn-primary">Add Experience</button>
+                            </Link>
                         </div>
                     </div>
 
@@ -91,7 +109,18 @@ const Profile = ({getCurrentProfile,
             </div>
 
         </div>
-    </Fragment>))
+    </Fragment>) : <div>Profile does not exist
+        <div className="row">
+
+            <div className="col">
+                <Link to='/update'>
+                    <button type="button" className="btn btn-primary">Update Profile</button>
+                </Link>
+            </div>
+            <div className="col-10">
+
+            </div>
+        </div></div>)
 
 }
 
@@ -106,4 +135,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 })
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile)
+export default connect(mapStateToProps, {getCurrentProfile})(Profile)

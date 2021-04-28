@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Moment from 'react-moment';
 
-const ProfileExperience = ({
-                               experience: { company, title, to, from, current }
-                           }) => {
+const ProfileExperience = ({experience: { company, title, to, from, current }}) => {
     return (
         <div>
             <table className="table">
@@ -11,12 +10,11 @@ const ProfileExperience = ({
                 <tr>
                     <th>{company}</th>
                     <td>{title}</td>
-                    <td>{from}</td>
+                    <td><Moment date={from}  /></td>
                     <td >{ current ? <td> - </td> : <td>{to}</td>}</td>
                     <td className="form-check">
                         <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" checked={current ? 'checked':''}></input>
                     </td>
-
                 </tr>
                 </tbody>
             </table>

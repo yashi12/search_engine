@@ -23,11 +23,12 @@ export const getCurrentProfile = () => async dispatch => {
             payload: res.data
         })
     } catch (err) {
+        console.log("error profile",err.response)
         dispatch({
             type: PROFILE_ERROR,
             payload: {
-                msg: err.response.statusText,
-                status: err.response.status
+                msg: err.response,
+                status: err.response
             }
         })
     }
@@ -49,8 +50,8 @@ export const getProfiles = () => async dispatch => {
         dispatch({
             type: PROFILE_ERROR,
             payload: {
-                msg: err.response.statusText,
-                status: err.response.status
+                msg: err.response,
+                status: err.response
             }
         })
     }
@@ -129,10 +130,10 @@ export const createProfile = (formData, history, edit = false) => async dispatch
             history.push('./profile')
         }
     } catch (err) {
-        const error = err.response.data.error;
+        const error = err.response.data.errors;
 
         if (error) {
-            error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
 
         dispatch({
@@ -167,10 +168,10 @@ export const addExperience = (formData, history) => async dispatch => {
         history.push('/profile')
 
     } catch (err) {
-        const error = err.response.data.error;
+        const error = err.response.data.errors;
 
         if (error) {
-            error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
 
         dispatch({
@@ -205,10 +206,10 @@ export const addEducation = (formData, history) => async dispatch => {
         history.push('/profile')
 
     } catch (err) {
-        const error = err.response.data.error;
+        const error = err.response.data.errors;
 
         if (error) {
-            error.forEach(error => dispatch(setAlert(err.msg, 'danger')))
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
 
         dispatch({
