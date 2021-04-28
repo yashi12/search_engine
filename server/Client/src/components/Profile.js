@@ -22,7 +22,7 @@ const Profile = ({
 
     // const {githubusername, linkedIn, twitter, bio, skills} = profile;
 
-    return (loading && profile === null ? <Spinner/> : !profile.hasOwnProperty("msg") ? (<Fragment>
+    return ( profile === null ? <Spinner/> : !profile.hasOwnProperty("msg") ? (<Fragment>
         <div>
             <div className="row">
                 <div className="col-3"></div>
