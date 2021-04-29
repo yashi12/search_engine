@@ -81,13 +81,12 @@ export const addLike = postId => async dispatch => {
 export const deletePost = postId => async dispatch => {
     try {
         const res = await axios.delete(`http://localhost:3000/api/posts/${postId}`)
-
         dispatch({
             type: DELETE_POST,
             payload: postId
         })
 
-        dispatch(setAlert('Post removed','success'))
+        // dispatch(setAlert('Post removed','success'))
 
     } catch (err) {
         dispatch({
