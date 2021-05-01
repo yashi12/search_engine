@@ -41,7 +41,6 @@ export const getProfiles = () => async dispatch => {
     })
     try {
         const res = await axios.get('http://localhost:3000/api/profile')
-
         dispatch({
             type: GET_PROFILES,
             payload: res.data
