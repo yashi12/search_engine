@@ -37,7 +37,7 @@ const addPost = async (req, res, next) => {
                     console.log(err.message);
                     res.status(500).send('Server Error...');
                 })
-            if(req.file){
+            if (req.file) {
                 const file = req.file.originalname.split(".");
                 const fileType = file[file.length - 1];
                 const currDate = new Date().toISOString();
@@ -58,11 +58,10 @@ const addPost = async (req, res, next) => {
                         image: data.Location,
                         userName: userName
                     });
-                    const post =await newPost.save();
+                    const post = await newPost.save();
                     res.json(post);
                 });
-            }
-            else {
+            } else {
                 // If image not found
                 //extra code----------------------------------
                 const newPost = new Post({
@@ -77,10 +76,9 @@ const addPost = async (req, res, next) => {
             // -----------------------------------------------------
 
         }
-    }
-    catch (err){
-            console.log(err.message);
-            res.status(500).send('Server Error...');
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error...');
     }
 };
 
@@ -97,12 +95,12 @@ const getAllPosts = (req, res, next) => {
 
 const getPostsByTitleFilter = (req, res, next) => {
     const tags = req.params.title;
-    console.log("tags",tags);
-    let newTitle=[];
+    console.log("tags", tags);
+    let newTitle = [];
     const title = tags.split(',');
-    title.map(tag=>{
-        tag=tag.toString().trim();
-        tag=tag.toString().toLowerCase();
+    title.map(tag => {
+        tag = tag.toString().trim();
+        tag = tag.toString().toLowerCase();
         newTitle.push(tag);
     });
 
@@ -144,6 +142,17 @@ const deletePostById = (req, res, next) => {
             if (post.user.toString() !== req.user.id) {
                 return res.status(401).json({msg: 'User not authorized to delete the post'});
             } else {
+                if (post.image) {
+                    decodedUrl = decodeURIComponent(post.image)
+                    const message = decodedUrl.split('amazonaws.com/')[1]
+                    var params = {
+                        Bucket: process.env.AWS_BUCKET_NAME,
+                        Key: message
+                    };
+                    s3.deleteObject(params, function(err, data) {
+                        if (err) console.log(err, err.stack); // an error occurred
+                    });
+                }
                 return post.remove();
             }
         })
