@@ -19,5 +19,9 @@ router.post('/', [
     check('password', 'Password is required').exists()
 ], authController.validateUser);
 
+// @route GET api/auth/googlelogin
+// @desc Verify token provides User details
+// @access Public
+router.post('/googlelogin',authController.googlelogin);
 
 module.exports = router;
