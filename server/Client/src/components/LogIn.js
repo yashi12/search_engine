@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { login } from '../action/auth'
 import  { useState } from 'react'
+import { GoogleLogin } from 'react-google-login';
+import axios from "axios";
 
 const LogIn = ({ login, isAuthenticated }) => {
 
@@ -26,6 +28,22 @@ const LogIn = ({ login, isAuthenticated }) => {
         return <Redirect to='/profile' />
     }
 
+    const responseGoogleSuccess = (response) => {
+        console.log(response);
+        axios({
+            method:"POST",
+            url:"http://localhost:3000/api/auth/googlelogin",
+            data: {token: response.tokenId}
+        }).then(resp=>{
+            console.log("google login success",resp.data.token);
+            login({email, password})
+        })
+    }
+
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
+
     return (
         <div className="row">
             <div className="col"></div>
@@ -46,10 +64,18 @@ const LogIn = ({ login, isAuthenticated }) => {
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </form>
+                <GoogleLogin
+                    clientId={process.env.REACT_APP_CID}
+                    buttonText="Login"
+                    onSuccess={responseGoogleSuccess}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                />
 
                 </section>
             </div>
             <div className="col"></div>
+
         </div>
     )
 }

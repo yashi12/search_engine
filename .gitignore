@@ -22,3 +22,8 @@
 /server/.DS_Store
 /server/Client/.DS_Store
 /server/Client/src/.DS_Store
+/server/Client/.env
+
+/Client/.env
+/Client/node_modules
+
