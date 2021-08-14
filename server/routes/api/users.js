@@ -14,7 +14,6 @@ router.post('/', [
     check('password', 'Password should have 6 or more characters').isLength({min: 6}).bail().isAlphanumeric().trim()
 ], userController.postAddUser);
 
-
 // @route GET api/users
 // @desc Confirm email
 // @access Public

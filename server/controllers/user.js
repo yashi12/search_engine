@@ -32,16 +32,22 @@ const sendMail = async (userId,userEmail,task)=>{
             }
         });
         const url = `http://localhost:3000/${task}/${userId}`;
-        console.log("email user",userEmail);
         const mailOptions = {
-            from: 'CONNECT DEV  <yashiagarwal1812@gmail.com>',
+            // from: 'CONNECT DEV  <yashiagarwal1812@gmail.com>',
+            from: "yashiagarwal1812@gmail.com",
             to: userEmail,
             subject: "Verify your mail",
             text: 'Confirm Your Email!',
             html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
         };
-        return await transport.sendMail(mailOptions);
+        return await transport.sendMail(mailOptions, (error, response) => {
+                if(error){
+                    console.log(error) ;
+                }
+                transport.close();
+            });
     }catch (err) {
+        console.log("error in sending email", err.message);
         return err;
     }
 };
@@ -52,11 +58,7 @@ const postAddUser = (req, res, next) => {
         console.log(errors.array());
         return res.status(400).json({errors: errors.array()});
     }
-
-    console.log("body",req.body);
     const {name, email, password} = req.body;
-    console.log("email",req.body.email);
-    console.log("password",req.body.password);
 
     User.findOne({email: email})
         .then(user => {
@@ -74,7 +76,7 @@ const postAddUser = (req, res, next) => {
                 .then(user => {
                     let task = "emailConfirmation";
                     sendMail(user._id,user.email,task)
-                        .then(result=> console.log('Email sent...', result))
+                        .then(result=> console.log('Email sent...'))
                         .catch(err=>console.log(err.message));
 
                     const payload = {
@@ -103,5 +105,5 @@ const postAddUser = (req, res, next) => {
 }
 
 module.exports = {
-    postAddUser: postAddUser
+    postAddUser: postAddUser,
 }
