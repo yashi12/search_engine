@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { login } from '../action/auth'
 import  { useState } from 'react'
-import { GoogleLogin } from 'react-google-login';
+//import { GoogleLogin } from 'react-google-login';
 import axios from "axios";
 
 const LogIn = ({ login, isAuthenticated }) => {
@@ -64,13 +64,13 @@ const LogIn = ({ login, isAuthenticated }) => {
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </form>
-                <GoogleLogin
+                {/* <GoogleLogin
                     clientId={process.env.REACT_APP_CID}
                     buttonText="Login"
                     onSuccess={responseGoogleSuccess}
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
-                />
+                /> */}
 
                 </section>
             </div>
