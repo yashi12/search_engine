@@ -6,6 +6,12 @@ import Spinner from './Spinner'
 import auth from "../reducers/auth";
 import ProfileExperience from '../components/ProfileExperience'
 import Moment from "react-moment";
+import { HiUserAdd } from 'react-icons/hi'
+import { AiFillInfoCircle } from 'react-icons/ai'
+import { GrUpdate, GrUserExpert } from 'react-icons/gr'
+import { MdWork } from 'react-icons/md'
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import { RiProfileLine, RiErrorWarningLine } from 'react-icons/ri'
 
 const ShowProfile = ({
                          auth,
@@ -19,36 +25,36 @@ const ShowProfile = ({
     return (
         <div>
             <div className="row">
-                <div className="col-3"/>
+                <div className="col-3"></div>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/><br/>
                     {social ?
                     <div className="row card-body ">
                         <div className="col">
-                            <h5>Github</h5>
+                            <h5><FaGithub/> Github</h5>
                             {social.githubusername ?
-                                <p>{social.githubusername}</p> : <div/>}
+                                <p>{social.githubusername}</p> : <div></div>}
                         </div>
                         <div className="col">
-                            <h5>Linked In</h5>
+                            <h5><FaLinkedin/> Linked In</h5>
                             {social.linkedIn ?
-                                <p>{social.linkedIn}</p> : <div/>}
+                                <p>{social.linkedIn}</p> : <div></div>}
                         </div>
 
                         <div className="form-group">
-                            <h5>Twitter</h5>
+                            <h5><FaTwitter/> Twitter</h5>
                             {social.twitter ?
-                                <p>{social.twitter}</p> : <div/>}
+                                <p>{social.twitter}</p> : <div></div>}
                         </div>
-                    </div>:<div/>}
+                    </div>:<div></div>}
                     <div className="form-group">
-                        <h5>Bio</h5>
+                        <h5><RiProfileLine/> Bio</h5>
                         {bio ?
-                            <p>{bio}</p> : <div/>}
+                            <p>{bio}</p> : <div></div>}
                     </div>
                     <div className="form-group">
-                        <h5>Skills</h5>
+                        <h5><GrUserExpert/> Skills</h5>
                         {skills.map((skill) => (
                             <h3><span className="badge badge-info">{skill}</span></h3>
                         ))}
@@ -56,11 +62,15 @@ const ShowProfile = ({
                     <div className="row">
                         <div className="col">
                             <button type="button" className="btn btn-primary"
-                                    onClick={() => toggleSocialInputs(!displaySocialInputs)}>Learn More
+                                onClick={() => toggleSocialInputs(!displaySocialInputs)}><span><AiFillInfoCircle/></span> Learn More
                             </button>
                         </div>
-                        <div className="col"/>
-                        <div className="col"/>
+                        <div className="col">
+                            {!auth.loading && user._id !== auth.user._id && (
+                                <button type="button" className="btn btn-primary"><span><HiUserAdd/></span> Add Friend</button>
+                            )} 
+                        </div>
+                        <div className="col"></div>
                     </div>
                     <br/>
                     {displaySocialInputs && (
@@ -93,8 +103,8 @@ const ShowProfile = ({
                                                     alignItems: "center"
                                                 }}>
                                                     <input className="form-check-input" type="checkbox" value=""
-    id="defaultCheck1"
-    checked={experience.current ? 'checked' : ''}/>
+                                                           id="defaultCheck1"
+                                                           checked={experience.current ? 'checked' : ''}></input>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -102,7 +112,7 @@ const ShowProfile = ({
                                         </table>
                                     </Fragment>
                                 ) : (
-                                    <h4>No experience credentials</h4>
+                                    <h4>No experience credentials <RiErrorWarningLine/></h4>
                                 )}
 
                         </div>
@@ -112,15 +122,14 @@ const ShowProfile = ({
                             <br/>
                             <div className="col">
                                 <Link to='/addExperience'>
-                                    <button className="btn btn-primary">Add Experience</button>
+                                    <button className="btn btn-primary"><span><MdWork/></span> Add Experience</button>
                                 </Link>
                             </div>
                             <div className="col">
                                 <Link to='/update'>
-                                    <button className="btn btn-primary">Update</button>
+                                    <button className="btn btn-primary"><span><GrUpdate/></span> Update</button>
                                 </Link>
                             </div>
-                            <div className="col"/>
                         </div>
                     )}
                     <br/>
