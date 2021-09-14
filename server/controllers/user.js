@@ -75,16 +75,16 @@ const postAddUser = (req, res, next) => {
                 })
                 .then(user => {
                     let task = "emailConfirmation";
-                    sendMail(user._id,user.email,task)
-                        .then(result=> console.log('Email sent...'))
-                        .catch(err=>console.log(err.message));
+                    // sendMail(user._id,user.email,task)
+                    //     .then(result=> console.log('Email sent...'))
+                    //     .catch(err=>console.log(err.message));
 
                     const payload = {
                         user: {
                             id: user._id
                         }
                     };
-                    jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: config.get('TOKEN_EXPIRE_TIME')}, (err,token)=>{
+                    jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
                         if (err){
                             throw err;
                             return res.status(500).send('server error...');

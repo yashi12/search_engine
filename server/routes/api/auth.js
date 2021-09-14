@@ -22,6 +22,6 @@ router.post('/', [
 // @route GET api/auth/googlelogin
 // @desc Verify token provides User details
 // @access Public
-router.post('/googlelogin',authController.googlelogin);
+//router.post('/googlelogin',authController.googlelogin);
 
 module.exports = router;
