@@ -82,7 +82,6 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
                                     <label htmlFor="linkedin">Linked In</label>
                                     <input type="text" id="linkedin" className="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}/>
                                 </div>
-
                                 <div className="col">
                                     <label htmlFor="twitter">Twitter</label>
                                     <input type="text" id="twitter" className="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}/>
