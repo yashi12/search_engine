@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const multer = require('multer');
 
-var cors = require('cors');
+let cors = require('cors');
 
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
@@ -27,7 +27,7 @@ const storage = multer.memoryStorage({
 app.use(cors());
 
 //Connect Database
-connectDB();
+connectDB().then(r => {});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

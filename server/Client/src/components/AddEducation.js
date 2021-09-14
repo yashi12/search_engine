@@ -19,11 +19,11 @@ const AddEducation = ({ addEducation, history }) => {
 
     const { company, designation, start, end, current } = formData
 
-    const onChange = e = setFormData({...formData}, [e.target.id]= e.target.value)
+    const onChange = e => setFormData({...formData}, [e.target.id] = e.target.value)
 
     return (
         <div className="row">
-            <div className="col-3"></div>
+            <div className="col-3"/>
             <div className="col-6">
                 <br/><br/>
                 <div className="card">
@@ -34,10 +34,10 @@ const AddEducation = ({ addEducation, history }) => {
                         }}>
                             <div className="form-group">
                                 <label>Company</label>
-                                <input onChange={e => onChange(e)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company"/>
                                 <br/>
                                 <label>Designation</label>
-                                <input onChange={e => onChange(e)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Designation"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Designation"/>
                                 <br/>
                                 <label>Current Job</label>
                                 <input type="checkbox" className="form-control" checked={current} id="current" onChange={e => {
@@ -46,10 +46,10 @@ const AddEducation = ({ addEducation, history }) => {
                                 }} />
                                 <br/>
                                 <label >Start</label>
-                                <input onChange={e => onChange(e)} type="date" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Start Year"></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Start Year"/>
                                 <br/>
                                 <label >End</label>
-                                <input onChange={e => onChange(e)} type="date" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="End Year" disabled={toDateDisabled ? 'disabled':''}></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="End Year" disabled={toDateDisabled ? 'disabled' : ''}/>
                                 <br/>
                                 
                                 <button type="submit" className="btn btn-primary">Add</button>

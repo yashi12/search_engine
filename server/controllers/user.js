@@ -52,7 +52,7 @@ const sendMail = async (userId,userEmail,task)=>{
     }
 };
 
-const postAddUser = (req, res, next) => {
+const postAddUser = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
@@ -76,7 +76,7 @@ const postAddUser = (req, res, next) => {
                 .then(user => {
                     let task = "emailConfirmation";
                     sendMail(user._id,user.email,task)
-                        .then(result=> console.log('Email sent...'))
+                        .then(_=> console.log('Email sent...'))
                         .catch(err=>console.log(err.message));
 
                     const payload = {
@@ -86,7 +86,7 @@ const postAddUser = (req, res, next) => {
                     };
                     jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: config.get('TOKEN_EXPIRE_TIME')}, (err,token)=>{
                         if (err){
-                            throw err;
+                            // throw err;
                             return res.status(500).send('server error...');
                         }
                         res.json({token});

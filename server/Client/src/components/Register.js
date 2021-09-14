@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import { connect } from 'react-redux'
 import { setAlert } from '../action/alert'
 import { register } from '../action/auth'
@@ -35,7 +35,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
     return (
         <div className="row">
-            <div className="col"></div>
+            <div className="col"/>
             <div className="col">
                 <br/><br/>
                 <section className="search-bar">
@@ -43,28 +43,28 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                     <form className="bar"  onSubmit={e => onSubmit(e)} role="form" method="post">
                         <div className="form-group">
                             <h1>Register</h1><br/>
-                            <label for="exampleInputEmail1">Email address</label>
+                            <label htmlFor="exampleInputEmail1">Email address</label>
                             <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                   name="email" onChange={e => onChange(e)}></input>
+    name="email" onChange={e => onChange(e)}/>
                             <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
 
                         </div>
                         <div className="form-group">
-                            <label for="exampleInputEmail1">Name</label>
+                            <label htmlFor="exampleInputEmail1">Name</label>
                             <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                   name="name" onChange={e => onChange(e)}></input>
+    name="name" onChange={e => onChange(e)}/>
                         </div>
                         <div className="form-group">
-                            <label for="exampleInputPassword1">Password</label>
+                            <label htmlFor="exampleInputPassword1">Password</label>
                             <input type="password" className="form-control" id="exampleInputPassword1"
-                                   name="password" onChange={e => onChange(e)}></input>
+    name="password" onChange={e => onChange(e)}/>
 
 
                         </div>
                         <div className="form-group">
-                            <label for="exampleInputPassword1">Confirm Password</label>
+                            <label htmlFor="exampleInputPassword1">Confirm Password</label>
                             <input type="password" className="form-control"
-                                   name="confirmPassword" onChange={e => onChange(e)}></input>
+    name="confirmPassword" onChange={e => onChange(e)}/>
                         </div>
 
                         <button type="submit" className="btn btn-primary">Register</button>
@@ -73,7 +73,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
                 </section>
             </div>
-            <div className="col"></div>
+            <div className="col"/>
 
         </div>
     )

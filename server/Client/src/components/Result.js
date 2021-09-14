@@ -20,7 +20,7 @@ const Result = query => {
                 <section className="container-fluid" id="Result">
 
                     <h1>Results</h1> <br/>
-                    {query.query.related.length == 0 ? <div></div> :
+                    {query.query.related.length === 0 ? <div/> :
                         <Fragment>
                             <h2>Related Topics</h2>
                             <div className="row">
@@ -32,7 +32,7 @@ const Result = query => {
                                 </ul>
                             </div>
                         </Fragment>}
-                    {query.query.prerequisites.length ==0 ? <div></div> :
+                    {query.query.prerequisites.length ===0 ? <div/> :
                         <Fragment>
                             <h2>Prerequisites</h2>
                             <div className="row">
@@ -50,12 +50,10 @@ const Result = query => {
 
                             <div className="col">
                                 <div className="card">
-                                    <img src={UdemyData.image} className="card-img" alt="Best Ever Content!"
-                                         className="card-img-top"
-                                         alt="..."></img>
+                                    <img src={UdemyData.image} className="card-img card-img-top" alt="Best Ever Content!"/>
 
                                     <div className="card-body">
-                                        <h5 className="card-title"></h5>
+                                        <h5 className="card-title"/>
                                         <p className="card-text">{UdemyData.title}</p>
                                     </div>
                                     <ul className="list-group list-group-flush">
@@ -68,9 +66,7 @@ const Result = query => {
                                 </div>
                             </div>
                         ))
-
                         }
-
                     </div>
                     <br/>
 
@@ -80,9 +76,7 @@ const Result = query => {
                         {coursera.map((CourseraData) => (
                             <div className="col">
                                 <div className="card">
-                                    <img src={CourseraData.image} className="card-img" alt="Best Ever Content!"
-                                         className="card-img-top"
-                                         alt="..."></img>
+                                    <img src={CourseraData.image} className="card-img card-img-top" alt="Best Ever Content!"/>
 
                                     <div className="card-body">
                                         <h5 className="card-title">{CourseraData.title}</h5>
@@ -107,9 +101,7 @@ const Result = query => {
                         {youtube.map((YoutubeData) => (
                             <div className="col">
                                 <div className="card">
-                                    <img src={YoutubeData.image} className="card-img" alt="Best Ever Content!"
-                                         className="card-img-top"
-                                         alt="..."></img>
+                                    <img src={YoutubeData.image} className="card-img card-img-top" alt="Best Ever Content!"/>
 
                                     <div className="card-body">
                                         <h5 className="card-title">{YoutubeData.title}</h5>
