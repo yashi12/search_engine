@@ -9,7 +9,7 @@ const request = require('request');
 const Profile = require('../models/Profile');
 const User = require('../models/User');
 
-const getProfile = (req, res, next) => {
+const getProfile = (req, res) => {
     Profile.findOne({user: req.user.id})
         .populate('user', ['name'])
         .then(profile => {
@@ -24,7 +24,7 @@ const getProfile = (req, res, next) => {
         });
 };
 
-const addProfile = (req, res, next) => {
+const addProfile = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
@@ -72,7 +72,7 @@ const addProfile = (req, res, next) => {
         });
 };
 
-const getAllProfiles = (req, res, next) => {
+const getAllProfiles = (req, res) => {
     Profile.find().populate('user', ['name'])
         .then(profiles => {
             res.json(profiles);
@@ -84,7 +84,7 @@ const getAllProfiles = (req, res, next) => {
 
 };
 
-const getProfilesBySkill = (req, res, next) =>{
+const getProfilesBySkill = (req, res) =>{
 
     // const skill = req.body.skills;
     const skill = req.params.skill;
@@ -106,7 +106,7 @@ const getProfilesBySkill = (req, res, next) =>{
 
 };
 
-const getUserProfile = (req, res, next) => {
+const getUserProfile = (req, res) => {
     Profile.findOne({user: req.params.user_id}).populate('user', ['name'])
         .then(profile => {
             if (!profile) {
@@ -116,14 +116,14 @@ const getUserProfile = (req, res, next) => {
         })
         .catch(err => {
             console.log(err.message);
-            if (err.kind == 'ObjectId') {
+            if (err.kind === 'ObjectId') {
                 return res.status(400).json({msg: 'Profile not found'});
             }
             return res.status(500).send('Server Error...');
         })
 };
 
-const deleteProfile = (req, res, next) => {
+const deleteProfile = (req, res) => {
 
     // @todo - remove users posts
 
@@ -142,7 +142,7 @@ const deleteProfile = (req, res, next) => {
         });
 };
 
-const addExperience = (req, res, next) => {
+const addExperience = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});

@@ -19,7 +19,7 @@ const ShowProfile = ({
     return (
         <div>
             <div className="row">
-                <div className="col-3"></div>
+                <div className="col-3"/>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/><br/>
@@ -28,24 +28,24 @@ const ShowProfile = ({
                         <div className="col">
                             <h5>Github</h5>
                             {social.githubusername ?
-                                <p>{social.githubusername}</p> : <div></div>}
+                                <p>{social.githubusername}</p> : <div/>}
                         </div>
                         <div className="col">
                             <h5>Linked In</h5>
                             {social.linkedIn ?
-                                <p>{social.linkedIn}</p> : <div></div>}
+                                <p>{social.linkedIn}</p> : <div/>}
                         </div>
 
                         <div className="form-group">
                             <h5>Twitter</h5>
                             {social.twitter ?
-                                <p>{social.twitter}</p> : <div></div>}
+                                <p>{social.twitter}</p> : <div/>}
                         </div>
-                    </div>:<div></div>}
+                    </div>:<div/>}
                     <div className="form-group">
                         <h5>Bio</h5>
                         {bio ?
-                            <p>{bio}</p> : <div></div>}
+                            <p>{bio}</p> : <div/>}
                     </div>
                     <div className="form-group">
                         <h5>Skills</h5>
@@ -59,8 +59,8 @@ const ShowProfile = ({
                                     onClick={() => toggleSocialInputs(!displaySocialInputs)}>Learn More
                             </button>
                         </div>
-                        <div className="col"></div>
-                        <div className="col"></div>
+                        <div className="col"/>
+                        <div className="col"/>
                     </div>
                     <br/>
                     {displaySocialInputs && (
@@ -93,8 +93,8 @@ const ShowProfile = ({
                                                     alignItems: "center"
                                                 }}>
                                                     <input className="form-check-input" type="checkbox" value=""
-                                                           id="defaultCheck1"
-                                                           checked={experience.current ? 'checked' : ''}></input>
+    id="defaultCheck1"
+    checked={experience.current ? 'checked' : ''}/>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -120,7 +120,7 @@ const ShowProfile = ({
                                     <button className="btn btn-primary">Update</button>
                                 </Link>
                             </div>
-                            <div className="col"></div>
+                            <div className="col"/>
                         </div>
                     )}
                     <br/>

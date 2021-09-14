@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../action/auth'
-import { Fragment } from 'react'
+import React,{ Fragment } from 'react'
 
 const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
@@ -37,16 +37,14 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
     )
 
     const guestLinks = (
-        <div>
-        <ul className="navbar-nav mr-auto ">
-            <li className="nav-item active">
+        <nav className="navbar navbar-nav w-100">
+            <li className="nav-item">
                 <Link className="nav-link" to="/register">Register</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/login">Log In</Link>
             </li>
-        </ul>
-      </div>
+        </nav>
     )
 
     return (
@@ -56,7 +54,7 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon"/>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks }</Fragment>) }                   

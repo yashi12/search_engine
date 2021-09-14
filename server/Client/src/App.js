@@ -27,43 +27,43 @@ import { addExperience } from './action/profile'
 import * as process from "process";
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token)
+	setAuthToken(localStorage.token)
 }
 
 function App() {
 
-  useEffect(()=>{
-    store.dispatch(loadUser())
-  }, [])
+	useEffect(()=>{
+		store.dispatch(loadUser())
+	}, [])
 
-  return (
-    <Provider store={store}>
-      <Router>
-        <Fragment>
-          <Navbar/>
-          <Route exact path="/" component={LogIn}/>
-          <section className="container-fluid">
-            <PrivateRoute exact path="/update" component={AccountDetails}/>
-            <PrivateRoute exact path="/feed" component={Feed}/>
-            <PrivateRoute exact path="/searchPost" component={SearchPost}/>
-            <PrivateRoute exact path="/searchProfile" component={SearchProfile}/>
-            <PrivateRoute exact path="/showProfile" component={ShowProfile}/>
-            <PrivateRoute exact path="/profiles" component={Profiles}/>
-            <Alert />
-            <Switch>
-              <Route exact path="/login" component={LogIn}/>
-              <Route exact path="/register" component={Register}/>
-              <PrivateRoute exact path="/search" component={SearchNew}/>
-              <PrivateRoute exact path="/profile" component={Profile}/>
-              <PrivateRoute exact path="/addPost" component={AddPost}/>
-              <PrivateRoute exact path="/addExperience" component={AddExperience}/>
-            </Switch>
-          </section>
-        </Fragment>
-      </Router>
-    </Provider>
-    
-  );
+	return (
+		<Provider store={store}>
+			<Router>
+				<Fragment>
+					<Navbar/>
+					<Route exact path="/" component={LogIn}/>
+					<section className="container-fluid">
+						<PrivateRoute exact path="/update" component={AccountDetails}/>
+						<PrivateRoute exact path="/feed" component={Feed}/>
+						<PrivateRoute exact path="/searchPost" component={SearchPost}/>
+						<PrivateRoute exact path="/searchProfile" component={SearchProfile}/>
+						<PrivateRoute exact path="/showProfile" component={ShowProfile}/>
+						<PrivateRoute exact path="/profiles" component={Profiles}/>
+						<Alert />
+						<Switch>
+							<Route exact path="/login" component={LogIn}/>
+							<Route exact path="/register" component={Register}/>
+							<PrivateRoute exact path="/search" component={SearchNew}/>
+							<PrivateRoute exact path="/profile" component={Profile}/>
+							<PrivateRoute exact path="/addPost" component={AddPost}/>
+							<PrivateRoute exact path="/addExperience" component={AddExperience}/>
+						</Switch>
+					</section>
+				</Fragment>
+			</Router>
+		</Provider>
+
+	);
 }
 
 export default App;
