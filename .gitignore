@@ -26,4 +26,5 @@
 
 /Client/.env
 /Client/node_modules
+/Client/.idea
 
