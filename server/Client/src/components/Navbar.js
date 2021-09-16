@@ -37,7 +37,7 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
     )
 
     const guestLinks = (
-        <nav className="navbar navbar-nav w-100">
+        <nav className="navbar navbar-nav w-100 navbar-dark">
             <li className="nav-item">
                 <Link className="nav-link" to="/register">Register</Link>
             </li>
