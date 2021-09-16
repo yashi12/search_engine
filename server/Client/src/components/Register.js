@@ -47,7 +47,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                 <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
 
                 <label htmlFor="exampleInputEmail1">Name</label>
-                <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" onChange={e => onChange(e)}/>
+                <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" onChange={e => onChange(e)} autoComplete="off"/>
 
                 <label htmlFor="exampleInputPassword1">Password</label>
                 <input onChange={e => onChange(e)} type="password" className="form-control" id="exampleInputPassword1" name="password" />
