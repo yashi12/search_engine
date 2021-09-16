@@ -30,7 +30,8 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                             <div className="row g-0">
                                 <div className="card-body">
                                     <h5 className="card-title">{post.userName}</h5>
-                                    <p className="card-text">{post.text}</p>
+                                    {/* <p className="card-text">{post.text}</p> */}
+                                    <div dangerouslySetInnerHTML={{__html: post.text}}></div>
                                     <div>
                                         {post.title.map((tag) => (
                                             <span className="badge badge-secondary">{tag}</span>
