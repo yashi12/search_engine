@@ -16,7 +16,7 @@ const ProfileExperience = ({experience: { company, title, to, from, current }}) 
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" checked={current ? 'checked':''}></input>
+                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" checked={current ? 'checked' : ''}/>
                     </td>
                 </tr>
             </tbody>

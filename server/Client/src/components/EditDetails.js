@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
 import { createProfile, getCurrentProfile } from '../action/profile'
 import { Link, withRouter } from 'react-router-dom'
 import profile from '../reducers/profile'
@@ -69,7 +69,7 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
     return (
         <div>
             <div className="row">
-                <div className="col-3"></div>
+                <div className="col-3"/>
                 <div className="col-6">
                     <form onSubmit={e => onSubmit(e)}>
                         <br/><br/>
@@ -77,32 +77,32 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
                             <button onClick={toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
                             { displaySocialInputs && <div>
                                 <div className="col">
-                                    <label>Github</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}></input>
+                                    <label htmlFor="github">Github</label>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}/>
                                 </div>
                                 <div className="col">
-                                    <label>Linked In</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="linked_in" placeholder="Password"></input>
+                                    <label htmlFor="linked_in">Linked In</label>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="linked_in" placeholder="Password"/>
                                 </div>
                                 
                                 <div className="form-group">
-                                    <label>Twitter</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="twitter" placeholder="Password"></input>
+                                    <label htmlFor="twitter">Twitter</label>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="twitter" placeholder="Password"/>
                                 </div>
                             </div> }
                             
                         </div>
                         <div className="form-group">
-                            <label >Bio</label>
-                            <textarea onChange={e => onChange(e)} name="bio" className="form-control" rows="5" maxLength="200"></textarea>
+                            <label htmlFor="bio">Bio</label>
+                            <textarea onChange={e => onChange(e)} name="bio" className="form-control" rows="5" maxLength="200"/>
                         </div>
                         <div className="form-group">
-                            <label >Skills</label>
-                            <input onChange={e => onChange(e)} type="text" className="form-control" name="skill" placeholder="Password"></input>
+                            <label htmlFor="skill">Skills</label>
+                            <input onChange={e => onChange(e)} type="text" className="form-control" name="skill" placeholder="Password"/>
                         </div>
                         <div className="form-group">
-                            <label >Experience</label>
-                            <input onChange={e => onChange(e)} type="text" className="form-control" name="experience" placeholder="Password"></input>
+                            <label htmlFor="experience">Experience</label>
+                            <input onChange={e => onChange(e)} type="text" className="form-control" name="experience" placeholder="Password"/>
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
