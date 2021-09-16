@@ -8,7 +8,7 @@ const User =require('../models/User');
 
 const oAuth2Client = new OAuth2Client(process.env.CLIENT_ID);
 
-const getAuthUser = (req,res,next)=> {
+const getAuthUser = (req,res)=> {
     User.findById(req.user.id)
         .select('-password')
         .then(user=>{
@@ -20,7 +20,7 @@ const getAuthUser = (req,res,next)=> {
         });
 }
 
-const validateUser = (req,res,next)=>{
+const validateUser = (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
@@ -45,13 +45,13 @@ const validateUser = (req,res,next)=>{
                     };
                     jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
                         if (err){
-                            throw err;
+                            // throw err;
                             return res.status(500).send('server error...');
                         }
                         res.json({token});
                     });
                 })
-                .catch(err=>{
+                .catch(_ =>{
                     return res.status(500).send('Server error...');
                 });
         })
@@ -61,7 +61,7 @@ const validateUser = (req,res,next)=>{
         });
 }
 
-const googlelogin = (req,res,next)=>{
+const googlelogin = (req,res)=>{
     const {token} = req.body;
     oAuth2Client.verifyIdToken({idToken:token,audience:process.env.CLIENT_ID})
         .then(response=>{
@@ -78,7 +78,7 @@ const googlelogin = (req,res,next)=>{
                             };
                             jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
                                 if (err){
-                                    throw err;
+                                    // throw err;
                                     return res.status(500).send('server error...');
                                 }
                                 res.json({token});
@@ -102,7 +102,7 @@ const googlelogin = (req,res,next)=>{
                                     };
                                     jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: config.get('TOKEN_EXPIRE_TIME')}, (err,token)=>{
                                         if (err){
-                                            throw err;
+                                            // throw err;
                                             return res.status(500).send('server error...');
                                         }
                                         res.json({token});

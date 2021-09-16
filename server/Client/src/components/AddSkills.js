@@ -1,25 +1,25 @@
 const AddSkills = () => {
     return (
         <div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
+            <div className="row">
+                <div className="col-3"/>
+                <div className="col-6">
                     <form>
-                        <div class="form-group">
+                        <div className="form-group">
                             <br/><br/>
                             <label>Enter Skills</label>
-                            <small class="form-text text-muted">Max 5.</small>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 1"></input>
+                            <small className="form-text text-muted">Max 5.</small>
+                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 1"/>
                             <br/>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 2"></input>
+                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 2"/>
                             <br/>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 3"></input>
+                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 3"/>
                             <br/>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 4"></input>
+                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 4"/>
                             <br/>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 5"></input>
+                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skill 5"/>
                             <br/>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" className="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
