@@ -78,16 +78,16 @@ const EditProfile = ({ profile:{profile, loading} ,createProfile, getCurrentProf
                             { displaySocialInputs && <div>
                                 <div className="col">
                                     <label htmlFor="github">Github</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="github" aria-describedby="emailHelp" placeholder="Enter github link" value={githubusername}/>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="github" placeholder="Enter GitHub link" value={githubusername}/>
                                 </div>
                                 <div className="col">
                                     <label htmlFor="linked_in">Linked In</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="linked_in" placeholder="Password"/>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="linked_in" placeholder="Enter LinkedIn Link"/>
                                 </div>
                                 
                                 <div className="form-group">
                                     <label htmlFor="twitter">Twitter</label>
-                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="twitter" placeholder="Password"/>
+                                    <input onChange={e => onChange(e)} type="text" className="form-control" name="twitter" placeholder="Enter Twitter Link"/>
                                 </div>
                             </div> }
                             
