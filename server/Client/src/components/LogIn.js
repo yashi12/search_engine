@@ -44,16 +44,16 @@ const LogIn = ({ login, isAuthenticated }) => {
 		console.log(response);
 	}
 	return (
-		<div>
+		<div className="body-lr">
 			<div className="background">
 				<div className="shape"/>
 				<div className="shape"/>
 			</div>
-			<form className="bar" role="form" method="post" onSubmit={e => onSubmit(e)}>
+			<form className="bar form-lr" role="form" method="post" onSubmit={e => onSubmit(e)}>
 				<h3>Login Here</h3>
 				<label htmlFor="exampleInputEmail1">Email address</label>
 				<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required=""
-											   name="email" onChange={e => onChange(e)} autoComplete="off"/>
+					   name="email" onChange={e => onChange(e)} autoComplete="off"/>
 				<small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
 
 				<label htmlFor="exampleInputPassword1">Password</label>
@@ -61,11 +61,11 @@ const LogIn = ({ login, isAuthenticated }) => {
 				<button type="submit" className="btn">Log In</button>
 				<div className="social">
 					<div className="go"
-						clientId={process.env.REACT_APP_CID}
-						buttonText="Login"
-						onSuccess={responseGoogleSuccess}
-						onFailure={responseGoogle}
-						cookiePolicy={'single_host_origin'}>
+						 clientId={process.env.REACT_APP_CID}
+						 buttonText="Login"
+						 onSuccess={responseGoogleSuccess}
+						 onFailure={responseGoogle}
+						 cookiePolicy={'single_host_origin'}>
 						<i className="fab fa-google"/>
 						Google
 					</div>

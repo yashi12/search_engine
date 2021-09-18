@@ -7,22 +7,18 @@ import React,{ Fragment } from 'react'
 const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
     const authLinks = (
-        <ul className="navbar-nav mr-auto ">
+        <ul className="navbar navbar-nav mr-auto w-100">
             <li className="nav-item active">
                 <Link className="nav-link" to="/feed">Feed</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/search">Learn</Link>
             </li>
-            
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/addPost">Add Post</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/searchPost">Search Post</Link>
@@ -32,6 +28,9 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/profiles">Find Devs</Link>
+            </li>
+            <li className="nav-item active">
+                <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
         </ul>
     )
