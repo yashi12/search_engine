@@ -27,3 +27,4 @@
 /Client/.env
 /Client/node_modules
 /server/db.js
+node_modules/
