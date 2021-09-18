@@ -1,4 +1,4 @@
-*,*:before,*:after{
+.body-lr{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -30,7 +30,7 @@ body{
     right: -30px;
     bottom: -80px;
 }
-form{
+.form-lr{
     height: 520px;
     width: 400px;
     background-color: rgba(255,255,255,0.13)!important;
@@ -46,14 +46,14 @@ form{
 .form-register{
     height: 630px;
 }
-form *{
+.form-lr *{
     font-family: 'Poppins',sans-serif;
     color: #fff;
     letter-spacing: 1px;
     outline: none;
     border: none;
 }
-form h3{
+.form-lr h3{
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;

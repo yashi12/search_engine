@@ -86,7 +86,6 @@ const postAddUser = (req, res, next) => {
                     };
                     jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
                         if (err){
-                            throw err;
                             return res.status(500).send('server error...');
                         }
                         res.json({token});
