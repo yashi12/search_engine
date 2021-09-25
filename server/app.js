@@ -13,6 +13,7 @@ const apiUserRouter = require('./routes/api/users');
 const apiSkillRouter = require('./routes/api/skill');
 const apiProfileRouter = require('./routes/api/profile');
 const apiPostRouter = require('./routes/api/posts');
+const apiDiscussionRouter = require('./routes/api/discussion');
 
 const connectDB = require('./db');
 
@@ -49,6 +50,7 @@ if(process.env.NODE_ENV === 'production'){
 app.use('/api/users',apiUserRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/profile',apiProfileRouter);
+app.use('/api/discussion',apiDiscussionRouter);
 app.use('/api/skill',apiSkillRouter);
 app.use('/api/posts',apiPostRouter);
 
