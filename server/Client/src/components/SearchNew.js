@@ -38,19 +38,19 @@ const SearchNew = ({ searchQuery, profile: { query, loading } }) => {
                     <form className="bar" method="get" >
                         <div>
                             <h5>Enter Topic</h5>
-                            <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"></input>
+                            <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"/>
                             <br/>
-                            <button disabled={topic.skill==""?true:false} onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
+                            <button disabled={topic.skill === ""} onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                         </div>
                     </form>
                 </div>
-                <div className="col"></div>
-                <div className="col"></div>
+                <div className="col"/>
+                <div className="col"/>
             </div>
             <div >
                 { (displaySocialInputs && !loading) ?
                    <Result query={query}/>
-                    : <div></div>
+                    : <div/>
 
                 }
             </div>

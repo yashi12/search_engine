@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
 import { createProfile, getCurrentProfile } from '../action/profile'
 import { Link, Redirect } from 'react-router-dom'
 import profile from '../reducers/profile'
@@ -59,12 +59,12 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
     const onSubmit = e => {
         e.preventDefault();
         console.log("changed data",formData);
-        createProfile(formData, history, profile ? true : false);
+        createProfile(formData, history, !!profile);
     };
     return (
         <div>
             <div className="row">
-                <div className="col-3"></div>
+                <div className="col-3"/>
                 <div className="col-6">
                     <form onSubmit={onSubmit}>
                         <br/><br/>
@@ -75,27 +75,27 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
                             { displaySocialInputs &&( <div>
                                 <br />
                                 <div className="col">
-                                    <label>Github</label>
-                                    <input type="text" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}></input>
+                                    <label htmlFor="githubusername">Github</label>
+                                    <input type="text" id="githubusername" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}/>
                                 </div>
                                 <div className="col">
-                                    <label>Linked In</label>
-                                    <input type="text" className="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}></input>
+                                    <label htmlFor="linkedin">Linked In</label>
+                                    <input type="text" id="linkedin" className="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}/>
                                 </div>
                                 <div className="col">
-                                    <label>Twitter</label>
-                                    <input type="text" className="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}></input>
+                                    <label htmlFor="twitter">Twitter</label>
+                                    <input type="text" id="twitter" className="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}/>
                                 </div>
                                 </div>)}
                         </div>
                         <br />
                         <div className="form-group">
-                            <label >Bio</label>
-                            <textarea name="bio" className="form-control" rows="5" maxLength="200" onChange={e => onChange(e)} value={bio}></textarea>
+                            <label htmlFor="bio">Bio</label>
+                            <textarea name="bio" className="form-control" rows="5" maxLength="200" onChange={e => onChange(e)} value={bio}/>
                         </div>
                         <div className="form-group">
-                            <label >Skills</label>
-                            <input type="text" className="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)} value={skills}></input>
+                            <label htmlFor="skills">Skills</label>
+                            <input type="text" className="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)} value={skills}/>
                         </div>
                         <input type="submit" className="btn btn-primary my-1" />
                         <Link className="btn btn-light my-1" to="/profile">
