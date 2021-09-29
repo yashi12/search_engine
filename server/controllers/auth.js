@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcryptjs');
 const {OAuth2Client} = require('google-auth-library');
+const uniqid =require('uniqid');
+
 
 const User =require('../models/User');
 
-const oAuth2Client = new OAuth2Client(process.env.CLIENT_ID);
+// const oAuth2Client = new OAuth2Client(process.env.CLIENT_ID);
 
 const getAuthUser = (req,res)=> {
     User.findById(req.user.id)
@@ -90,7 +92,7 @@ const googlelogin = (req,res)=>{
                             bcrypt.hash(password, 12)
                                 .then(hashedPassword => {
                                     const user = new User({
-                                        name, email, password: hashedPassword,confirmedEmail:email_verified
+                                        name:uniqid(name.split(' ')[0]+'-'), email, password: hashedPassword,confirmedEmail:email_verified
                                     });
                                     return user.save();
                                 })
@@ -128,5 +130,5 @@ const googlelogin = (req,res)=>{
 module.exports = {
     getAuthUser:getAuthUser,
     validateUser:validateUser,
-    googlelogin:googlelogin
+    // googlelogin:googlelogin
 }
