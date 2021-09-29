@@ -14,7 +14,8 @@ import SearchPost from './components/SearchPost'
 import SearchProfile from './components/SearchProfile'
 import Profiles from './components/Profiles'
 import SearchNew from './components/SearchNew'
-import AskQuestion from './components/AskQuestion';
+import AskQuestion from './components/AskQuestion'
+import QuestionsFeed from './components/QuestionsFeed'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 
@@ -26,6 +27,7 @@ import { loadUser } from './action/auth'
 import setAuthToken from './utils/setAuthToken'
 import { addExperience } from './action/profile'
 import * as process from "process";
+
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -58,6 +60,7 @@ function App() {
               <PrivateRoute exact path="/profile" component={Profile}/>
               <PrivateRoute exact path="/addPost" component={AddPost}/>
               <PrivateRoute exact path="/askQuestion" component={AskQuestion}/>
+              <PrivateRoute exact path="/questionsFeed" component={QuestionsFeed}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>
