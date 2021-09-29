@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const uniqid = require('uniqid');
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 
@@ -58,8 +59,8 @@ const postAddUser = (req, res, next) => {
         console.log(errors.array());
         return res.status(400).json({errors: errors.array()});
     }
-    const {name, email, password} = req.body;
-
+    const { email, password} = req.body;
+    console.log(email,password);
     User.findOne({email: email})
         .then(user => {
             if (user) {
@@ -68,28 +69,65 @@ const postAddUser = (req, res, next) => {
             }
             bcrypt.hash(password, 12)
                 .then(hashedPassword => {
-                    const user = new User({
-                        name, email, password: hashedPassword
-                    });
-                    return user.save();
-                })
-                .then(user => {
-                    let task = "emailConfirmation";
-                    // sendMail(user._id,user.email,task)
-                    //     .then(result=> console.log('Email sent...'))
-                    //     .catch(err=>console.log(err.message));
-
-                    const payload = {
-                        user: {
-                            id: user._id
+                //     const user = new User({
+                //         name, email, password: hashedPassword
+                //     });
+                //     return user.save();
+                // })
+                // .then(user => {
+                //     let task = "emailConfirmation";
+                //     // sendMail(user._id,user.email,task)
+                //     //     .then(result=> console.log('Email sent...'))
+                //     //     .catch(err=>console.log(err.message));
+                let userName = email.split('@');
+                userName = userName[0];
+                let uniqueName = uniqid(userName+'-');
+                User.findOne({email:email})
+                    .then(user=>{
+                        let count=0;
+                        while(user && count<5){
+                            uniqueName = uniqid(userName+'-');
                         }
-                    };
-                    jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
-                        if (err){
+                        if(count === 5){
                             return res.status(500).send('server error...');
                         }
-                        res.json({token});
-                    });
+                        const newUser = new User({
+                            name:uniqueName, email, password: hashedPassword
+                        });
+                        return newUser.save();
+                    })
+                    .then(user => {
+                        let task = "emailConfirmation";
+                        sendMail(user._id,user.email,task)
+                            .then(result=> console.log('Email sent...'))
+                            .catch(err=>console.log(err.message));
+                            const payload = {
+                                user: {
+                                    id: user._id
+                                }
+                            };
+                            jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: config.get('TOKEN_EXPIRE_TIME')}, (err,token)=>{
+                                if (err){
+                                    throw err;
+                                    return res.status(500).send('server error...');
+                                }
+                                res.json({token});
+                            });
+                        })
+                        .catch(err=>console.log(err.message));
+
+                    // const payload = {
+                    //     user: {
+                    //         id: user._id
+                    //     }
+                    // };
+                    // jwt.sign(payload, config.get('SECRET_KEY'), {expiresIn: process.env.TOKEN_EXPIRE_TIME}, (err,token)=>{
+                    //     if (err){
+                    //         throw err;
+                    //         return res.status(500).send('server error...');
+                    //     }
+                    //     res.json({token});
+                    // });
                 })
                 .catch(err => {
                     console.log(err.message);
@@ -103,6 +141,18 @@ const postAddUser = (req, res, next) => {
     // Return jsonwebtoken
 }
 
+const getALLUsers = (req, res, next)=> {
+    User.find({},{name:1})
+        .then(users=>{
+            res.json({users});
+        })
+        .catch(err => {
+            console.log(err.message);
+            return res.status(500).send('Server error...');
+        });
+}
+
 module.exports = {
     postAddUser: postAddUser,
+    getALLUsers: getALLUsers
 }
