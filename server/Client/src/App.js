@@ -14,6 +14,7 @@ import SearchPost from './components/SearchPost'
 import SearchProfile from './components/SearchProfile'
 import Profiles from './components/Profiles'
 import SearchNew from './components/SearchNew'
+import AskQuestion from './components/AskQuestion';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 
@@ -56,6 +57,7 @@ function App() {
               <PrivateRoute exact path="/search" component={SearchNew}/>
               <PrivateRoute exact path="/profile" component={Profile}/>
               <PrivateRoute exact path="/addPost" component={AddPost}/>
+              <PrivateRoute exact path="/askQuestion" component={AskQuestion}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>

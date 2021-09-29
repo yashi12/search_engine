@@ -33,6 +33,12 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
             <li className="nav-item active">
                 <Link className="nav-link" to="/profiles">Find Devs</Link>
             </li>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/askQuestion">Ask Question</Link>
+            </li>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/profiles">Questions Feed</Link>
+            </li>
         </ul>
     )
 
