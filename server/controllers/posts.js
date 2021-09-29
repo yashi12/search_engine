@@ -17,7 +17,7 @@ const s3 = new AWS.S3({
 });
 
 
-const addPost = async (req, res, next) => {
+const addPost = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({errors: errors.array()});
@@ -82,7 +82,7 @@ const addPost = async (req, res, next) => {
     }
 };
 
-const getAllPosts = (req, res, next) => {
+const getAllPosts = (req, res) => {
     Post.find().sort({likeCount: -1, date: -1})
         .then(posts => {
             res.json(posts);
@@ -93,7 +93,7 @@ const getAllPosts = (req, res, next) => {
         });
 };
 
-const getPostsByTitleFilter = (req, res, next) => {
+const getPostsByTitleFilter = (req, res) => {
     const tags = req.params.title;
     console.log("tags", tags);
     let newTitle = [];
@@ -114,7 +114,7 @@ const getPostsByTitleFilter = (req, res, next) => {
         });
 };
 
-const getPostByID = (req, res, next) => {
+const getPostByID = (req, res) => {
     Post.findById(req.params.id)
         .then(post => {
             if (!post) {
@@ -132,31 +132,32 @@ const getPostByID = (req, res, next) => {
         });
 };
 
-const deletePostById = (req, res, next) => {
+const deletePostById = (req, res) => {
     Post.findById(req.params.id)
         .then(post => {
             if (!post) {
                 res.status(404).json({msg: 'No such post found'});
             }
             //Check on user if post belongs to him
+            let decodedUrl;
             if (post.user.toString() !== req.user.id) {
                 return res.status(401).json({msg: 'User not authorized to delete the post'});
             } else {
                 if (post.image) {
                     decodedUrl = decodeURIComponent(post.image)
                     const message = decodedUrl.split('amazonaws.com/')[1]
-                    var params = {
+                    const params = {
                         Bucket: process.env.AWS_BUCKET_NAME,
                         Key: message
                     };
-                    s3.deleteObject(params, function(err, data) {
+                    s3.deleteObject(params, function (err, data) {
                         if (err) console.log(err, err.stack); // an error occurred
                     });
                 }
                 return post.remove();
             }
         })
-        .then(result => {
+        .then(_ => {
             res.json({msg: 'Post removed'});
         })
         .catch(err => {
@@ -168,7 +169,7 @@ const deletePostById = (req, res, next) => {
         });
 };
 
-const likePost = (req, res, next) => {
+const likePost = (req, res) => {
     Post.findById(req.params.id)
         .then(post => {
             if (!post) {
@@ -198,7 +199,7 @@ const likePost = (req, res, next) => {
         });
 };
 
-const addComment = (req, res, next) => {
+const addComment = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({errors: errors.array()});
@@ -233,7 +234,7 @@ const addComment = (req, res, next) => {
         });
 };
 
-const deleteComment = (req, res, next) => {
+const deleteComment = (req, res) => {
     Post.findById(req.params.id)
         .then(post => {
             const comment = post.comments.find(comment => comment.id === req.params.comment_id);

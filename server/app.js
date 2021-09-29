@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const multer = require('multer');
 
-var cors = require('cors');
+let cors = require('cors');
 
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
@@ -23,12 +23,15 @@ const storage = multer.memoryStorage({
     callback(null,'');
   }
 });
-
+app.all('*', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://localhost:3002");
+  next();
+});
 
 app.use(cors());
 
 //Connect Database
-connectDB();
+connectDB().then(r => {});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
