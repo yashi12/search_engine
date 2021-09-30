@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const multer = require('multer');
 
-var cors = require('cors');
+let cors = require('cors');
 
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
@@ -23,7 +23,6 @@ const storage = multer.memoryStorage({
     callback(null,'');
   }
 });
-
 
 app.use(cors());
 

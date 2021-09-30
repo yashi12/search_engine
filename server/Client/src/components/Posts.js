@@ -11,19 +11,19 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                 <br/>
             </div>
             <div className="row">
-                <div className="col-2"></div>
+                <div className="col-2"/>
                 <div className="card mb-3 col-8">
                     <div className="row g-0">
                         <div className="col-md-4 mb-3">
                             {post.image ?
                                 <img width="300" height="300"
-                                     src={post.image}
-                                    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                     alt="..."></img>
+    src={post.image}
+    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                                 : <img width="300" height="300"
-                                       // src={post.image}
-                                    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                       alt="..."></img>
+    // src={post.image}
+    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                             }
                         </div>
                         <div className="col-md-8">
@@ -41,7 +41,7 @@ const Posts = ({addLike, deletePost, auth, post}, showActions) => {
                             </div>
                             {showActions && (
                                 <div className="row g-1">
-                                    <div className="col-9"></div>
+                                    <div className="col-9"/>
                                     <div className="col-3">
                                         <div className="card-body">
                                             <button onClick={e => addLike(post._id)} type="button" className="btn btn-primary">
