@@ -23,15 +23,11 @@ const storage = multer.memoryStorage({
     callback(null,'');
   }
 });
-app.all('*', (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://localhost:3002");
-  next();
-});
 
 app.use(cors());
 
 //Connect Database
-connectDB().then(r => {});
+connectDB();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
