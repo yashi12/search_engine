@@ -29,7 +29,7 @@ const Profile = ({
     return (profile === null ? <Spinner/> : !profile.hasOwnProperty("msg") ? (<Fragment>
         <div>
             <div className="row">
-                <div className="col-3"></div>
+                <div className="col-3"/>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/><br/>
@@ -39,26 +39,26 @@ const Profile = ({
                                 <div className="col">
                                     <h5><FaGithub/> Github</h5>
                                     {profile["social"].githubusername ?
-                                        <p>{profile["social"].githubusername}</p> : <div></div>}
+                                        <p>{profile["social"].githubusername}</p> : <div/>}
                                 </div>
                                 <div className="col">
                                     <h5><FaLinkedin/> Linked In</h5>
                                     {profile["social"].linkedIn ?
-                                        <p>{profile["social"].linkedIn}</p> : <div></div>}
+                                        <p>{profile["social"].linkedIn}</p> : <div/>}
                                 </div>
 
                                 <div className="form-group">
                                     <h5><FaTwitter/> Twitter</h5>
                                     {profile["social"].twitter ?
-                                        <p>{profile["social"].twitter}</p> : <div></div>}
+                                        <p>{profile["social"].twitter}</p> : <div/>}
                                 </div>
                             </Fragment>
-                            : <div></div>}
+                            : <div/>}
                     </div>
                     <div className="form-group card-body">
                         <h5><RiProfileLine/> Bio</h5>
                         {profile["bio"] ?
-                            <p>{profile["bio"]}</p> : <div></div>}
+                            <p>{profile["bio"]}</p> : <div/>}
                     </div>
                     <div className="form-group card-header">
                         <h5><GrUserExpert/> Skills</h5>

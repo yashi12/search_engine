@@ -30,14 +30,14 @@ const SearchProfile = ({ getProfilesBySkill, profile: { searchProfiles } }) => {
             <form className="bar" method="get" >
                 <div>
                     <h5>Enter Topic</h5>
-                    <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"></input>
+                    <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"/>
                     <br/>
                     <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                 </div>
             </form>
             </div>
-            <div className="col"></div>
-            <div className="col"></div>
+            <div className="col"/>
+            <div className="col"/>
         </div>
             <div >
                 {searchProfiles.map((profile) => (
