@@ -2,27 +2,23 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../action/auth'
-import { Fragment } from 'react'
+import React,{ Fragment } from 'react'
 
 const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
     const authLinks = (
-        <ul className="navbar-nav mr-auto ">
+        <ul className="navbar navbar-nav mr-auto w-100">
             <li className="nav-item active">
                 <Link className="nav-link" to="/feed">Feed</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/search">Learn</Link>
             </li>
-            
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/addPost">Add Post</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/searchPost">Search Post</Link>
@@ -39,20 +35,21 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
             <li className="nav-item active">
                 <Link className="nav-link" to="/questionsFeed">Questions Feed</Link>
             </li>
+            <li className="nav-item active">
+                <Link className="nav-link" onClick={logout} >Log Out</Link>
+            </li>
         </ul>
     )
 
     const guestLinks = (
-        <div>
-        <ul className="navbar-nav mr-auto ">
-            <li className="nav-item active">
+        <nav className="navbar navbar-nav w-100 navbar-dark">
+            <li className="nav-item">
                 <Link className="nav-link" to="/register">Register</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/login">Log In</Link>
             </li>
-        </ul>
-      </div>
+        </nav>
     )
 
     return (
@@ -62,7 +59,7 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon"/>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks }</Fragment>) }                   
@@ -82,4 +79,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {logout} )(Navbar)
-
