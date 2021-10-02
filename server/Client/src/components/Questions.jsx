@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import post from "../reducers/post";
 import question from '../reducers/question';
+import { deleteQuestion } from '../action/question';
 
-const Questions = ({ auth, question}) => {
-
-    console.log(question)
+const Questions = ({ auth, question, deleteQuestion}, showActions) => {
 
     return (
         <div>
@@ -19,13 +17,12 @@ const Questions = ({ auth, question}) => {
                     <div className="row g-0">
                         <div className="col-md-4 mb-3">
                             <br />
-                            {post.image ?
+                            {question.media ?
                                 <img width="200" height="200"
-                                     src={post.image}
+                                     src={question.media}
                                     // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
                                      alt="..."></img>
                                 : <img width="200" height="200"
-                                       // src={post.image}
                                     src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
                                        alt="..."></img>
                             }
@@ -33,15 +30,25 @@ const Questions = ({ auth, question}) => {
                         <div className="col-md-8">
                             <div className="row g-0">
                                 <div className="card-body">
-                                    <h5 className="card-title">Q. {question.title}</h5>
-                                    {/* <p className="card-text">{post.text}</p> */}
-                                    <div dangerouslySetInnerHTML={{__html: question.description}}></div>
-                                    <div>
+                                    <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
+                                    <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
+                                    <br />
+                                    <p>
+                                        Tags :{' '}
                                         {question.tags.map((tag) => (
                                             <span className="badge badge-secondary">{tag}</span>
                                         ))}
-                                    </div>
+                                    </p>
+                                    <p>
+                                        Category :{' '}<span className="badge badge-secondary">{question.category}</span>
+                                    </p>
                                 </div>
+                            </div>
+                            <div className="row g-1">
+                                    <div className="col-9"/>
+                                    <div className="col-3">
+                                        Answers : {question.answers.length}
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -57,11 +64,13 @@ Questions.defaultProps = {
 
 Questions.propTypes = {
     question: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    deleteQuestion: PropTypes.func.isRequired,
+    showActions: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {})(Questions)
+export default connect(mapStateToProps, {deleteQuestion})(Questions)

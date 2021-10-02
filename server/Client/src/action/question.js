@@ -82,13 +82,13 @@ export const searchQuestions = (topic) => async dispatch => {
 // Delete  Questions
 export const deleteQuestion = postId => async dispatch => {
     try {
-        const res = await axios.delete(`http://localhost:3000/api/posts/${postId}`)
+        const res = await axios.delete(`http://localhost:3000/api/discussion/ques/${postId}`)
         dispatch({
             type: DELETE_QUESTION,
             payload: postId
         })
 
-        // dispatch(setAlert('Post removed','success'))
+        dispatch(setAlert('Question removed','success'))
 
     } catch (err) {
         dispatch({
@@ -101,21 +101,22 @@ export const deleteQuestion = postId => async dispatch => {
 
 // Ask Questions
 export const askQuestion = (data) => async dispatch => {
+    console.log("inside ask question")
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
     try {
         // console.log( "text body",body);
-        const res = await axios.post('http://localhost:3000/api/posts', data, config)
+        const res = await axios.post('http://localhost:3000/api/discussion/ques', data, config)
         dispatch({
             type: ASK_QUESTION,
             payload: res.data
         })
         console.log("after dispatch")
-        dispatch(setAlert('Post Created','success'))
+        dispatch(setAlert('Question Added','success'))
 
     } catch (err) {
-        console.log("error add post dispatch",err);
+        console.log("error question dispatch",err);
         dispatch({
             type: QUESTION_ERROR,
             payload: {msg: err.response,

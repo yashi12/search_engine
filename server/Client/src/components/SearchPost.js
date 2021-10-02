@@ -31,14 +31,14 @@ const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
             <form className="bar" method="get" >
                 <div>
                     <h5>Enter Topic</h5>
-                    <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Post" name="title"></input>
+                    <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Post" name="title"/>
                     <br/>
                     <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                 </div>
             </form>
             </div>
-            <div className="col"></div>
-            <div className="col"></div>
+            <div className="col"/>
+            <div className="col"/>
         </div>
             <div >
                 {searchPostArr.map((post) => (
