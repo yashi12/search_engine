@@ -26,4 +26,7 @@
 
 /Client/.env
 /Client/node_modules
-/db.js
+/Client/.idea
+
+/server/db.js
+node_modules/

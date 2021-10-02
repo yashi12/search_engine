@@ -28,13 +28,13 @@ export default function(state = initialState, action){
         case ASK_QUESTION:
             return {
                 ...state,
-                questions: [payload, ...state.posts],
+                questions: [payload, ...state.questions],
                 loading: false
             }
         case DELETE_QUESTION:
             return {
                 ...state,
-                questions: state.posts.filter(post => post._id !== payload),
+                questions: state.questions.filter(question => question._id !== payload),
                 loading: false
             }
         case QUESTION_ERROR:
@@ -52,7 +52,7 @@ export default function(state = initialState, action){
         case UPDATE_QUESTION:
             return {
                 ...state,
-                questions: state.posts.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
+                questions: state.questions.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
                 loading: false 
             }
 

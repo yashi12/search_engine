@@ -1,46 +1,40 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import { addPost } from '../action/post'
+import { askQuestion } from '../action/question'
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
-const AskQuestion = ({addPost}) => {
+const AskQuestion = ({askQuestion}) => {
 
     const [formData, setFormData] = useState({
-        text: '',
-        title:""
+        title: '',
+        description:"",
+        tags:"",
+        category:""
     })
     const [image,setImage] = useState()
-    const [value, setValue] = useState('')
-
-    const {text,title} = formData
+    const [title, setQuestion] = useState('')
+    const [description, setDescription] = useState('')
 
     const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
 
     useEffect(() => {
-        setFormData({...formData,"text":value})
-    }, [value])
+        setFormData({...formData,"title":title,"description":description})
+    }, [title,description])
 
     const onSubmit = e => {
         e.preventDefault()
-        //setFormData({...formData,"text":value})
-        console.log("data",formData)
+        //setFormData({...formData,"text"[title})
+        
         const data = new FormData();
-        data.append("text",formData.text);
-        const tags = formData.title.split(',')
-        tags.forEach(item => {
-            data.append(
-                "title",item
-            ); });
+        data.append("title",formData.title)
+        data.append("description",formData.description)
+        data.append("tags",formData.tags)
+        data.append("category",formData.category)
         data.append("image",image);
 
-        // Axios.post("https://httpbin.org/anything",data)
-        //     .then(res =>console.log("res",res))
-        //     .catch(err =>console.log("err",err))
-        console.log("buffer",data);
-        addPost(data)
+        askQuestion(data)
     }
 
     return (
@@ -64,18 +58,23 @@ const AskQuestion = ({addPost}) => {
                                     <label>Question</label>
                                     <small>(Max 200 words)</small>
                                     {/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-                                    <ReactQuill theme="snow" value={value} onChange={setValue}/>
+                                    <ReactQuill theme="snow" value ={title} onChange={setQuestion}/>
                                 </div>
                                 <div className="mb-3">
                                     <label>Description</label>
                                     <small>(Max 200 words)</small>
                                     {/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-                                    <ReactQuill theme="snow" value={value} onChange={setValue}/>
+                                    <ReactQuill theme="snow" value = {description} onChange={setDescription}/>
                                 </div>
                                 <div className="mb-3">
                                 <label>Add Tags</label>
                                 <small>(Please don't add more than 30 tags)</small>
-                                <textarea onChange={e => onChange(e)} className="form-control" id="title" rows="3"></textarea>
+                                <textarea onChange={e => onChange(e)} className="form-control" id="tags" rows="3"></textarea>
+                                </div>
+                                <div className="mb-3">
+                                <label>Add Category</label>
+                                <small>(Please don't add more than 30 categories)</small>
+                                <textarea onChange={e => onChange(e)} className="form-control" id="category" rows="3"></textarea>
                                 </div>
                                 <button type="submit" className="btn btn-primary">Ask</button>
                             </div>
@@ -90,7 +89,7 @@ const AskQuestion = ({addPost}) => {
 }
 
 AskQuestion.propTypes = {
-    addPost: PropTypes.func.isRequired
+    askQuestion: PropTypes.func.isRequired
 }
 
-export default connect(null, {addPost})(AskQuestion)
+export default connect(null, {askQuestion})(AskQuestion)

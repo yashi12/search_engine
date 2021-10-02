@@ -6,13 +6,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const multer = require('multer');
 
-var cors = require('cors');
+let cors = require('cors');
 
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
 const apiSkillRouter = require('./routes/api/skill');
 const apiProfileRouter = require('./routes/api/profile');
 const apiPostRouter = require('./routes/api/posts');
+const apiDiscussionRouter = require('./routes/api/discussion');
 
 const connectDB = require('./db');
 
@@ -22,7 +23,6 @@ const storage = multer.memoryStorage({
     callback(null,'');
   }
 });
-
 
 app.use(cors());
 
@@ -49,6 +49,7 @@ if(process.env.NODE_ENV === 'production'){
 app.use('/api/users',apiUserRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/profile',apiProfileRouter);
+app.use('/api/discussion',apiDiscussionRouter);
 app.use('/api/skill',apiSkillRouter);
 app.use('/api/posts',apiPostRouter);
 

@@ -30,14 +30,14 @@ import * as process from "process";
 
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token)
+	setAuthToken(localStorage.token)
 }
 
 function App() {
 
-  useEffect(()=>{
-    store.dispatch(loadUser())
-  }, [])
+	useEffect(()=>{
+		store.dispatch(loadUser())
+	}, [])
 
   return (
     <Provider store={store}>

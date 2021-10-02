@@ -29,7 +29,7 @@ const AddExperience = ({ addExperience, history }) => {
 
     return (
         <div className="row">
-            <div className="col-3"></div>
+            <div className="col-3"/>
             <div className="col-6">
                 <br/>
                 <div className="card">
@@ -38,23 +38,23 @@ const AddExperience = ({ addExperience, history }) => {
                             <div className="form-group">
                                 <h2>Add Experience</h2>
                                 <label>Company</label>
-                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="company"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="company"/>
                                 <br/>
                                 <label>Designation</label>
-                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="title"></input>
+                                <input onChange={e => onChange(e)} type="text" className="form-control"  id="title"/>
                                 <br/>
                                 <label>Current Job</label>
                                 <br />
-                                <input type="checkbox" className="" checked={current} id="current" onChange={e => {
+                                <input type="checkbox" className="" checked={current} id="current" onChange={_ => {
                                     setFormData({...formData, current: !current})
                                     toggleDisabled(!toDateDisabled)
                                 }} />
                                 <br/>
                                 <label >Start</label>
-                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="from"></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="from"/>
                                 <br/>
                                 <label >End</label>
-                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="to" disabled={toDateDisabled ? 'disabled':''}></input>
+                                <input onChange={e => onChange(e)} type="date" className="form-control"  id="to" disabled={toDateDisabled ? 'disabled' : ''}/>
                                 <br/>
                                 
                                 <button type="submit" className="btn btn-primary">Add</button>
