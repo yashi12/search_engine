@@ -30,6 +30,12 @@ const Navbar = ({ auth: {isAuthenticated, loading}, logout }) => {
                 <Link className="nav-link" to="/profiles">Find Devs</Link>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/askQuestion">Ask Question</Link>
+            </li>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/questionsFeed">Questions Feed</Link>
+            </li>
+            <li className="nav-item active">
                 <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
         </ul>
@@ -73,4 +79,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {logout} )(Navbar)
-

@@ -3,10 +3,12 @@ import alert from './alert'
 import auth from './auth'
 import profile from './profile'
 import post from './post'
+import question from './question'
 
 export default combineReducers({
     alert,
     auth,
     profile,
-    post
+    post,
+    question
 })
