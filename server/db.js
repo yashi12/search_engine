@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const config = require('config');
-const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.jm3oc.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
+const mongoURI = process.env.MONGO_URL.toString();
 
 const connectDB = async () => {
     try {
