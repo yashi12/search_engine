@@ -4,7 +4,8 @@ import {
     UPDATE_QUESTION,
     DELETE_QUESTION,
     ASK_QUESTION,
-    SEARCH_QUESTIONS
+    SEARCH_QUESTIONS,
+    GET_QUESTION
 } from '../action/types'
 
 const initialState = {
@@ -54,6 +55,12 @@ export default function(state = initialState, action){
                 ...state,
                 questions: state.questions.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
                 loading: false 
+            }
+        case GET_QUESTION:
+            return {
+                ...state,
+                post: payload,
+                loading: false
             }
 
         default:
