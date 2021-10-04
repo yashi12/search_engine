@@ -59,7 +59,7 @@ export default function(state = initialState, action){
         case GET_QUESTION:
             return {
                 ...state,
-                post: payload,
+                question: payload,
                 loading: false
             }
 
