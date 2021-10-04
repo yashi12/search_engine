@@ -40,7 +40,7 @@ export const getQuestionDiscussion = id => async dispatch => {
         header: {'Content-Type': 'multipart/form-data'}
     }
     try {
-        const res = await axios.get(`http://localhost:3000/api/discussion/discussion/ques/${id}`, config)
+        const res = await axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config)
         console.log("result filter",res)
         dispatch({
             type: GET_QUESTION,
@@ -58,7 +58,7 @@ export const getQuestionDiscussion = id => async dispatch => {
 }
 
 // Search Questions
-export const searchQuestions = (topic) => async dispatch => {
+export const searchQuestions = category => async dispatch => {
     console.log("search question")
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
@@ -66,8 +66,7 @@ export const searchQuestions = (topic) => async dispatch => {
     // const tags = topic.title.split(',')
     // const body = {title:tags}
     try {
-        console.log( "text body 1",topic.title);
-        const res = await axios.get(`http://localhost:3000/api/posts/filter/${topic.title}`, config)
+        const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
         console.log("result filter",res)
         dispatch({
             type: SEARCH_QUESTIONS,
