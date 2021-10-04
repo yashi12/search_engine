@@ -6,7 +6,7 @@ const s3 = new AWS.S3({
 });
 
 const removeMedia = (post)=>{
-    if (post.media) {
+    if (post && post.media) {
         let decodedUrl = decodeURIComponent(post.media)
         const message = decodedUrl.split('amazonaws.com/')[1]
         let params = {
