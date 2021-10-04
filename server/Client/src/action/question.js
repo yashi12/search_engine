@@ -7,7 +7,8 @@ import {
     UPDATE_QUESTION,
     DELETE_QUESTION,
     SEARCH_QUESTIONS,
-    QUESTION_ERROR
+    QUESTION_ERROR,
+    GET_QUESTION
 } from './types'
 
 // Get Questions
@@ -28,6 +29,30 @@ export const getQuestions = () => async dispatch => {
             type: QUESTION_ERROR,
             payload: {msg: err.response,
             status: err.response}
+        })
+    }
+}
+
+// Get Question
+export const getQuestionDiscussion = id => async dispatch => {
+    console.log("get question")
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    try {
+        const res = await axios.get(`http://localhost:3000/api/discussion/discussion/ques/${id}`, config)
+        console.log("result filter",res)
+        dispatch({
+            type: GET_QUESTION,
+            payload: res.data
+        })
+
+    } catch (err) {
+        console.log("error add question dispatch",err);
+        dispatch({
+            type: QUESTION_ERROR,
+            payload: {msg: err.response,
+                status: err.response}
         })
     }
 }
