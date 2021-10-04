@@ -51,11 +51,11 @@ router.put('/ques/:id',[upload.single("media"),auth,[
 // @route DELETE api/discussion/ques/:id
 // @desc Delete a question
 // @access Private
-// router.delete('/ques/:id', auth, discussionController.deleteQuestion);
+router.delete('/ques/:id', auth, discussionController.deleteQuestion);
 
-// // @route GET api/discussion/ques/:id
-// // @desc Delete a question
-// // @access Private
-// router.get('/ques/:ques_id', auth, discussionController.getQuestionById);
+// @route GET api/discussion/ques/:id
+// @desc Delete a question
+// @access Private
+router.get('/ques/:ques_id', auth, discussionController.getQuestionById);
 
 module.exports = router;

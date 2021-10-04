@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const multer = require('multer');
 
-let cors = require('cors');
+var cors = require('cors');
 
 const apiAuthRouter = require('./routes/api/auth');
 const apiUserRouter = require('./routes/api/users');
