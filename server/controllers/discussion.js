@@ -13,8 +13,7 @@ const Answer = require('../models/discussion/Answer');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
-
-
+const {paginatedResults} = require('./helper/pagenation');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
@@ -256,6 +255,7 @@ const deleteQuestion = (req, res, next) => {
 };
 
 const getQuestionById = (req,res,next)=>{
+    console.log("question enetered");
     const ques_id = req.params.ques_id;
     Question.findById(ques_id)
         .then(question => {
@@ -300,12 +300,14 @@ const getQuestionById = (req,res,next)=>{
         });
 };
 
+
+
 module.exports = {
     addQues: addQues,
     getAllQuestions: getAllQuestions,
     getAllQuestionsByCategory: getAllQuestionsByCategory,
     updateQuestion: updateQuestion,
-    // deleteQuestion: deleteQuestion,
-    // getQuestionById: getQuestionById,
+    deleteQuestion: deleteQuestion,
+    getQuestionById: getQuestionById,
     // getQuestionsByTag: getQuestionsByTag,
 }
