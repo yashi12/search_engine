@@ -49,7 +49,7 @@ const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
     );
 };
 
-Posts.propTypes = {
+SearchPost.propTypes = {
     searchPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };
