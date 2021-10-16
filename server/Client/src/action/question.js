@@ -7,7 +7,8 @@ import {
     UPDATE_QUESTION,
     DELETE_QUESTION,
     SEARCH_QUESTIONS,
-    QUESTION_ERROR
+    QUESTION_ERROR,
+    GET_QUESTION
 } from './types'
 
 // Get Questions
@@ -32,8 +33,32 @@ export const getQuestions = () => async dispatch => {
     }
 }
 
+// Get Question
+export const getQuestionDiscussion = id => async dispatch => {
+    console.log("get question")
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    try {
+        const res = await axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config)
+        console.log("result filter",res)
+        dispatch({
+            type: GET_QUESTION,
+            payload: res.data
+        })
+
+    } catch (err) {
+        console.log("error add question dispatch",err);
+        dispatch({
+            type: QUESTION_ERROR,
+            payload: {msg: err.response,
+                status: err.response}
+        })
+    }
+}
+
 // Search Questions
-export const searchQuestions = (topic) => async dispatch => {
+export const searchQuestions = category => async dispatch => {
     console.log("search question")
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
@@ -41,8 +66,7 @@ export const searchQuestions = (topic) => async dispatch => {
     // const tags = topic.title.split(',')
     // const body = {title:tags}
     try {
-        console.log( "text body 1",topic.title);
-        const res = await axios.get(`http://localhost:3000/api/posts/filter/${topic.title}`, config)
+        const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
         console.log("result filter",res)
         dispatch({
             type: SEARCH_QUESTIONS,

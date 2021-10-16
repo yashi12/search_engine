@@ -59,15 +59,15 @@ body{
     line-height: 42px;
     text-align: center;
 }
-label{
+.form-lr label{
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
-input{
+.form-lr input{
     display: block;
-    height: 50px;
+    height: 40px;
     width: 100%;
     background-color: rgba(255,255,255,0.07) !important;
     color: #e5e5e5 !important;
@@ -78,18 +78,18 @@ input{
     font-size: 14px;
     font-weight: 300;
 }
-::placeholder{
+.form-lr input::placeholder{
     color: #e5e5e5 !important;
 }
 
-button{
-    margin-top: 50px;
+.form-lr button{
+    margin-top: 40px;
     width: 100%;
     background-color: #fff !important;
     color: #000 !important;
-    padding: 15px 0;
-    font-size: 20px;
-    font-weight: 600;
+    padding: 7px 0;
+    font-size: 18px;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -97,7 +97,7 @@ button{
     margin-top: 30px;
     display: flex;
 }
-.social div{
+.form-lr .social div{
     width: 150px;
     border-radius: 3px;
     padding: 5px 10px 10px 5px;
@@ -106,12 +106,12 @@ button{
     text-align: center;
     cursor: pointer;
 }
-.social div:hover{
+.form-lr .social div:hover{
     background-color: rgba(255,255,255,0.47)!important;
 }
-.social i{
+.form-lr .social i{
     margin-right: 4px;
 }
-.social .fb{
+.form-lr .social .fb{
     margin-left: 25px;
 }
