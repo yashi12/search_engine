@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import question from '../reducers/question';
 import { deleteQuestion } from '../action/question';
+import { Link } from 'react-router-dom';
 
 const Questions = ({ auth, question, deleteQuestion}, showActions) => {
 
@@ -45,10 +46,12 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                                 </div>
                             </div>
                             <div className="row g-1">
-                                    <div className="col-9"/>
-                                    <div className="col-3">
-                                        Answers : {question.answers.length}
-                                    </div>
+                                <div className="col-9"/>
+                                <div className="col-3">
+                                    <Link to={`/question/${question._id}`} className="btn btn-primary">
+                                        Answers <span className="badge badge-light">{question.answers.length}</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
