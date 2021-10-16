@@ -25,14 +25,14 @@ const AnswerSchema = new Schema({
         type: Number,
         default: 0
     },
-    // likes: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'AnswerLike'
-    // },
-    // comments: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'AnswerComment'
-    // },
+    likes: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'AnswerLike'
+    },
+    comments: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'AnswerComment'
+    },
     date: {
         type: Date,
         default: Date.now
