@@ -24,16 +24,16 @@ export default function(state = initialState, action){
                 loading: false
             }
         case ADD_ANSWER:
-            console.log("posts", state);
+            console.log("answers", state);
             return {
                 ...state,
-                posts: [payload, ...state.posts],
+                posts: [payload, ...state.answers],
                 loading: false
             }
         case DELETE_ANSWER:
             return {
                 ...state,
-                posts: state.posts.filter(post => post._id !== payload),
+                posts: state.answers.filter(post => post._id !== payload),
                 loading: false
             }
         case ANSWER_ERROR:
@@ -45,7 +45,7 @@ export default function(state = initialState, action){
         case LIKE_ANSWER:
             return {
                 ...state,
-                posts: state.posts.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
+                posts: state.answers.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
                 loading: false 
             }
 

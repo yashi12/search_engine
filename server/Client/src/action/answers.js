@@ -31,13 +31,13 @@ export const getAnswer = id => async dispatch => {
 }
 
 // Like Answer
-export const likeAnswer = postId => async dispatch => {
+export const likeAnswer = ansId => async dispatch => {
     try {
-        const res = await axios.put(`http://localhost:3000/api/posts/like/${postId}`)
+        const res = await axios.put(`http://localhost:3000/api/posts/like/${ansId}`)
 
         dispatch({
             type: LIKE_ANSWER,
-            payload: { postId, likes: res.data  }
+            payload: { ansId, likes: res.data  }
         })
 
     } catch (err) {
@@ -56,7 +56,7 @@ export const deleteAnswer = answerId => async dispatch => {
         const res = await axios.put(`http://localhost:3000/api/answer/delete/${answerId}`)
         dispatch({
             type: DELETE_ANSWER,
-            payload: postId
+            payload: answerId
         })
 
         dispatch(setAlert('Answer removed','success'))
@@ -71,13 +71,13 @@ export const deleteAnswer = answerId => async dispatch => {
 }
 
 // Add  Answer
-export const addAnswer = (id,data) => async dispatch => {
+export const addAnswer = (id,description) => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
     try {
-        // console.log( "text body",body);
-        const res = await axios.post(`http://localhost:3000/api/answer/${id}`, data, config)
+        console.log( "text body",id, description);
+        const res = await axios.post(`http://localhost:3000/api/answer/${id}`, description, config)
         dispatch({
             type: ADD_ANSWER,
             payload: res.data
