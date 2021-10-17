@@ -10,7 +10,6 @@ const AWS = require('aws-sdk');
 const Answer = require('../models/discussion/Answer');
 const Question = require('../models/discussion/Question');
 const AnswerComment = require('../models/discussion/AnswerComment');
-// const Tag = require('../models/discussion/Tag');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
@@ -45,16 +44,11 @@ const addAnswer = async (req, res, next) => {
                     res.status(404).json({msg: 'No such question found'});
             })
 
-        const {description, media, tags, likeCount, likes, comments} = req.body;
+        const {description, media, likeCount, likes, comments} = req.body;
 
         tempAnswer.question = req.params.ques_id;
         tempAnswer.description = req.body.description;
         tempAnswer.user = req.user.id;
-
-
-        if (tags) {
-            tempAnswer.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
-        }
 
         if (req.file) {
             const file = req.file.originalname.split(".");
@@ -119,23 +113,6 @@ const getAnswerById = (req, res, next) => {
         });
 };
 
-const getQuestionsByTag = (req, res, next) => {
-    Question.findById(req.params.id)
-        .then(post => {
-            if (!post) {
-                res.status(404).json({msg: 'No such post found'});
-            } else {
-                res.json(post);
-            }
-        })
-        .catch(err => {
-            if (err.kind === 'ObjectId') {
-                res.status(404).json({msg: 'No such post found'});
-            }
-            console.log(err.message);
-            res.status(500).send('Server Error...');
-        });
-};
 
 const updateAnswer = (req, res, next) => {
     const errors = validationResult(req);
@@ -152,17 +129,13 @@ const updateAnswer = (req, res, next) => {
             if (answer.user.toString() !== req.user.id) {
                 return res.status(401).json({msg: 'User not authorized to update the answer'});
             }
-            const {description, media, tags} = req.body;
+            const {description, media} = req.body;
             const tempAnswer = {};
 
             tempAnswer.description = description;
 
             if (media) {
                 tempAnswer.media = media;
-            }
-
-            if (tags) {
-                tempAnswer.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
             }
 
             if (req.file) {
@@ -186,7 +159,6 @@ const updateAnswer = (req, res, next) => {
                             $set: {
                                 description: tempAnswer.description,
                                 media: tempAnswer.media,
-                                tags: tempAnswer.tags,
                             }
                         },
                         {new: true}
@@ -202,8 +174,7 @@ const updateAnswer = (req, res, next) => {
                 Answer.findByIdAndUpdate(id,
                     {
                         $set: {
-                            description: tempAnswer.description,
-                            tags: tempAnswer.tags,
+                            description: tempAnswer.description
                         },
                         $unset: {
                             media:""
@@ -250,7 +221,14 @@ const addCommentToAnswer = async (req,res,next)=>{
         const newComment = new AnswerComment(comment);
         newComment.save();
     }
-
+    else{  // If answer has previous comments
+        const comment = {};
+        commentSection.comments.push({
+            user: req.user._id,
+            text: req.body.text
+        })
+        
+    }
 
 };
 
@@ -262,5 +240,4 @@ module.exports = {
     // updateQuestion: updateQuestion,
     deleteAnswer: deleteAnswer,
     addCommentToAnswer:addCommentToAnswer
-    // getQuestionsByTag: getQuestionsByTag,
 }

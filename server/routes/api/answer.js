@@ -45,7 +45,7 @@ router.get('/:ans_id', auth, answerController.getAnswerById);
 // @route GET api/posts/:id
 // @desc Get post by ID
 // @access Private
-router.get('/:ans_id', auth, answerController.addCommentToAnswer);
+router.post('/:ans_id', auth, answerController.addCommentToAnswer);
 
 
 
