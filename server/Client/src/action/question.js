@@ -83,25 +83,25 @@ export const searchQuestions = category => async dispatch => {
     }
 }
 
-// // Add Like
-// export const addLike = postId => async dispatch => {
-//     try {
-//         const res = await axios.put(`http://localhost:3000/api/posts/like/${postId}`)
+// Update Question
+export const updateQuestion = quesId => async dispatch => {
+    try {
+        const res = await axios.put(`http://localhost:3000/api/discussion/ques/${quesId}`)
 
-//         dispatch({
-//             type: UPDATE_LIKES,
-//             payload: { postId, likes: res.data  }
-//         })
+        dispatch({
+            type: UPDATE_QUESTION,
+            payload: { quesId, likes: res.data  }
+        })
 
-//     } catch (err) {
-//         console.log("error like", err);
-//         dispatch({
-//             type: POST_ERROR,
-//             payload: {msg: err.response,
-//             status: err.response}
-//         })
-//     }
-// }
+    } catch (err) {
+        console.log("error like", err);
+        dispatch({
+            type: QUESTION_ERROR,
+            payload: {msg: err.response,
+            status: err.response}
+        })
+    }
+}
 
 // Delete  Questions
 export const deleteQuestion = postId => async dispatch => {

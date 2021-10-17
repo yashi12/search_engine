@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Spinner from './Spinner'
 import { getQuestionDiscussion, deleteQuestion } from '../action/question'
+import { addAnswer, deleteAnswer, likeAnswer } from '../action/answers'
 
 const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion}) => {
 
@@ -17,7 +18,8 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
     const onChange = e => setCommentData(e.target.value)
 
     const Submit = () => {
-        console.log(commentData)
+        console.log("comment : ",commentData)
+        addAnswer(match.params.id,commentData)
     }
 
     return (
@@ -62,11 +64,19 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                         </div>
                                     </div>
                                     <div className="row g-1">
-                                        <div className="col-5"/>
+                                        <div className="col-2"/>
                                         <div className="col-3">
                                             {!auth.loading && question.result.user === auth.user._id && (
                                                     <button onClick={() => deleteQuestion(question.result._id)} type="button"
                                                             className="btn btn-danger">Delete
+                                                    </button>
+                                                    
+                                            )}
+                                        </div>
+                                        <div className="col-3">
+                                            {!auth.loading && question.result.user === auth.user._id && (
+                                                    <button onClick={() => deleteQuestion(question.result._id)} type="button"
+                                                            className="btn btn-danger">Update
                                                     </button>
                                                     
                                             )}
@@ -93,24 +103,6 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                     </div>
                                 </div> : <div></div>
                             }
-                            {/* <div className="row g-3">
-                                <div className="col-9">
-                                    {
-                                        question.answers.length > 0 ? 
-                                        <Fragment>
-                                             {question.answers.map(answer => <div>{answer}</div>)
-                                            }
-                                            <div>{question.answers[0].description}</div>
-                                        </Fragment> :
-                                        <Fragment>No answers</Fragment>
-                                    }
-                                </div>
-                                <div className="col-3">
-                                    <div className="btn btn-primary">
-                                        Likes: <span className="badge badge-light">{question.answers[0].likeCount}</span>
-                                    </div>
-                                </div>
-                            </div> */}
                             <div className="row g-3">
                                 <div className="col">
                                     <table className="table ">
@@ -124,19 +116,19 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                 question.answers.map((element) => (
                                                     <tr>
                                                         <td>{element.description}</td>
-                                                        <td><div className="btn btn-primary">
+                                                        <td><button className="btn btn-primary" onClick={()=>likeAnswer(element._id)}>
                                                             Likes: <span className="badge badge-light">{element.likeCount}</span>
-                                                        </div></td>
+                                                        </button></td>
                                                         <td>
                                                             {!auth.loading && element.user === auth.user._id && (
-                                                                <button onClick={() => deleteQuestion(element._id)} type="button"
+                                                                <button onClick={() => deleteAnswer(element._id)} type="button"
                                                                         className="btn btn-danger">Update
                                                                 </button>
                                                             )}
                                                         </td>
                                                         <td>
                                                             {!auth.loading && element.user === auth.user._id && (
-                                                                <button onClick={() => deleteQuestion(element._id)} type="button"
+                                                                <button onClick={() => deleteAnswer(element._id)} type="button"
                                                                         className="btn btn-danger">Delete
                                                                 </button>
                                                             )}
@@ -145,6 +137,7 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                     </tr>
                                                 ))
                                                 }
+                                                <tr><button className="btn btn-primary">Next</button></tr>
                                             </tbody> :
                                             <tbody>
                                                 <tr>
@@ -169,7 +162,10 @@ QuestionDiscussion.propTypes = {
     getQuestionDiscussion: PropTypes.func.isRequired,
     question: PropTypes.object.isRequired,
     auth: PropTypes.func.isRequired,
-    deleteQuestion: PropTypes.func.isRequired
+    deleteQuestion: PropTypes.func.isRequired,
+    addAnswer: PropTypes.func.isRequired,
+    deleteAnswer: PropTypes.func.isRequired,
+    likeAnswer: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -177,4 +173,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {getQuestionDiscussion, deleteQuestion})(QuestionDiscussion)
+export default connect(mapStateToProps, {getQuestionDiscussion, deleteQuestion, addAnswer, deleteAnswer, likeAnswer})(QuestionDiscussion)
