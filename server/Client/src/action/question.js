@@ -84,17 +84,23 @@ export const searchQuestions = category => async dispatch => {
 }
 
 // Update Question
-export const updateQuestion = quesId => async dispatch => {
+export const updateQuestion = (id,data) => async dispatch => {
+    console.log("inside update question")
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
     try {
-        const res = await axios.put(`http://localhost:3000/api/discussion/ques/${quesId}`)
-
+        // console.log( "text body",body);
+        const res = await axios.put(`http://localhost:3000/api/discussion/ques/${id}`, data, config)
         dispatch({
             type: UPDATE_QUESTION,
-            payload: { quesId, likes: res.data  }
+            payload: res.data
         })
+        console.log("after dispatch")
+        dispatch(setAlert('Question Updated','success'))
 
     } catch (err) {
-        console.log("error like", err);
+        console.log("error question dispatch",err);
         dispatch({
             type: QUESTION_ERROR,
             payload: {msg: err.response,

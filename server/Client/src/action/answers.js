@@ -75,15 +75,42 @@ export const addAnswer = (id,description) => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
+    const data = {description: description}
     try {
         console.log( "text body",id, description);
-        const res = await axios.post(`http://localhost:3000/api/answer/${id}`, description, config)
+        const res = await axios.post(`http://localhost:3000/api/answer/${id}`, data, config)
         dispatch({
             type: ADD_ANSWER,
             payload: res.data
         })
         console.log("after dispatch")
         dispatch(setAlert('Answer Added','success'))
+
+    } catch (err) {
+        console.log("error add answer dispatch",err);
+        dispatch({
+            type: ANSWER_ERROR,
+            payload: {msg: err.response,
+            status: err.response}
+        })
+    }
+}
+
+// Update  Answer
+export const updateAnswer = (id,description) => async dispatch => {
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    const data = {description: description}
+    try {
+        console.log( "text body",id, description);
+        const res = await axios.put(`http://localhost:3000/api/answer/${id}`, data, config)
+        dispatch({
+            type: UPDATE_ANSWER,
+            payload: res.data
+        })
+        console.log("after dispatch")
+        dispatch(setAlert('Answer Updated','success'))
 
     } catch (err) {
         console.log("error add answer dispatch",err);
