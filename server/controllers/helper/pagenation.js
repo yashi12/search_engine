@@ -1,6 +1,6 @@
 const paginatedResults = (length,queryPage)=> {
         let page = 1;
-        const limit = 2;
+        const limit = 10;
         console.log("hi")
         const results = {}
 
