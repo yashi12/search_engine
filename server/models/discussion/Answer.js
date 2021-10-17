@@ -18,9 +18,6 @@ const AnswerSchema = new Schema({
     media:{
         type: String
     },
-    tags:{
-        type: [String]
-    },
     likeCount:{
         type: Number,
         default: 0
