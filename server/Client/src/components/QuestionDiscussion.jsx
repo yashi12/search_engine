@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Spinner from './Spinner'
 import { getQuestionDiscussion, deleteQuestion } from '../action/question'
 
-const QuestionDiscussion = ({ getQuestionDiscussion, question: {question, loading} , match, auth, deleteQuestion}) => {
+const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion}) => {
 
     useEffect(()=>{
         getQuestionDiscussion(match.params.id)
@@ -68,6 +68,7 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question, loadin
                                                     <button onClick={() => deleteQuestion(question.result._id)} type="button"
                                                             className="btn btn-danger">Delete
                                                     </button>
+                                                    
                                             )}
                                         </div>
                                         <div className="col-4">
@@ -82,7 +83,7 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question, loadin
                                 <div className="row g-2">
                                     <div className="col">
                                         <form >
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label>Enter Solution</label>
                                                 <textarea className="form-control" id="comment" rows="3" value={commentData} onChange={e=>onChange(e)}></textarea>
                                             </div>
@@ -92,23 +93,67 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question, loadin
                                     </div>
                                 </div> : <div></div>
                             }
-                            <div className="row g-3">
-                                <div className="col-1"></div>
-                                <div className="col-11">
+                            {/* <div className="row g-3">
+                                <div className="col-9">
                                     {
                                         question.answers.length > 0 ? 
                                         <Fragment>
-                                            {question.answers.array.forEach(element => {
-                                                <div>
-                                                    <p>{element}</p><br />
-                                                </div>
-                                                
-                                            })}
+                                             {question.answers.map(answer => <div>{answer}</div>)
+                                            }
+                                            <div>{question.answers[0].description}</div>
                                         </Fragment> :
                                         <Fragment>No answers</Fragment>
                                     }
                                 </div>
-                                
+                                <div className="col-3">
+                                    <div className="btn btn-primary">
+                                        Likes: <span className="badge badge-light">{question.answers[0].likeCount}</span>
+                                    </div>
+                                </div>
+                            </div> */}
+                            <div className="row g-3">
+                                <div className="col">
+                                    <table className="table ">
+                                        {
+                                            question.answers.length > 0 ?
+                                            <tbody>
+                                                <tr>
+                                                    <td>Answers</td>
+                                                </tr>
+                                                {
+                                                question.answers.map((element) => (
+                                                    <tr>
+                                                        <td>{element.description}</td>
+                                                        <td><div className="btn btn-primary">
+                                                            Likes: <span className="badge badge-light">{element.likeCount}</span>
+                                                        </div></td>
+                                                        <td>
+                                                            {!auth.loading && element.user === auth.user._id && (
+                                                                <button onClick={() => deleteQuestion(element._id)} type="button"
+                                                                        className="btn btn-danger">Update
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            {!auth.loading && element.user === auth.user._id && (
+                                                                <button onClick={() => deleteQuestion(element._id)} type="button"
+                                                                        className="btn btn-danger">Delete
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                ))
+                                                }
+                                            </tbody> :
+                                            <tbody>
+                                                <tr>
+                                                    <td>No answers</td>
+                                                </tr>
+                                            </tbody> 
+                                        }
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
