@@ -39,7 +39,6 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
     const history = useHistory()
 
     const Submit = e => {
-        e.preventDefault()
         console.log("comment : ",commentData)
         addAnswer(match.params.id,commentData)
     }
