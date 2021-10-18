@@ -177,9 +177,9 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                     <tr>
                                                         <td>{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></td>
                                                         <td>{element.description}</td>
-                                                        <td><button className="btn btn-primary" onClick={()=>likeAnswer(element._id)}>
-                                                             <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
-                                                        </button></td>
+                                                        {/* <td><button className="btn btn-primary" onClick={()=>likeAnswer(element._id)}>
+                                                            <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
+                                                        </button></td> */}
                                                         <td>
                                                             {!auth.loading && element.user._id === auth.user._id && (
                                                                 <button onClick={e => Update(e,element.description,element._id)} type="button"
