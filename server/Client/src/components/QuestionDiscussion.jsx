@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Spinner from './Spinner'
@@ -7,6 +8,7 @@ import { getQuestionDiscussion, deleteQuestion } from '../action/question'
 import { addAnswer, deleteAnswer, likeAnswer, updateAnswer } from '../action/answers'
 import { AiFillLike,AiFillDelete,AiFillEdit } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
+import { CgProfile } from 'react-icons/cg'
 
 const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion,addAnswer, deleteAnswer, likeAnswer, updateAnswer}) => {
 
@@ -34,6 +36,8 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
         }
     }
 
+    const history = useHistory()
+
     const Submit = e => {
         e.preventDefault()
         console.log("comment : ",commentData)
@@ -41,9 +45,13 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
     }
 
     const UpdateAnswer = e => {
-        e.preventDefault()
         console.log("new answer : ",updateData)
         updateAnswer(answerId,updateData)
+        //window.location.reload(false)
+    }
+
+    const DeleteAnswer = (id) => {
+        deleteQuestion(id)
     }
 
     const Update = (e,description,id) => {
@@ -51,6 +59,13 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
         setUpdateData(description)
         setAnswerId(id)
         setUpdateToggle(!updateToggle)
+
+    }
+
+    const Delete = (e,id) => {
+        e.preventDefault()
+        deleteQuestion(id)
+        history.push(`/questionsFeed`)
     }
 
     return (
@@ -62,8 +77,8 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                         <br/>
                     </div>
                     <div className="row">
-                        <div className="col-2"></div>
-                        <div className="card mb-3 col-8">
+                        <div className="col-1"></div>
+                        <div className="card mb-3 col-10">
                             <div className="row g-0">
                                 <div className="col-md-4 mb-3">
                                     <br />
@@ -80,6 +95,7 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                 <div className="col-md-8">
                                     <div className="row g-0">
                                         <div className="card-body">
+                                            <h4>{question.result.user.name} <Link className="btn btn-primary" to={`/profile/${question.result.user._id}`}><CgProfile/></Link></h4>
                                             <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.result.title}}></div></h4>
                                             <h6><div dangerouslySetInnerHTML={{__html: question.result.description}}></div></h6>
                                             <br />
@@ -97,15 +113,15 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                     <div className="row g-1">
                                         <div className="col-8"/>
                                         <div className="col-1">
-                                            {!auth.loading && question.result.user === auth.user._id && (
-                                                    <button onClick={() => deleteQuestion(question.result._id)} type="button"
+                                            {!auth.loading && question.result.user._id === auth.user._id && (
+                                                    <button onClick={e => Delete(e,question.result._id)} type="button"
                                                             className="btn btn-danger"><AiFillDelete/>
                                                     </button>
                                                     
                                             )}
                                         </div>
                                         <div className="col-1">
-                                            {!auth.loading && question.result.user === auth.user._id && (
+                                            {!auth.loading && question.result.user._id === auth.user._id && (
                                                 <Link to={`/update/${question.result._id}`} className="btn btn-info">
                                                     <span ><AiFillEdit/></span>
                                                 </Link>
@@ -160,20 +176,21 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                 {
                                                 question.answers.map((element) => (
                                                     <tr>
+                                                        <td>{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></td>
                                                         <td>{element.description}</td>
                                                         <td><button className="btn btn-primary" onClick={()=>likeAnswer(element._id)}>
                                                              <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
                                                         </button></td>
                                                         <td>
-                                                            {!auth.loading && element.user === auth.user._id && (
+                                                            {!auth.loading && element.user._id === auth.user._id && (
                                                                 <button onClick={e => Update(e,element.description,element._id)} type="button"
                                                                         className="btn btn-info"><AiFillEdit/>
                                                                 </button>
                                                             )}
                                                         </td>
                                                         <td>
-                                                            {!auth.loading && element.user === auth.user._id && (
-                                                                <button onClick={() => deleteAnswer(element._id)} type="button"
+                                                            {!auth.loading && element.user._id === auth.user._id && (
+                                                                <button onClick={() => DeleteAnswer(element._id)} type="button"
                                                                         className="btn btn-danger"><AiFillDelete/>
                                                                 </button>
                                                             )}

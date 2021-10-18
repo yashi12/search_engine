@@ -1,5 +1,6 @@
 import {
     GET_PROFILE,
+    GET_PROFILE_BY_ID,
     PROFILE_ERROR,
     SEARCH_PROFILE,
     CLEAR_PROFILE,
@@ -38,6 +39,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 searchProfiles: payload,
+                loading: false
+            }
+        case GET_PROFILE_BY_ID:
+            return {
+                ...state,
+                profile: payload,
                 loading: false
             }
         case PROFILE_ERROR:
