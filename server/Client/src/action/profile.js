@@ -8,7 +8,7 @@ import {
     ACCOUNT_DELETED,
     GET_PROFILES,
     CLEAR_PROFILE,
-    CLEAR_PROFILES, SEARCH_PROFILE, SEARCH_QUERY, SEARCH_ERROR
+    CLEAR_PROFILES, SEARCH_PROFILE, SEARCH_QUERY, SEARCH_ERROR, GET_PROFILE_BY_ID
 } from './types'
 
 // Get current user
@@ -85,12 +85,12 @@ http://localhost:3000/api/profile/filter/${skill}`)
 export const getProfileById = userId => async dispatch => {
     try {
         const res = await axios.get(`http://localhost:3000/api/profile/user/${userId}`)
-
         dispatch({
-            type: SEARCH_PROFILE,
+            type: GET_PROFILE_BY_ID,
             payload: res.data
         })
     } catch (err) {
+        console.log("profile by id error : ", err)
         dispatch({
             type: PROFILE_ERROR,
             payload: {
