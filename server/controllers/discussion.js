@@ -1,7 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const {check, validationResult} = require('express-validator');
+const {
+    check,
+    validationResult
+} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const request = require('request');
@@ -13,7 +16,9 @@ const Answer = require('../models/discussion/Answer');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
-const {paginatedResults} = require('./helper/pagenation');
+const {
+    paginatedResults
+} = require('./helper/pagenation');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
@@ -21,7 +26,9 @@ const s3 = new AWS.S3({
 });
 
 const addQuestionToCategory = (categoryName, ques) => {
-    Category.findOne({name: categoryName})
+    Category.findOne({
+            name: categoryName
+        })
         .then(category => {
             if (category) {
                 let tagArray = [];
@@ -39,13 +46,17 @@ const addQuestionToCategory = (categoryName, ques) => {
                         }
                     })
                 }
-                Category.findByIdAndUpdate(category._id,
-                    {
+                Category.findByIdAndUpdate(category._id, {
                         numQuestions: category.numQuestions + 1,
-                        $addToSet: {questions: ques},
-                        $push: {tags: {$each: tagArray}}
-                    }
-                )
+                        $addToSet: {
+                            questions: ques
+                        },
+                        $push: {
+                            tags: {
+                                $each: tagArray
+                            }
+                        }
+                    })
                     .catch(err => {
                         console.error("Fail add question to category:", err.message);
                     })
@@ -73,10 +84,21 @@ const addQues = async (req, res, next) => {
     console.log("add ques:");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(404).json({errors: errors.array()});
+        return res.status(404).json({
+            errors: errors.array()
+        });
     }
     try {
-        const {user, answer, title, description, media, category, tags, date} = req.body;
+        const {
+            user,
+            answer,
+            title,
+            description,
+            media,
+            category,
+            tags,
+            date
+        } = req.body;
         const tempQuestion = {};
 
         tempQuestion.category = req.body.category;
@@ -127,7 +149,9 @@ const addQues = async (req, res, next) => {
 };
 
 const getAllQuestions = (req, res, next) => {
-    Question.find().sort({date: -1})
+    Question.find().sort({
+            date: -1
+        })
         .then(questions => {
             res.json(questions);
         })
@@ -141,9 +165,15 @@ const getAllQuestionsByCategory = (req, res, next) => {
     const category = req.params.category;
     console.log("category", category);
 
-    Category.findOne({name: category})
+    Category.findOne({
+            name: category
+        })
         .then(category => {
-            Question.find({_id: {$in: category.questions}})
+            Question.find({
+                    _id: {
+                        $in: category.questions
+                    }
+                })
                 .then(ques => {
                     res.json(ques);
                 })
@@ -158,14 +188,18 @@ const getQuestionsByTag = (req, res, next) => {
     Question.findById(req.params.id)
         .then(post => {
             if (!post) {
-                res.status(404).json({msg: 'No such post found'});
+                res.status(404).json({
+                    msg: 'No such post found'
+                });
             } else {
                 res.json(post);
             }
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
-                res.status(404).json({msg: 'No such post found'});
+                res.status(404).json({
+                    msg: 'No such post found'
+                });
             }
             console.log(err.message);
             res.status(500).send('Server Error...');
@@ -175,19 +209,34 @@ const getQuestionsByTag = (req, res, next) => {
 const updateQuestion = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(404).json({errors: errors.array()});
+        return res.status(404).json({
+            errors: errors.array()
+        });
     }
     const id = req.params.id;
     Question.findById(id)
         .then(question => {
             if (!question) {
-                res.status(404).json({msg: 'No such question found'});
+                res.status(404).json({
+                    msg: 'No such question found'
+                });
             }
             //Check on user if question belongs to him
             if (question.user.toString() !== req.user.id) {
-                return res.status(401).json({msg: 'User not authorized to update the question'});
+                return res.status(401).json({
+                    msg: 'User not authorized to update the question'
+                });
             }
-            const {user, answer, title, description, media, category, tags, date} = req.body;
+            const {
+                user,
+                answer,
+                title,
+                description,
+                media,
+                category,
+                tags,
+                date
+            } = req.body;
             const tempQuestion = {};
 
             tempQuestion.category = req.body.category;
@@ -214,23 +263,25 @@ const updateQuestion = (req, res, next) => {
                         res.status(500).send(error);
                     }
                     tempQuestion.media = data.Location;
-                    Question.findByIdAndUpdate(id,
-                        {$set: tempQuestion},
-                        {new: true}
-                    ).then(ques => {
-                        // @todo check if to maintain category wise question and update
-                        // addQuestionToCategory(req.body.category, ques);
-                        return res.json(ques);
-                    })
+                    Question.findByIdAndUpdate(id, {
+                            $set: tempQuestion
+                        }, {
+                            new: true
+                        }).then(ques => {
+                            // @todo check if to maintain category wise question and update
+                            // addQuestionToCategory(req.body.category, ques);
+                            return res.json(ques);
+                        })
                         .catch(err => {
                             res.status(500).send(err.message);
                         })
                 });
             } else {
-                Question.findByIdAndUpdate(id,
-                    {$set: tempQuestion},
-                    {new: true}
-                ).then(ques => {
+                Question.findByIdAndUpdate(id, {
+                    $set: tempQuestion
+                }, {
+                    new: true
+                }).then(ques => {
                     // @todo check if to maintain category wise question and update
                     // addQuestionToCategory(req.body.category, ques);
                     res.json(ques);
@@ -243,7 +294,12 @@ const updateQuestion = (req, res, next) => {
 
 const deleteQuestion = (req, res, next) => {
     const id = req.params.id;
-    Question.findOneAndDelete({$and: [{_id: id, user: req.user.id}]})
+    Question.findOneAndDelete({
+            $and: [{
+                _id: id,
+                user: req.user.id
+            }]
+        })
         .then(question => {
             ContentMiddleware.removeMedia(question);
             res.json(question);
@@ -254,41 +310,50 @@ const deleteQuestion = (req, res, next) => {
         })
 };
 
-const getQuestionById = (req,res,next)=>{
+const getQuestionById = (req, res, next) => {
     console.log("question enetered");
     const ques_id = req.params.ques_id;
-    Question.findById(ques_id)
+    Question.findById(ques_id).populate('user','id name email')
         .then(question => {
             const result = {};
             result.result = question;
-            if(!question)
-                res.json({data:"No question present"});
+            if (!question)
+                res.json({
+                    data: "No question present"
+                });
             else {
-                if(question.answers) {
+                if (question.answers) {
                     const answers = question.answers;
                     const length = answers.length;
 
-                    let pagenation =paginatedResults(length,req.query.page);
-                    if(!pagenation.indexes)
+                    let pagenation = paginatedResults(length, req.query.page);
+                    if (!pagenation.indexes)
                         res.status(500).json(pagenation);
                     result.previous = pagenation.previous;
                     result.next = pagenation.next;
                     result.indexes = pagenation.indexes;
                     try {
                         console.log(result)
-                        let requiredAnswers = answers.slice(result.indexes.startIndex,result.indexes.endIndex);
-                        Answer.find(
-                            {_id:{$in:requiredAnswers}}
-                        ).then(fetchedAnswers =>{
+                        let requiredAnswers = answers.slice(result.indexes.startIndex, result.indexes.endIndex);
+                        Answer.find({
+                            _id: {
+                                $in: requiredAnswers
+                            },
+                            deleted:  false
+                            // {
+                                // $cond: { if: { $gte: [ "$likeCount", 250 ] }, then: true, else: false }
+                            //   }
+                        }).populate('user','id name email').then(fetchedAnswers => {
                             console.log(fetchedAnswers)
                             result.answers = fetchedAnswers;
                             res.json(result);
                         })
                     } catch (e) {
-                        res.status(500).json({ message: e.message })
+                        res.status(500).json({
+                            message: e.message
+                        })
                     }
-                }
-                else {
+                } else {
                     console.log("res:")
                     res.json(result);
                 }
