@@ -339,11 +339,13 @@ const getQuestionById = (req, res, next) => {
                             _id: {
                                 $in: requiredAnswers
                             },
-                            deleted:  false
-                            // {
-                                // $cond: { if: { $gte: [ "$likeCount", 250 ] }, then: true, else: false }
-                            //   }
-                        }).populate('user','id name email').then(fetchedAnswers => {
+                            $or:[
+                            {$and:[ {user:{$eq:req.user.id}},{deleted:{$exists:true}}]}, // show deleted ans if user has deleted it
+                            {$and:[ {user:{$ne:req.user.id}},{deleted:false}]} // do not show deleted answer if user has not given it
+                            ]
+                        })
+                        .populate('user','id name email')
+                        .then(fetchedAnswers => {
                             console.log(fetchedAnswers)
                             result.answers = fetchedAnswers;
                             res.json(result);
