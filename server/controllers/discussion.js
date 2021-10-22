@@ -164,24 +164,33 @@ const getAllQuestions = (req, res, next) => {
 const getAllQuestionsByCategory = (req, res, next) => {
     const category = req.params.category;
     console.log("category", category);
+    Question.find({
+        category: category
+    })
+    .then(ques => {
+        res.json(ques);
+    }).catch(err => {
+                console.log(err.message);
+                res.status(500).send('Server Error...');
+            });
 
-    Category.findOne({
-            name: category
-        })
-        .then(category => {
-            Question.find({
-                    _id: {
-                        $in: category.questions
-                    }
-                })
-                .then(ques => {
-                    res.json(ques);
-                })
-        })
-        .catch(err => {
-            console.log(err.message);
-            res.status(500).send('Server Error...');
-        });
+    // Category.findOne({
+    //         name: category
+    //     })
+    //     .then(category => {
+    //         Question.find({
+    //                 _id: {
+    //                     $in: category.questions
+    //                 }
+    //             })
+    //             .then(ques => {
+    //                 res.json(ques);
+    //             })
+    //     })
+    //     .catch(err => {
+    //         console.log(err.message);
+    //         res.status(500).send('Server Error...');
+    //     });
 };
 
 const getQuestionsByTag = (req, res, next) => {
@@ -339,11 +348,13 @@ const getQuestionById = (req, res, next) => {
                             _id: {
                                 $in: requiredAnswers
                             },
-                            deleted:  false
-                            // {
-                                // $cond: { if: { $gte: [ "$likeCount", 250 ] }, then: true, else: false }
-                            //   }
-                        }).populate('user','id name email').then(fetchedAnswers => {
+                            $or:[
+                            {$and:[ {user:{$eq:req.user.id}},{deleted:{$exists:true}}]}, // show deleted ans if user has deleted it
+                            {$and:[ {user:{$ne:req.user.id}},{deleted:false}]} // do not show deleted answer if user has not given it
+                            ]
+                        })
+                        .populate('user','id name email')
+                        .then(fetchedAnswers => {
                             console.log(fetchedAnswers)
                             result.answers = fetchedAnswers;
                             res.json(result);
