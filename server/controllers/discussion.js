@@ -164,24 +164,33 @@ const getAllQuestions = (req, res, next) => {
 const getAllQuestionsByCategory = (req, res, next) => {
     const category = req.params.category;
     console.log("category", category);
+    Question.find({
+        category: category
+    })
+    .then(ques => {
+        res.json(ques);
+    }).catch(err => {
+                console.log(err.message);
+                res.status(500).send('Server Error...');
+            });
 
-    Category.findOne({
-            name: category
-        })
-        .then(category => {
-            Question.find({
-                    _id: {
-                        $in: category.questions
-                    }
-                })
-                .then(ques => {
-                    res.json(ques);
-                })
-        })
-        .catch(err => {
-            console.log(err.message);
-            res.status(500).send('Server Error...');
-        });
+    // Category.findOne({
+    //         name: category
+    //     })
+    //     .then(category => {
+    //         Question.find({
+    //                 _id: {
+    //                     $in: category.questions
+    //                 }
+    //             })
+    //             .then(ques => {
+    //                 res.json(ques);
+    //             })
+    //     })
+    //     .catch(err => {
+    //         console.log(err.message);
+    //         res.status(500).send('Server Error...');
+    //     });
 };
 
 const getQuestionsByTag = (req, res, next) => {
