@@ -1,7 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const {check, validationResult} = require('express-validator');
+const {
+    check,
+    validationResult
+} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const request = require('request');
@@ -10,6 +13,7 @@ const AWS = require('aws-sdk');
 const Answer = require('../models/discussion/Answer');
 const Question = require('../models/discussion/Question');
 const AnswerComment = require('../models/discussion/AnswerComment');
+const AnswerLike = require('../models/discussion/AnswerLike');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
@@ -22,9 +26,11 @@ const s3 = new AWS.S3({
 
 // Add answer_id to question
 const addAnswerToQuestion = (ques_id, ans_id) => {
-    Question.findByIdAndUpdate(ques_id,
-        {$push: {answers: ans_id}}
-    )
+    Question.findByIdAndUpdate(ques_id, {
+            $push: {
+                answers: ans_id
+            }
+        })
         .catch(error => {
             console.log("err:", error.message);
         });
@@ -34,17 +40,27 @@ const addAnswerToQuestion = (ques_id, ans_id) => {
 const addAnswer = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(404).json({errors: errors.array()});
+        return res.status(404).json({
+            errors: errors.array()
+        });
     }
     try {
         const tempAnswer = {};
         Question.findById(req.params.ques_id)
             .then(question => {
                 if (!question)
-                    res.status(404).json({msg: 'No such question found'});
+                    res.status(404).json({
+                        msg: 'No such question found'
+                    });
             })
 
-        const {description, media, likeCount, likes, comments} = req.body;
+        const {
+            description,
+            media,
+            likeCount,
+            likes,
+            comments
+        } = req.body;
 
         tempAnswer.question = req.params.ques_id;
         tempAnswer.description = req.body.description;
@@ -87,7 +103,9 @@ const addAnswer = async (req, res, next) => {
 };
 
 const getAllQuestions = (req, res, next) => {
-    Question.find().sort({date: -1})
+    Question.find().sort({
+            date: -1
+        })
         .then(questions => {
             res.json(questions);
         })
@@ -101,11 +119,13 @@ const getAnswerById = (req, res, next) => {
     const ans_id = req.params.ans_id;
     Answer.findById(ans_id)
         .then(answer => {
-            if(!answer.deleted)
+            if (!answer.deleted)
                 res.json(answer);
             else
-                res.json({data:"Deleted by User",
-                deleted:true});
+                res.json({
+                    data: "Deleted by User",
+                    deleted: true
+                });
         })
         .catch(err => {
             console.log(err.message);
@@ -117,19 +137,28 @@ const getAnswerById = (req, res, next) => {
 const updateAnswer = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(404).json({errors: errors.array()});
+        return res.status(404).json({
+            errors: errors.array()
+        });
     }
     const id = req.params.ans_id;
     Answer.findById(id)
         .then(answer => {
             if (!answer) {
-                res.status(404).json({msg: 'No such answer found'});
+                res.status(404).json({
+                    msg: 'No such answer found'
+                });
             }
             //Check on user if answer belongs to user
             if (answer.user.toString() !== req.user.id) {
-                return res.status(401).json({msg: 'User not authorized to update the answer'});
+                return res.status(401).json({
+                    msg: 'User not authorized to update the answer'
+                });
             }
-            const {description, media} = req.body;
+            const {
+                description,
+                media
+            } = req.body;
             const tempAnswer = {};
 
             tempAnswer.description = description;
@@ -154,34 +183,32 @@ const updateAnswer = (req, res, next) => {
                         res.status(500).send(error);
                     }
                     tempAnswer.media = data.Location;
-                    Answer.findByIdAndUpdate(id,
-                        {
+                    Answer.findByIdAndUpdate(id, {
                             $set: {
                                 description: tempAnswer.description,
                                 media: tempAnswer.media,
                             }
-                        },
-                        {new: true}
-                    ).then(ans => {
-                        return res.json(ans);
-                    })
+                        }, {
+                            new: true
+                        }).then(ans => {
+                            return res.json(ans);
+                        })
                         .catch(err => {
                             res.status(500).send(err.message);
                         })
                 });
             } else {
                 ContentMiddleware.removeMedia(answer);
-                Answer.findByIdAndUpdate(id,
-                    {
-                        $set: {
-                            description: tempAnswer.description
-                        },
-                        $unset: {
-                            media:""
-                        }
+                Answer.findByIdAndUpdate(id, {
+                    $set: {
+                        description: tempAnswer.description
                     },
-                    {new: true}
-                ).then(ans => {
+                    $unset: {
+                        media: ""
+                    }
+                }, {
+                    new: true
+                }).then(ans => {
                     res.json(ans);
                 }).catch(err => {
                     res.status(500).send(err.message);
@@ -193,8 +220,16 @@ const updateAnswer = (req, res, next) => {
 const deleteAnswer = (req, res, next) => {
     console.log("delete");
     const id = req.params.ans_id;
-    Answer.findOneAndUpdate({$and: [{_id: id, user: req.user.id}]},
-        {$set:{deleted:true}})
+    Answer.findOneAndUpdate({
+            $and: [{
+                _id: id,
+                user: req.user.id
+            }]
+        }, {
+            $set: {
+                deleted: true
+            }
+        })
         .then(answer => {
             res.json(answer);
         })
@@ -204,14 +239,16 @@ const deleteAnswer = (req, res, next) => {
         })
 };
 
-const addCommentToAnswer = async (req,res,next)=>{
+const addCommentToAnswer = async (req, res, next) => {
     const ansId = req.query.ans_id;
     const answer = await Answer.findById(ansId);
-    if(!answer)
+    if (!answer)
         res.status(400).send('no such answer exists');
-    const commentSection = await AnswerComment.findOne({answer:ansId});
+    const commentSection = await AnswerComment.findOne({
+        answer: ansId
+    });
     // If answer has no previous comments
-    if(!commentSection){
+    if (!commentSection) {
         const comment = {};
         comment.answer = ansId;
         comment.comments.push({
@@ -220,14 +257,59 @@ const addCommentToAnswer = async (req,res,next)=>{
         })
         const newComment = new AnswerComment(comment);
         newComment.save();
-    }
-    else{  // If answer has previous comments
+    } else { // If answer has previous comments
         const comment = {};
         commentSection.comments.push({
             user: req.user._id,
             text: req.body.text
         })
-        
+
+    }
+
+};
+
+const likeanswer = async (req, res) => {
+    try {
+        const answer = await Answer.findById(req.params.id);
+        if (!answer) {
+            res.status(404).json({
+                msg: 'No such answer found'
+            });
+        }
+        let options = {
+            upsert: true,
+            returnNewDocument: true,
+            new: true
+        };
+        const answerLike = await AnswerLike.findOneAndUpdate({
+            answer: req.params.id,
+        }, {
+            $cond:{
+                if: {"likes":{"user":{$in: [ req.user.id ]}}},
+                then:{
+                    $pull: { likes : { "user":{$in: [ req.user.id ]} }}
+                },else:{
+                    $push: {
+                        "likes": {
+                            "user": req.user.id
+                        }
+                    }
+                }
+            }
+        }, options);
+        console.log("answerLike",answerLike);
+        const updatedAnswer = await Answer.findOneAndUpdate({
+            _id: req.params.id
+        }, {
+            $set: {
+                "likes": answerLike.id,
+                "likeCount": answerLike.likes.length
+            }
+        },{returnNewDocument: true});
+        res.status(200).send(updatedAnswer);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send(err.message);
     }
 
 };
@@ -239,5 +321,6 @@ module.exports = {
     getAnswerById: getAnswerById,
     // updateQuestion: updateQuestion,
     deleteAnswer: deleteAnswer,
-    addCommentToAnswer:addCommentToAnswer
+    addCommentToAnswer: addCommentToAnswer,
+    likeAnswer: likeanswer
 }
