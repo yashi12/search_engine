@@ -29,7 +29,7 @@ const SearchQuestionByCategory = ({ searchQuestions, question: { searchQuestionA
             <br/>
             <form className="bar" method="get" >
                 <div>
-                    <h5>Enter Category</h5>
+                    <h1 className="large text-primary">Enter Category</h1>
                     <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Question" name="title"/>
                     <br/>
                     <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
