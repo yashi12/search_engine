@@ -9,6 +9,7 @@ import { GrUpdate, GrUserExpert } from 'react-icons/gr'
 import { MdWork } from 'react-icons/md'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { RiProfileLine, RiErrorWarningLine } from 'react-icons/ri'
+import { CgProfile } from 'react-icons/cg'
 
 const ProfileInfo = ({getProfileById,match,profile: {profile}, auth }) => {
 
@@ -26,7 +27,7 @@ const ProfileInfo = ({getProfileById,match,profile: {profile}, auth }) => {
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/>
-                    <h3>{profile["user"].name}</h3>
+                    <h4><CgProfile/> {profile["user"].name}</h4>
                     <div className="form-group card-body">
                         <h5><RiProfileLine/> Bio</h5>
                         {profile["bio"] ?

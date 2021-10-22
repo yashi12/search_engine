@@ -50,7 +50,8 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
     }
 
     const DeleteAnswer = (id) => {
-        deleteQuestion(id)
+        deleteAnswer(id)
+        window.location.reload(false)
     }
 
     const Update = (e,description,id) => {
