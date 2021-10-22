@@ -348,10 +348,11 @@ const getQuestionById = (req, res, next) => {
                             _id: {
                                 $in: requiredAnswers
                             },
-                            $or:[
-                            {$and:[ {user:{$eq:req.user.id}},{deleted:{$exists:true}}]}, // show deleted ans if user has deleted it
-                            {$and:[ {user:{$ne:req.user.id}},{deleted:false}]} // do not show deleted answer if user has not given it
-                            ]
+                            deleted:false
+                            // $or:[
+                            // {$and:[ {user:{$eq:req.user.id}},{deleted:{$exists:true}}]}, // show deleted ans if user has deleted it
+                            // {$and:[ {user:{$ne:req.user.id}},{deleted:false}]} // do not show deleted answer if user has not given it
+                            // ]
                         })
                         .populate('user','id name email')
                         .then(fetchedAnswers => {
