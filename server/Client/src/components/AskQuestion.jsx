@@ -13,7 +13,7 @@ const AskQuestion = ({askQuestion}) => {
         tags:"",
         category:""
     })
-    const [image,setImage] = useState()
+    const [image,setImage] = useState(null)
     const [title, setQuestion] = useState('')
     const [description, setDescription] = useState('')
 
@@ -32,8 +32,8 @@ const AskQuestion = ({askQuestion}) => {
         data.append("description",formData.description)
         data.append("tags",formData.tags)
         data.append("category",formData.category)
-        data.append("image",image);
-
+        data.append("media",image);
+        console.log(image)
         askQuestion(data)
     }
 
