@@ -34,5 +34,8 @@ const QuestionSchema = new Schema({
         default: Date.now
     }
 });
+// QuestionSchema.index(
+//     {category:1}
+// )
 
 module.exports = mongoose.model('Question',QuestionSchema);

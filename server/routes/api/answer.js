@@ -47,6 +47,12 @@ router.get('/:ans_id', auth, answerController.getAnswerById);
 // @access Private
 router.post('/:ans_id', auth, answerController.addCommentToAnswer);
 
+// @route PUT api/posts/like/:id
+// @desc Like a post
+// @access Private
+router.put('/like/:id', auth, answerController.likeAnswer);
+
+
 
 
 // @route POST api/posts/comment/:id
