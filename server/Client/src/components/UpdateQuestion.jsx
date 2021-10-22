@@ -49,7 +49,7 @@ const UpdateQuestion = ({updateQuestion, question: {question}, getQuestionDiscus
         data.append("description",formData.description)
         data.append("tags",formData.tags)
         data.append("category",formData.category)
-        data.append("image",image);
+        data.append("media",image);
 
         updateQuestion(match.params.id,data)
         history.push(`/question/${match.params.id}`)

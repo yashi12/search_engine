@@ -4,8 +4,7 @@ import {getCurrentProfile} from '../action/profile'
 import React, {Fragment, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Spinner from './Spinner'
-import Moment from 'react-moment';
-import auth from "../reducers/auth";
+import { CgProfile } from 'react-icons/cg'
 import ProfileExperience from '../components/ProfileExperience'
 import { GrUpdate, GrUserExpert } from 'react-icons/gr'
 import { MdWork } from 'react-icons/md'
@@ -32,7 +31,8 @@ const Profile = ({
                 <div className="col-3"/>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
-                    <br/><br/>
+                    <br/>
+                    <h4><CgProfile/> {profile["user"].name}</h4>
                     <div className="row card-body">
                         {profile["social"] ?
                             <Fragment>

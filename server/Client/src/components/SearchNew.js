@@ -28,7 +28,6 @@ const SearchNew = ({ searchQuery, profile: { query, loading } }) => {
 
     const onChange = e => setTopic({ ...topic,[e.target.id]: e.target.value })
 
-
     return (
         <Fragment>
             <div className="container-fluid row align-items-center">
@@ -37,7 +36,7 @@ const SearchNew = ({ searchQuery, profile: { query, loading } }) => {
                     <br/>
                     <form className="bar" method="get" >
                         <div>
-                            <h5>Enter Topic</h5>
+                            <h1 className="large text-primary">Enter topic</h1>
                             <input onChange={e => onChange(e)} type="text" className="form-control" id="skill" placeholder="Search Post" name="query"/>
                             <br/>
                             <button disabled={topic.skill === ""} onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>

@@ -30,7 +30,7 @@ const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
             <br/>
             <form className="bar" method="get" >
                 <div>
-                    <h5>Enter Topic</h5>
+                    <h1 className="large text-primary">Enter Tag</h1>
                     <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Post" name="title"/>
                     <br/>
                     <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
