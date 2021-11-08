@@ -6,15 +6,11 @@ const AnswerLikeSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Answer'
     },
-    likes: [
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                unique: true,
-                ref: 'users',
-            }
-        }
-    ]
+    users: [{
+      type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+         
+    }]
 });
 
 module.exports = mongoose.model('AnswerLike',AnswerLikeSchema);

@@ -17,6 +17,7 @@ const AnswerLike = require('../models/discussion/AnswerLike');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
+const {ObjectId} = require('mongodb');
 
 
 const s3 = new AWS.S3({
@@ -281,31 +282,31 @@ const likeanswer = async (req, res) => {
             returnNewDocument: true,
             new: true
         };
-        const answerLike = await AnswerLike.findOneAndUpdate({
+     
+        let answerLike = await AnswerLike.findOneAndUpdate({
             answer: req.params.id,
+            users:{$in:[{_id:ObjectId(req.user.id)}]}
         }, {
-            $cond:{
-                if: {"likes":{"user":{$in: [ req.user.id ]}}},
-                then:{
-                    $pull: { likes : { "user":{$in: [ req.user.id ]} }}
-                },else:{
-                    $push: {
-                        "likes": {
-                            "user": req.user.id
-                        }
-                    }
-                }
-            }
-        }, options);
+           $pull: { users :{$in: [{_id:ObjectId(req.user.id)}]}}     
+        }, {new:true});
+        console.log("answerLike",answerLike);
+        if(!answerLike){
+            answerLike = await AnswerLike.findOneAndUpdate({
+                answer: req.params.id
+            }, {
+               $push: { users : {_id:ObjectId(req.user.id)}}     
+            }, options);
+        }
         console.log("answerLike",answerLike);
         const updatedAnswer = await Answer.findOneAndUpdate({
             _id: req.params.id
         }, {
             $set: {
                 "likes": answerLike.id,
-                "likeCount": answerLike.likes.length
+                "likeCount": answerLike.users.length
             }
-        },{returnNewDocument: true});
+        },{new: true});
+        console.log("upadted answer", updatedAnswer);
         res.status(200).send(updatedAnswer);
     } catch (err) {
         console.log(err.message);
