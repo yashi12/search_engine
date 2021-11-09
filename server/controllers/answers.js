@@ -17,6 +17,7 @@ const AnswerLike = require('../models/discussion/AnswerLike');
 const Category = require('../models/discussion/Category');
 const User = require('../models/User');
 const ContentMiddleware = require('../middleware/content');
+const {ObjectId} = require('mongodb');
 
 
 const s3 = new AWS.S3({
@@ -240,8 +241,16 @@ const deleteAnswer = (req, res, next) => {
 };
 
 const addCommentToAnswer = async (req, res, next) => {
-    const ansId = req.query.ans_id;
+    console.log(req.body.text)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json({
+            errors: errors.array()
+        });
+    }
+    const ansId = req.params.ans_id;
     const answer = await Answer.findById(ansId);
+    let updatedComment;
     if (!answer)
         res.status(400).send('no such answer exists');
     const commentSection = await AnswerComment.findOne({
@@ -249,22 +258,32 @@ const addCommentToAnswer = async (req, res, next) => {
     });
     // If answer has no previous comments
     if (!commentSection) {
+        console.log("answer",ansId)
         const comment = {};
         comment.answer = ansId;
-        comment.comments.push({
-            user: req.user._id,
+        comment.comments=[{
+            user: req.user.id,
             text: req.body.text
-        })
+        }]
         const newComment = new AnswerComment(comment);
-        newComment.save();
+        updatedComment = await newComment.save();
+        const newAnswer =await Answer.findOneAndUpdate({
+            _id:ansId
+        },{$set:{comments:updatedComment._id}},{new:true})
+        console.log("new answer", newAnswer);
     } else { // If answer has previous comments
-        const comment = {};
-        commentSection.comments.push({
-            user: req.user._id,
-            text: req.body.text
-        })
-
+        updatedComment  = await AnswerComment.findOneAndUpdate({
+            answer: ansId
+        },{
+            $push:{
+                comments:{
+                    user: req.user.id,
+                    text: req.body.text
+                }
+            }
+        },{new:true});
     }
+    return res.status(200).send(updatedComment);
 
 };
 
@@ -281,31 +300,31 @@ const likeanswer = async (req, res) => {
             returnNewDocument: true,
             new: true
         };
-        const answerLike = await AnswerLike.findOneAndUpdate({
+     
+        let answerLike = await AnswerLike.findOneAndUpdate({
             answer: req.params.id,
+            users:{$in:[{_id:ObjectId(req.user.id)}]}
         }, {
-            $cond:{
-                if: {"likes":{"user":{$in: [ req.user.id ]}}},
-                then:{
-                    $pull: { likes : { "user":{$in: [ req.user.id ]} }}
-                },else:{
-                    $push: {
-                        "likes": {
-                            "user": req.user.id
-                        }
-                    }
-                }
-            }
-        }, options);
+           $pull: { users :{$in: [{_id:ObjectId(req.user.id)}]}}     
+        }, {new:true});
+        console.log("answerLike",answerLike);
+        if(!answerLike){
+            answerLike = await AnswerLike.findOneAndUpdate({
+                answer: req.params.id
+            }, {
+               $push: { users : {_id:ObjectId(req.user.id)}}     
+            }, options);
+        }
         console.log("answerLike",answerLike);
         const updatedAnswer = await Answer.findOneAndUpdate({
             _id: req.params.id
         }, {
             $set: {
                 "likes": answerLike.id,
-                "likeCount": answerLike.likes.length
+                "likeCount": answerLike.users.length
             }
-        },{returnNewDocument: true});
+        },{new: true});
+        console.log("upadted answer", updatedAnswer);
         res.status(200).send(updatedAnswer);
     } catch (err) {
         console.log(err.message);
@@ -313,6 +332,7 @@ const likeanswer = async (req, res) => {
     }
 
 };
+
 
 module.exports = {
     addAnswer: addAnswer,

@@ -42,10 +42,12 @@ router.get('/:ans_id', auth, answerController.getAnswerById);
 // router.get('/', auth, discussionController.getAllQuestions);
 
 
-// @route GET api/posts/:id
+// @route GET api/answer/:ans_id
 // @desc Get post by ID
 // @access Private
-router.post('/:ans_id', auth, answerController.addCommentToAnswer);
+router.post('/comment/:ans_id', [auth, 
+    [check('text', 'Text is required at least 5 char').not().isEmpty()]
+], answerController.addCommentToAnswer);
 
 // @route PUT api/posts/like/:id
 // @desc Like a post
