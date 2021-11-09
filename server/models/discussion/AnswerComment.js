@@ -9,8 +9,8 @@ const AnswerCommentSchema = new Schema({
     comments: [
         {
             user: {
-                type: Schema.Types.ObjectId,
-                ref: 'users'
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'user'
             },
             text: {
                 type: String,
