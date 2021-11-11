@@ -9,6 +9,7 @@ import { addAnswer, deleteAnswer, likeAnswer, updateAnswer, addComment } from '.
 import { AiFillLike,AiFillDelete,AiFillEdit } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
+import Comments from './Comments'
 
 const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion,addAnswer, deleteAnswer, likeAnswer,addComment, updateAnswer}) => {
 
@@ -206,52 +207,48 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                             }
                             <div className="row g-3">
                                 <div className="col">
-                                    <table className="table ">
-                                        {
-                                            question.answers.length > 0 ?
-                                            <tbody>
-                                                <tr>
-                                                    <td>Answers</td>
-                                                </tr>
+                                    {
+                                        question.answers.length > 0 ?
+                                            <div>
+                                                <h3>Answers</h3>
                                                 {
                                                 question.answers.map((element) => (
-                                                    <tr>
-                                                        <td>{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></td>
-                                                        <td>{element.description}</td>
-                                                        <td><button className="btn btn-primary" onClick={e=>Like(e,element._id)}>
-                                                            <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
-                                                        </button></td>
-                                                        <td><button className="btn btn-primary" onClick={e=>AddComment(e,element._id)}>
-                                                            <BiCommentAdd/>
-                                                        </button></td>
-                                                        <td>
-                                                            {!auth.loading && element.user._id === auth.user._id && (
-                                                                <button onClick={e => Update(e,element.description,element._id)} type="button"
-                                                                        className="btn btn-info"><AiFillEdit/>
-                                                                </button>
-                                                            )}
-                                                        </td>
-                                                        <td>
-                                                            {!auth.loading && element.user._id === auth.user._id && (
-                                                                <button onClick={() => DeleteAnswer(element._id)} type="button"
-                                                                        className="btn btn-danger"><AiFillDelete/>
-                                                                </button>
-                                                            )}
-                                                        </td>
-                                                        
-                                                    </tr>
-                                                    // { answerToggle ? 
-                                                    //     <tr>Hello</tr> : <p>World</p> }
+                                                    <div>
+                                                        <div className="row">
+                                                    
+                                                            <div className="col-1">{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></div>
+                                                            <div className="col-7">{element.description}</div>
+                                                            <div className="col-1"><button className="btn btn-primary" onClick={e=>Like(e,element._id)}>
+                                                                <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
+                                                            </button></div>
+                                                            <div className="col-1"><button className="btn btn-primary" onClick={e=>AddComment(e,element._id)}>
+                                                                <BiCommentAdd/>
+                                                            </button></div>
+                                                            <div className="col-1">
+                                                                {!auth.loading && element.user._id === auth.user._id && (
+                                                                    <button onClick={e => Update(e,element.description,element._id)} type="button"
+                                                                            className="btn btn-info"><AiFillEdit/>
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                            <div className="col-1">
+                                                                {!auth.loading && element.user._id === auth.user._id && (
+                                                                    <button onClick={() => DeleteAnswer(element._id)} type="button"
+                                                                            className="btn btn-danger"><AiFillDelete/>
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        <Comments id={element._id}/>
+                                                        <hr />
+                                                    </div>
+                                                    
                                                 ))
                                                 }
-                                            </tbody> :
-                                            <tbody>
-                                                <tr>
-                                                    <td>No answers</td>
-                                                </tr>
-                                            </tbody> 
-                                        }
-                                    </table>
+                                            </div>:
+                                            <h2>No Answers</h2>
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>
