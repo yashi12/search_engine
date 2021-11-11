@@ -5,12 +5,13 @@ import { connect } from 'react-redux'
 import Spinner from './Spinner'
 import { Link } from 'react-router-dom'
 import { getQuestionDiscussion, deleteQuestion } from '../action/question'
-import { addAnswer, deleteAnswer, likeAnswer, updateAnswer } from '../action/answers'
+import { addAnswer, deleteAnswer, likeAnswer, updateAnswer, addComment } from '../action/answers'
 import { AiFillLike,AiFillDelete,AiFillEdit } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 
-const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion,addAnswer, deleteAnswer, likeAnswer, updateAnswer}) => {
+const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , match, auth, deleteQuestion,addAnswer, deleteAnswer, likeAnswer,addComment, updateAnswer}) => {
+
 
     useEffect(()=>{
         getQuestionDiscussion(match.params.id)
@@ -18,13 +19,19 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
 
     const [commentToggle, setCommentToggle] = useState(false)
 
+    const [answerToggle, setAnswerToggle] = useState(false)
+
     const [updateToggle, setUpdateToggle] = useState(false)
 
     const [answerId, setAnswerId] = useState(null)
 
+    const [commentId, setCommentId] = useState(null)
+
     const [updateData, setUpdateData] = useState("")
 
     const [commentData, setCommentData] = useState("")
+
+    const [answerData, setAnswerData] = useState("")
 
     const onChange = e => {
         e.preventDefault()
@@ -33,6 +40,9 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
         }
         else if (e.target.id === "update"){
             setUpdateData(e.target.value)
+        }
+        else if (e.target.id === "answer"){
+            setAnswerData(e.target.value)
         }
     }
 
@@ -52,6 +62,7 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
     const DeleteAnswer = (id) => {
         deleteAnswer(id)
         window.location.reload(false)
+        
     }
 
     const Update = (e,description,id) => {
@@ -59,13 +70,27 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
         setUpdateData(description)
         setAnswerId(id)
         setUpdateToggle(!updateToggle)
-
     }
 
     const Delete = (e,id) => {
         e.preventDefault()
         deleteQuestion(id)
         history.push(`/questionsFeed`)
+    }
+
+    const Comment = (e) => {
+        e.preventDefault()
+        addComment(commentId,answerData)
+    }
+
+    const AddComment = (e,id) => {
+        e.preventDefault()
+        setCommentId(id)
+        setAnswerToggle(!answerToggle)
+    }
+
+    const Like = (e,id) => {
+        likeAnswer(id)
     }
 
     return (
@@ -164,6 +189,21 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                     </div>
                                 </div> : <div></div>
                             }
+                            {
+                                answerToggle ? 
+                                <div className="row g-2">
+                                    <div className="col">
+                                        <form>
+                                            <div className="form-group">
+                                                <label>Add Comment</label>
+                                                <textarea className="form-control" id="answer" rows="3" value={answerData} onChange={e=>onChange(e)}></textarea>
+                                            </div>
+                                            <button className="btn btn-info" onClick={e=>Comment(e)}><AiFillEdit/></button>
+                                        </form>
+                                        <br />
+                                    </div>
+                                </div> : <div></div>
+                            }
                             <div className="row g-3">
                                 <div className="col">
                                     <table className="table ">
@@ -178,9 +218,12 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                     <tr>
                                                         <td>{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></td>
                                                         <td>{element.description}</td>
-                                                        {/* <td><button className="btn btn-primary" onClick={()=>likeAnswer(element._id)}>
+                                                        <td><button className="btn btn-primary" onClick={e=>Like(e,element._id)}>
                                                             <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
-                                                        </button></td> */}
+                                                        </button></td>
+                                                        <td><button className="btn btn-primary" onClick={e=>AddComment(e,element._id)}>
+                                                            <BiCommentAdd/>
+                                                        </button></td>
                                                         <td>
                                                             {!auth.loading && element.user._id === auth.user._id && (
                                                                 <button onClick={e => Update(e,element.description,element._id)} type="button"
@@ -197,6 +240,8 @@ const QuestionDiscussion = ({ getQuestionDiscussion, question: {question} , matc
                                                         </td>
                                                         
                                                     </tr>
+                                                    // { answerToggle ? 
+                                                    //     <tr>Hello</tr> : <p>World</p> }
                                                 ))
                                                 }
                                             </tbody> :
@@ -227,12 +272,14 @@ QuestionDiscussion.propTypes = {
     addAnswer: PropTypes.func.isRequired,
     deleteAnswer: PropTypes.func.isRequired,
     likeAnswer: PropTypes.func.isRequired,
+    addComment: PropTypes.func.isRequired,
     updateAnswer: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     question: state.question,
+    comments: state.comments,
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {getQuestionDiscussion, deleteQuestion, addAnswer, deleteAnswer, likeAnswer, updateAnswer})(QuestionDiscussion)
+export default connect(mapStateToProps, {getQuestionDiscussion, deleteQuestion, addAnswer, deleteAnswer, likeAnswer,addComment, updateAnswer})(QuestionDiscussion)
