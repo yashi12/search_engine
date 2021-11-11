@@ -118,7 +118,7 @@ const getAllQuestions = (req, res, next) => {
 
 const getAnswerById = (req, res, next) => {
     const ans_id = req.params.ans_id;
-    Answer.findById(ans_id)
+    Answer.findById(ans_id).populate('comments','id comments')
         .then(answer => {
             if (!answer.deleted)
                 res.json(answer);
