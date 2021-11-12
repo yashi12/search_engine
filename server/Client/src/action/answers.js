@@ -7,7 +7,8 @@ import {
     LIKE_ANSWER,
     DELETE_ANSWER,
     UPDATE_ANSWER,
-    ANSWER_ERROR
+    ANSWER_ERROR,
+    ADD_COMMENT
 } from './types'
 
 // Get Answer
@@ -33,7 +34,7 @@ export const getAnswer = id => async dispatch => {
 // Like Answer
 export const likeAnswer = ansId => async dispatch => {
     try {
-        const res = await axios.put(`http://localhost:3000/api/posts/like/${ansId}`)
+        const res = await axios.put(`http://localhost:3000/api/answer/like/${ansId}`)
 
         dispatch({
             type: LIKE_ANSWER,
@@ -42,6 +43,32 @@ export const likeAnswer = ansId => async dispatch => {
 
     } catch (err) {
         console.log("error like", err);
+        dispatch({
+            type: ANSWER_ERROR,
+            payload: {msg: err.response,
+            status: err.response}
+        })
+    }
+}
+
+// Add  Comment
+export const addComment = (id,comment) => async dispatch => {
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    const data = {text: comment}
+    try {
+        console.log( "text body",id, comment);
+        const res = await axios.post(`http://localhost:3000/api/answer/comment/${id}`, data, config)
+        dispatch({
+            type: ADD_COMMENT,
+            payload: res.data
+        })
+        console.log("comment added")
+        dispatch(setAlert('Comment Added','success'))
+
+    } catch (err) {
+        console.log("error add answer dispatch",err);
         dispatch({
             type: ANSWER_ERROR,
             payload: {msg: err.response,

@@ -4,14 +4,16 @@ import {
     LIKE_ANSWER,
     DELETE_ANSWER,
     UPDATE_ANSWER,
-    ANSWER_ERROR
+    ANSWER_ERROR,
+    ADD_COMMENT
 } from '../action/types'
 
 const initialState = {
     answers: [],
     answer: null,
     loading: true,
-    error: {}
+    error: {},
+    comments : []
 }
 
 export default function(state = initialState, action){
@@ -20,20 +22,27 @@ export default function(state = initialState, action){
         case UPDATE_ANSWER:
             return {
                 ...state,
-                posts: payload,
+                answers: payload,
                 loading: false
             }
         case ADD_ANSWER:
             console.log("answers", state);
             return {
                 ...state,
-                posts: [payload, ...state.answers],
+                answers: [payload, ...state.answers],
+                loading: false
+            }
+        case ADD_COMMENT:
+            console.log()
+            return {
+                ...state,
+                comments: [payload, ...state.comments],
                 loading: false
             }
         case DELETE_ANSWER:
             return {
                 ...state,
-                posts: state.answers.filter(post => post._id !== payload),
+                answers: state.answers.filter(post => post._id !== payload),
                 loading: false
             }
         case ANSWER_ERROR:
@@ -45,7 +54,7 @@ export default function(state = initialState, action){
         case LIKE_ANSWER:
             return {
                 ...state,
-                posts: state.answers.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
+                answers: state.answers.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
                 loading: false 
             }
 
