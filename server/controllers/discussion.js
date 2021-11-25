@@ -119,10 +119,29 @@ const addQues = async (req, res, next) => {
         tempQuestion.predictions = [];
 
 
-        let response = await fetch(API + "/generate-predictions");
+        let response = await fetch(API + "/generate-predictions",{
+            method : "POST",
+            body : req.body.title,
+            headers : {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        });
         let data = await response.json();
-        if (data["status"] === 200){
+        if (data["status"] === 201){
             tempQuestion.predictions = data["predictions"];
+        }
+
+        let response2 = await fetch(API + "/get-similar-questions",{
+            method : "GET",
+            body : JSON.stringify(tempQuestion.predictions),
+            headers : {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        });
+        let data2 = await response2.json();
+        let similarQuestions = {};
+        if (data2['status'] === 200){
+            similarQuestions = data2['similarQuestions'];
         }
 
         if (tags) {
