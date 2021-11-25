@@ -26,6 +26,9 @@ router.post('/ques', [upload.single("media"),auth,  [
 // @todo Store Likes and comments separately for answers
 router.get('/', auth, discussionController.getAllQuestions);
 
+router.get('/load-api',discussionController.loadAPI);
+router.get('/predictions',discussionController.getAllPredictions);
+
 // @route GET api/posts/category
 // @desc Get all questions by category filter
 // @access Private
