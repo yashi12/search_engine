@@ -57,7 +57,12 @@ export default function(state = initialState, action){
                 answers: state.answers.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
                 loading: false 
             }
-
+        case GET_ANSWER:
+            return {
+                ...state,
+                answer: payload,
+                loading: false
+            }
 
         default:
             return state
