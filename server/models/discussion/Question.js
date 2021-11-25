@@ -32,7 +32,10 @@ const QuestionSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    predictions : [{
+        type : Number
+    }]
 });
 // QuestionSchema.index(
 //     {category:1}
