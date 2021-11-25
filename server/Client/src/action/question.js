@@ -39,22 +39,21 @@ export const getQuestionDiscussion = id => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
-    try {
-        const res = await axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config)
+    axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config).
+    then(res => {
         console.log("result filter",res)
         dispatch({
             type: GET_QUESTION,
             payload: res.data
         })
-
-    } catch (err) {
+    }).catch(err => {
         console.log("error add question dispatch",err);
         dispatch({
             type: QUESTION_ERROR,
             payload: {msg: err.response,
                 status: err.response}
         })
-    }
+    })   
 }
 
 // Search Questions
