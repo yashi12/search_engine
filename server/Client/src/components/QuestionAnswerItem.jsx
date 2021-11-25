@@ -12,7 +12,7 @@ import { BiCommentAdd } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import AnswerItem from './AnswerItem'
 
-const QuestionAnswerItem = ({  question ,answer:{answer, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
+const QuestionAnswerItem = ({  question ,answers:{answer, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
 
     useEffect(()=>{
         getAnswer(GlobalId)
