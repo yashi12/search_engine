@@ -33,9 +33,18 @@ const QuestionSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    predictions : [{
-        type : Number
-    }]
+    predictions :
+        {
+            sentence_embedding_bert:[{
+            type : Number
+            }],
+            sentence_embedding_electra:[{
+                type : Number
+            }],
+            sentence_embedding_use:[{
+                type : Number
+            }]
+        }
 });
 // QuestionSchema.index(
 //     {category:1}
