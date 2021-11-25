@@ -62,7 +62,7 @@ export const addComment = (id,comment) => async dispatch => {
         const res = await axios.post(`http://localhost:3000/api/answer/comment/${id}`, data, config)
         dispatch({
             type: ADD_COMMENT,
-            payload: res.data
+            payload: {id : id, data: res.data}
         })
         console.log("comment added")
         dispatch(setAlert('Comment Added','success'))
@@ -98,17 +98,17 @@ export const deleteAnswer = answerId => async dispatch => {
 }
 
 // Add  Answer
-export const addAnswer = (id,description) => async dispatch => {
+export const addAnswer = (id,description,userData) => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
     const data = {description: description}
     try {
-        console.log( "text body",id, description);
+        console.log( "text body",id, description,userData);
         const res = await axios.post(`http://localhost:3000/api/answer/${id}`, data, config)
         dispatch({
             type: ADD_ANSWER,
-            payload: res.data
+            payload: {...res.data,user:userData}
         })
         console.log("after dispatch")
         dispatch(setAlert('Answer Added','success'))
@@ -134,7 +134,7 @@ export const updateAnswer = (id,description) => async dispatch => {
         const res = await axios.put(`http://localhost:3000/api/answer/${id}`, data, config)
         dispatch({
             type: UPDATE_ANSWER,
-            payload: res.data
+            payload: {ansId: id, data: res.data}
         })
         console.log("after dispatch")
         dispatch(setAlert('Answer Updated','success'))

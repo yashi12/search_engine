@@ -7,11 +7,17 @@ import { CgProfile } from 'react-icons/cg'
 import { connect } from 'react-redux'
 import Comments from './Comments'
 import { Link } from 'react-router-dom'
-import { Fragment, useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
 
-const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment, updateAnswer}) => {
+const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,addComment, updateAnswer, addAnswer}) => {
 
     //const [loading,setLoading] = useState(false)
+
+    // useEffect(()=>{
+    //     getQuestionDiscussion(GlobalId)
+    // },[getQuestionDiscussion])
+
+    //console.log("answer data: ",answers)
 
     const [answerToggle, setAnswerToggle] = useState(false)
 
@@ -30,9 +36,12 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
     const [commentData, setCommentData] = useState("")
 
     const Submit = e => {
+        const userData = {email: auth.user.email,name:auth.user.name,_id:auth.user._id}
         e.preventDefault()
         console.log("comment : ",commentData)
-        addAnswer(GlobalId,commentData)
+        addAnswer(GlobalId,commentData,userData)
+        setCommentToggle(!commentToggle)
+        //setLoading(!loading)
     }
 
     const onChange = e => {
@@ -49,14 +58,16 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
     }
 
     const UpdateAnswer = e => {
+        e.preventDefault()
         console.log("new answer : ",updateData)
         updateAnswer(answerId,updateData)
+        setUpdateToggle(!updateToggle)
         //window.location.reload(false)
     }
 
     const DeleteAnswer = (id) => {
         deleteAnswer(id)
-        window.location.reload(false)
+        //window.location.reload(false)
     }
 
     const Update = (e,description,id) => {
@@ -67,8 +78,9 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
     }
 
     const Comment = (e) => {
-        e.preventDefault()
+        //e.preventDefault()
         addComment(commentId,answerData)
+        setAnswerToggle(!answerToggle)
     }
 
     const AddComment = (e,id) => {
@@ -80,7 +92,7 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
     return (
         <div>
             <div >
-                <button className="btn btn-primary" onClick={()=>setCommentToggle(!commentToggle)}><BiCommentAdd/></button>
+                <button className="btn btn-primary" onClick={()=>setCommentToggle(!commentToggle)}>Add Comment <BiCommentAdd/></button>
             </div>
             {
                 commentToggle ? 
@@ -130,11 +142,11 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
             <div className="row g-3">
                 <div className="col">
                     {
-                        answer.length > 0 ?
+                        answers.length > 0 ?
                             <div>
                                 <h3>Answers</h3>
                                 {
-                                answer.map((element) => (
+                                answers.map((element) => (
                                     <div>
                                         <div className="row">
                                     
@@ -161,7 +173,10 @@ const AnswerItem = ({ answer,auth,GlobalId, deleteAnswer, likeAnswer,addComment,
                                                 )}
                                             </div>
                                         </div>
-                                        <Comments id={element._id}/>
+                                        {
+                                            element.comments ? <Comments id={element._id}/> : <p>No Comments</p>
+                                        }
+                                        
                                         <hr />
                                     </div>
                                     
@@ -183,11 +198,13 @@ AnswerItem.propTypes = {
     deleteAnswer: PropTypes.func.isRequired,
     likeAnswer: PropTypes.func.isRequired,
     addComment: PropTypes.func.isRequired,
-    updateAnswer: PropTypes.func.isRequired
+    updateAnswer: PropTypes.func.isRequired,
+    answers: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    answers: state.answers
 })
 
-export default connect(mapStateToProps, {  deleteAnswer, likeAnswer,addComment, updateAnswer})(AnswerItem)
+export default connect(mapStateToProps, {addAnswer,  deleteAnswer, likeAnswer,addComment, updateAnswer})(AnswerItem)
