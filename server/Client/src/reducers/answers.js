@@ -22,7 +22,7 @@ export default function(state = initialState, action){
         case UPDATE_ANSWER:
             return {
                 ...state,
-                answers: payload,
+                answers: state.answers.map((post) => post._id === payload.ansId ? {...payload.data, user:post.user} : post),
                 loading: false
             }
         case ADD_ANSWER:
@@ -36,7 +36,7 @@ export default function(state = initialState, action){
             console.log()
             return {
                 ...state,
-                comments: [payload, ...state.comments],
+                answers: state.answers.map((post) => post._id === payload.id ? { ...post, comments:payload.data.comments } :post),
                 loading: false
             }
         case DELETE_ANSWER:
@@ -54,13 +54,13 @@ export default function(state = initialState, action){
         case LIKE_ANSWER:
             return {
                 ...state,
-                answers: state.answers.map((post) => post._id === payload.postId ? { ...post,likes: payload.likes, likeCount:payload.likes.length } :post),
+                answers: state.answers.map((post) => post._id === payload.ansId ? { ...post, likeCount:payload.likes.likeCount } :post),
                 loading: false 
             }
         case GET_ANSWER:
             return {
                 ...state,
-                answer: payload,
+                answers: payload,
                 loading: false
             }
 
