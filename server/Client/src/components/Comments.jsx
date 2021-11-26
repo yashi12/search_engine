@@ -21,13 +21,13 @@ const Comments = ({id}) => {
     return (
         <div>
             <br />
-            <h5>Comments</h5>
+            
             {
                 data ?
                 data.map((element)=>(
                     <p> <BsArrowReturnRight/> {element.text}</p>
                 )) :
-                <p></p>
+                <p>No comments</p>
             }
         </div>
     )
