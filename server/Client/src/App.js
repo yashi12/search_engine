@@ -18,6 +18,7 @@ import AskQuestion from './components/AskQuestion'
 import QuestionsFeed from './components/QuestionsFeed'
 import QuestionDiscussion from './components/QuestionDiscussion';
 import SearchQuestionByCategory from './components/SearchQuestionByCategory';
+import SearchItem from './components/SearchItem'
 import UpdateQuestion from './components/UpdateQuestion';
 import ProfileInfo from './components/ProfileInfo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -68,7 +69,7 @@ function App() {
               <PrivateRoute exact path="/question/:id" component={QuestionDiscussion}/>
               <PrivateRoute exact path="/update/:id" component={UpdateQuestion}/>
               <PrivateRoute exact path="/profile/:id" component={ProfileInfo}/>
-              <PrivateRoute exact path="/searchQuestion" component={SearchQuestionByCategory}/>
+              <PrivateRoute exact path="/searchQuestion" component={SearchItem}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>
