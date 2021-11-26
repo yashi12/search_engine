@@ -29,7 +29,7 @@ const s3 = new AWS.S3({
 const API = "";
 
 const loadAPI = async (req,res)=>{
-    let response = await fetch(API + "/load");
+    let response = await fetch(API + "load-api");
     let data = await response.json();
     if(data["status"] === 200){
         return res.status(200).json({"message" : "Successfully Loaded API."});
@@ -118,22 +118,30 @@ const addQues = async (req, res, next) => {
         tempQuestion.user = req.user.id;
         tempQuestion.predictions = [];
 
+        let formData = new FormData();
+        formData.append("title" , req.body.title);
 
-        let response = await fetch(API + "/generate-predictions",{
+        let response = await fetch(API + "generate-predictions",{
             method : "POST",
-            body : req.body.title,
+            body : formData,
             headers : {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         });
         let data = await response.json();
         if (data["status"] === 201){
-            tempQuestion.predictions = data["predictions"];
+            let predictions = data['predictions'];
+            tempQuestion.predictions.sentence_embedding_bert = predictions["sentence_embedding_bert"];
+            tempQuestion.predictions.sentence_embedding_electra = predictions["sentence_embedding_electra"];
+            tempQuestion.predictions.sentence_embedding_use = predictions["sentence_embedding_use"];
         }
 
-        let response2 = await fetch(API + "/get-similar-questions",{
+        let formData2 = new FormData();
+        formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
+
+        let response2 = await fetch(API + "get-similar-questions",{
             method : "GET",
-            body : JSON.stringify(tempQuestion.predictions),
+            body : formData2,
             headers : {
                 'Content-type': 'application/json; charset=UTF-8'
             }
@@ -202,9 +210,9 @@ const getAllQuestions = (req, res, next) => {
 const getAllPredictions = (req,res,next) => {
   Question.find({},'predictions',{},(error,predictions)=>{
       if(error){
-          return res.status(500).json({err : error});
+          return res.status(500).json({err : error ,status : 500});
       }
-      return res.status(200).json({predictions : predictions});
+      return res.status(200).json({predictions : predictions,status : 200});
   })
 }
 
