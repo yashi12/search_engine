@@ -8,7 +8,8 @@ import {
     DELETE_QUESTION,
     SEARCH_QUESTIONS,
     QUESTION_ERROR,
-    GET_QUESTION
+    GET_QUESTION,
+    GET_ANSWER
 } from './types'
 
 // Get Questions
@@ -39,22 +40,25 @@ export const getQuestionDiscussion = id => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
-    try {
-        const res = await axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config)
+    axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config).
+    then(res => {
         console.log("result filter",res)
         dispatch({
             type: GET_QUESTION,
             payload: res.data
         })
-
-    } catch (err) {
+        dispatch({
+            type: GET_ANSWER,
+            payload: res.data.answers
+        })
+    }).catch(err => {
         console.log("error add question dispatch",err);
         dispatch({
             type: QUESTION_ERROR,
             payload: {msg: err.response,
                 status: err.response}
         })
-    }
+    })   
 }
 
 // Search Questions
