@@ -19,12 +19,23 @@ const ContentMiddleware = require('../middleware/content');
 const {
     paginatedResults
 } = require('./helper/pagenation');
+const {raw} = require("config/raw");
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET
 });
 
+const API = "";
+
+const loadAPI = async (req,res)=>{
+    let response = await fetch(API + "/load");
+    let data = await response.json();
+    if(data["status"] === 200){
+        return res.status(200).json({"message" : "Successfully Loaded API."});
+    }
+    return res.status(500).json({"error" : "Error in Loading API."});
+}
 const addQuestionToCategory = (categoryName, ques) => {
     Category.findOne({
             name: categoryName
@@ -105,6 +116,33 @@ const addQues = async (req, res, next) => {
         tempQuestion.title = req.body.title;
         tempQuestion.description = req.body.description;
         tempQuestion.user = req.user.id;
+        tempQuestion.predictions = [];
+
+
+        let response = await fetch(API + "/generate-predictions",{
+            method : "POST",
+            body : req.body.title,
+            headers : {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        });
+        let data = await response.json();
+        if (data["status"] === 201){
+            tempQuestion.predictions = data["predictions"];
+        }
+
+        let response2 = await fetch(API + "/get-similar-questions",{
+            method : "GET",
+            body : JSON.stringify(tempQuestion.predictions),
+            headers : {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        });
+        let data2 = await response2.json();
+        let similarQuestions = {};
+        if (data2['status'] === 200){
+            similarQuestions = data2['similarQuestions'];
+        }
 
         if (tags) {
             tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
@@ -160,6 +198,15 @@ const getAllQuestions = (req, res, next) => {
             res.status(500).send('Server Error...');
         });
 };
+
+const getAllPredictions = (req,res,next) => {
+  Question.find({},'predictions',{},(error,predictions)=>{
+      if(error){
+          return res.status(500).json({err : error});
+      }
+      return res.status(200).json({predictions : predictions});
+  })
+}
 
 const getAllQuestionsByCategory = (req, res, next) => {
     const category = req.params.category;
@@ -386,5 +433,7 @@ module.exports = {
     updateQuestion: updateQuestion,
     deleteQuestion: deleteQuestion,
     getQuestionById: getQuestionById,
+    getAllPredictions : getAllPredictions,
+    loadAPI : loadAPI,
     // getQuestionsByTag: getQuestionsByTag,
 }
