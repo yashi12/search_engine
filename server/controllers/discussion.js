@@ -20,13 +20,16 @@ const {
     paginatedResults
 } = require('./helper/pagenation');
 const {raw} = require("config/raw");
+const fetch = require("node-fetch");
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "";
+const API = "http://b196-35-227-65-207.ngrok.io/";
+
+const FormData = require("form-data"); 
 
 const loadAPI = async (req,res)=>{
     let response = await fetch(API + "load-api");
@@ -123,10 +126,7 @@ const addQues = async (req, res, next) => {
 
         let response = await fetch(API + "generate-predictions",{
             method : "POST",
-            body : formData,
-            headers : {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
+            body : formData
         });
         let data = await response.json();
         if (data["status"] === 201){
@@ -140,11 +140,11 @@ const addQues = async (req, res, next) => {
         formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
 
         let response2 = await fetch(API + "get-similar-questions",{
-            method : "GET",
+            method : "POST",
             body : formData2,
-            headers : {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
+            // headers : {
+            //     'Content-type': 'application/json; charset=UTF-8'
+            // }
         });
         let data2 = await response2.json();
         let similarQuestions = {};
