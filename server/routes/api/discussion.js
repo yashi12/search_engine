@@ -12,7 +12,7 @@ const upload = multer();
 // @route POST api/discussion/ques
 // @desc Create a Question
 // @access Private
-router.post('/ques', [upload.single("media"),  [
+router.post('/ques', [upload.single("media"),auth,  [
     check('title', 'Title is required').not().isEmpty(),
     check('description', 'Description is required at least 20 char').not().isEmpty().isLength({min:20}),
     check('category', 'Category is required').not().isEmpty(),
