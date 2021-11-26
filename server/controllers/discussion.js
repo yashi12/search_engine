@@ -202,7 +202,7 @@ const getAllQuestions = (req, res, next) => {
 const getAllPredictions = (req,res,next) => {
   Question.find({},'predictions',{},(error,predictions)=>{
       if(error){
-          return res.json({err : error});
+          return res.status(500).json({err : error});
       }
       return res.status(200).json({predictions : predictions});
   })
