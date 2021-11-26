@@ -8,7 +8,8 @@ import {
     DELETE_QUESTION,
     SEARCH_QUESTIONS,
     QUESTION_ERROR,
-    GET_QUESTION
+    GET_QUESTION,
+    GET_ANSWER
 } from './types'
 
 // Get Questions
@@ -45,6 +46,10 @@ export const getQuestionDiscussion = id => async dispatch => {
         dispatch({
             type: GET_QUESTION,
             payload: res.data
+        })
+        dispatch({
+            type: GET_ANSWER,
+            payload: res.data.answers
         })
     }).catch(err => {
         console.log("error add question dispatch",err);

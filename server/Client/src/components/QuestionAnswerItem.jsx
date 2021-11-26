@@ -5,18 +5,18 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Spinner from './Spinner'
 import { Link } from 'react-router-dom'
-import {  deleteQuestion } from '../action/question'
+import {  deleteQuestion, getQuestionDiscussion } from '../action/question'
 import { addAnswer, getAnswer } from '../action/answers'
 import { AiFillLike,AiFillDelete,AiFillEdit } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import AnswerItem from './AnswerItem'
 
-const QuestionAnswerItem = ({  question ,answer:{answer, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
+const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
 
-    useEffect(()=>{
-        getAnswer(GlobalId)
-    }, [getAnswer])
+    // useEffect(()=>{
+    //     getAnswer(GlobalId)
+    // }, [getAnswer])
 
     //const [commentToggle, setCommentToggle] = useState(false)
 
@@ -96,7 +96,7 @@ const QuestionAnswerItem = ({  question ,answer:{answer, loading}, GlobalId, aut
                             </div>
                             
                             {
-                                loading || answer === null ? <div/> : <AnswerItem answer={answer} GlobalId={GlobalId}/>
+                                loading || answers === null ? <div/> : <AnswerItem GlobalId={GlobalId}/>
                             }
                         </div>
                     </div>
@@ -112,12 +112,12 @@ QuestionAnswerItem.propTypes = {
     deleteQuestion: PropTypes.func.isRequired,
     addAnswer: PropTypes.func.isRequired,
     getAnswer: PropTypes.func.isRequired,
-    answer: PropTypes.object.isRequired
+    answers: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    answer: state.answer
+    answers: state.answers
 })
 
 export default connect(mapStateToProps, { deleteQuestion, addAnswer, getAnswer})(QuestionAnswerItem)
