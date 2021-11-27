@@ -32,7 +32,19 @@ const QuestionSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    predictions :
+        {
+            sentence_embedding_bert:[{
+            type : Number
+            }],
+            sentence_embedding_electra:[{
+                type : Number
+            }],
+            sentence_embedding_use:[{
+                type : Number
+            }]
+        }
 });
 // QuestionSchema.index(
 //     {category:1}

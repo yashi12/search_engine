@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const request = require('request');
 const AWS = require('aws-sdk');
-
+const fetch = require('node-fetch');
 const Question = require('../models/discussion/Question');
 const Answer = require('../models/discussion/Answer');
 // const Tag = require('../models/discussion/Tag');
@@ -19,12 +19,24 @@ const ContentMiddleware = require('../middleware/content');
 const {
     paginatedResults
 } = require('./helper/pagenation');
+const {raw} = require("config/raw");
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET
 });
 
+const API = "http://7d28-34-86-229-159.ngrok.io/";
+let FormData = require('form-data');
+
+const loadAPI = async (req,res)=>{
+    let response = await fetch(API + "load-api");
+    let data = await response.json();
+    if(data["status"] === 200){
+        return res.status(200).json({"message" : "Successfully Loaded API."});
+    }
+    return res.status(500).json({"error" : "Error in Loading API."});
+}
 const addQuestionToCategory = (categoryName, ques) => {
     Category.findOne({
             name: categoryName
@@ -104,7 +116,36 @@ const addQues = async (req, res, next) => {
         tempQuestion.category = req.body.category;
         tempQuestion.title = req.body.title;
         tempQuestion.description = req.body.description;
-        tempQuestion.user = req.user.id;
+        // tempQuestion.user = req.user.id;
+        tempQuestion.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
+
+        let formData = new FormData();
+        formData.append("title" , req.body.title);
+        let response = await fetch(API + "generate-predictions",{
+            method : "POST",
+            body : formData
+        });
+        let data = await response.json();
+        if (data["status"] === 201){
+            let predictions = data['predictions'];
+            tempQuestion.predictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
+            tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
+            tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
+        }
+
+        let formData2 = new FormData();
+        formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
+
+        let response2 = await fetch(API + "get-similar-questions",{
+            method : "POST",
+            body : formData2
+        });
+        let data2 = await response2.json();
+        let similarQuestions = {};
+        if (data2['status'] === 200){
+            similarQuestions = data2['similarQuestions'];
+        }
+        console.log(similarQuestions);
 
         if (tags) {
             tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
@@ -160,6 +201,15 @@ const getAllQuestions = (req, res, next) => {
             res.status(500).send('Server Error...');
         });
 };
+
+const getAllPredictions = (req,res,next) => {
+  Question.find({},'predictions',{},(error,predictions)=>{
+      if(error){
+          return res.status(500).json({err : error ,status : 500});
+      }
+      return res.status(200).json({predictions : predictions,status : 200});
+  })
+}
 
 const getAllQuestionsByCategory = (req, res, next) => {
     const category = req.params.category;
@@ -386,5 +436,7 @@ module.exports = {
     updateQuestion: updateQuestion,
     deleteQuestion: deleteQuestion,
     getQuestionById: getQuestionById,
+    getAllPredictions : getAllPredictions,
+    loadAPI : loadAPI,
     // getQuestionsByTag: getQuestionsByTag,
 }
