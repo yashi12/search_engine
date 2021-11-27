@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const request = require('request');
 const AWS = require('aws-sdk');
-
+const fetch = require('node-fetch');
 const Question = require('../models/discussion/Question');
 const Answer = require('../models/discussion/Answer');
 // const Tag = require('../models/discussion/Tag');
@@ -27,9 +27,8 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "http://b196-35-227-65-207.ngrok.io/";
-
-const FormData = require("form-data"); 
+const API = "http://7d28-34-86-229-159.ngrok.io/";
+let FormData = require('form-data');
 
 const loadAPI = async (req,res)=>{
     let response = await fetch(API + "load-api");
@@ -118,12 +117,11 @@ const addQues = async (req, res, next) => {
         tempQuestion.category = req.body.category;
         tempQuestion.title = req.body.title;
         tempQuestion.description = req.body.description;
-        tempQuestion.user = req.user.id;
-        tempQuestion.predictions = [];
+        // tempQuestion.user = req.user.id;
+        tempQuestion.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
 
         let formData = new FormData();
         formData.append("title" , req.body.title);
-
         let response = await fetch(API + "generate-predictions",{
             method : "POST",
             body : formData
@@ -131,9 +129,9 @@ const addQues = async (req, res, next) => {
         let data = await response.json();
         if (data["status"] === 201){
             let predictions = data['predictions'];
-            tempQuestion.predictions.sentence_embedding_bert = predictions["sentence_embedding_bert"];
-            tempQuestion.predictions.sentence_embedding_electra = predictions["sentence_embedding_electra"];
-            tempQuestion.predictions.sentence_embedding_use = predictions["sentence_embedding_use"];
+            tempQuestion.predictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
+            tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
+            tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
         }
 
         let formData2 = new FormData();
@@ -141,16 +139,14 @@ const addQues = async (req, res, next) => {
 
         let response2 = await fetch(API + "get-similar-questions",{
             method : "POST",
-            body : formData2,
-            // headers : {
-            //     'Content-type': 'application/json; charset=UTF-8'
-            // }
+            body : formData2
         });
         let data2 = await response2.json();
         let similarQuestions = {};
         if (data2['status'] === 200){
             similarQuestions = data2['similarQuestions'];
         }
+        console.log(similarQuestions);
 
         if (tags) {
             tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
