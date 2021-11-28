@@ -9,6 +9,8 @@ import Fuse from 'fuse.js'
 
 const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}) => {
 
+    const [category, setCategory] = useState('')
+
     const fuse = new Fuse(data, {
 	    keys: ['tagName']
     })
