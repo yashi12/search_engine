@@ -313,7 +313,12 @@ const likeanswer = async (req, res) => {
                 answer: req.params.id
             }, {
                $push: { users : {_id:ObjectId(req.user.id)}}     
-            }, options);
+            }, options
+            ,(err,data)=>{
+                if(!err){
+                    console.log(data);
+                }
+            });
         }
         console.log("answerLike",answerLike);
         const updatedAnswer = await Answer.findOneAndUpdate({
