@@ -33,7 +33,6 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
     const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
-    setCategory(searchWord)
     const result = fuse.search(searchWord)
     const characterResults = result.map(character => character.item.tagName)
 
@@ -42,11 +41,6 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
     } else {
         setFilteredData(characterResults);
     }
-    };
-
-    const clearInput = () => {
-    setFilteredData([]);
-    setWordEntered("");
     };
 
     return (
