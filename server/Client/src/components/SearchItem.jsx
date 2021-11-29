@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Questions from './Questions';
 import { searchQuestions } from '../action/question';
-import data from '../Data/file.json'
+import data from '../Data/data.json'
 import './SearchBar.css'
 import Fuse from 'fuse.js'
 
-const SearchItem = ({ searchQuestions, question: { searchQuestionArr }}) => {
+const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}) => {
 
     const [category, setCategory] = useState('')
 
@@ -33,7 +33,6 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr }}) => {
     const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
-    setCategory(searchWord)
     const result = fuse.search(searchWord)
     const characterResults = result.map(character => character.item.tagName)
 
@@ -42,11 +41,6 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr }}) => {
     } else {
         setFilteredData(characterResults);
     }
-    };
-
-    const clearInput = () => {
-    setFilteredData([]);
-    setWordEntered("");
     };
 
     return (
@@ -92,7 +86,7 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr }}) => {
             <div className="col-2"></div>
         </div>
         <div >
-            {searchQuestionArr.map((question) => (
+            { loading || searchQuestionArr === [] ? <div></div> : searchQuestionArr.map((question) => (
                 <Questions key={question._id} question={question} />
             ))}
         </div>
