@@ -27,6 +27,7 @@ const s3 = new AWS.S3({
 });
 
 const API = " http://1978-34-75-87-100.ngrok.io/";
+
 let FormData = require('form-data');
 
 const loadAPI = async (req,res)=>{
@@ -116,7 +117,7 @@ const addQues = async (req, res, next) => {
         tempQuestion.category = req.body.category;
         tempQuestion.title = req.body.title;
         tempQuestion.description = req.body.description;
-        // tempQuestion.user = req.user.id;
+        tempQuestion.user = req.user.id;
         tempQuestion.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
 
         let formData = new FormData();
@@ -141,8 +142,9 @@ const addQues = async (req, res, next) => {
             body : formData2
         });
         let data2 = await response2.json();
+
         let similarQuestions = {};
-        if (data2['status'] === 200){
+        if (data2['status'] === 201){
             similarQuestions = data2['similarQuestions'];
         }
         console.log(similarQuestions);
