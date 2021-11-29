@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = " http://1978-34-75-87-100.ngrok.io/";
+const API = "http://1295-35-194-75-220.ngrok.io/";
 let FormData = require('form-data');
 
 const loadAPI = async (req,res)=>{
@@ -203,12 +203,19 @@ const getAllQuestions = (req, res, next) => {
 };
 
 const getAllPredictions = (req,res,next) => {
+    console.log('entered')
   Question.find({},'predictions',{},(error,predictions)=>{
       if(error){
           return res.status(500).json({err : error ,status : 500});
       }
+      console.log(predictions);
       return res.status(200).json({predictions : predictions,status : 200});
   })
+//   Question.find({}).select('predictions')
+//   .then(predictions=>{
+//         console.log(predictions);
+//         return res.status(200).json({predictions : predictions,status : 200});
+//     })
 }
 
 const getAllQuestionsByCategory = (req, res, next) => {
