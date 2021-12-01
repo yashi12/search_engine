@@ -32,7 +32,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                         <div className="col-md-8">
                             <div className="row g-0">
                                 <div className="card-body">
-                                    <h4>{question.user.name} <Link className="btn btn-primary" to={`/profile/${question.user._id}`}><CgProfile/></Link></h4>
+                                    {/* <h4>{question.user.name} <Link className="btn btn-primary" to={`/profile/${question.user._id}`}><CgProfile/></Link></h4> */}
                                     <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
                                     <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
                                     <br />
