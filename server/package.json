@@ -30,7 +30,8 @@
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.5.0",
     "request": "^2.88.2",
-    "uniqid": "^5.4.0"
+    "uniqid": "^5.4.0",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
