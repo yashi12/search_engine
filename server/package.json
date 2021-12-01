@@ -5,8 +5,8 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "client": "npm start --prefix Client",
-    "server": "nodemon app.js",
-    "dev": "nodemon app.js"
+    "server": "nodemon app",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "dependencies": {
     "aws-sdk": "^2.874.0",
