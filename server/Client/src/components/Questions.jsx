@@ -8,6 +8,7 @@ import { CgProfile } from 'react-icons/cg'
 
 const Questions = ({ auth, question, deleteQuestion}, showActions) => {
 
+    // got the data of question from the QuestionFeed component
     return (
         <div>
             <div className="row">
@@ -50,6 +51,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                             <div className="row g-1">
                                 <div className="col-9"/>
                                 <div className="col-3">
+                                    {/* Link to the page with question and all it's details */}
                                     <Link to={`/question/${question._id}`} className="btn btn-primary">
                                         Answers <span className="badge badge-light">{question.answers.length}</span>
                                     </Link>

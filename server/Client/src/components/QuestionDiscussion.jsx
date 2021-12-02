@@ -7,12 +7,16 @@ import QuestionAnswerItem from './QuestionAnswerItem'
 
 const QuestionDiscussion = ({ getQuestionDiscussion,match, question: {question, loading} }) => {
 
+    // Component where all the data of the question will be displayed
+    // match.params takes info from the url
+    // here we took the id of the question from the url
     useEffect( async ()=>{
         getQuestionDiscussion(match.params.id) 
     }, [getQuestionDiscussion])
 
     return (
         <div>
+            {/* Passing the data of the question to Question Answer component */}
             {
                 loading || question === null ? 
                 <Spinner />
