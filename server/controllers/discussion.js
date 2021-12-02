@@ -26,12 +26,8 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-<<<<<<< HEAD
-const API = "http://1295-35-194-75-220.ngrok.io/";
-=======
-const API = " http://1978-34-75-87-100.ngrok.io/";
+const API = "http://5fc9-34-73-243-94.ngrok.io/";
 
->>>>>>> e9559db5c351297feaff79d0bf2581290b65c872
 let FormData = require('form-data');
 
 const loadAPI = async (req,res)=>{
@@ -117,7 +113,6 @@ const addQues = async (req, res, next) => {
             date
         } = req.body;
         const tempQuestion = {};
-
         tempQuestion.category = req.body.category;
         tempQuestion.title = req.body.title;
         tempQuestion.description = req.body.description;
@@ -137,7 +132,7 @@ const addQues = async (req, res, next) => {
             tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
             tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
         }
-
+        console.log(data["status"]);
         let formData2 = new FormData();
         formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
 
