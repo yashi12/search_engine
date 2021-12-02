@@ -7,6 +7,7 @@ import { addExperience } from '../action/profile'
 
 const AddExperience = ({ addExperience, history }) => {
 
+    // State Initialization
     const [formData, setFormData] = useState({
         company: '',
         title: '',
@@ -15,12 +16,14 @@ const AddExperience = ({ addExperience, history }) => {
         current: false
     })
 
+    // If it is the current job then there will be no end data so a checkbox is there to handle that.
     const [toDateDisabled, toggleDisabled] = useState(false)
 
     const { company, title, from, to, current } = formData
 
     const onChange = e => setFormData({...formData, [e.target.id]: e.target.value})
 
+    // Submitting the data
     const onSubmit = e => {
         e.preventDefault();
         console.log("data",formData);
@@ -35,6 +38,7 @@ const AddExperience = ({ addExperience, history }) => {
                 <div className="card">
                     <div className="card-body">
                         <form onSubmit={e => onSubmit(e)}>
+                            {/* Taking inputs */}
                             <div className="form-group">
                                 <h2>Add Experience</h2>
                                 <label>Company</label>
@@ -56,7 +60,7 @@ const AddExperience = ({ addExperience, history }) => {
                                 <label >End</label>
                                 <input onChange={e => onChange(e)} type="date" className="form-control"  id="to" disabled={toDateDisabled ? 'disabled' : ''}/>
                                 <br/>
-                                
+                                {/*Submitting Button */}
                                 <button type="submit" className="btn btn-primary">Add</button>
                             </div>
                         </form>
@@ -72,4 +76,5 @@ AddExperience.propTypes = {
     addExperience: PropTypes.func.isRequired
 }
 
+// Connecting react program with redux
 export default connect(null, {addExperience})(AddExperience)
