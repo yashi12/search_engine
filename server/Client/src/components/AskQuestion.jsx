@@ -48,6 +48,7 @@ const AskQuestion = ({askQuestion}) => {
 
     const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
 
+    // adding the selected category to the list of category
     const Add = () => {
         if (Category.length === 0){
             setCategory(Category.concat(wordEntered))
@@ -89,6 +90,7 @@ const AskQuestion = ({askQuestion}) => {
                 <div className="card">
                     <div className="card-body">
                         <form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
+                            {/* Taking inputs */}
                             <div className="form-group">
                                 <div className="mb-3">
                                     <label for="formFile" className="form-label">Add Image</label>
@@ -128,9 +130,11 @@ const AskQuestion = ({askQuestion}) => {
                                 <div className="mb-3">
                                     <button className="btn btn-primary" onClick={()=>Add()}><GrAdd  /></button>
                                 </div>
+                                {/* displaying the category list */}
                                 {
                                     formData.category.length === 0 ? <p></p> : <p>Category : {formData.category}</p>
                                 }
+                                {/* displaying the list using fuzzy */}
                                 {filteredData.length != 0 && (
                                     <div className="dataResult">
                                     {filteredData.slice(0, 25).map((value, key) => {

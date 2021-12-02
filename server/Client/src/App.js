@@ -30,7 +30,6 @@ import store from './components/Store'
 import Alert from './components/Alert'
 import { loadUser } from './action/auth'
 import setAuthToken from './utils/setAuthToken'
-import { addExperience } from './action/profile'
 import * as process from "process";
 
 

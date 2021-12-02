@@ -6,6 +6,7 @@ const Comments = ({id}) => {
 
     const [data, setData] = useState(null)
 
+    {/* fetching the answer details using it's id to get comments on that answer */}
     useEffect(()=>{
         axios.get(`http://localhost:3000/api/answer/${id}`).then((res)=>{
             console.log(res.data.comments.comments)

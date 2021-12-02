@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css'
 
 const AddPost = ({addPost}) => {
 
+	// State Initialization
 	const [formData, setFormData] = useState({
 		text: '',
 		title:""
@@ -17,12 +18,15 @@ const AddPost = ({addPost}) => {
 
 	const {text,title} = formData
 
+	// setting values from inputs into a formData
 	const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
 
+	// To set the value of text in formData when the value changes 
 	useEffect(() => {
 		setFormData({...formData,"text":value})
 	}, [value])
 
+	// Submitting the data
 	const onSubmit = e => {
 		e.preventDefault()
 		//setFormData({...formData,"text":value})
@@ -51,6 +55,7 @@ const AddPost = ({addPost}) => {
 				<div className="card">
 					<div className="card-body">
 						<form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
+							{/* Taking Inputs */}
 							<div className="form-group">
 								<div className="mb-3">
 									<label htmlFor="formFile" className="form-label">Add Image</label>
@@ -86,4 +91,5 @@ AddPost.propTypes = {
 	addPost: PropTypes.func.isRequired
 }
 
+// Connecting react program with redux
 export default connect(null, {addPost})(AddPost)

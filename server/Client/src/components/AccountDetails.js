@@ -6,7 +6,7 @@ import { Link, Redirect } from 'react-router-dom'
 import profile from '../reducers/profile'
 import { loadUser } from '../action/auth'
 
-
+// State Initialization
 const initialState = {
     company: '',
     skills: '',
@@ -26,6 +26,7 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
         skills:''
     })
 
+    // Toggling action
     const [displaySocialInputs, toggleSocialInputs] = useState(false)
 
     useEffect( () =>{
@@ -68,12 +69,14 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
                 <div className="col-6">
                     <form onSubmit={onSubmit}>
                         <br/><br/>
+                        {/* Handling the toggle action */}
                         <div className="row">
                             <button type="button" className="btn btn-primary" onClick={()=>toggleSocialInputs(!displaySocialInputs)}>Add Social</button>
                         </div>
                         <div className="row">
                             { displaySocialInputs &&( <div>
                                 <br />
+                                {/* Taking inputs like Github username, Linked In and Twitter name */}
                                 <div className="col">
                                     <label htmlFor="githubusername">Github</label>
                                     <input type="text" id="githubusername" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}/>
@@ -89,15 +92,17 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
                                 </div>)}
                         </div>
                         <br />
+                        {/* Taking Bio and Skills */}
                         <div className="form-group">
-                            <label htmlFor="bio">Bio</label>
+                            <label className="text-primary" htmlFor="bio">Bio</label>
                             <textarea name="bio" className="form-control" rows="5" maxLength="200" onChange={e => onChange(e)} value={bio}/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="skills">Skills</label>
+                            <label className="text-primary" htmlFor="skills">Skills</label>
                             <input type="text" className="form-control" name="skills" placeholder="Password" onChange={e => onChange(e)} value={skills}/>
                         </div>
                         <input type="submit" className="btn btn-primary my-1" />
+                        <br/>
                         <Link className="btn btn-light my-1" to="/profile">
                             Go Back
                         </Link>
@@ -111,16 +116,19 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
 
     )
 }
+
 AccountDetails.propTypes = {
     createProfile: PropTypes.func.isRequired,
     getCurrentProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
 };
 
+// Accessing the profile from the redux state
 const mapStateToProps = state => ({
     profile: state.profile
 });
 
+// Connecting react program with redux
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
     AccountDetails
 );
