@@ -16,6 +16,7 @@ const QuestionsFeed = ({ getQuestions, question : {questions} }) => {
                 questions ? <Fragment>
                 <h1 className="large text-primary">Questions</h1>
                 <div >
+                    {/* passing data from get all question api to Questions component */}
                     {questions.map((question) => (
                         <Questions key={question._id} question={question} />
                     ))}

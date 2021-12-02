@@ -11,13 +11,7 @@ import { useState } from 'react'
 
 const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,addComment, updateAnswer, addAnswer}) => {
 
-    //const [loading,setLoading] = useState(false)
-
-    // useEffect(()=>{
-    //     getQuestionDiscussion(GlobalId)
-    // },[getQuestionDiscussion])
-
-    //console.log("answer data: ",answers)
+    //getting the id of question from QuestionAnswerItem component
 
     const [answerToggle, setAnswerToggle] = useState(false)
 
@@ -44,6 +38,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
         //setLoading(!loading)
     }
 
+    // setting what content is inputted
     const onChange = e => {
         e.preventDefault()
         if (e.target.id === "comment"){
@@ -70,6 +65,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
         //window.location.reload(false)
     }
 
+    // question update function
     const Update = (e,description,id) => {
         e.preventDefault()
         setUpdateData(description)
@@ -94,6 +90,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
             <div >
                 <button className="btn btn-primary" onClick={()=>setCommentToggle(!commentToggle)}>Add Comment <BiCommentAdd/></button>
             </div>
+            {/* Handling input types */}
             {
                 commentToggle ? 
                 <div className="row g-2">
@@ -141,6 +138,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
             }
             <div className="row g-3">
                 <div className="col">
+                    {/* Check if there are any answers if there are then display them */}
                     {
                         answers.length > 0 ?
                             <div>
@@ -166,6 +164,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                                                 )}
                                             </div>
                                             <div className="col-1">
+                                                {/* Checking ig user has authority to delete the answer */}
                                                 {!auth.loading && element.user._id === auth.user._id && (
                                                     <button onClick={() => DeleteAnswer(element._id)} type="button"
                                                             className="btn btn-danger"><AiFillDelete/>
@@ -173,6 +172,8 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                                                 )}
                                             </div>
                                         </div>
+                                        {/* checking if there are comment and if there are then display them 
+                                        using the Comment component */}
                                         {
                                             element.comments ? <Comments id={element._id}/> : <p>No Comments</p>
                                         }

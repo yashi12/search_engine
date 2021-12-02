@@ -11,6 +11,7 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
 
     const [category, setCategory] = useState('')
 
+    // initializing variable to use fuzzy
     const fuse = new Fuse(data, {
 	    keys: ['tagName']
     })
@@ -27,13 +28,16 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
         console.log("call get question");
     };
 
+    // handling fuzzy search
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
     const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
+    // searching input category through fuzzy
     const result = fuse.search(searchWord)
+    // mapping result from search so that it can be displayed in the list
     const characterResults = result.map(character => character.item.tagName)
 
     if (searchWord === "") {

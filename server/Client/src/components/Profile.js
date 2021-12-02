@@ -39,18 +39,23 @@ const Profile = ({
                                 <div className="col">
                                     <h5><FaGithub/> Github</h5>
                                     {profile["social"].githubusername ?
-                                        <p>{profile["social"].githubusername}</p> : <div/>}
+                                        <a href={"https://github.com/"+profile["social"].githubusername} target="_blank">
+                                        {"https://github.com/"+profile["social"].githubusername}</a> : <div/>}
                                 </div>
                                 <div className="col">
                                     <h5><FaLinkedin/> Linked In</h5>
                                     {profile["social"].linkedIn ?
-                                        <p>{profile["social"].linkedIn}</p> : <div/>}
+                                        <a href={"https://github.com/"+profile["social"].linkedIn} target="_blank">
+                                        {"https://github.com/"+profile["social"].linkedIn}</a> : <div/>}
+                                        
                                 </div>
 
-                                <div className="form-group">
+                                <div className="col">
                                     <h5><FaTwitter/> Twitter</h5>
                                     {profile["social"].twitter ?
-                                        <p>{profile["social"].twitter}</p> : <div/>}
+                                        <a href={"https://github.com/"+profile["social"].twitter} target="_blank">
+                                        {"https://github.com/"+profile["social"].twitter}</a> : <div/>}
+                                       
                                 </div>
                             </Fragment>
                             : <div/>}

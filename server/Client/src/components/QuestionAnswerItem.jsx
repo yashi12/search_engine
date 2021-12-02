@@ -14,13 +14,7 @@ import AnswerItem from './AnswerItem'
 
 const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
 
-    // useEffect(()=>{
-    //     getAnswer(GlobalId)
-    // }, [getAnswer])
-
-    //const [commentToggle, setCommentToggle] = useState(false)
-
-    //const [commentData, setCommentData] = useState("")
+    // got the data of question from the Question Discussion component
 
     const history = useHistory()
 
@@ -75,6 +69,7 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                                     <div className="row g-1">
                                         <div className="col-8"/>
                                         <div className="col-1">
+                                            {/* Checking id user has authority to delete the question */}
                                             {!auth.loading && question.result.user._id === auth.user._id && (
                                                     <button onClick={e => Delete(e,question.result._id)} type="button"
                                                             className="btn btn-danger"><AiFillDelete/>
@@ -83,6 +78,7 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                                             )}
                                         </div>
                                         <div className="col-1">
+                                            {/* Checking if the user has authority to edit the question */}
                                             {!auth.loading && question.result.user._id === auth.user._id && (
                                                 <Link to={`/update/${question.result._id}`} className="btn btn-info">
                                                     <span ><AiFillEdit/></span>
@@ -94,7 +90,8 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                                     <br />
                                 </div>
                             </div>
-                            
+                            {/* Passing the id of the question to AnswerItem component
+                             so that it can get the details of answer from get answer by id api */}
                             {
                                 loading || answers === null ? <div/> : <AnswerItem GlobalId={GlobalId}/>
                             }

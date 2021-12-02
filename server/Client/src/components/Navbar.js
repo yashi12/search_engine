@@ -6,28 +6,26 @@ import React, { Fragment } from 'react'
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
+    // These links will be displayed once the user has logged in
     const authLinks = (
         <ul className="navbar navbar-nav mr-auto w-100">
-            <li className="nav-item active">
-                <Link className="nav-link" to="/feed">Feed</Link>
-            </li>
-            <li className="nav-item active">
+            {/* <li className="nav-item active">
                 <Link className="nav-link" to="/search">Learn</Link>
+            </li> */}
+            <li className="nav-item dropdown active">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    V1
+                </a>
+                <div className="dropdown-menu" >
+                    <Link className="dropdown-item" to="/feed">Feed</Link>
+                    <Link className="dropdown-item" to="/addPost">Add Post</Link>
+                    <Link className="dropdown-item" to="/searchPost">Search Post</Link>
+                    <Link className="dropdown-item" to="/profiles">Find Devs</Link>
+                    <Link className="dropdown-item" to="/searchProfile">Search Profile</Link>
+                </div>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/addPost">Add Post</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/searchPost">Search Post</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/searchProfile">Search Profile</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/profiles">Find Devs</Link>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/searchQuestion">Search Question</Link>
@@ -44,6 +42,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         </ul>
     )
 
+    // These links will be displayed to everyone
     const guestLinks = (
         <nav className="navbar navbar-nav w-100 navbar-dark">
             <li className="nav-item">

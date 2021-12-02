@@ -125,4 +125,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 })
 
-export default connect(null, { createProfile, getCurrentProfile})(withRouter(EditProfile))
+export default connect(mapStateToProps, { createProfile, getCurrentProfile})(withRouter(EditProfile))
