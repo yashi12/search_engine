@@ -51,6 +51,7 @@ const UpdateQuestion = ({updateQuestion, question: {question}, getQuestionDiscus
         data.append("category",formData.category)
         data.append("media",image);
 
+        // Redirecting to the question after updating
         updateQuestion(match.params.id,data)
         history.push(`/question/${match.params.id}`)
     }

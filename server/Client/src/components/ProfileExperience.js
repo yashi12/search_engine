@@ -10,7 +10,7 @@ const ProfileExperience = ({experience: { company, title, to, from, current }}) 
                     <td><b>{company}</b></td>
                     <td>{title}</td>
                     <td><Moment format="YYYY/MM/DD" date={from}  /></td>
-                    <td >{ current ? <td> - </td> : <td> <Moment format="YYYY/MM/DD" date={to}/></td>}</td>
+                    <td >{ current ?  <p> - </p>  : <Moment format="YYYY/MM/DD" date={to}/>}</td>
                     <td className="form-check" style={{
                         display: "flex",
                         justifyContent: "center",

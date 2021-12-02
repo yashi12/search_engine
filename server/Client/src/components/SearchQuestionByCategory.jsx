@@ -20,6 +20,7 @@ const SearchQuestionByCategory = ({ searchQuestions, question: { searchQuestionA
         console.log("call get question");
     };
 
+    // handling the list appearing on the left with results from fuzzy
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
     const [category, setCategory] = useState('')
