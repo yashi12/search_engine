@@ -307,18 +307,13 @@ const likeanswer = async (req, res) => {
         }, {
            $pull: { users :{$in: [{_id:ObjectId(req.user.id)}]}}     
         }, {new:true});
-        console.log("answerLike",answerLike);
+        console.log("answerLike:",answerLike);
         if(!answerLike){
             answerLike = await AnswerLike.findOneAndUpdate({
                 answer: req.params.id
             }, {
                $push: { users : {_id:ObjectId(req.user.id)}}     
-            }, options
-            ,(err,data)=>{
-                if(!err){
-                    console.log(data);
-                }
-            });
+            }, options);
         }
         console.log("answerLike",answerLike);
         const updatedAnswer = await Answer.findOneAndUpdate({

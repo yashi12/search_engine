@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import { askQuestion } from '../action/question'
+import { useHistory } from 'react-router'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -62,6 +63,9 @@ const AskQuestion = ({askQuestion}) => {
         setFormData({...formData,"title":title,"description":description, "category": Category})
         //setFormData({...formData, "category": Category})
     }, [title,description,Category])
+
+   
+    const history = useHistory()
 
     const onSubmit = e => {
         e.preventDefault()
