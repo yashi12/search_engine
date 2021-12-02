@@ -33,4 +33,4 @@ node_modules/
 ./instance_QNA
 index.html
 js.js
-
+/.ipynb_checkpoints

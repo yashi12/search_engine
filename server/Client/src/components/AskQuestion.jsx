@@ -77,9 +77,8 @@ const AskQuestion = ({askQuestion}) => {
         data.append("tags",formData.tags)
         data.append("category",formData.category)
         data.append("media",image);
-        //console.log(formData)
-        askQuestion(data)
-        history.push(`/questionsFeed`)
+        console.log(formData)
+        //askQuestion(data)
     }
 
     return (
@@ -129,6 +128,9 @@ const AskQuestion = ({askQuestion}) => {
                                 <div className="mb-3">
                                     <button className="btn btn-primary" onClick={()=>Add()}><GrAdd  /></button>
                                 </div>
+                                {
+                                    formData.category.length === 0 ? <p></p> : <p>Category : {formData.category}</p>
+                                }
                                 {filteredData.length != 0 && (
                                     <div className="dataResult">
                                     {filteredData.slice(0, 25).map((value, key) => {

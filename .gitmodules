@@ -1,0 +1,3 @@
+[submodule "Sentence-Similarity-Prediction"]
+	path = Sentence-Similarity-Prediction
+	url = https://github.com/JayantGoel001/Sentence-Similarity-Prediction.git
