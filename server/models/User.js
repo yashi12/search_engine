@@ -18,6 +18,16 @@ const UserSchema = new mongoose.Schema({
     confirmedEmail:{
         type:Boolean,
         default:false
+    },
+    rating:{
+        score:{
+            type: Number,
+            default: 0
+        },    
+        numAnswers:{
+            type: Number,
+            default: 0
+        }
     }
 });
 

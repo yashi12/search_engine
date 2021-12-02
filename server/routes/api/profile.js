@@ -3,6 +3,7 @@ const router = express.Router();
 const {check,validationResult} = require('express-validator');
 
 const profileController = require('../../controllers/profile');
+const profileRatingService = require('../../scripts/profile_rating');
 const auth = require('../../middleware/auth');
 
 // @route GET api/profile/me
@@ -50,5 +51,8 @@ router.put('/experience',[auth,[
 // @desc Delete experience from profile
 // @access Private
 router.delete('/experience/:exp_id',auth,profileController.deleteExperience);
+
+//service
+router.get('/rating',profileRatingService.updateProfileRating);
 
 module.exports = router;

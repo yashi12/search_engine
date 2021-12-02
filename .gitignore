@@ -30,7 +30,9 @@
 
 /server/db.js
 node_modules/
-./instance_QNA
 index.html
 js.js
 /.ipynb_checkpoints
+.env
+instance_QNA.pem
+instance_QNA.ppk
