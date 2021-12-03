@@ -11,7 +11,7 @@ const User = require('../models/User');
 
 const getProfile = (req, res) => {
     Profile.findOne({user: req.user.id})
-        .populate('user', ['name'])
+        .populate('user', ['name','rating'])
         .then(profile => {
             if (!profile) {
                 return res.json({msg: 'There is no profile for this User'});
@@ -73,7 +73,7 @@ const addProfile = (req, res) => {
 };
 
 const getAllProfiles = (req, res) => {
-    Profile.find().populate('user', ['name'])
+    Profile.find().populate('user', ['name','rating'])
         .then(profiles => {
             res.json(profiles);
         })
@@ -95,7 +95,7 @@ const getProfilesBySkill = (req, res) =>{
         tag=tag.toString().toLowerCase();
         newSkill.push(tag);
     });
-    Profile.find({skills:{ $in: newSkill }}).populate('user', ['name'])
+    Profile.find({skills:{ $in: newSkill }}).populate('user', ['name','rating'])
         .then(profiles => {
             res.json(profiles);
         })
@@ -107,7 +107,7 @@ const getProfilesBySkill = (req, res) =>{
 };
 
 const getUserProfile = (req, res) => {
-    Profile.findOne({user: req.params.user_id}).populate('user', ['name'])
+    Profile.findOne({user: req.params.user_id}).populate('user', ['name','rating'])
         .then(profile => {
             if (!profile) {
                 return res.status(400).json({msg: 'Profile not found'});

@@ -27,21 +27,21 @@ const findAnswers = (user)=>{
 }
 
 const updateProfileRating  = async(req,res,next)=>{
-    const allUsers = await User.find({}).select('id','rating');
+    const allUsers = await User.find({},{id:1,rating:1});
     if(allUsers){
-        allusers= allUsers.map(async(user)=>{
-            Promise.all([findAnswers(user)]).then((score,len)=>{
+        let updatedUsers=await Promise.all(allUsers.map(async(user)=>{
+            return findAnswers(user).then((score,len)=>{
                 console.log(user.id,"score",score);
-                User.findByIdAndUpdate(user.id,
+                return User.findByIdAndUpdate(user.id,
                     {$set: {rating:{score:score[0],numAnswers:len}}},
                     {new:true}
-                ).then(user=>{
+                ).select({id:1,rating:1}).then(user=>{
                     return user;
                 })
             })
-        })
-        // console.log(allUsers);
-        return res.status(200).json({allUsers});
+        }))
+        console.log(updatedUsers);
+        return res.status(200).json({updatedUsers});
     }
 }
 
