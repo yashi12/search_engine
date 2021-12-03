@@ -74,6 +74,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
         e.preventDefault()
         //setFormData({...formData,"text"[title})
         console.log(formData)
+        setSimilarityToggle(true)
         //askQuestion(data)
         searchSimilarQuestion({title:formData.title})
     }
@@ -116,7 +117,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                     </div>
                                     <div className="mb-3">
                                         <label>Add Category</label>
-                                        <small>(Please don't add more than 30 categories)</small>
+                                        <small>(Please add only category)</small>
                                         <input
                                             type="text"
                                             value={wordEntered}
@@ -154,9 +155,14 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
             </div>
             {/* Displaying the similar questions and asking if the user still want to continue */}
             {
-                (loading || similarQuestionArr === []) || similarityToggle ? <div></div> :
-                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/>
+                similarityToggle ? (loading || similarQuestionArr === []) ? <div></div> :
+                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/> :
+                <div></div>
             }
+            {/* {
+                (loading || similarQuestionArr === []) ? <div></div> :
+                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/>
+            } */}
         </div>
         
     )
