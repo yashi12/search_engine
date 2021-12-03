@@ -9,7 +9,8 @@ import {
     SEARCH_QUESTIONS,
     QUESTION_ERROR,
     GET_QUESTION,
-    GET_ANSWER
+    GET_ANSWER,
+    SIMILAR_QUESTIONS
 } from './types'
 
 // Get Questions
@@ -88,21 +89,23 @@ export const searchQuestions = category => async dispatch => {
 }
 
 // Search Questions By Similarity
-export const searchSimilarQuestion = category => async dispatch => {
-    console.log("search question")
+export const searchSimilarQuestion = topic => async dispatch => {
+    console.log("search question",topic)
     const config = {
-        header: {'Content-Type': 'multipart/form-data'}
+        header: {'Content-Type': 'application/json'}
     }
     // const tags = topic.title.split(',')
     // const body = {title:tags}
     try {
-        const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
-        console.log("result filter",res)
+        const res = await axios.post(`http://localhost:3000/api/discussion/similar-question/`,topic, config)
+        console.log("similarity result filter",res)
         dispatch({
-            type: SEARCH_QUESTIONS,
-            payload: res.data
+            type: SIMILAR_QUESTIONS,
+            payload: res.data.similarQuesArray
         })
-
+        if (res.data.similarQuesArray !== []){
+            dispatch(setAlert('Found Similar Questions','success'))
+        }
     } catch (err) {
         console.log("error add post dispatch",err);
         dispatch({

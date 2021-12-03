@@ -1,11 +1,11 @@
-import React from 'react'
 import React, { Fragment, useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Questions from './Questions';
 import { searchSimilarQuestion } from '../action/question';
+import Spinner from './Spinner';
 
-const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { searchQuestionArr, loading }}) => {
+const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuestionArr, loading }}) => {
     useEffect(() => {
         searchSimilarQuestion();
         console.log("call get post");
@@ -40,8 +40,8 @@ const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { searchQuesti
                 <div className="col"/>
             </div>
             <div >
-                {loading || searchQuestionArr === null ? <div></div> : 
-                    searchQuestionArr.map((question) => (
+                {loading || similarQuestionArr === [] ? <Spinner/> : 
+                    similarQuestionArr.map((question) => (
                     <Questions key={question._id} question={question} />
                 ))}
             </div>

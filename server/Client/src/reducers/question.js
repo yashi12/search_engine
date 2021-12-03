@@ -5,7 +5,8 @@ import {
     DELETE_QUESTION,
     ASK_QUESTION,
     SEARCH_QUESTIONS,
-    GET_QUESTION
+    GET_QUESTION,
+    SIMILAR_QUESTIONS
 } from '../action/types'
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
     loading: true,
     error: {},
     searchQuestionArr: [],
-    query: []
+    query: [],
+    similarQuestionArr: []
 }
 
 export default function(state = initialState, action){
@@ -48,6 +50,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 searchQuestionArr: payload,
+                loading: false
+            }
+        case SIMILAR_QUESTIONS:
+            return {
+                ...state,
+                similarQuestionArr: payload,
                 loading: false
             }
         case UPDATE_QUESTION:

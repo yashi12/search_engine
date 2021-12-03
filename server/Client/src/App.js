@@ -24,6 +24,7 @@ import UpdateQuestion from './components/UpdateQuestion';
 import ProfileInfo from './components/ProfileInfo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
+import SearchSimilarQuestion from './components/SearchSimilarQuestion';
 
 // Redux
 import { Provider } from 'react-redux'
@@ -70,6 +71,7 @@ function App() {
               <PrivateRoute exact path="/update/:id" component={UpdateQuestion}/>
               <PrivateRoute exact path="/profile/:id" component={ProfileInfo}/>
               <PrivateRoute exact path="/searchQuestion" component={SearchItem}/>
+              <PrivateRoute exact path="/similarQuestion" component={SearchSimilarQuestion}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
             </Switch>
           </section>
