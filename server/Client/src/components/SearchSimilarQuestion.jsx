@@ -1,27 +1,26 @@
+import React from 'react'
 import React, { Fragment, useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Posts from './Posts';
-import { searchPosts } from '../action/post';
+import Questions from './Questions';
+import { searchSimilarQuestion } from '../action/question';
 
-const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
+const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { searchQuestionArr, loading }}) => {
     useEffect(() => {
-        searchPosts();
+        searchSimilarQuestion();
         console.log("call get post");
-    }, [searchPosts]);
-
+    }, [searchSimilarQuestion]);
 
     const onSubmit = e => {
         console.log("call submit",topic)
         e.preventDefault()
-        searchPosts(topic);
+        searchSimilarQuestion(topic);
         console.log("call get post");
     };
 
     const [topic, setTopic] = useState({title:''})
 
     const onChange = e => setTopic({ ...topic,[e.target.id]: e.target.value })
-
     return (
         <Fragment>
             <div className="container-fluid row align-items-center">
@@ -30,8 +29,8 @@ const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
                 <br/>
                 <form className="bar" method="get" >
                     <div>
-                        <h1 className="large text-primary">Enter Tag</h1>
-                        <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Post" name="title"/>
+                        <h1 className="large text-primary">Enter Question</h1>
+                        <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search" name="title"/>
                         <br/>
                         <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                     </div>
@@ -41,21 +40,22 @@ const SearchPost = ({ searchPosts, post: { searchPostArr }}) => {
                 <div className="col"/>
             </div>
             <div >
-                {searchPostArr.map((post) => (
-                    <Posts key={post._id} post={post} />
+                {loading || searchQuestionArr === null ? <div></div> : 
+                    searchQuestionArr.map((question) => (
+                    <Questions key={question._id} question={question} />
                 ))}
             </div>
         </Fragment>
-    );
-};
+    )
+}
 
-SearchPost.propTypes = {
-    searchPosts: PropTypes.func.isRequired,
-    post: PropTypes.object.isRequired
-};
+SearchSimilarQuestion.propTypes = {
+    searchSimilarQuestion: PropTypes.func.isRequired,
+    question: PropTypes.object.isRequired
+}
 
 const mapStateToProps = state => ({
-    post: state.post
+    question: state.question
 });
 
-export default connect(mapStateToProps, { searchPosts })(SearchPost);
+export default connect(mapStateToProps,{searchSimilarQuestion})(SearchSimilarQuestion)

@@ -254,7 +254,7 @@ export const deleteAccount = id => async dispatch => {
                 type: ACCOUNT_DELETED
             })
 
-            dispatch(setAlert('ACCOUNT DELETED', ''))
+            dispatch(setAlert('ACCOUNT DELETED', 'success'))
         } catch (err) {
             dispatch({
                 type: PROFILE_ERROR,
