@@ -28,6 +28,7 @@ router.get('/', auth, discussionController.getAllQuestions);
 
 router.get('/load-api',discussionController.loadAPI);
 router.get('/predictions',discussionController.getAllPredictions);
+router.post('/similar-question',[check('title', 'Title is required').not().isEmpty()],discussionController.findSimilarQuestion);
 
 // @route GET api/posts/category
 // @desc Get all questions by category filter
