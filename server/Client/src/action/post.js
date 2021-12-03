@@ -66,7 +66,7 @@ export const addLike = postId => async dispatch => {
             type: UPDATE_LIKES,
             payload: { postId, likes: res.data  }
         })
-
+        //dispatch(setAlert('Post liked','success'))
     } catch (err) {
         console.log("error like", err);
         dispatch({
@@ -86,7 +86,7 @@ export const deletePost = postId => async dispatch => {
             payload: postId
         })
 
-        // dispatch(setAlert('Post removed','success'))
+        dispatch(setAlert('Post removed','success'))
 
     } catch (err) {
         dispatch({

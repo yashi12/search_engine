@@ -1,5 +1,6 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.js';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar'
 import Profile from './components/Profile'
 import AccountDetails from './components/AccountDetails'
