@@ -37,7 +37,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                                     <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
                                     <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
                                     <br />
-                                    <p>
+                                    {/* <p>
                                         Tags :{' '}
                                         {question.tags.map((tag) => (
                                             <span className="badge badge-secondary">{tag}</span>
@@ -45,7 +45,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                                     </p>
                                     <p>
                                         Category :{' '}<span className="badge badge-secondary">{question.category}</span>
-                                    </p>
+                                    </p> */}
                                 </div>
                             </div>
                             <div className="row g-1">
@@ -53,7 +53,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                                 <div className="col-3">
                                     {/* Link to the page with question and all it's details */}
                                     <Link to={`/question/${question._id}`} className="btn btn-primary">
-                                        Answers <span className="badge badge-light">{question.answers.length}</span>
+                                        Answers <span className="badge badge-light">{question.answers ? <p>{question.answers.length}</p> : <p></p> }</span>
                                     </Link>
                                 </div>
                             </div>
