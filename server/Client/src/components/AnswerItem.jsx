@@ -88,7 +88,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
     return (
         <div>
             <div >
-                <button className="btn btn-primary" onClick={()=>setCommentToggle(!commentToggle)}>Add Comment <BiCommentAdd/></button>
+                <button className="btn btn-primary" onClick={()=>setCommentToggle(!commentToggle)}>Add Answer <BiCommentAdd/></button>
             </div>
             {/* Handling input types */}
             {
