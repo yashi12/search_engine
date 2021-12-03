@@ -31,6 +31,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                 <Link className="nav-link" to="/searchQuestion">Search Question</Link>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/similarQuestion">Search Similar Question</Link>
+            </li>
+            <li className="nav-item active">
                 <Link className="nav-link" to="/askQuestion">Ask Question</Link>
             </li>
             <li className="nav-item active">
