@@ -10,6 +10,7 @@ import { GrUpdate, GrUserExpert } from 'react-icons/gr'
 import { MdWork } from 'react-icons/md'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { RiProfileLine, RiErrorWarningLine } from 'react-icons/ri'
+import ReactStars from "react-rating-stars-component"
 
 const Profile = ({
                      getCurrentProfile,
@@ -27,12 +28,21 @@ const Profile = ({
 
     return (profile === null ? <Spinner/> : !profile.hasOwnProperty("msg") ? (<Fragment>
         <div>
+            <br/>
             <div className="row">
                 <div className="col-3"/>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
 
                     <br/>
-                    <h4><CgProfile/> {profile["user"].name}</h4>
+                    <h4><CgProfile/> {profile["user"].name} 
+                    <ReactStars
+                        count={5}
+                        isHalf={true}
+                        edit={false}
+                        size={24}
+                        value={3.5}
+                        activeColor="#5cb85c"
+                    /></h4>
                     <div className="row card-body">
                         {profile["social"] ?
                             <Fragment>

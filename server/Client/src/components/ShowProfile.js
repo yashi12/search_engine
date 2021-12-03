@@ -6,12 +6,13 @@ import Spinner from './Spinner'
 import auth from "../reducers/auth";
 import ProfileExperience from '../components/ProfileExperience'
 import Moment from "react-moment";
-import { HiUserAdd } from 'react-icons/hi'
+import { CgProfile } from 'react-icons/cg'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import { GrUpdate, GrUserExpert } from 'react-icons/gr'
 import { MdWork } from 'react-icons/md'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { RiProfileLine, RiErrorWarningLine } from 'react-icons/ri'
+import ReactStars from "react-rating-stars-component"
 
 const ShowProfile = ({
                          auth,
@@ -27,7 +28,15 @@ const ShowProfile = ({
             <div className="row">
                 <div className="col-3"/>
                 <div className="col-6 card shadow p-3 mb-5 bg-light rounded">
-                    <h4>{user.name}</h4>
+                    <h4><CgProfile/> {user.name}
+                    <ReactStars
+                        count={5}
+                        isHalf={true}
+                        edit={false}
+                        size={24}
+                        value={3.5}
+                        activeColor="#5cb85c"
+                    /></h4>
                     <br/>
                     {social ?
                     <div className="row card-body ">
