@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "http://5fc9-34-73-243-94.ngrok.io/";
+const API = "http://cb64-35-237-103-115.ngrok.io/";
 
 let FormData = require('form-data');
 
@@ -92,6 +92,57 @@ const addQuestionToCategory = (categoryName, ques) => {
             console.error("Fail add question to category:", err.message);
         });
 };
+
+const findSimilarQuestion = async (req,res,next) => {
+    console.log("body",req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json({
+            errors: errors.array()
+        });
+    }
+    const title = req.body.title;
+    console.log("enter",title)
+    const tempPredictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
+    let formData = new FormData();
+        formData.append("title" , title);
+        let response = await fetch(API + "generate-predictions",{
+            method : "POST",
+            body : formData
+        });
+        let data = await response.json();
+        if (data["status"] === 201){
+            let predictions = data['predictions'];
+            tempPredictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
+            tempPredictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
+            tempPredictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
+        }
+        console.log(data["status"]);
+        let formData2 = new FormData();
+        formData2.append("predictions" , JSON.stringify(tempPredictions));
+
+        let response2 = await fetch(API + "get-similar-questions",{
+            method : "POST",
+            body : formData2
+        });
+        let data2 = await response2.json();
+
+        let similarQuestions = {};
+        if (data2['status'] === 201){
+            similarQuestions = data2['similarQuestions'];
+        }
+        console.log("similarQuestions",similarQuestions);
+        let similarQuesArray = await Promise.all( similarQuestions.map(async (question)=>{
+            return await Question.findById(question._id,{id:1,title:1,description:1})
+                .then(ques => {
+                    console.log("*",ques)
+                    if(ques)
+                        return ques;
+                })
+        }));
+        console.log(similarQuesArray)
+        return res.status(200).json({similarQuesArray});
+}
 
 const addQues = async (req, res, next) => {
     console.log("add ques:");
@@ -446,5 +497,6 @@ module.exports = {
     getQuestionById: getQuestionById,
     getAllPredictions : getAllPredictions,
     loadAPI : loadAPI,
+    findSimilarQuestion:findSimilarQuestion
     // getQuestionsByTag: getQuestionsByTag,
 }
