@@ -11,12 +11,13 @@ import {
     ADD_COMMENT
 } from './types'
 
-// Get Answer
+// Get Answer By Id
 export const getAnswer = id => async dispatch => {
     try {
+        // Sending id through api and putting response in res
         const res = await axios.get(`http://localhost:3000/api/answer/${id}`)
         console.log("res posts ui", res);
-
+        // dispatching get answer action and setting response as payload
         dispatch({
             type: GET_ANSWER,
             payload: res.data
@@ -35,7 +36,7 @@ export const getAnswer = id => async dispatch => {
 export const likeAnswer = ansId => async dispatch => {
     try {
         const res = await axios.put(`http://localhost:3000/api/answer/like/${ansId}`)
-
+        // in payload we are sending ansId to tell state which answer is liked
         dispatch({
             type: LIKE_ANSWER,
             payload: { ansId, likes: res.data  }

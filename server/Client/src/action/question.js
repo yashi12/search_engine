@@ -61,8 +61,34 @@ export const getQuestionDiscussion = id => async dispatch => {
     })   
 }
 
-// Search Questions
+// Search Questions By Category
 export const searchQuestions = category => async dispatch => {
+    console.log("search question")
+    const config = {
+        header: {'Content-Type': 'multipart/form-data'}
+    }
+    // const tags = topic.title.split(',')
+    // const body = {title:tags}
+    try {
+        const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
+        console.log("result filter",res)
+        dispatch({
+            type: SEARCH_QUESTIONS,
+            payload: res.data
+        })
+
+    } catch (err) {
+        console.log("error add post dispatch",err);
+        dispatch({
+            type: QUESTION_ERROR,
+            payload: {msg: err.response,
+                status: err.response}
+        })
+    }
+}
+
+// Search Questions By Similarity
+export const searchSimilarQuestion = category => async dispatch => {
     console.log("search question")
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
