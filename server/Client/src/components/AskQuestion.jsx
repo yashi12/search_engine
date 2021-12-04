@@ -10,8 +10,14 @@ import './SearchBar.css'
 import Fuse from 'fuse.js'
 import { GrAdd } from 'react-icons/gr'
 import QuestionSimilarityContinue from './QuestionSimilarityContinue'
+import Spinner from './Spinner'
 
 const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQuestionArr, loading}}) => {
+
+    useEffect(() => {
+        searchSimilarQuestion();
+        console.log("call get post");
+    }, [searchSimilarQuestion]);
 
     const [Category, setCategory] = useState('')
 
@@ -58,14 +64,14 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
         else {
             setCategory(Category.concat(",",wordEntered))
         }
-        setFormData({...formData, "category": Category})
+        setFormData({...formData, "category": wordEntered})
         //console.log(formData)
     }
 
     useEffect(() => {
-        setFormData({...formData,"title":title,"description":description, "category": Category})
+        setFormData({...formData,"description":description, "category": wordEntered})
         //setFormData({...formData, "category": Category})
-    }, [title,description,Category])
+    }, [title,description,wordEntered])
 
    
     const history = useHistory()
@@ -74,9 +80,9 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
         e.preventDefault()
         //setFormData({...formData,"text"[title})
         console.log(formData)
-        setSimilarityToggle(true)
         //askQuestion(data)
         searchSimilarQuestion({title:formData.title})
+        setSimilarityToggle(true)
     }
 
     return (
@@ -101,8 +107,8 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                     <div className="mb-3">
                                         <label>Question</label>
                                         <small>(Max 200 words)</small>
-                                        {/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-                                        <ReactQuill theme="snow" value ={title} onChange={setQuestion}/>
+                                        <textarea onChange={(e)=>{onChange(e)}} className="form-control" id="title" rows="3"></textarea>
+                                        {/* <ReactQuill theme="snow" value ={title} onChange={setQuestion}/> */}
                                     </div>
                                     <div className="mb-3">
                                         <label>Description</label>
@@ -125,13 +131,13 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                             className="form-control"
                                         />
                                     </div>
-                                    <div className="mb-3">
+                                    {/* <div className="mb-3">
                                         <button className="btn btn-primary" onClick={(e)=>{Add(e)}}><GrAdd  /></button>
-                                    </div>
+                                    </div> */}
                                     {/* displaying the category list */}
-                                    {
+                                    {/* {
                                         formData.category.length === 0 ? <p></p> : <p>Category : {formData.category}</p>
-                                    }
+                                    } */}
                                     {/* displaying the list using fuzzy */}
                                     {filteredData.length != 0 && (
                                         <div className="dataResult">
@@ -155,8 +161,8 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
             </div>
             {/* Displaying the similar questions and asking if the user still want to continue */}
             {
-                similarityToggle ? (loading || similarQuestionArr === []) ? <div></div> :
-                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/> :
+                similarityToggle ? ((loading || similarQuestionArr === []) ? <Spinner /> :
+                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/>) :
                 <div></div>
             }
             {/* {
