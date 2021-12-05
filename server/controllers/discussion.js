@@ -133,7 +133,7 @@ const findSimilarQuestion = async (req,res,next) => {
         }
         console.log("similarQuestions",similarQuestions);
         let similarQuesArray = await Promise.all( similarQuestions.map(async (question)=>{
-            return await Question.findById(question._id,{id:1,title:1,description:1})
+            return await Question.findById(question._id,{id:1,title:1,description:1,tags:1,category:1})
                 .then(ques => {
                     console.log("*",ques)
                     if(ques)
