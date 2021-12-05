@@ -59,7 +59,7 @@ const LogIn = ({ login, isAuthenticated }) => {
 				<label htmlFor="exampleInputPassword1">Password</label>
 				<input onChange={e => onChange(e)} type="password" className="form-control" id="exampleInputPassword1" name="password" />
 				<button type="submit" className="btn">Log In</button>
-				<div className="social">
+				{/* <div className="social">
 					<div className="go"
 						 clientId={process.env.REACT_APP_CID}
 						 buttonText="Login"
@@ -73,7 +73,7 @@ const LogIn = ({ login, isAuthenticated }) => {
 						<i className="fab fa-facebook"/>
 						Facebook
 					</div>
-				</div>
+				</div> */}
 			</form>
 		</div>
 	)
