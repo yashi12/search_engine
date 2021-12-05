@@ -20,11 +20,15 @@ const UserSchema = new mongoose.Schema({
         default:false
     },
     rating:{
-        score:{
+        meanLikes:{
             type: Number,
             default: 0
-        },    
+        },   
         numAnswers:{
+            type: Number,
+            default: 0
+        },
+        rating:{
             type: Number,
             default: 0
         }

@@ -6,7 +6,8 @@
     "start": "nodemon ./bin/www",
     "client": "npm start --prefix Client",
     "server": "nodemon app",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "test":"jest"
   },
   "dependencies": {
     "aws-sdk": "^2.874.0",
@@ -29,13 +30,14 @@
     "multer": "^1.4.2",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.5.0",
+    "nodemon": "^2.0.15",
     "request": "^2.88.2",
-    "uniqid": "^5.4.0",
-    "nodemon": "^2.0.15"
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
     "form-data": "^4.0.0",
+    "jest": "^27.4.3",
     "nodemon": "^2.0.15"
   },
   "engines": {
