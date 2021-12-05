@@ -40,7 +40,7 @@ const Profile = ({
                         isHalf={true}
                         edit={false}
                         size={24}
-                        value={3.5}
+                        value={profile["user"].rating.rating}
                         activeColor="#5cb85c"
                     /></h4>
                     <div className="row card-body">

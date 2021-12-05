@@ -42,7 +42,7 @@ const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuest
             <div >
                 {loading || similarQuestionArr === [] ? <Spinner/> : 
                     similarQuestionArr.map((question) => (
-                    <Questions key={question._id} question={question} />
+                    <Questions key={question._id} question={question} search={true} />
                 ))}
             </div>
         </Fragment>

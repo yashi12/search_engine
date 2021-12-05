@@ -37,7 +37,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions, search = fals
                                     <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
                                     <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
                                     <br />
-                                    {/* <p>
+                                    <p>
                                         Tags :{' '}
                                         {question.tags.map((tag) => (
                                             <span className="badge badge-secondary">{tag}</span>
@@ -45,7 +45,7 @@ const Questions = ({ auth, question, deleteQuestion}, showActions, search = fals
                                     </p>
                                     <p>
                                         Category :{' '}<span className="badge badge-secondary">{question.category}</span>
-                                    </p> */}
+                                    </p>
                                 </div>
                             </div>
                             <div className="row g-1">
