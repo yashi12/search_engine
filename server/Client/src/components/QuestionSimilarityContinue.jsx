@@ -18,7 +18,8 @@ const QuestionSimilarityContinue = ({similarQuestions, questionData,image, askQu
         data.append("tags",questionData.tags)
         data.append("category",questionData.category)
         data.append("media",image);
-        askQuestion(questionData)
+        
+        askQuestion(data)
         //history.push(`/questionsFeed`)
     }
 
@@ -38,7 +39,7 @@ const QuestionSimilarityContinue = ({similarQuestions, questionData,image, askQu
                 <br />
                 {similarQuestions === null ? <div></div> : 
                     similarQuestions.map((question) => (
-                    <Questions key={question._id} question={question} />
+                    <Questions key={question._id} question={question} search={true} />
                 ))}
                 <br />
                 <div className="row">

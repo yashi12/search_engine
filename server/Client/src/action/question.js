@@ -32,6 +32,10 @@ export const getQuestions = () => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -59,6 +63,10 @@ export const getQuestionDiscussion = id => async dispatch => {
             payload: {msg: err.response,
                 status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     })   
 }
 
@@ -85,6 +93,10 @@ export const searchQuestions = category => async dispatch => {
             payload: {msg: err.response,
                 status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -113,6 +125,10 @@ export const searchSimilarQuestion = topic => async dispatch => {
             payload: {msg: err.response,
                 status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -139,6 +155,10 @@ export const updateQuestion = (id,data) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -159,6 +179,10 @@ export const deleteQuestion = postId => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -185,5 +209,9 @@ export const askQuestion = (data) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }

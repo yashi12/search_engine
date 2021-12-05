@@ -79,7 +79,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
     const onSubmit = e => {
         e.preventDefault()
         //setFormData({...formData,"text"[title})
-        console.log(formData)
+        //console.log(formData)
         //askQuestion(data)
         searchSimilarQuestion({title:formData.title})
         setSimilarityToggle(true)
