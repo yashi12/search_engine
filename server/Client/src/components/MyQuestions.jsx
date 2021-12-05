@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import Questions from './Questions';
 import { getQuestions } from '../action/question';
 import Spinner from './Spinner';
+import auth from '../reducers/auth';
 
-const QuestionsFeed = ({ getQuestions, question : {questions}, auth}) => {
+const MyQuestions = ({ getQuestions, question : {questions} , auth}) => {
     useEffect(() => {
         getQuestions();
     }, [getQuestions]);
@@ -15,11 +16,11 @@ const QuestionsFeed = ({ getQuestions, question : {questions}, auth}) => {
             {
                 questions ? <Fragment>
                 <br />
-                <h1 className="large text-primary">Questions Feed</h1>
+                <h1 className="large text-primary">Questions you've asked</h1>
                 <div >
                     {/* passing data from get all question api to Questions component */}
                     {questions.filter(function(question){
-                        return question.user._id !== auth.user._id ;
+                        return question.user._id === auth.user._id ;
                     }).map((question) => (
                         <Questions key={question._id} question={question} />
                     ))}
@@ -28,12 +29,10 @@ const QuestionsFeed = ({ getQuestions, question : {questions}, auth}) => {
                 <Spinner />
             }
         </div>
-        
-        
     );
 };
 
-QuestionsFeed.propTypes = {
+MyQuestions.propTypes = {
     getQuestions: PropTypes.func.isRequired,
     question: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
@@ -44,4 +43,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { getQuestions })(QuestionsFeed);
+export default connect(mapStateToProps, { getQuestions })(MyQuestions);
