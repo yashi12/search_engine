@@ -6,7 +6,7 @@ import { deleteQuestion } from '../action/question';
 import { Link } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg'
 
-const Questions = ({ auth, question, deleteQuestion}, showActions) => {
+const Questions = ({ auth, question, deleteQuestion}, showActions, search = false) => {
 
     // got the data of question from the QuestionFeed component
     return (
@@ -53,10 +53,13 @@ const Questions = ({ auth, question, deleteQuestion}, showActions) => {
                                 <div className="col-3">
                                     {/* Link to the page with question and all it's details */}
                                     <Link to={`/question/${question._id}`} className="btn btn-primary">
-                                        Answers <span className="badge badge-light">{question.answers ? <p>{question.answers.length}</p> : <p></p> }</span>
+                                        {
+                                            search ? <p>Open</p> : <p>Answers <span className="badge badge-light">{question.answers.length}</span></p>
+                                        }
                                     </Link>
                                 </div>
                             </div>
+                            <br />
                         </div>
                     </div>
                 </div>
