@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "http://50c2-34-86-180-144.ngrok.io/";
+const API = "http://59f7-34-86-78-105.ngrok.io/";
 
 let FormData = require('form-data');
 
@@ -94,7 +94,7 @@ const addQuestionToCategory = (categoryName, ques) => {
 };
 
 const findSimilarQuestion = async (req,res,next) => {
-    console.log("body",req.body);
+    console.log("body",req.body.title);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({
