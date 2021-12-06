@@ -30,6 +30,24 @@ const findAnswers = (user)=>{
     })
 }
 
+const updateRating = async( mxRating)=>{
+        const allUsers = await User.find({},{id:1,rating:1});
+        console.log(mxRating);
+        const newUsers = await Promise.all(allUsers.map(async(user)=>{
+            let newValue = (user.rating.meanLikes * 5 ) / mxRating;
+            console.log(newValue,user.rating);
+            return await User.findByIdAndUpdate(user.id,
+                {$set: {rating:{rating:newValue,meanLikes:user.rating.meanLikes,numAnswers:user.rating.numAnswers}}},
+                {new:true}
+            ).select({id:1,rating:1}).then(user=>{
+                console.log(user.id,"score",user.rating);
+                return user;
+            })
+        }))
+        return newUsers;
+}
+
+
 const updateProfileRating  = async(req,res,next)=>{
     const allUsers = await User.find({},{id:1,rating:1});
     if(allUsers){
@@ -49,22 +67,33 @@ const updateProfileRating  = async(req,res,next)=>{
                 })
             })
         }))
+        console.log("update :",updatedUsers);
         meanArr.sort();
+        console.log(meanArr);
         let mxRating = meanArr[meanArr.length-1];
-        let minRating = meanArr[0];
-        newUsers = await Promise.all(allUsers.map(async(user)=>{
-            let newValue = (((user.rating.meanLikes - minRating) * (5 - 0)) / (mxRating - minRating)) + 0;
-            console.log(newValue);
-            return User.findByIdAndUpdate(user.id,
-                {$set: {rating:{rating:newValue}}},
-                {new:true}
-            ).select({id:1,rating:1}).then(user=>{
-                console.log(user.id,"score",user.rating);
-                return user;
-            })
-        }))
+        if(mxRating==0){
+            return res.status(200).json({updatedUsers});
+        }
+        const newUsers = await updateRating(mxRating);
+        // console.log(meanArr);
+        // let mxRating = meanArr[meanArr.length-1];
+        // if(mxRating==0){
+        //     return res.status(200).json({updatedUsers});
+        // }
+        // console.log(mxRating);
+        // newUsers = await Promise.all(allUsers.map(async(user)=>{
+        //     let newValue = (user.rating.meanLikes * 5 ) / mxRating;
+        //     console.log(newValue,user.rating);
+        //     return await User.findByIdAndUpdate(user.id,
+        //         {$set: {rating:{rating:newValue,meanLikes:user.rating.meanLikes,numAnswers:user.rating.numAnswers}}},
+        //         {new:true}
+        //     ).select({id:1,rating:1}).then(user=>{
+        //         console.log(user.id,"score",user.rating);
+        //         return user;
+        //     })
+        // }))
         
-        console.log(updatedUsers);
+        console.log(newUsers);
         return res.status(200).json({newUsers});
     }
 }
