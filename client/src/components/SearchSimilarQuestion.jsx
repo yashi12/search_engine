@@ -6,10 +6,10 @@ import { searchSimilarQuestion } from '../action/question';
 import Spinner from './Spinner';
 
 const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuestionArr, loading }}) => {
-    useEffect(() => {
-        searchSimilarQuestion();
-        console.log("call get post");
-    }, [searchSimilarQuestion]);
+    // useEffect(() => {
+    //     searchSimilarQuestion();
+    //     console.log("call get post");
+    // }, [searchSimilarQuestion]);
 
     const onSubmit = e => {
         console.log("call submit",topic)

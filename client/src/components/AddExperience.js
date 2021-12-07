@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { addExperience } from '../action/profile'
 
 
-const AddExperience = ({ addExperience, history }) => {
+const AddExperience = ({ addExperience }) => {
 
     // State Initialization
     const [formData, setFormData] = useState({
@@ -23,11 +24,14 @@ const AddExperience = ({ addExperience, history }) => {
 
     const onChange = e => setFormData({...formData, [e.target.id]: e.target.value})
 
+    const history = useHistory()
+
     // Submitting the data
     const onSubmit = e => {
         e.preventDefault();
         console.log("data",formData);
-        addExperience(formData, history)
+        addExperience(formData)
+        history.push('/profile')
     }
 
     return (

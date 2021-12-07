@@ -8,6 +8,8 @@ import { CgProfile } from 'react-icons/cg'
 
 const Questions = ({ auth, question, deleteQuestion, search = false}, showActions) => {
 
+    console.log("in question : ",question)
+
     // got the data of question from the QuestionFeed component
     return (
         <div>
