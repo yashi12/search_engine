@@ -179,9 +179,7 @@ export const addExperience = (formData) => async dispatch => {
         })
 
         dispatch(setAlert('Experience added', 'success'))
-
         
-
     } catch (err) {
         const error = err.response.data.errors;
 

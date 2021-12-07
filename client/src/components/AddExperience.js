@@ -31,7 +31,7 @@ const AddExperience = ({ addExperience }) => {
         e.preventDefault();
         console.log("data",formData);
         addExperience(formData)
-        history.push('/profile')
+        //history.push('/profile')
     }
 
     return (

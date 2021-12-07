@@ -11,11 +11,14 @@ const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuest
     //     console.log("call get post");
     // }, [searchSimilarQuestion]);
 
+    const [ spinnerToggle, setSpinnerToggle ] = useState(false)
+
     const onSubmit = e => {
         console.log("call submit",topic)
         e.preventDefault()
         searchSimilarQuestion(topic);
         console.log("call get post");
+        setSpinnerToggle(true)
     };
 
     const [topic, setTopic] = useState({title:''})
@@ -32,7 +35,7 @@ const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuest
                         <h1 className="large text-primary">Enter Question</h1>
                         <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search" name="title"/>
                         <br/>
-                        <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
+                        <button onClick={e => onSubmit(e)} disabled={topic.title.length === 0 ? 'disabled':''} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
                     </div>
                 </form>
                 </div>
@@ -40,7 +43,7 @@ const SearchSimilarQuestion = ({ searchSimilarQuestion, question: { similarQuest
                 <div className="col"/>
             </div>
             <div >
-                {loading || similarQuestionArr === [] ? <Spinner/> : 
+                {spinnerToggle && (loading || similarQuestionArr === []) ? <Spinner/> : 
                     similarQuestionArr.map((question) => (
                     <Questions key={question._id} question={question} search={true} />
                 ))}

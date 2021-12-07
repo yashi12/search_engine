@@ -80,11 +80,14 @@ export const searchQuestions = category => async dispatch => {
     // const body = {title:tags}
     try {
         const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
-        console.log("result filter",res)
+        console.log("result search question",res.data)
         dispatch({
             type: SEARCH_QUESTIONS,
             payload: res.data
         })
+        if (res.data.length === 0){
+            dispatch(setAlert(`No question found. Please search for another category`, 'warning'))
+        }
 
     } catch (err) {
         console.log("error add post dispatch",err);
@@ -117,6 +120,9 @@ export const searchSimilarQuestion = topic => async dispatch => {
         })
         if (res.data.similarQuesArray !== []){
             dispatch(setAlert('Found Similar Questions','success'))
+        }
+        else {
+            dispatch(setAlert('No question found, Please enter another question','warning'))
         }
     } catch (err) {
         console.log("error add post dispatch",err);
