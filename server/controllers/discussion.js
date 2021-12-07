@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "http://c1ee-34-86-78-105.ngrok.io/";
+const API = "http://0d6d-34-125-251-243.ngrok.io/";
 
 let FormData = require('form-data');
 

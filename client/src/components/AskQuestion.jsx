@@ -11,6 +11,7 @@ import Fuse from 'fuse.js'
 import { GrAdd } from 'react-icons/gr'
 import QuestionSimilarityContinue from './QuestionSimilarityContinue'
 import Spinner from './Spinner'
+import { setAlert } from '../action/alert'
 
 const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQuestionArr, loading}}) => {
 
@@ -78,11 +79,27 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
 
     const onSubmit = e => {
         e.preventDefault()
+        if (formData.title.length === 0){
+            //dispatch(setAlert(`Title can't be empty`, 'danger'))
+        }
+        if (formData.description.length < 20){
+            if (formData.description.length === 0){
+                alert("Description can't be empty")
+            }
+            else {
+                alert("Description should be more than 20 characters")
+            }
+        }
+        if (formData.category.length === 0){
+            alert("Category can't be empty")
+        }
         //setFormData({...formData,"text"[title})
         //console.log(formData)
         //askQuestion(data)
-        searchSimilarQuestion({title:formData.title})
-        setSimilarityToggle(true)
+        else {
+            searchSimilarQuestion({title:formData.title})
+            setSimilarityToggle(true)
+        }
     }
 
     return (
@@ -97,7 +114,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                 {/* Taking inputs */}
                                 <div className="form-group">
                                     <div className="mb-3">
-                                        <label for="formFile" className="form-label">Add Image</label>
+                                        <label for="formFile" className="form-label">Add Image (Optional) </label>
                                         <input onChange={e => {
                                             const file = e.target.files[0];
                                             setImage(file);
@@ -106,13 +123,13 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                     </div>
                                     <div className="mb-3">
                                         <label>Question</label>
-                                        <small>(Max 200 words)</small>
-                                        <textarea onChange={(e)=>{onChange(e)}} className="form-control" id="title" rows="3"></textarea>
+                                        {/* <small>(Max 200 words)</small> */}
+                                        <textarea onChange={(e)=>{onChange(e)}} minLength="1" className="form-control" id="title" rows="3"></textarea>
                                         {/* <ReactQuill theme="snow" value ={title} onChange={setQuestion}/> */}
                                     </div>
                                     <div className="mb-3">
                                         <label>Description</label>
-                                        <small>(Max 200 words)</small>
+                                        <small>(Min 20 characters)</small>
                                         {/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
                                         <ReactQuill theme="snow" value = {description} onChange={setDescription}/>
                                     </div>
