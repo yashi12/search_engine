@@ -13,7 +13,7 @@ const AnswerSchema = new Schema({
     description:{
         type: String,
         required: true,
-        minlength: 50
+        minlength: 25
     },
     media:{
         type: String
