@@ -18,14 +18,14 @@ router.put('/delete/:ans_id', auth, answerController.deleteAnswer);
 // @desc Answer a Question
 // @access Private
 router.post('/:ques_id', [upload.single("media"),auth,  [
-    check('description', 'Description is required at least 25 char').not().isEmpty().isLength({min:25}),
+    check('description', 'Description is required at least 25 char').not().isEmpty().bail().isLength({min:25}),
 ]], answerController.addAnswer);
 
 // @route PUT api/answer/:ans_id
 // @desc Update answer
 // @access Private
 router.put('/:ans_id',[upload.single("media"),auth,  [
-    check('description', 'Description is required at least 25 char').not().isEmpty().isLength({min:25}),
+    check('description', 'Description is required at least 25 char').not().isEmpty().bail().isLength({min:25}),
 ]], answerController.updateAnswer);
 
 // @route GET api/answer/:ans_id
