@@ -29,6 +29,10 @@ export const getAnswer = id => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -49,6 +53,10 @@ export const likeAnswer = ansId => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -75,6 +83,10 @@ export const addComment = (id,comment) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -95,6 +107,10 @@ export const deleteAnswer = answerId => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -121,6 +137,10 @@ export const addAnswer = (id,description,userData) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -147,5 +167,9 @@ export const updateAnswer = (id,description) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }

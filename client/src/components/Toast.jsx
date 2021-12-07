@@ -7,9 +7,12 @@ const Toast = ({alert}) => {
         if(alert.alertType === 'success'){
             toast.success(`${alert.msg}`,{position:'top-right',autoClose: 3000})
         }
-        else if(alert.alertType === 'warning'){
+        else{
             toast.warning(`${alert.msg}`,{position:'top-right',autoClose: 3000})
         }
+        // else if(alert.alertType === 'danger'){
+        //     toast.danger(`${alert.msg}`,{position:'top-right',autoClose: 3000})
+        // }
     },[])
     
     return (

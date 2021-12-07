@@ -27,6 +27,10 @@ export const getPosts = () => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -54,6 +58,10 @@ export const searchPosts = (topic) => async dispatch => {
             payload: {msg: err.response,
                 status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -74,6 +82,10 @@ export const addLike = postId => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -94,6 +106,10 @@ export const deletePost = postId => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -119,5 +135,9 @@ export const addPost = (data) => async dispatch => {
             payload: {msg: err.response,
             status: err.response}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }

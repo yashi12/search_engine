@@ -6,8 +6,9 @@ import { searchQuestions } from '../action/question';
 import { SearchItem } from './SearchItem';
 import data from '../Data/file.json'
 import './SearchBar.css'
+import Spinner from './Spinner';
 
-const SearchQuestionByCategory = ({ searchQuestions, question: { searchQuestionArr }}) => {
+const SearchQuestionByCategory = ({ searchQuestions, question: { searchQuestionArr, loading }}) => {
     useEffect(() => {
         searchQuestions();
         console.log("call get question");
@@ -75,7 +76,7 @@ const SearchQuestionByCategory = ({ searchQuestions, question: { searchQuestionA
             {/* <p className="text-primary">jasdjkansk</p>
             <SearchItem data={Data}/> */}
             <div >
-                {searchQuestionArr.map((question) => (
+                {loading || searchQuestionArr.length === 0 ? <Spinner/> : searchQuestionArr.map((question) => (
                     <Questions key={question._id} question={question} />
                 ))}
             </div>

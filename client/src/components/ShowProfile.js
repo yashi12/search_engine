@@ -34,7 +34,7 @@ const ShowProfile = ({
                         isHalf={true}
                         edit={false}
                         size={24}
-                        value={3.5}
+                        value={user.rating.rating}
                         activeColor="#5cb85c"
                     /></h4>
                     <br/>

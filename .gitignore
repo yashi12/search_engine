@@ -15,18 +15,15 @@
 /ml api/chromedriver.exe
 /server/Client/node_modules
 /.DS_Store
-/Client/src/components/.DS_Store
+/client/src/components/.DS_Store
 /ml api/.env
 /server/.env
 
 /server/.DS_Store
-/server/Client/.DS_Store
-/server/Client/src/.DS_Store
-/server/Client/.env
 
-/Client/.env
-/Client/node_modules
-/Client/.idea
+/client/.env
+/client/node_modules
+/client/.idea
 
 /server/db.js
 node_modules/

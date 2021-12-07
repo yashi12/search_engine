@@ -31,6 +31,10 @@ export const getCurrentProfile = () => async dispatch => {
                 status: err.response
             }
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -53,6 +57,10 @@ export const getProfiles = () => async dispatch => {
                 status: err.response
             }
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -77,6 +85,10 @@ http://localhost:3000/api/profile/filter/${skill}`)
                 status: err.response.status
             }
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -98,6 +110,10 @@ export const getProfileById = userId => async dispatch => {
                 status: err.response.status
             }
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -147,7 +163,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 }
 
 // Add experience
-export const addExperience = (formData, history) => async dispatch => {
+export const addExperience = (formData) => async dispatch => {
     try {
         const config = {
             headers: {
@@ -164,7 +180,7 @@ export const addExperience = (formData, history) => async dispatch => {
 
         dispatch(setAlert('Experience added', 'success'))
 
-        history.push('/profile')
+        
 
     } catch (err) {
         const error = err.response.data.errors;
@@ -238,6 +254,10 @@ export const deleteExperience = id => async dispatch => {
             type: PROFILE_ERROR,
             payload: {msg: err.response.statusText, status: err.response.status}
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }
 
@@ -260,6 +280,10 @@ export const deleteAccount = id => async dispatch => {
                 type: PROFILE_ERROR,
                 payload: {msg: err.response.statusText, status: err.response.status}
             })
+            const error = err.response.data.errors;
+            if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
         }
     }
 
@@ -289,5 +313,9 @@ export const searchQuery = topic => async dispatch => {
                 status: err.response.status
             }
         })
+        const error = err.response.data.errors;
+        if (error){
+            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
     }
 }

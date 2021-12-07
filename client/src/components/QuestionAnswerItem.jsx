@@ -11,6 +11,7 @@ import { AiFillLike,AiFillDelete,AiFillEdit } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import AnswerItem from './AnswerItem'
+import { MdZoomOutMap } from 'react-icons/md'
 
 const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, auth, deleteQuestion,addAnswer, getAnswer}) => {
 
@@ -29,6 +30,26 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
             {
                 question ? 
                 <div>
+                    <br />
+                     
+                    <div id="myModal" className="modal fade" tabIndex="-1" role="dialog">
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                          <div className="modal-body">
+                                {question.result.media ?
+                                        <img width="100%" height="100%"
+                                            src={question.result.media}
+                                            // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+                                            alt="..."></img>
+                                        : <img width="100%" height="100%"
+                                            src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+                                            alt="..."></img>
+                                }
+                          </div>
+                      </div>
+                    </div>
+                    </div> 
+                    
                     <div className="row">
                         <br/>
                     </div>
@@ -47,6 +68,8 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                                             src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
                                             alt="..."></img>
                                     }
+                                    <br />
+                                    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal"><MdZoomOutMap/></button>
                                 </div>
                                 <div className="col-md-8">
                                     <div className="row g-0">
@@ -105,7 +128,7 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
 }
 
 QuestionAnswerItem.propTypes = {
-    auth: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
     addAnswer: PropTypes.func.isRequired,
     getAnswer: PropTypes.func.isRequired,
