@@ -104,10 +104,13 @@ export const login = ({ email, password}) => async dispatch => {
 // Log out
 
 export const logout = () => dispatch => {
-    dispatch({
-        type: CLEAR_PROFILE
-    })
-    dispatch({
-        type: LOGOUT
-    })
+    if (window.confirm('Are you sure ?')){
+        dispatch({
+            type: CLEAR_PROFILE
+        })
+        dispatch({
+            type: LOGOUT
+        })
+        dispatch(setAlert('Logged Out', 'success'))
+    }
 }

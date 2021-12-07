@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
-const API = "http://f034-34-73-20-73.ngrok.io/";
+const API = "http://0d6d-34-125-251-243.ngrok.io/";
 
 let FormData = require('form-data');
 
@@ -187,22 +187,9 @@ const addQues = async (req, res, next) => {
         let formData2 = new FormData();
         formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
 
-        // let response2 = await fetch(API + "get-similar-questions",{
-        //     method : "POST",
-        //     body : formData2
-        // });
-        // let data2 = await response2.json();
-
-        // let similarQuestions = {};
-        // if (data2['status'] === 201){
-        //     similarQuestions = data2['similarQuestions'];
-        // }
-        // console.log(similarQuestions);
-
         if (tags) {
             tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
         }
-
         if (req.file) {
             const file = req.file.originalname.split(".");
             const fileType = file[file.length - 1];
