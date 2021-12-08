@@ -11,14 +11,14 @@ import {
     CLEAR_PROFILES, SEARCH_PROFILE, SEARCH_QUERY, SEARCH_ERROR, GET_PROFILE_BY_ID
 } from './types'
 
-const API = 'http://localhost:3000'
+// const API = 'http://localhost:3000'
 
 // Get current user
 
 export const getCurrentProfile = () => async dispatch => {
     try {
         console.log("enter get profile")
-        const res = await axios.get(`${API}/api/profile/me`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/profile/me`)
         console.log("res", res)
         dispatch({
             type: GET_PROFILE,
@@ -46,7 +46,7 @@ export const getProfiles = () => async dispatch => {
         type: CLEAR_PROFILES
     })
     try {
-        const res = await axios.get(`${API}/api/profile`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/profile`)
         dispatch({
             type: GET_PROFILES,
             payload: res.data
@@ -70,7 +70,7 @@ export const getProfiles = () => async dispatch => {
 export const getProfilesBySkill = skill => async dispatch => {
     console.log("skill in action", skill);
     try {
-        const res = await axios.get(`${API}/api/profile/filter/${skill}`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/profile/filter/${skill}`)
 
         console.log("res",res.data);
         dispatch({
@@ -97,7 +97,7 @@ export const getProfilesBySkill = skill => async dispatch => {
 
 export const getProfileById = userId => async dispatch => {
     try {
-        const res = await axios.get(`${API}/api/profile/user/${userId}`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/profile/user/${userId}`)
         dispatch({
             type: GET_PROFILE_BY_ID,
             payload: res.data
@@ -133,7 +133,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
         // let skillData = skills.split(',');
         // const body = {githubusername, linkedIn, twitter, bio, skills:skillData};
         console.log("form body", formData)
-        const res = await axios.post(`${API}/api/profile`, formData, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/profile`, formData, config)
 
         dispatch({
             type: GET_PROFILE,
@@ -172,7 +172,7 @@ export const addExperience = (formData) => async dispatch => {
             }
         }
         console.log("formdata", formData);
-        const res = await axios.put(`${API}/api/profile/experience`, formData, config)
+        const res = await axios.put(`${process.env.REACT_APP_API}/api/profile/experience`, formData, config)
 
         dispatch({
             type: UPDATE_PROFILE,
@@ -240,7 +240,7 @@ export const addEducation = (formData, history) => async dispatch => {
 // Delete experience
 export const deleteExperience = id => async dispatch => {
     try {
-        const res = await axios.delete(`${API}/api/profile/delete`)
+        const res = await axios.delete(`${process.env.REACT_APP_API}/api/profile/delete`)
 
         dispatch({
             type: UPDATE_PROFILE,
@@ -264,7 +264,7 @@ export const deleteExperience = id => async dispatch => {
 export const deleteAccount = id => async dispatch => {
     if (window.confirm('Are you sure ?')) {
         try {
-            const res = await axios.delete(`${API}/api/profile`)
+            const res = await axios.delete(`${process.env.REACT_APP_API}/api/profile`)
 
             dispatch({
                 type: CLEAR_PROFILE
@@ -298,7 +298,7 @@ export const searchQuery = topic => async dispatch => {
     const body = {topic}
     try {
         console.log("enter get search", body)
-        const res = await axios.post(`${API}/api/skill`, body, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/skill`, body, config)
         console.log("res", res.data)
         dispatch({
             type: SEARCH_QUERY,
