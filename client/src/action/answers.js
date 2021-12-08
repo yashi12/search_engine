@@ -11,13 +11,13 @@ import {
     ADD_COMMENT
 } from './types'
 
-const API = 'http://localhost:3000'
+// const API = 'http://localhost:3000'
 
 // Get Answer By Id
 export const getAnswer = id => async dispatch => {
     try {
         // Sending id through api and putting response in res
-        const res = await axios.get(`${API}/api/answer/${id}`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/answer/${id}`)
         console.log("res posts ui", res);
         // dispatching get answer action and setting response as payload
         dispatch({
@@ -41,7 +41,7 @@ export const getAnswer = id => async dispatch => {
 // Like Answer
 export const likeAnswer = ansId => async dispatch => {
     try {
-        const res = await axios.put(`${API}/api/answer/like/${ansId}`)
+        const res = await axios.put(`${process.env.REACT_APP_API}/api/answer/like/${ansId}`)
         // in payload we are sending ansId to tell state which answer is liked
         dispatch({
             type: LIKE_ANSWER,
@@ -70,7 +70,7 @@ export const addComment = (id,comment) => async dispatch => {
     const data = {text: comment}
     try {
         console.log( "text body",id, comment);
-        const res = await axios.post(`${API}/api/answer/comment/${id}`, data, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/answer/comment/${id}`, data, config)
         dispatch({
             type: ADD_COMMENT,
             payload: {id : id, data: res.data}
@@ -95,7 +95,7 @@ export const addComment = (id,comment) => async dispatch => {
 // Delete  Answer
 export const deleteAnswer = answerId => async dispatch => {
     try {
-        const res = await axios.put(`${API}/api/answer/delete/${answerId}`)
+        const res = await axios.put(`${process.env.REACT_APP_API}/api/answer/delete/${answerId}`)
         dispatch({
             type: DELETE_ANSWER,
             payload: answerId
@@ -124,7 +124,7 @@ export const addAnswer = (id,description,userData) => async dispatch => {
     const data = {description: description}
     try {
         console.log( "text body",id, description,userData);
-        const res = await axios.post(`${API}/api/answer/${id}`, data, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/answer/${id}`, data, config)
         dispatch({
             type: ADD_ANSWER,
             payload: {...res.data,user:userData}
@@ -154,7 +154,7 @@ export const updateAnswer = (id,description) => async dispatch => {
     const data = {description: description}
     try {
         console.log( "text body",id, description);
-        const res = await axios.put(`${API}/api/answer/${id}`, data, config)
+        const res = await axios.put(`${process.env.REACT_APP_API}/api/answer/${id}`, data, config)
         dispatch({
             type: UPDATE_ANSWER,
             payload: {ansId: id, data: res.data}
