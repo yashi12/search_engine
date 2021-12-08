@@ -13,10 +13,12 @@ import {
     SIMILAR_QUESTIONS
 } from './types'
 
+const API = 'http://localhost:3000'
+
 // Get Questions
 export const getQuestions = () => async dispatch => {
     try {
-        axios.get('http://localhost:3000/api/discussion/')
+        axios.get(`${API}/api/discussion/`)
         .then((res) => {
             console.log("res questions ui", res)
 
@@ -45,7 +47,7 @@ export const getQuestionDiscussion = id => async dispatch => {
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
     }
-    axios.get(`http://localhost:3000/api/discussion/ques/${id}`, config).
+    axios.get(`${API}/api/discussion/ques/${id}`, config).
     then(res => {
         console.log("result filter",res)
         dispatch({
@@ -79,7 +81,7 @@ export const searchQuestions = category => async dispatch => {
     // const tags = topic.title.split(',')
     // const body = {title:tags}
     try {
-        const res = await axios.get(`http://localhost:3000/api/discussion/category/${category}`, config)
+        const res = await axios.get(`${API}/api/discussion/category/${category}`, config)
         console.log("result search question",res.data)
         dispatch({
             type: SEARCH_QUESTIONS,
@@ -112,7 +114,7 @@ export const searchSimilarQuestion = topic => async dispatch => {
     // const tags = topic.title.split(',')
     // const body = {title:tags}
     try {
-        const res = await axios.post(`http://localhost:3000/api/discussion/similar-question/`,topic, config)
+        const res = await axios.post(`${API}/api/discussion/similar-question/`,topic, config)
         console.log("similarity result filter",res)
         dispatch({
             type: SIMILAR_QUESTIONS,
@@ -146,7 +148,7 @@ export const updateQuestion = (id,data) => async dispatch => {
     }
     try {
         // console.log( "text body",body);
-        const res = await axios.put(`http://localhost:3000/api/discussion/ques/${id}`, data, config)
+        const res = await axios.put(`${API}/api/discussion/ques/${id}`, data, config)
         dispatch({
             type: UPDATE_QUESTION,
             payload: res.data
@@ -171,7 +173,7 @@ export const updateQuestion = (id,data) => async dispatch => {
 // Delete  Questions
 export const deleteQuestion = postId => async dispatch => {
     try {
-        const res = await axios.delete(`http://localhost:3000/api/discussion/ques/${postId}`)
+        const res = await axios.delete(`${API}/api/discussion/ques/${postId}`)
         dispatch({
             type: DELETE_QUESTION,
             payload: postId
@@ -200,7 +202,7 @@ export const askQuestion = (data) => async dispatch => {
     }
     try {
         // console.log( "text body",body);
-        const res = await axios.post('http://localhost:3000/api/discussion/ques', data, config)
+        const res = await axios.post(`${API}/api/discussion/ques`, data, config)
         dispatch({
             type: ASK_QUESTION,
             payload: res.data
