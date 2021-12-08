@@ -6,6 +6,7 @@ import { searchQuestions } from '../action/question';
 import data from '../Data/data.json'
 import './SearchBar.css'
 import Fuse from 'fuse.js'
+import Spinner from './Spinner';
 
 const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}) => {
 
@@ -16,16 +17,19 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
 	    keys: ['tagName']
     })
 
-    useEffect(() => {
-        searchQuestions();
-        console.log("call get question");
-    }, [searchQuestions]);
+    const [ spinnerToggle, setSpinnerToggle ] = useState(false)
+
+    // useEffect(() => {
+    //     searchQuestions();
+    //     console.log("call get question");
+    // }, [searchQuestions]);
 
     const Submit = e => {
         console.log("call submit : ",wordEntered)
         e.preventDefault()
         searchQuestions(wordEntered);
         console.log("call get question");
+        setSpinnerToggle(true)
     };
 
     // handling fuzzy search
@@ -63,7 +67,7 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
                         className="form-control"
                     />
                     <br/>
-                    <button className="btn btn-primary" onClick={e => Submit(e)}>Search</button>
+                    <button className="btn btn-primary" disabled={wordEntered.length === 0 ? 'disabled':''} onClick={e => Submit(e)}>Search</button>
                     {/* <div className="searchIcon">
                         {filteredData.length === 0 ? (
                         <p>Search</p>
@@ -90,7 +94,7 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
             <div className="col-2"></div>
         </div>
         <div >
-            { loading || searchQuestionArr === [] ? <div></div> : searchQuestionArr.map((question) => (
+            { spinnerToggle && (loading || searchQuestionArr === []) ? <Spinner/> : searchQuestionArr.map((question) => (
                 <Questions key={question._id} question={question} />
             ))}
         </div>
