@@ -10,10 +10,12 @@ import {
     SEARCH_POST
 } from './types'
 
+const API = 'http://localhost:3000'
+
 // Get Posts
 export const getPosts = () => async dispatch => {
     try {
-        const res = await axios.get('http://localhost:3000/api/posts')
+        const res = await axios.get(`${API}/api/posts`)
         console.log("res posts ui", res);
 
         dispatch({
@@ -44,7 +46,7 @@ export const searchPosts = (topic) => async dispatch => {
     // const body = {title:tags}
     try {
         console.log( "text body 1",topic.title);
-        const res = await axios.get(`http://localhost:3000/api/posts/filter/${topic.title}`, config)
+        const res = await axios.get(`${API}/api/posts/filter/${topic.title}`, config)
         console.log("result filter",res)
         dispatch({
             type: SEARCH_POST,
@@ -68,7 +70,7 @@ export const searchPosts = (topic) => async dispatch => {
 // Add Like
 export const addLike = postId => async dispatch => {
     try {
-        const res = await axios.put(`http://localhost:3000/api/posts/like/${postId}`)
+        const res = await axios.put(`${API}/api/posts/like/${postId}`)
 
         dispatch({
             type: UPDATE_LIKES,
@@ -92,7 +94,7 @@ export const addLike = postId => async dispatch => {
 // Delete  post
 export const deletePost = postId => async dispatch => {
     try {
-        const res = await axios.delete(`http://localhost:3000/api/posts/${postId}`)
+        const res = await axios.delete(`${API}/api/posts/${postId}`)
         dispatch({
             type: DELETE_POST,
             payload: postId
@@ -120,7 +122,7 @@ export const addPost = (data) => async dispatch => {
     }
     try {
         // console.log( "text body",body);
-        const res = await axios.post('http://localhost:3000/api/posts', data, config)
+        const res = await axios.post(`${API}/api/posts`, data, config)
         dispatch({
             type: ADD_POST,
             payload: res.data

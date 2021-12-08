@@ -97,7 +97,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                     <div className="col">
                         <form>
                             <div className="form-group">
-                                <label>Enter Answer (min 50 characters)</label>
+                                <label>Enter Answer (min 25 characters)</label>
                                 <textarea className="form-control" id="comment" rows="3" value={commentData} onChange={e=>onChange(e)}></textarea>
                             </div>
                             <button className="btn btn-primary" onClick={e=>Submit(e)}>Add</button>
@@ -127,7 +127,7 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                     <div className="col">
                         <form>
                             <div className="form-group">
-                                <label>Add Comment</label>
+                                <label>Add Comment (min 5 characters)</label>
                                 <textarea className="form-control" id="answer" rows="3" value={answerData} onChange={e=>onChange(e)}></textarea>
                             </div>
                             <button className="btn btn-info" onClick={e=>Comment(e)}><AiFillEdit/></button>

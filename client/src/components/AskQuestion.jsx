@@ -11,14 +11,13 @@ import Fuse from 'fuse.js'
 import { GrAdd } from 'react-icons/gr'
 import QuestionSimilarityContinue from './QuestionSimilarityContinue'
 import Spinner from './Spinner'
-import { setAlert } from '../action/alert'
 
 const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQuestionArr, loading}}) => {
 
-    useEffect(() => {
-        searchSimilarQuestion();
-        console.log("call get post");
-    }, [searchSimilarQuestion]);
+    // useEffect(() => {
+    //     searchSimilarQuestion();
+    //     console.log("call get post");
+    // }, [searchSimilarQuestion]);
 
     const [Category, setCategory] = useState('')
 
@@ -80,7 +79,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
     const onSubmit = e => {
         e.preventDefault()
         if (formData.title.length === 0){
-            //dispatch(setAlert(`Title can't be empty`, 'danger'))
+            alert(`Title can't be empty`)
         }
         if (formData.description.length < 20){
             if (formData.description.length === 0){
@@ -134,13 +133,13 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
                                         <ReactQuill theme="snow" value = {description} onChange={setDescription}/>
                                     </div>
                                     <div className="mb-3">
-                                        <label>Add Tags</label>
+                                        <label>Add Tags (Optional) </label><br />
                                         <small>(Please don't add more than 30 tags)</small>
                                         <textarea onChange={e => onChange(e)} className="form-control" id="tags" rows="3"></textarea>
                                     </div>
                                     <div className="mb-3">
                                         <label>Add Category</label>
-                                        <small>(Please add only category)</small>
+                                        <small>(Please add only 1 category)</small>
                                         <input
                                             type="text"
                                             value={wordEntered}

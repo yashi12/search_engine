@@ -19,7 +19,6 @@ import AskQuestion from './components/AskQuestion'
 import QuestionsFeed from './components/QuestionsFeed'
 import MyQuestions from './components/MyQuestions';
 import QuestionDiscussion from './components/QuestionDiscussion';
-import SearchQuestionByCategory from './components/SearchQuestionByCategory';
 import SearchItem from './components/SearchItem'
 import UpdateQuestion from './components/UpdateQuestion';
 import ProfileInfo from './components/ProfileInfo';
