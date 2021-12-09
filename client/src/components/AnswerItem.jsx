@@ -147,8 +147,15 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                                 answers.map((element) => (
                                     <div>
                                         <div className="row">
-                                    
-                                            <div className="col-1">{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></div>
+                                            <div className="col-1">
+                                            {
+                                                element.user ? 
+                                                <div>{element.user.name}<Link className="btn btn-primary" to={`/profile/${element.user._id}`}><CgProfile/></Link></div>:
+                                                <div></div>
+                                            }
+                                            </div>
+                                            
+                                            
                                             <div className="col-7">{element.description}</div>
                                             <div className="col-1"><button className="btn btn-primary" type="button" onClick={e=>likeAnswer(element._id)}>
                                                 <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
@@ -156,20 +163,34 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                                             <div className="col-1"><button className="btn btn-primary" onClick={e=>AddComment(e,element._id)}>
                                                 <BiCommentAdd/>
                                             </button></div>
+                                            
                                             <div className="col-1">
-                                                {!auth.loading && element.user._id === auth.user._id && (
-                                                    <button onClick={e => Update(e,element.description,element._id)} type="button"
-                                                            className="btn btn-info"><AiFillEdit/>
-                                                    </button>
-                                                )}
+                                                {
+                                                    element.user ?
+                                                    <div>
+                                                        {!auth.loading && element.user._id === auth.user._id && (
+                                                            <button onClick={e => Update(e,element.description,element._id)} type="button"
+                                                                    className="btn btn-info"><AiFillEdit/>
+                                                            </button>
+                                                        )}
+                                                    </div> : 
+                                                    <div></div>
+                                                }
+                                                
                                             </div>
                                             <div className="col-1">
                                                 {/* Checking ig user has authority to delete the answer */}
-                                                {!auth.loading && element.user._id === auth.user._id && (
-                                                    <button onClick={() => DeleteAnswer(element._id)} type="button"
-                                                            className="btn btn-danger"><AiFillDelete/>
-                                                    </button>
-                                                )}
+                                                {
+                                                    element.user ?
+                                                    <div>
+                                                        {!auth.loading && element.user._id === auth.user._id && (
+                                                        <button onClick={() => DeleteAnswer(element._id)} type="button"
+                                                                className="btn btn-danger"><AiFillDelete/>
+                                                        </button>
+                                                    )}
+                                                    </div> : <div></div>
+                                                }
+                                                
                                             </div>
                                         </div>
                                         {/* checking if there are comment and if there are then display them 
