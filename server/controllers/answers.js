@@ -47,7 +47,7 @@ const addAnswer = async (req, res, next) => {
     }
     try {
         const tempAnswer = {};
-        Question.findById(req.params.ques_id)
+        await Question.findById(req.params.ques_id)
             .then(question => {
                 if (!question)
                     res.status(404).json({
