@@ -157,9 +157,11 @@ const AnswerItem = ({ answers:{answers},auth,GlobalId, deleteAnswer, likeAnswer,
                                             
                                             
                                             <div className="col-7">{element.description}</div>
-                                            <div className="col-1"><button className="btn btn-primary" type="button" onClick={e=>likeAnswer(element._id)}>
-                                                <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
-                                            </button></div>
+                                            <div className="col-1">{!auth.loading && element.user._id !== auth.user._id && (
+                                                           <button className="btn btn-primary" type="button" onClick={e=>likeAnswer(element._id)}>
+                                                           <AiFillLike/>: <span className="badge badge-light">{element.likeCount}</span>
+                                                       </button>
+                                                        )}</div>
                                             <div className="col-1"><button className="btn btn-primary" onClick={e=>AddComment(e,element._id)}>
                                                 <BiCommentAdd/>
                                             </button></div>

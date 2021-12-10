@@ -22,6 +22,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/searchPost">Search Post</Link>
                     <Link className="dropdown-item" to="/profiles">Find Devs</Link>
                     <Link className="dropdown-item" to="/searchProfile">Search Profile</Link>
+                    <Link className="dropdown-item" to="/search">Learn</Link>
                 </div>
             </li>
             <li className="nav-item active">

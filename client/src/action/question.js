@@ -123,7 +123,7 @@ export const searchSimilarQuestion = topic => async dispatch => {
         // const tags = topic.title.split(',')
         // const body = {title:tags}
         try {
-            const res = await axios.post(`${API}/api/discussion/similar-question/`,topic, config)
+            const res = await axios.post(`${process.env.REACT_APP_API}/api/discussion/similar-question/`,topic, config)
             console.log("similarity result filter",res)
             dispatch({
                 type: SIMILAR_QUESTIONS,
@@ -151,7 +151,7 @@ export const searchSimilarQuestion = topic => async dispatch => {
 }
 
 // Update Question
-export const updateQuestion = (id,data) => async dispatch => {
+export const updateQuestion = (id,data,history) => async dispatch => {
     console.log("inside update question")
     const config = {
         header: {'Content-Type': 'multipart/form-data'}
@@ -165,6 +165,7 @@ export const updateQuestion = (id,data) => async dispatch => {
         })
         console.log("after dispatch")
         dispatch(setAlert('Question Updated','success'))
+        history.push(`/question/${id}`)
 
     } catch (err) {
         console.log("error question dispatch",err);

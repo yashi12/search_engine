@@ -52,8 +52,8 @@ const UpdateQuestion = ({updateQuestion, question: {question}, getQuestionDiscus
         data.append("media",image);
 
         // Redirecting to the question after updating
-        updateQuestion(match.params.id,data)
-        history.push(`/question/${match.params.id}`)
+        updateQuestion(match.params.id,data,history)
+        // history.push(`/question/${match.params.id}`)
     }
 
     return (

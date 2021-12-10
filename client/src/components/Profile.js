@@ -42,7 +42,7 @@ const Profile = ({
                         size={24}
                         value={profile["user"].rating.rating}
                         activeColor="#5cb85c"
-                    /></h4>
+                    />({profile["user"].rating.numAnswers})</h4>
                     <div className="row card-body">
                         {profile["social"] ?
                             <Fragment>
@@ -55,16 +55,16 @@ const Profile = ({
                                 <div className="col">
                                     <h5><FaLinkedin/> Linked In</h5>
                                     {profile["social"].linkedIn ?
-                                        <a href={"https://github.com/"+profile["social"].linkedIn} target="_blank">
-                                        {"https://github.com/"+profile["social"].linkedIn}</a> : <div/>}
+                                        <a href={"https://www.linkedin.com/in/"+profile["social"].linkedIn} target="_blank">
+                                        {"https://www.linkedin.com/in/"+profile["social"].linkedIn}</a> : <div/>}
                                         
                                 </div>
 
                                 <div className="col">
                                     <h5><FaTwitter/> Twitter</h5>
                                     {profile["social"].twitter ?
-                                        <a href={"https://github.com/"+profile["social"].twitter} target="_blank">
-                                        {"https://github.com/"+profile["social"].twitter}</a> : <div/>}
+                                        <a href={"https://twitter.com/"+profile["social"].twitter} target="_blank">
+                                        {"https://twitter.com/"+profile["social"].twitter}</a> : <div/>}
                                        
                                 </div>
                             </Fragment>
