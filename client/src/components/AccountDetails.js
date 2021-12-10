@@ -78,16 +78,16 @@ const AccountDetails = ({ profile:{profile, loading} ,createProfile, getCurrentP
                                 <br />
                                 {/* Taking inputs like Github username, Linked In and Twitter name */}
                                 <div className="col">
-                                    <label htmlFor="githubusername">Github</label>
-                                    <input type="text" id="githubusername" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="Enter email" onChange={e => onChange(e)} value={githubusername}/>
+                                    <label htmlFor="githubusername" className="text-primary">Github</label>
+                                    <input type="text" id="githubusername" className="form-control" name="githubusername" aria-describedby="emailHelp" placeholder="github" onChange={e => onChange(e)} value={githubusername}/>
                                 </div>
                                 <div className="col">
-                                    <label htmlFor="linkedin">Linked In</label>
-                                    <input type="text" id="linkedin" className="form-control" name="linkedIn" placeholder="Password" onChange={e => onChange(e)} value={linkedIn}/>
+                                    <label htmlFor="linkedin" className="text-primary">Linked In</label>
+                                    <input type="text" id="linkedin" className="form-control" name="linkedIn" placeholder="linkedIn" onChange={e => onChange(e)} value={linkedIn}/>
                                 </div>
                                 <div className="col">
-                                    <label htmlFor="twitter">Twitter</label>
-                                    <input type="text" id="twitter" className="form-control" name="twitter" placeholder="Password" onChange={e => onChange(e)} value={twitter}/>
+                                    <label htmlFor="twitter" className="text-primary">Twitter</label>
+                                    <input type="text" id="twitter" className="form-control" name="twitter" placeholder="twitter" onChange={e => onChange(e)} value={twitter}/>
                                 </div>
                                 </div>)}
                         </div>
