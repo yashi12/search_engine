@@ -95,7 +95,7 @@ const SearchItem = ({ searchQuestions, question: { searchQuestionArr, loading }}
         </div>
         <div >
             { spinnerToggle && (loading || searchQuestionArr === []) ? <Spinner/> : searchQuestionArr.map((question) => (
-                <Questions key={question._id} question={question} />
+                <Questions key={question._id} question={question} search={true}/>
             ))}
         </div>
     </div>

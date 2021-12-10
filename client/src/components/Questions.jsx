@@ -35,16 +35,22 @@ const Questions = ({ auth, question, deleteQuestion, search = false}, showAction
                         <div className="col-md-8">
                             <div className="row g-0">
                                 <div className="card-body">
-                                    {/* <h4>{question.user.name} <Link className="btn btn-primary" to={`/profile/${question.user._id}`}><CgProfile/></Link></h4> */}
+                                    {
+                                        search ? <p></p> :
+                                        <h4>{question.user.name} <Link className="btn btn-primary" to={`/profile/${question.user._id}`}><CgProfile/></Link></h4> 
+                                    }
                                     <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
                                     <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
                                     <br />
-                                    <p>
-                                        Tags :{' '}
-                                        {question.tags.map((tag) => (
-                                            <span className="badge badge-secondary">{tag}</span>
-                                        ))}
-                                    </p>
+                                    {
+                                        question.tags.length === 0 ? <p></p> :
+                                        <p>
+                                            Tags :{' '}
+                                            {question.tags.map((tag) => (
+                                                <span className="badge badge-secondary">{tag}</span>
+                                            ))}
+                                        </p>
+                                    }
                                     <p>
                                         Category :{' '}<span className="badge badge-secondary">{question.category}</span>
                                     </p>

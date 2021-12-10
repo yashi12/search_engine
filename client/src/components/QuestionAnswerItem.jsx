@@ -78,12 +78,16 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                                             <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.result.title}}></div></h4>
                                             <h6><div dangerouslySetInnerHTML={{__html: question.result.description}}></div></h6>
                                             <br />
-                                            <p>
-                                                Tags :{' '}
-                                                {question.result.tags.map((tag) => (
-                                                    <span className="badge badge-secondary">{tag}</span>
-                                                ))}
-                                            </p>
+                                            {
+                                                question.result.tags.length === 0 ? <p></p> :
+                                                <p>
+                                                    Tags :{' '}
+                                                    {question.result.tags.map((tag) => (
+                                                        <span className="badge badge-secondary">{tag}</span>
+                                                    ))}
+                                                </p>
+                                            }
+                                            
                                             <p>
                                                 Category :{' '}<span className="badge badge-secondary">{question.result.category}</span>
                                             </p>
