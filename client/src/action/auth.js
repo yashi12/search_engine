@@ -7,7 +7,7 @@ import {
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
 
-const API = 'http://localhost:3000'
+// const API = 'http://localhost:3000'
 
 // Load User
 
@@ -17,7 +17,7 @@ export const loadUser = () => async dispatch => {
     }
 
     try {
-        const res = await axios.get(`${API}/api/auth`)
+        const res = await axios.get(`${process.env.REACT_APP_API}/api/auth`)
 
         console.log("result",res);
         dispatch ({
@@ -46,7 +46,7 @@ export const register = ({name, email, password}) => async dispatch => {
     const body = {name, email, password}
 
     try {
-        const res = await axios.post(`${API}/api/users`, body, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/users`, body, config)
 
         dispatch ({
             type: REGISTER_SUCCESS,
@@ -81,7 +81,7 @@ export const login = ({ email, password}) => async dispatch => {
     const body = {email, password}
 
     try {
-        const res = await axios.post(`${API}/api/auth`, body, config)
+        const res = await axios.post(`${process.env.REACT_APP_API}/api/auth`, body, config)
         dispatch ({
             type: LOGIN_SUCCESS,
             payload: res.data

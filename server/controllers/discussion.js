@@ -26,7 +26,9 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 });
 
+
 const API = "http://4bc0-35-245-92-208.ngrok.io/";
+
 
 let FormData = require('form-data');
 
@@ -184,8 +186,6 @@ const addQues = async (req, res, next) => {
             tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
         }
         console.log(data["status"]);
-        let formData2 = new FormData();
-        formData2.append("predictions" , JSON.stringify(tempQuestion.predictions));
 
         if (tags) {
             tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
@@ -229,7 +229,7 @@ const addQues = async (req, res, next) => {
 };
 
 const getAllQuestions = (req, res, next) => {
-    Question.find().populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
+    Question.find().select({answers:1,tags:1,_id:1,category:1,title:1,description:1,user:1,media:1}).populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
             date: -1
         })
         .then(questions => {
@@ -311,7 +311,8 @@ const getQuestionsByTag = (req, res, next) => {
         });
 };
 
-const updateQuestion = (req, res, next) => {
+const updateQuestion = async(req, res, next) => {
+    //@todo - remove media option
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({
@@ -319,39 +320,54 @@ const updateQuestion = (req, res, next) => {
         });
     }
     const id = req.params.id;
-    Question.findById(id)
-        .then(question => {
-            if (!question) {
-                res.status(404).json({
-                    msg: 'No such question found'
-                });
-            }
-            //Check on user if question belongs to him
-            if (question.user.toString() !== req.user.id) {
-                return res.status(401).json({
-                    msg: 'User not authorized to update the question'
-                });
-            }
-            const {
-                user,
-                answer,
-                title,
-                description,
-                media,
-                category,
-                tags,
-                date
-            } = req.body;
-            const tempQuestion = {};
+    const question = await Question.findById(id);
+    if (!question) {
+        res.status(404).json({
+            msg: 'No such question found'
+        });
+    }
 
-            tempQuestion.category = req.body.category;
+    //Check on user if question belongs to him
+    if (question.user.toString() !== req.user.id) {
+        return res.status(401).json({
+            msg: 'User not authorized to update the question'
+        });
+    }
+    const {
+        user,
+        answer,
+        title,
+        description,
+        media,
+        category,
+        tags,
+        date
+    } = req.body;
+    const tempQuestion = {};
+    tempQuestion.category = req.body.category;
             tempQuestion.title = req.body.title;
             tempQuestion.description = req.body.description;
+
+            tempQuestion.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
+
+            let formData = new FormData();
+            formData.append("title" , req.body.title);
+            let response = await fetch(API + "generate-predictions",{
+                method : "POST",
+                body : formData
+            });
+            let data = await response.json();
+            if (data["status"] === 201){
+                let predictions = data['predictions'];
+                tempQuestion.predictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
+                tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
+                tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
+            }
+            console.log(data["status"]);
 
             if (tags) {
                 tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
             }
-
             if (req.file) {
                 ContentMiddleware.removeMedia(question);
                 const file = req.file.originalname.split(".");
@@ -394,7 +410,6 @@ const updateQuestion = (req, res, next) => {
                     res.status(500).send(err.message);
                 })
             }
-        })
 };
 
 const deleteQuestion = (req, res, next) => {
@@ -485,5 +500,5 @@ module.exports = {
     getAllPredictions : getAllPredictions,
     loadAPI : loadAPI,
     findSimilarQuestion:findSimilarQuestion
-    // getQuestionsByTag: getQuestionsByTag,
+    // getQuestionsBy3Tag: getQuestionsByTag,
 }
