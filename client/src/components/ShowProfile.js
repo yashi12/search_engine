@@ -36,7 +36,7 @@ const ShowProfile = ({
                         size={24}
                         value={user.rating.rating}
                         activeColor="#5cb85c"
-                    /></h4>
+                    />({user.rating.numAnswers})</h4>
                     <br/>
                     {social ?
                     <div className="row card-body ">
