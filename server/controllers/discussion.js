@@ -227,7 +227,7 @@ const addQues = async (req, res, next) => {
 };
 
 const getAllQuestions = (req, res, next) => {
-    Question.find().populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
+    Question.find().select({answers:1,tags:1,_id:1,category:1,title:1,description:1,user:1,media:1}).populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
             date: -1
         })
         .then(questions => {
