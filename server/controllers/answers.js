@@ -47,7 +47,7 @@ const addAnswer = async (req, res, next) => {
     }
     try {
         const tempAnswer = {};
-        Question.findById(req.params.ques_id)
+        await Question.findById(req.params.ques_id)
             .then(question => {
                 if (!question)
                     res.status(404).json({
@@ -240,7 +240,7 @@ const deleteAnswer = (req, res, next) => {
         })
 };
 
-const addCommentToAnswer = async (req, res, next) => {
+const add   ToAnswer = async (req, res, next) => {
     console.log(req.body.text)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
