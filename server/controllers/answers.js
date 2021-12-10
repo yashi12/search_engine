@@ -240,7 +240,7 @@ const deleteAnswer = (req, res, next) => {
         })
 };
 
-const add   ToAnswer = async (req, res, next) => {
+const addCommentToAnswer = async (req, res, next) => {
     console.log(req.body.text)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
