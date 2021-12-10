@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Questions from './Questions'
 import { askQuestion } from '../action/question'
+import Spinner from './Spinner'
 
 const QuestionSimilarityContinue = ({similarQuestions, questionData,image, askQuestion}) => {
 
@@ -25,35 +26,42 @@ const QuestionSimilarityContinue = ({similarQuestions, questionData,image, askQu
 
     return (
         <div>
-            <div className="container-fluid align-items-center">
-                <br /><br />
-                <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-10">
-                    <h1 className="large text-primary">Looks like we've got some questions similar to 
-                    what you want to ask</h1>
-                    </div>
-                    <div className="col-1"></div>
-                </div>
-                
-                <br />
-                {similarQuestions === null ? <div></div> : 
-                    similarQuestions.map((question) => (
-                    <Questions key={question._id} question={question} search={true} />
-                ))}
-                <br />
-                <div className="row">
-                    <div className="col-2"></div>
-                    <div className="col-8">
-                        <h1 className="large text-primary">Not what you are looking for ?</h1>
+            { similarQuestions !== [] ?
+                <div>
+                    <div className="container-fluid align-items-center">
+                        <br /><br />
+                        <div className="row">
+                            <div className="col-1"></div>
+                            <div className="col-10">
+                            <h1 className="large text-primary">Looks like we've got some questions similar to 
+                            what you want to ask</h1>
+                            </div>
+                            <div className="col-1"></div>
+                        </div>
+                        
                         <br />
-                        <button onClick={(e)=>{Submit(e)}} className="btn btn-primary">Continue &amp; ask question</button>
+                        {similarQuestions === null ? <div></div> : 
+                            similarQuestions.map((question) => (
+                            <Questions key={question._id} question={question} search={true} />
+                        ))}
+                        <br />
+                        <div className="row">
+                            <div className="col-2"></div>
+                            <div className="col-8">
+                                <h1 className="large text-primary">Not what you are looking for ?</h1>
+                                <br />
+                                <button onClick={(e)=>{Submit(e)}} className="btn btn-primary">Continue &amp; ask question</button>
+                            </div>
+                            <div className="col-2"></div>
+                        </div>
+                        <br /><br />
                     </div>
-                    <div className="col-2"></div>
-                </div>
-                <br /><br />
-            </div>
+                </div> :
+                <Spinner />
+            }
         </div>
+        
+        
     )
 }
 

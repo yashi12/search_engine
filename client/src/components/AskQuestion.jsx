@@ -14,10 +14,9 @@ import Spinner from './Spinner'
 
 const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQuestionArr, loading}}) => {
 
-    // useEffect(() => {
-    //     searchSimilarQuestion();
-    //     console.log("call get post");
-    // }, [searchSimilarQuestion]);
+    useEffect(() => {
+        searchSimilarQuestion({title:''});
+    }, [searchSimilarQuestion]);
 
     const [Category, setCategory] = useState('')
 
@@ -178,7 +177,7 @@ const AskQuestion = ({askQuestion, searchSimilarQuestion, question:{ similarQues
             {/* Displaying the similar questions and asking if the user still want to continue */}
             {
                 similarityToggle ? ((loading || similarQuestionArr === []) ? <Spinner /> :
-                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/>) :
+                <QuestionSimilarityContinue similarQuestions={similarQuestionArr} questionData={formData} image={image}/>):
                 <div></div>
             }
             {/* {
