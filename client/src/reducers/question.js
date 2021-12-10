@@ -6,7 +6,8 @@ import {
     ASK_QUESTION,
     SEARCH_QUESTIONS,
     GET_QUESTION,
-    SIMILAR_QUESTIONS
+    SIMILAR_QUESTIONS,
+    CLEAR_QUESTION
 } from '../action/types'
 
 const initialState = {
@@ -53,6 +54,7 @@ export default function(state = initialState, action){
                 loading: false
             }
         case SIMILAR_QUESTIONS:
+        case CLEAR_QUESTION:
             return {
                 ...state,
                 similarQuestionArr: payload,

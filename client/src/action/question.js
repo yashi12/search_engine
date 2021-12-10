@@ -10,7 +10,8 @@ import {
     QUESTION_ERROR,
     GET_QUESTION,
     GET_ANSWER,
-    SIMILAR_QUESTIONS
+    SIMILAR_QUESTIONS,
+    CLEAR_QUESTION
 } from './types'
 
 const API = 'http://localhost:3000'
@@ -107,35 +108,43 @@ export const searchQuestions = category => async dispatch => {
 
 // Search Questions By Similarity
 export const searchSimilarQuestion = topic => async dispatch => {
-    console.log("search question",topic)
-    const config = {
-        header: {'Content-Type': 'application/json'}
+    if (topic.title === ''){
+        dispatch({
+            type: CLEAR_QUESTION,
+            payload: []
+        })
     }
-    // const tags = topic.title.split(',')
-    // const body = {title:tags}
-    try {
-        const res = await axios.post(`${API}/api/discussion/similar-question/`,topic, config)
-        console.log("similarity result filter",res)
-        dispatch({
-            type: SIMILAR_QUESTIONS,
-            payload: res.data.similarQuesArray
-        })
-        if (res.data.similarQuesArray !== []){
-            dispatch(setAlert('Found Similar Questions','success'))
+    else{
+        console.log("search question",topic)
+        const config = {
+            header: {'Content-Type': 'application/json'}
         }
-        else {
-            dispatch(setAlert('No question found, Please enter another question','warning'))
-        }
-    } catch (err) {
-        console.log("error add post dispatch",err);
-        dispatch({
-            type: QUESTION_ERROR,
-            payload: {msg: err.response,
-                status: err.response}
-        })
-        const error = err.response.data.errors;
-        if (error){
-            error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        // const tags = topic.title.split(',')
+        // const body = {title:tags}
+        try {
+            const res = await axios.post(`${API}/api/discussion/similar-question/`,topic, config)
+            console.log("similarity result filter",res)
+            dispatch({
+                type: SIMILAR_QUESTIONS,
+                payload: res.data.similarQuesArray
+            })
+            if (res.data.similarQuesArray !== []){
+                dispatch(setAlert('Found Similar Questions','success'))
+            }
+            else {
+                dispatch(setAlert('No question found, Please enter another question','warning'))
+            }
+        } catch (err) {
+            console.log("error add post dispatch",err);
+            dispatch({
+                type: QUESTION_ERROR,
+                payload: {msg: err.response,
+                    status: err.response}
+            })
+            const error = err.response.data.errors;
+            if (error){
+                error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+            }
         }
     }
 }
