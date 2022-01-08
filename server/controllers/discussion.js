@@ -27,7 +27,7 @@ const s3 = new AWS.S3({
 });
 
 
-const API = "http://4bc0-35-245-92-208.ngrok.io/";
+const API = "http://2048-35-224-82-144.ngrok.io/ ";
 
 
 let FormData = require('form-data');
@@ -228,8 +228,15 @@ const addQues = async (req, res, next) => {
     }
 };
 
-const getAllQuestions = (req, res, next) => {
-    Question.find().select({answers:1,tags:1,_id:1,category:1,title:1,description:1,user:1,media:1}).populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
+const getAllQuestions = async(req, res, next) => {
+    let pageNumber = req.query.page;
+    console.log(pageNumber);
+    let nPerPage = 15; // Number of questions per page
+    
+    await Question.find().select({answers:1,tags:1,_id:1,category:1,title:1,description:1,user:1,media:1})
+    .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
+    .limit( nPerPage )
+    .populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
             date: -1
         })
         .then(questions => {
