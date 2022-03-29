@@ -10,7 +10,7 @@ const config = require('config');
 const request = require('request');
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
-const Question = require('../models/discussion/Question');
+const Doubt = require('../models/discussion/Doubt');
 const Answer = require('../models/discussion/Answer');
 // const Tag = require('../models/discussion/Tag');
 const Category = require('../models/discussion/Category');
@@ -40,60 +40,7 @@ const loadAPI = async (req,res)=>{
     }
     return res.status(500).json({"error" : "Error in Loading API."});
 }
-const addQuestionToCategory = (categoryName, ques) => {
-    Category.findOne({
-            name: categoryName
-        })
-        .then(category => {
-            if (category) {
-                let tagArray = [];
-                if (ques.tags) {
-                    ques.tags.map(tag => {
-                        let flag = 0;
-                        category.tags.map(presentTag => {
-                            if (tag.toString() == presentTag.toString()) {
-                                flag = 1;
-                                return;
-                            }
-                        });
-                        if (flag == 0) {
-                            tagArray.push(tag);
-                        }
-                    })
-                }
-                Category.findByIdAndUpdate(category._id, {
-                        numQuestions: category.numQuestions + 1,
-                        $addToSet: {
-                            questions: ques
-                        },
-                        $push: {
-                            tags: {
-                                $each: tagArray
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Fail add question to category:", err.message);
-                    })
 
-            } else {
-                const category = {};
-                if (ques.tags) {
-                    category.tags = ques.tags;
-                }
-                category.name = categoryName;
-                category.questions = ques;
-                category.numQuestions = 1;
-                new Category(category).save()
-                    .catch(err => {
-                        console.error("Fail add question to category:", err.message);
-                    })
-            }
-        })
-        .catch(err => {
-            console.error("Fail add question to category:", err.message);
-        });
-};
 
 const findSimilarQuestion = async (req,res,next) => {
     console.log("body",req.body.title);
@@ -146,8 +93,8 @@ const findSimilarQuestion = async (req,res,next) => {
         return res.status(200).json({similarQuesArray});
 }
 
-const addQues = async (req, res, next) => {
-    console.log("add ques:");
+const addDoubt = async (req, res, next) => {
+    console.log("add doubt:");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({
@@ -157,38 +104,37 @@ const addQues = async (req, res, next) => {
     try {
         const {
             user,
-            answer,
             title,
             description,
-            media,
-            category,
             tags,
-            date
+            media,
+            date,
+            raisedAmount
         } = req.body;
-        const tempQuestion = {};
-        tempQuestion.category = req.body.category;
-        tempQuestion.title = req.body.title;
-        tempQuestion.description = req.body.description;
-        tempQuestion.user = req.user.id;
-        tempQuestion.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
+        const tempDoubt = {};
+        tempDoubt.title = req.body.title;
+        tempDoubt.description = req.body.description;
+        tempDoubt.user = req.user.id;
+        tempDoubt.raisedAmount=req.body.raisedAmount;
+        // tempDoubt.predictions = {'sentence_embedding_bert' : [],'sentence_embedding_electra' : [],'sentence_embedding_use': [] };
 
-        let formData = new FormData();
-        formData.append("title" , req.body.title);
-        let response = await fetch(API + "generate-predictions",{
-            method : "POST",
-            body : formData
-        });
-        let data = await response.json();
-        if (data["status"] === 201){
-            let predictions = data['predictions'];
-            tempQuestion.predictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
-            tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
-            tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
-        }
-        console.log(data["status"]);
+        // let formData = new FormData();
+        // formData.append("title" , req.body.title);
+        // let response = await fetch(API + "generate-predictions",{
+        //     method : "POST",
+        //     body : formData
+        // });
+        // let data = await response.json();
+        // if (data["status"] === 201){
+        //     let predictions = data['predictions'];
+        //     tempQuestion.predictions['sentence_embedding_bert'] = predictions["sentence_embedding_bert"];
+        //     tempQuestion.predictions['sentence_embedding_electra'] = predictions["sentence_embedding_electra"];
+        //     tempQuestion.predictions['sentence_embedding_use'] = predictions["sentence_embedding_use"];
+        // }
+        // console.log(data["status"]);
 
         if (tags) {
-            tempQuestion.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
+            tempDoubt.tags = tags.split(',').map(tag => tag.trim().toLowerCase());
         }
         if (req.file) {
             const file = req.file.originalname.split(".");
@@ -205,22 +151,20 @@ const addQues = async (req, res, next) => {
                 if (error) {
                     res.status(500).send(error);
                 }
-                tempQuestion.media = data.Location;
-                const newQuestion = new Question(tempQuestion);
-                newQuestion.save()
-                    .then(ques => {
-                        addQuestionToCategory(req.body.category, ques);
-                        res.json(ques);
+                tempDoubt.media = data.Location;
+                const newDoubt = new Doubt(tempDoubt);
+                newDoubt.save()
+                    .then(doubt => {
+                        res.json(doubt);
                     })
                     .catch(err => {
                         res.status(500).send(err.message);
                     })
             });
         } else {
-            const newQuestion = new Question(tempQuestion);
-            const ques = await newQuestion.save();
-            addQuestionToCategory(req.body.category, ques);
-            res.json(ques);
+            const newDoubt = new Doubt(tempDoubt);
+            const doubt = await newDoubt.save();
+            res.json(doubt);
         }
     } catch (err) {
         console.log(err.message);
@@ -228,14 +172,14 @@ const addQues = async (req, res, next) => {
     }
 };
 
-const getAllQuestions = async(req, res, next) => {
+const getAllDoubts = async(req, res, next) => {
     let pageNumber = req.query.page;
     let nPerPage = 15; // Number of questions per page
     
-    await Question.find().select({answers:1,tags:1,_id:1,category:1,title:1,description:1,user:1,media:1})
+    await Doubt.find().select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
     .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
     .limit( nPerPage )
-    .populate('user','id name').populate('answers', 'id', {deleted: false}).sort({
+    .populate('user','id name').sort({
             date: -1
         })
         .then(questions => {
@@ -498,17 +442,85 @@ const getQuestionById = (req, res, next) => {
         });
 };
 
+const mentorDoubt = async(req,res,next)=>{
+    console.log("hi")
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json({
+            errors: errors.array()
+        });
+    }
+    const doubtId = req.params.id;
+    const mentorId = req.user.id;
+    console.log(mentorId);
+    const amount = req.body.amount;
+    const doubt = await Doubt.findById(doubtId);
+    if (!doubt) {
+        return res.status(404).json({
+            msg: 'No such doubt found'
+        });
+    }
+    const mentor = await Doubt.findOne({mentor:{$elemMatch:{mentorId:mentorId}}});
+    if (mentor) {
+        return res.status(404).json({
+            msg: 'Amount already raised'
+        });
+    }
+    Doubt.findByIdAndUpdate(
+        doubtId,
+        {$push:{mentor:{mentorId:mentorId,amount:amount}}},
+        {new:true}
+    ).then(doubt => {
+        return res.json(doubt);
+    })
+    .catch(err => {
+        res.status(500).send(err.message);
+    })
+}
+
+const changePrice = async (req,res,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json({
+            errors: errors.array()
+        });
+    }
+    const doubtId = req.params.doubt_id;
+    const mentorDoubtId = req.params.id;
+    const amount = req.body.amount;
+    
+    console.log("amount",amount);
+    console.log("mentorDoubtId",mentorDoubtId);
+    Doubt.findOneAndUpdate(
+        {$and:[{_id:doubtId},
+            { mentor: { $elemMatch: {_id: mentorDoubtId } } }    
+        ]},
+        {
+            $set:{"mentor.$.amount": amount } 
+        },
+        {new:true}
+    ).then(doubt => {
+        return res.json(doubt);
+    })
+    .catch(err => {
+        res.status(500).send(err.message);
+    })
+    
+  
+}
 
 
 module.exports = {
-    addQues: addQues,
-    getAllQuestions: getAllQuestions,
-    getAllQuestionsByCategory: getAllQuestionsByCategory,
-    updateQuestion: updateQuestion,
-    deleteQuestion: deleteQuestion,
-    getQuestionById: getQuestionById,
-    getAllPredictions : getAllPredictions,
-    loadAPI : loadAPI,
-    findSimilarQuestion:findSimilarQuestion
+    addDoubt: addDoubt,
+    getAllDoubts: getAllDoubts,
+    mentorDoubt: mentorDoubt,
+    changePrice: changePrice
+    // getAllQuestionsByCategory: getAllQuestionsByCategory,
+    // updateQuestion: updateQuestion,
+    // deleteQuestion: deleteQuestion,
+    // getQuestionById: getQuestionById,
+    // getAllPredictions : getAllPredictions,
+    // loadAPI : loadAPI,
+    // findSimilarQuestion:findSimilarQuestion
     // getQuestionsBy3Tag: getQuestionsByTag,
 }

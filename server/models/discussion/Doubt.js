@@ -1,18 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const QuestionSchema = new Schema({
+const DoubtSchema = new Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
-    answers:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Answer'
-    }],
-    category:{
-        type: String,
-        required: true
     },
     title:{
         type: String,
@@ -43,11 +35,23 @@ const QuestionSchema = new Schema({
             sentence_embedding_use:[{
                 type : Number
             }]
+    },
+    raisedAmount:{
+        type: Number,
+        required:true
+    },
+    mentor:[{
+        mentorId:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        amount:{
+            type:Number,
+            required:true
         }
+    }]
     
 });
-// QuestionSchema.index(
-//     {category:1}
-// )
 
-module.exports = mongoose.model('Question',QuestionSchema);
+
+module.exports = mongoose.model('Doubt',DoubtSchema);

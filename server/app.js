@@ -15,6 +15,8 @@ const apiProfileRouter = require('./routes/api/profile');
 const apiPostRouter = require('./routes/api/posts');
 const apiDiscussionRouter = require('./routes/api/discussion');
 const apiAnswerRouter = require('./routes/api/answer');
+const apiDoubtRouter = require('./routes/api/doubt');
+const apiBookRouter = require('./routes/api/book');
 
 const connectDB = require('./db');
 
@@ -51,9 +53,11 @@ app.use('/api/users',apiUserRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/profile',apiProfileRouter);
 app.use('/api/discussion',apiDiscussionRouter);
+app.use('/api/mentor',apiDoubtRouter);
 app.use('/api/skill',apiSkillRouter);
 app.use('/api/posts',apiPostRouter);
 app.use('/api/answer',apiAnswerRouter);
+app.use('/api/book',apiBookRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
