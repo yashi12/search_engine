@@ -44,6 +44,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                 <Link className="nav-link" to="/myQuestions">My Questions</Link>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/addDoubt">Add Doubt</Link>
+            </li>
+            <li className="nav-item active">
                 <Link className="nav-link" onClick={logout} >Log Out</Link>
             </li>
         </ul>
