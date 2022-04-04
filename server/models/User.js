@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+const messageSchema = new mongoose.Schema({
+    fromID : {
+        type : String,
+        required : true
+    },
+    content : [{
+        messenger : String,
+        message : String
+    }]
+});
+
 const UserSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -32,7 +43,16 @@ const UserSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
-    }
+    },
+    messages :{
+        type : [messageSchema],
+        default : []
+    },
+    latestMessageNotifications : {
+        type : [String],
+        default : []
+    },
 });
 
 module.exports = mongoose.model('User',UserSchema);
+mongoose.model("Message",messageSchema);

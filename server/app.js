@@ -17,6 +17,8 @@ const apiDiscussionRouter = require('./routes/api/discussion');
 const apiAnswerRouter = require('./routes/api/answer');
 const apiDoubtRouter = require('./routes/api/doubt');
 const apiBookRouter = require('./routes/api/book');
+const apiMessageRouter = require('./routes/api/message');
+
 
 const connectDB = require('./db');
 
@@ -58,6 +60,7 @@ app.use('/api/skill',apiSkillRouter);
 app.use('/api/posts',apiPostRouter);
 app.use('/api/answer',apiAnswerRouter);
 app.use('/api/book',apiBookRouter);
+app.use('/api/message',apiMessageRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
