@@ -11,6 +11,7 @@ const request = require('request');
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
 const Doubt = require('../models/discussion/Doubt');
+const Booking = require('../models/discussion/Booking');
 const Answer = require('../models/discussion/Answer');
 // const Tag = require('../models/discussion/Tag');
 const Category = require('../models/discussion/Category');
@@ -189,6 +190,52 @@ const getAllDoubts = async(req, res, next) => {
             console.log(err.message);
             res.status(500).send('Server Error...');
         });
+};
+
+const getMyDoubts = async(req, res, next) => {
+    let pageNumber = req.query.page;
+    let nPerPage = 15; // Number of questions per page
+    
+    await Doubt.find({user:req.user.id}).select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
+    .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
+    .limit( nPerPage )
+    .populate('user','id name').sort({
+            date: -1
+        })
+        .then(questions => {
+            res.json(questions);
+        })
+        .catch(err => {
+            console.log(err.message);
+            res.status(500).send('Server Error...');
+        });
+};
+
+const getToMentorDoubts = async(req, res, next) => {
+    let pageNumber = req.query.page;
+    let nPerPage = 15; // Number of questions per page
+    
+    const doubts = await Booking.find({mentorId:req.user.id}).select({doubtId:1,_id:0,amount:1,meetLink:1});
+    // for(i in doubts){
+    //     doubts[i]=doubts[i].doubtId;
+    // } lookup unwind $project
+    // const finalDoubts = await Doubt.find({_id:{$in:doubts}}).select({user:1,title:1,description:1,tags:1,media:1,date:1});
+    const finalDoubts = await Booking.aggregate([
+        {
+            $lookup:
+            {
+                from: "doubts",
+                localField:"doubtId",
+                foreignField: "_id",
+                as:"Doubt"
+            }
+        }
+    ])
+    res.status(200).send(finalDoubts);
+    if(!doubts) {
+        console.log(err.message);
+        res.status(500).send('Server Error...')
+    }
 };
 
 const getAllPredictions = (req,res,next) => {
@@ -460,7 +507,7 @@ const mentorDoubt = async(req,res,next)=>{
             msg: 'No such doubt found'
         });
     }
-    const mentor = await Doubt.findOne({mentor:{$elemMatch:{mentorId:mentorId}}});
+    const mentor = await Doubt.findOne({_id:doubtId,mentor:{$elemMatch:{mentorId:mentorId}}});
     if (mentor) {
         return res.status(404).json({
             msg: 'Amount already raised'
@@ -505,14 +552,14 @@ const changePrice = async (req,res,next)=>{
     .catch(err => {
         res.status(500).send(err.message);
     })
-    
-  
 }
 
 
 module.exports = {
     addDoubt: addDoubt,
     getAllDoubts: getAllDoubts,
+    getMyDoubts:getMyDoubts,
+    getToMentorDoubts:getToMentorDoubts,
     mentorDoubt: mentorDoubt,
     changePrice: changePrice
     // getAllQuestionsByCategory: getAllQuestionsByCategory,

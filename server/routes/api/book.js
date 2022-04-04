@@ -14,5 +14,9 @@ const upload = multer();
 // @access Private
 router.post('/initiate/:doubt_id/mentor/:id' ,auth ,bookController.bookMentor);
 
+router.post('/confirm/:id' ,auth ,bookController.confirmMentor);
+
+router.post('/solved/:id' ,auth ,bookController.bookedDoubtSolved);
+
 
 module.exports = router;

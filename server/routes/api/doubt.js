@@ -25,6 +25,10 @@ router.post('/doubt', [upload.single("media"),auth,  [
 // @todo Store Likes and comments separately for answers
 router.get('/', auth, doubtController.getAllDoubts);
 
+router.get('/own', auth, doubtController.getMyDoubts);
+
+router.get('/final', auth, doubtController.getToMentorDoubts);
+
 router.post('/doubt/:id',[auth,  [
     check('amount', 'Amount is required').not().isEmpty(),
 ]],doubtController.mentorDoubt);

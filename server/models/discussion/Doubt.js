@@ -50,7 +50,6 @@ const DoubtSchema = new Schema({
             required:true
         }
     }]
-    
 });
 
 

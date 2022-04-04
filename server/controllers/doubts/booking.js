@@ -78,96 +78,70 @@ const bookMentor = async (req, res, next) => {
     }
 };
 
-
-const getAllDoubts = async(req, res, next) => {
-    let pageNumber = req.query.page;
-    let nPerPage = 15; // Number of questions per page
-    
-    await Doubt.find().select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
-    .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
-    .limit( nPerPage )
-    .populate('user','id name').sort({
-            date: -1
-        })
-        .then(questions => {
-            res.json(questions);
+const confirmMentor = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json({
+            errors: errors.array()
+        });
+    }
+    try {
+        const bookingId = req.params.id;
+        const userId = req.user.id;
+        Booking.findOneAndUpdate(
+            {$and:[{_id:bookingId},
+                { userId: userId }    
+            ]},
+            {$set: {status:"accepted"}},
+            {new:true}
+        ) .then(booking => {
+            console.log(booking);
+            res.json(booking);
         })
         .catch(err => {
-            console.log(err.message);
-            res.status(500).send('Server Error...');
-        });
+            res.status(500).send(err.message);
+        })
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error...');
+    }
 };
 
-const mentorDoubt = async(req,res,next)=>{
-    console.log("hi")
+const bookedDoubtSolved = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(404).json({
             errors: errors.array()
         });
     }
-    const doubtId = req.params.id;
-    const mentorId = req.user.id;
-    console.log(mentorId);
-    const amount = req.body.amount;
-    const doubt = await Doubt.findById(doubtId);
-    if (!doubt) {
-        return res.status(404).json({
-            msg: 'No such doubt found'
-        });
-    }
-    const mentor = await Doubt.findOne({mentor:{$elemMatch:{mentorId:mentorId}}});
-    if (mentor) {
-        return res.status(404).json({
-            msg: 'Amount already raised'
-        });
-    }
-    Doubt.findByIdAndUpdate(
-        doubtId,
-        {$push:{mentor:{mentorId:mentorId,amount:amount}}},
-        {new:true}
-    ).then(doubt => {
-        return res.json(doubt);
-    })
-    .catch(err => {
-        res.status(500).send(err.message);
-    })
-}
+    try {
+        const bookingId = req.params.id;
+        const userId = req.user.id;
+        Booking.findOneAndUpdate(
+            {$and:[{_id:bookingId},
+                { userId: userId }    
+            ]},
+            {$set: {status:"solved"}},
+            {new:true}
+        ) .then(booking => {
+            console.log(booking);
+            res.json(booking);
+        })
+        .catch(err => {
+            res.status(500).send(err.message);
+        })
 
-const changePrice = async (req,res,next)=>{
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(404).json({
-            errors: errors.array()
-        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error...');
     }
-    const doubtId = req.params.doubt_id;
-    const mentorDoubtId = req.params.id;
-    const amount = req.body.amount;
-    
-    console.log("amount",amount);
-    console.log("mentorDoubtId",mentorDoubtId);
-    Doubt.findOneAndUpdate(
-        {$and:[{_id:doubtId},
-            { mentor: { $elemMatch: {_id: mentorDoubtId } } }    
-        ]},
-        {
-            $set:{"mentor.$.amount": amount } 
-        },
-        {new:true}
-    ).then(doubt => {
-        return res.json(doubt);
-    })
-    .catch(err => {
-        res.status(500).send(err.message);
-    })
-    
-  
-}
-
+};
 
 
 
 module.exports = {
-    bookMentor: bookMentor
+    bookMentor: bookMentor,
+    confirmMentor: confirmMentor,
+    bookedDoubtSolved: bookedDoubtSolved
 }
