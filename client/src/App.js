@@ -36,6 +36,7 @@ import * as process from "process";
 import AddDoubt from "./components/AddDoubt";
 import DoubtFeed from "./components/DoubtFeed";
 import MyDoubt from "./components/MyDoubt";
+import AddLearningSession from "./components/AddLearningSession";
 
 
 if (localStorage.token) {
@@ -81,6 +82,7 @@ function App() {
               <PrivateRoute exact path="/addDoubt" component={AddDoubt}/>
               <PrivateRoute exact path="/doubtFeed" component={DoubtFeed}/>
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
+              <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
             </Switch>
           </section>
         </Fragment>
