@@ -25,6 +25,7 @@ import ProfileInfo from './components/ProfileInfo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 import SearchSimilarQuestion from './components/SearchSimilarQuestion';
+import BlockTry from './components/BlockTry';
 
 // Redux
 import { Provider } from 'react-redux'
@@ -83,6 +84,8 @@ function App() {
               <PrivateRoute exact path="/doubtFeed" component={DoubtFeed}/>
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
               <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
+
+              <PrivateRoute exact path="/blockTry" component={BlockTry}/>
             </Switch>
           </section>
         </Fragment>
