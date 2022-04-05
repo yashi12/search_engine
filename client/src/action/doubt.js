@@ -9,7 +9,7 @@ export const addDoubt = (data) => async dispatch => {
 	}
 	try {
 		// console.log( "text body",body);
-		const res = await axios.post(`${process.env.REACT_APP_API}/api/doubt`, data, config)
+		const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt`, data, config)
 		dispatch({
 			type: ADD_DOUBT,
 			payload: res.data

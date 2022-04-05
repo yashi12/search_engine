@@ -6,8 +6,6 @@ import Axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
-console.log("Here");
-
 const AddDoubt = ({addDoubt}) => {
 
 	// State Initialization
@@ -70,18 +68,22 @@ const AddDoubt = ({addDoubt}) => {
 									<label>Title</label>
 									<textarea onChange={(e) => {
 										onChange(e)
-									}} minLength="1" className="form-control" id="title" rows="3"/>
+									}} minLength="1" className="form-control" id="title" rows="1"/>
 								</div>
 								<div className="mb-3">
 									<label>Add Description</label>
 									<small>(Min 20 words)</small>
 									{/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-									<ReactQuill theme="snow" value={value} onChange={setValue}/>
+									<ReactQuill theme="snow" value={value} onChange={setValue} />
 								</div>
 								<div className="mb-3">
 									<label>Add Tags</label>
 									<small>(Please don't add more than 30 tags)</small>
-									<textarea onChange={e => onChange(e)} className="form-control" id="title" rows="3"/>
+									<textarea onChange={e => onChange(e)} className="form-control" id="title" rows="2"/>
+								</div>
+								<div className="mb-3">
+									<label>Amount</label>
+									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="title" step="50" min="0"/>
 								</div>
 								<button type="submit" className="btn btn-primary">Submit</button>
 							</div>
@@ -90,7 +92,6 @@ const AddDoubt = ({addDoubt}) => {
 				</div>
 			</div>
 		</div>
-
 	)
 }
 
