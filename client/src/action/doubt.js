@@ -52,3 +52,7 @@ export const getDoubts = () => async dispatch => {
 		}
 	}
 }
+
+export const addLearningSession = () => {
+	
+}

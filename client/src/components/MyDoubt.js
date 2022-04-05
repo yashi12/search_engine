@@ -6,7 +6,7 @@ import Spinner from './Spinner';
 import auth from '../reducers/auth';
 import Doubts from "./Doubts";
 
-const MyDoubt = ({ getDoubts, doubts : {doubts} , auth}) => {
+const MyDoubt = ({ getDoubts, doubt : {doubts} , auth}) => {
 	useEffect(() => {
 		getDoubts();
 	}, [getDoubts]);
@@ -39,7 +39,7 @@ MyDoubt.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-	doubts: state.doubts,
+	doubt: state.doubt,
 	auth: state.auth
 });
 
