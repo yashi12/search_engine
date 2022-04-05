@@ -17,30 +17,30 @@ const Questions = ({ auth, question, deleteQuestion, search = false}, showAction
                 <br/>
             </div>
             <div className="row">
-                <div className="col-2"></div>
+                <div className="col-2"/>
                 <div className="card mb-3 col-8">
                     <div className="row g-0">
                         <div className="col-md-4 mb-3">
                             <br />
                             {question.media ?
                                 <img width="200" height="200"
-                                     src={question.media}
-                                    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                     alt="..."></img>
+    src={question.media}
+    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                                 : <img width="200" height="200"
-                                    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                       alt="..."></img>
+    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                             }
                         </div>
                         <div className="col-md-8">
                             <div className="row g-0">
                                 <div className="card-body">
                                     {
-                                        search ? <p></p> :
+                                        search ? <p/> :
                                         <h4>{question.user.name} <Link className="btn btn-primary" to={`/profile/${question.user._id}`}><CgProfile/></Link></h4> 
                                     }
                                     <h4 className="card-title">Q. <div dangerouslySetInnerHTML={{__html: question.title}}></div></h4>
-                                    <h6><div dangerouslySetInnerHTML={{__html: question.description}}></div></h6>
+                                    <h6><div dangerouslySetInnerHTML={{__html: question.description}}/></h6>
                                     <br />
                                     {
                                         question.tags.length === 0 ? <p></p> :
