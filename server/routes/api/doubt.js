@@ -29,11 +29,11 @@ router.get('/own', auth, doubtController.getMyDoubts);
 
 router.get('/final', auth, doubtController.getToMentorDoubts);
 
-router.post('/doubt/:id',[auth,  [
+router.post('/doubt/:id',[auth, [
     check('amount', 'Amount is required').not().isEmpty(),
 ]],doubtController.mentorDoubt);
 
-router.post('/doubt/:doubt_id/mentor/:id',[auth,  [
+router.post('/doubt/:doubt_id/mentor/:id',[auth, [
     check('amount', 'Amount is required').not().isEmpty(),
 ]],doubtController.changePrice);
 

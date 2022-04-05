@@ -33,6 +33,10 @@ import Alert from './components/Alert'
 import { loadUser } from './action/auth'
 import setAuthToken from './utils/setAuthToken'
 import * as process from "process";
+import AddDoubt from "./components/AddDoubt";
+import DoubtFeed from "./components/DoubtFeed";
+import MyDoubt from "./components/MyDoubt";
+import AddLearningSession from "./components/AddLearningSession";
 
 
 if (localStorage.token) {
@@ -74,6 +78,11 @@ function App() {
               <PrivateRoute exact path="/searchQuestion" component={SearchItem}/>
               <PrivateRoute exact path="/similarQuestion" component={SearchSimilarQuestion}/>
               <PrivateRoute exact path="/addExperience" component={AddExperience}/>
+
+              <PrivateRoute exact path="/addDoubt" component={AddDoubt}/>
+              <PrivateRoute exact path="/doubtFeed" component={DoubtFeed}/>
+              <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
+              <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
             </Switch>
           </section>
         </Fragment>

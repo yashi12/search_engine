@@ -5,6 +5,7 @@ import profile from './profile'
 import post from './post'
 import question from './question'
 import answers from './answers'
+import doubt from './doubt'
 
 export default combineReducers({
     alert,
@@ -12,5 +13,6 @@ export default combineReducers({
     profile,
     post,
     question,
-    answers
+    answers,
+    doubt
 })

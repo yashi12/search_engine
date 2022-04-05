@@ -25,6 +25,17 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/search">Learn</Link>
                 </div>
             </li>
+            <li className="nav-item dropdown active">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Doubt
+                </a>
+                <div className="dropdown-menu" >
+                    <Link className="dropdown-item" to="/addDoubt">Add Doubt</Link>
+                    <Link className="dropdown-item" to="/doubtFeed">Doubts Feed</Link>
+                    <Link className="dropdown-item" to="/myDoubt">My Doubt</Link>
+                    <Link className="dropdown-item" to="/AddLearningSession">Add Learning Session</Link>
+                </div>
+            </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
