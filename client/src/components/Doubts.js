@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import post from "../reducers/post";
-import ReactQuill from "react-quill";
+import styled from "styled-components";
 
+const Label = styled.label`
+	font-weight: bold;
+`;
 const Doubts = ({auth, doubt}) => {
 	return (
 		<div>
@@ -13,30 +15,30 @@ const Doubts = ({auth, doubt}) => {
 			<div className="row">
 				<div className="col-2"/>
 				<div className="card mb-3 col-8">
-					<div className="row g-0">
+					<div>
 						<div className="mb-3 justify-content-between">
-							<label className="form-label">Address of Doubt Solver</label>
+							<Label className="form-label">Address of Doubt Solver</Label>
 							<div>{ doubt.addressOfDoubtSolver }</div>
 
-							<label className="form-label">Address of Doubt Resolver</label>
+							<Label className="form-label">Address of Doubt Resolver</Label>
 							<div>
 								{ doubt.addressOfDoubtResolver }
 							</div>
 						</div>
 						<div className="mb-3">
-							<label>Title</label>
+							<Label>Title</Label>
 							<div>
 								{ doubt.title }
 							</div>
 						</div>
 						<div className="mb-3">
-							<label>Description</label>
+							<Label>Description</Label>
 							<div>
 								{ doubt.description }
 							</div>
 						</div>
 						<div className="mb-3">
-							<label>Tags</label>
+							<Label>Tags</Label>
 							<div>
 								{doubt.tags.map((tag) => (
 									<span className="badge badge-secondary">{tag}</span>
@@ -44,8 +46,8 @@ const Doubts = ({auth, doubt}) => {
 							</div>
 						</div>
 						<div className="mb-3">
-							<label>Amount</label>
-							<div>Rs. { doubt.amount }</div>
+							<Label>Amount</Label>
+							<div>Rs. { doubt.raisedAmount ? doubt.raisedAmount : 0 }</div>
 						</div>
 					</div>
 				</div>

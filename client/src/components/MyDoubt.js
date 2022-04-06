@@ -10,7 +10,6 @@ const MyDoubt = ({ getDoubts, doubt : {doubts} , auth}) => {
 	useEffect(() => {
 		getDoubts();
 	}, [getDoubts]);
-
 	return (
 		<div>
 			{
