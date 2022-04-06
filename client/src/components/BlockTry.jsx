@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3'
 import Mycontract from '../abis/Mycontract.json'
+import Doubts from './Doubts';
 
-import ReactQuill from 'react-quill'
 
 const BlockTry = () => {
 
@@ -25,6 +25,8 @@ const BlockTry = () => {
         }
     }
 
+    const [balance, setBalance] = useState(0)
+
     const loadBlockchain = async () => {
         const web3 = window.web3
 
@@ -39,7 +41,9 @@ const BlockTry = () => {
             setState({account:accounts[0],contract:myContract})
 
             //const name =  await myContract.methods.name().call()
-            //const balance =  await myContract.methods.balance.call()
+            const bal =  await myContract.methods.balance.call()
+            setBalance(parseFloat(bal).toFixed(2))
+            
             //const send = await myContract.methods.createSession(1,'0x9B79Fcfb243236f12867a38B22B49c045792821f','0x3A314d8553e4bAB7cA9a2Fca4D8b3d28b95Bf2de', 'react js','2').send({from:address.account})
             
             //const con = await state.contract.methods.sessions('1').call()
@@ -49,94 +53,116 @@ const BlockTry = () => {
         }
     }
 
-    const sendData = async() => {
+    const [doubtData, setDoubtData] = useState(null)
 
+    const fetchBalance = async(e) => {
+        e.preventDefault()
+        const balance =  await state.contract.methods.balance.call()
+        setBalance(parseFloat(balance).toFixed(2))
     }
   
-    const fetchData = async() => {
-        const con = await state.contract.methods.sessions('3').call()
-        console.log("con : ",con)
+    const fetchData = async(e) => {
+        e.preventDefault()
+        const sessionData = await state.contract.methods.sessions(formData.fetchId).call()
+        const contractData = {
+            addressOfDoubtSolver : sessionData.doubtSolver,
+            addressOfDoubtResolver : sessionData.doubtAsker,
+            title : sessionData.topic,
+            description : sessionData.isCompleted ? 'Completed':'Not completed',
+            tags : [],
+            id: sessionData.id,
+            raisedAmount : parseFloat(sessionData.amount).toFixed(2)
+        }
+        setDoubtData(contractData)
+        setToggle(true)
     }
 
   // State Initialization
 	const [formData, setFormData] = useState({
-		text: '',
-		title:""
+		address: '',
+		id: '',
+        topic: '',
+        amount: 0,
+        fetchId: ''
 	})
-	const [value, setValue] = useState('')
 
-	const {text,title} = formData
+    const [toggle, setToggle] = useState(false)
 
 	// setting values from inputs into a formData
 	const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
-
-	// To set the value of text in formData when the value changes
-	useEffect(() => {
-		setFormData({...formData,"text":value})
-	}, [value])
 
 	// Submitting the data
 	const onSubmit = async(e) => {
 		e.preventDefault()
 		//setFormData({...formData,"text":value})
-		const data = new FormData();
-		data.append("text",formData.text);
-		const tags = formData.title.split(',')
-		tags.forEach(item => {
-			data.append(
-				"title",item
-			); });
+        //setFormData({...formData, amount: Web3.utils.BN(formData.amount)})
 
-        const send = await state.contract.methods.createSession(1,'0x9B79Fcfb243236f12867a38B22B49c045792821f','0x3A314d8553e4bAB7cA9a2Fca4D8b3d28b95Bf2de', 'blockchain','3').send({from:state.account})
+        const send = await state.contract.methods.createSession(formData.amount,state.account,formData.address,formData.topic,formData.id).send({from:state.account,value:formData.amount})
         console.log("txn : ",send)
 	}
 
+    // 0x9B79Fcfb243236f12867a38B22B49c045792821f
+
   return (
-    <div className="row">
-        <div className="col-3"/>
-        <div className="col-6">
-            <br/><br/>
-            <div className="card">
-                <div className="card-body">
-                    <form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
-                        {/* Taking Inputs */}
-                        <div className="form-group">
-                            <div className="mb-3 justify-content-between">
-                                <label className="form-label">Address of Doubt Solver</label>
-                                <textarea onChange={e => onChange(e)} className="form-control" id="title" rows="1"/>
+    <div>
+        <div className="row">
+            <div className="col-3"/>
+            <div className="col-6">
+                <br/><br/>
+                <div className="card">
+                    <div className="card-body">
+                        <form id="add-post-form" encType="multipart/form-data">
+                            {/* Taking Inputs */}
+                            <div className="form-group">
+                                <div className="mb-3 justify-content-between">
+                                    <label className="form-label">Address of Doubt Solver</label>
+                                    <input onChange={e => onChange(e)} className="form-control" id="address" type="text"/>
 
-                                <label className="form-label">Address of Doubt Asker</label>
-                                <p>{state.account}</p>
+                                    <label className="form-label">Address of Doubt Asker</label>
+                                    <p>{state.account}</p>
 
+                                </div>
+                                <div className="mb-3">
+                                    <label>Id</label>
+                                    <input onChange={(e) => {
+                                        onChange(e)
+                                    }} minLength="1" className="form-control" id="id"/>
+                                </div>
+                                <div className="mb-3">
+                                    <label>Topic</label>
+                                    <input onChange={(e) => {
+                                        onChange(e)
+                                    }} minLength="1" className="form-control" id="topic"/>
+                                </div>
+                                <div className="mb-3">
+                                    <label>Amount</label>
+                                    <input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="amount" />
+                                </div>
+                                <button onClick={(e)=>onSubmit(e)} className="btn btn-primary">Submit</button>
+                                <br />
+                                <hr />
+                                <div className="mb-3">
+                                    <label>Id</label>
+                                    <input type="text" width="100%" onChange={e => onChange(e)} className="form-control" id="fetchId" step="50" min="0"/>
+                                </div>
+                                <button onClick={(e)=>fetchData(e)} className="btn btn-primary">Fetch</button>
                             </div>
-                            <div className="mb-3">
-                                <label>Title</label>
-                                <textarea onChange={(e) => {
-                                    onChange(e)
-                                }} minLength="1" className="form-control" id="title" rows="1"/>
-                            </div>
-                            <div className="mb-3">
-                                <label>Add Description</label>
-                                <small>(Min 20 words)</small>
-                                {/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-                                <ReactQuill theme="snow" value={value} onChange={setValue} />
-                            </div>
-                            <div className="mb-3">
-                                <label>Add Tags</label>
-                                <small>(Please don't add more than 30 tags)</small>
-                                <textarea onChange={e => onChange(e)} className="form-control" id="title" rows="2"/>
-                            </div>
-                            <div className="mb-3">
-                                <label>Amount</label>
-                                <input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="title" step="50" min="0"/>
-                            </div>
-                            <button type="submit" className="btn btn-primary">Submit</button>
-                            <button onClick={fetchData} className="btn btn-primary">Fetch</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div className="col-3">
+                <br /><br />
+                <div><button className="btn btn-primary" onClick={fetchBalance} >Balance : {balance}</button></div>
+            </div>
+            
         </div>
+        { toggle ? <div>
+            <Doubts key={doubtData.id} doubt={doubtData} />
+        </div> :
+        <div></div>
+
+        }
     </div>
 )
 }
