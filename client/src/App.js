@@ -85,7 +85,7 @@ function App() {
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
               <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
 
-              <PrivateRoute exact path="/blockTry" component={BlockTry}/>
+              <PrivateRoute exact path="/blockchain" component={BlockTry}/>
             </Switch>
           </section>
         </Fragment>

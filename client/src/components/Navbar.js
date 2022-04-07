@@ -37,6 +37,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                 </div>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/blockchain">Blockchain</Link>
+            </li>
+            <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
