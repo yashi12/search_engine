@@ -10,10 +10,11 @@ const AddDoubt = ({addDoubt}) => {
 
 	// State Initialization
 	const [formData, setFormData] = useState({
-		text: '',
-		title:""
+		title:"",
+		description : "",
+		raisedAmount : "",
+		tags : []
 	})
-	const [image,setImage] = useState()
 	const [value, setValue] = useState('')
 
 	const {text,title} = formData
@@ -28,22 +29,8 @@ const AddDoubt = ({addDoubt}) => {
 
 	// Submitting the data
 	const onSubmit = e => {
-		e.preventDefault()
-		//setFormData({...formData,"text":value})
-		console.log("data",formData)
-		const data = new FormData();
-		data.append("text",formData.text);
-		const tags = formData.title.split(',')
-		tags.forEach(item => {
-			data.append(
-				"title",item
-			); });
-
-		// Axios.post("https://httpbin.org/anything",data)
-		//     .then(res =>console.log("res",res))
-		//     .catch(err =>console.log("err",err))
-		console.log("buffer",data);
-		addDoubt(data)
+		e.preventDefault();
+		addDoubt(formData);
 	}
 
 	return (
@@ -66,16 +53,16 @@ const AddDoubt = ({addDoubt}) => {
 									<label>Add Description</label>
 									<small>(Min 20 words)</small>
 									{/* <textarea onChange={e => onChange(e)} className="form-control" id="text" rows="3"></textarea> */}
-									<ReactQuill theme="snow" value={value} onChange={setValue} />
+									<ReactQuill theme="snow" value={value} onChange={setValue} id="description"/>
 								</div>
 								<div className="mb-3">
 									<label>Add Tags</label>
 									<small>(Please don't add more than 30 tags)</small>
-									<textarea onChange={e => onChange(e)} className="form-control" id="title" rows="2"/>
+									<textarea onChange={e => onChange(e)} className="form-control" id="tags" rows="2"/>
 								</div>
 								<div className="mb-3">
 									<label>Amount</label>
-									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="title" step="50" min="0"/>
+									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="raisedAmount" step="50" min="0"/>
 								</div>
 								<button type="submit" className="btn btn-primary">Submit</button>
 							</div>
