@@ -16,15 +16,6 @@ const Doubts = ({auth, doubt}) => {
 				<div className="col-2"/>
 				<div className="card mb-3 col-8">
 					<div>
-						<div className="mb-3 justify-content-between">
-							<Label className="form-label">Address of Doubt Solver</Label>
-							<div>{ doubt.addressOfDoubtSolver }</div>
-
-							<Label className="form-label">Address of Doubt Resolver</Label>
-							<div>
-								{ doubt.addressOfDoubtResolver }
-							</div>
-						</div>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>

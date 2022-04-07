@@ -56,14 +56,6 @@ const AddDoubt = ({addDoubt}) => {
 						<form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
 							{/* Taking Inputs */}
 							<div className="form-group">
-								<div className="mb-3 justify-content-between">
-									<label className="form-label">Address of Doubt Solver</label>
-									<textarea onChange={e => onChange(e)} className="form-control" id="title" rows="1"/>
-
-									<label className="form-label">Address of Doubt Resolver</label>
-									<textarea onChange={e => onChange(e)} className="form-control" id="title" rows="1"/>
-
-								</div>
 								<div className="mb-3">
 									<label>Title</label>
 									<textarea onChange={(e) => {
