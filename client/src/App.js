@@ -38,6 +38,7 @@ import AddDoubt from "./components/AddDoubt";
 import DoubtFeed from "./components/DoubtFeed";
 import MyDoubt from "./components/MyDoubt";
 import AddLearningSession from "./components/AddLearningSession";
+import SearchDoubtContract from './components/SearchDoubtContract';
 
 
 if (localStorage.token) {
@@ -86,6 +87,7 @@ function App() {
               <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
 
               <PrivateRoute exact path="/blockchain" component={BlockTry}/>
+              <PrivateRoute exact path="/searchDoubtContract" component={SearchDoubtContract}/>
             </Switch>
           </section>
         </Fragment>
