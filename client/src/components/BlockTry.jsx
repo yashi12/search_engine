@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Web3 from 'web3'
 import Mycontract from '../abis/Mycontract.json'
-import Doubts from './Doubts';
+import { transactionFailed, transactionSuccessful } from '../action/transaction';
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 
 
-const BlockTry = () => {
+const BlockTry = ({transactionFailed,transactionSuccessful}) => {
 
     useEffect(() => {
         loadWeb3()
@@ -53,7 +56,22 @@ const BlockTry = () => {
         }
     }
 
-    const [doubtData, setDoubtData] = useState(null)
+    const [price, setPrice] = useState(0)
+
+    // State Initialization
+	const [formData, setFormData] = useState({
+		address: '',
+		id: '',
+        topic: '',
+        amount: 0
+	})
+
+    useEffect(() => {
+		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
+        .then((data)=>{
+            setPrice(data.data.ethereum.inr)
+        })
+	},[formData.amount])
 
     const fetchBalance = async(e) => {
         e.preventDefault()
@@ -61,32 +79,7 @@ const BlockTry = () => {
         setBalance(parseFloat(balance).toFixed(2))
     }
   
-    const fetchData = async(e) => {
-        e.preventDefault()
-        const sessionData = await state.contract.methods.sessions(formData.fetchId).call()
-        const contractData = {
-            addressOfDoubtSolver : sessionData.doubtSolver,
-            addressOfDoubtResolver : sessionData.doubtAsker,
-            title : sessionData.topic,
-            description : sessionData.isCompleted ? 'Completed':'Not completed',
-            tags : [],
-            id: sessionData.id,
-            raisedAmount : parseFloat(sessionData.amount).toFixed(2)
-        }
-        setDoubtData(contractData)
-        setToggle(true)
-    }
-
-  // State Initialization
-	const [formData, setFormData] = useState({
-		address: '',
-		id: '',
-        topic: '',
-        amount: 0,
-        fetchId: ''
-	})
-
-    const [toggle, setToggle] = useState(false)
+    const [hash, setHash] = useState(null)
 
 	// setting values from inputs into a formData
 	const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
@@ -96,9 +89,24 @@ const BlockTry = () => {
 		e.preventDefault()
 		//setFormData({...formData,"text":value})
         //setFormData({...formData, amount: Web3.utils.BN(formData.amount)})
-
-        const send = await state.contract.methods.createSession(formData.amount,state.account,formData.address,formData.topic,formData.id).send({from:state.account,value:formData.amount})
-        console.log("txn : ",send)
+        const amount = formData.amount*10**18
+        console.log("amount : ",amount)
+        state.contract.methods.createSession(amount,state.account,formData.address,formData.topic,formData.id).send({from:state.account,value:amount})
+        .on('transactionHash', function(hash){
+            setHash(hash)
+            console.log("hash : ",hash)
+        })
+        .on('confirmation', function(confirmationNumber, receipt){
+            console.log("confirmations : ",confirmationNumber)
+            console.log("receiptx : ",receipt)
+            transactionSuccessful()
+        })
+        .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+            console.log('error : ',error)
+            transactionFailed(error)
+            console.log('receipt 3 : ',receipt)
+        });
+        //console.log("txn : ",send)
 	}
 
     // 0x9B79Fcfb243236f12867a38B22B49c045792821f
@@ -106,8 +114,8 @@ const BlockTry = () => {
   return (
     <div>
         <div className="row">
-            <div className="col-3"/>
-            <div className="col-6">
+            <div className="col-1"/>
+            <div className="col-5">
                 <br/><br/>
                 <div className="card">
                     <div className="card-body">
@@ -135,37 +143,47 @@ const BlockTry = () => {
                                     }} minLength="1" className="form-control" id="topic"/>
                                 </div>
                                 <div className="mb-3">
-                                    <label>Amount</label>
+                                    <label>Amount (in ETH)</label>
                                     <input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="amount" />
+                                    <div>(Rs. {price*formData.amount})</div>
                                 </div>
                                 <button onClick={(e)=>onSubmit(e)} className="btn btn-primary">Submit</button>
-                                <br />
-                                <hr />
-                                <div className="mb-3">
-                                    <label>Id</label>
-                                    <input type="text" width="100%" onChange={e => onChange(e)} className="form-control" id="fetchId" step="50" min="0"/>
-                                </div>
-                                <button onClick={(e)=>fetchData(e)} className="btn btn-primary">Fetch</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div className="col-3">
-                <br /><br />
-                <div><button className="btn btn-primary" onClick={fetchBalance} >Balance : {balance}</button></div>
+            <div className="col-6">
+                <div>
+                    <br /><br />
+                    <div><button className="btn btn-primary" onClick={fetchBalance} >Balance(in ETH) : {balance/10**18}</button></div>
+                    <div className="text text-primary">(Rs. {balance*price/10**18})</div>
+                </div>
+                <div>
+                    <br />
+                    <div className="text text-info">ETH PRICE - (Rs. {price})</div>
+                </div>
+                <br />
+                {
+                    hash ? 
+                    <div>
+                        <h5 className="text text-info">Transaction Hash</h5>
+                        <p className="text text-info">{hash}</p>
+                    </div> :
+                    <div></div>
+                }
+                
             </div>
             
         </div>
-        { toggle ? <div>
-            <Doubts key={doubtData.id} doubt={doubtData} />
-        </div> :
-        <div></div>
-
-        }
     </div>
 )
 }
 
+BlockTry.propTypes = {
+	transactionFailed: PropTypes.func.isRequired,
+    transactionSuccessful: PropTypes.func.isRequired
+}
 
-export default BlockTry;
+// Connecting react program with redux
+export default connect(null, {transactionFailed,transactionSuccessful})(BlockTry)
