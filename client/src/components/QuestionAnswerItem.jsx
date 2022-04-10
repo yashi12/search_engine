@@ -38,12 +38,12 @@ const QuestionAnswerItem = ({  question ,answers:{answers, loading}, GlobalId, a
                           <div className="modal-body">
                                 {question.result.media ?
                                         <img width="100%" height="100%"
-                                            src={question.result.media}
-                                            // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                            alt="..."></img>
+    src={question.result.media}
+    // src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                                         : <img width="100%" height="100%"
-                                            src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
-                                            alt="..."></img>
+    src="https://media.wired.com/photos/5e59a85635982c0009f6eb8a/1:1/w_1350,h_1350,c_limit/python-popularity.jpg"
+    alt="..."/>
                                 }
                           </div>
                       </div>

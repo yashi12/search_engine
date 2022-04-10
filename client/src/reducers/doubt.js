@@ -23,7 +23,7 @@ export default function(state = initialState, action){
         case ADD_DOUBT:
             return {
                 ...state,
-                doubts: [payload, ...state.questions],
+                doubts: [payload, ...state.doubts],
                 loading: false
             }
         case DOUBT_ERROR:

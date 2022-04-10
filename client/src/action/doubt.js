@@ -12,8 +12,8 @@ export const addDoubt = (data) => async dispatch => {
 		dispatch({
 			type: ADD_DOUBT,
 			payload: res.data
-		})
-		console.log("after dispatch")
+		});
+
 		dispatch(setAlert('Doubt Created','success'))
 
 	} catch (err) {
@@ -52,6 +52,27 @@ export const getDoubts = () => async dispatch => {
 	}
 }
 
+export const getOwnDoubts = () => async dispatch => {
+	try {
+		axios.get(`${process.env.REACT_APP_API}/api/mentor/own`)
+			.then((res) => {
+				dispatch({
+					type: GET_DOUBTS,
+					payload: res.data
+				})
+			})
+	} catch (err) {
+		dispatch({
+			type: DOUBT_ERROR,
+			payload: {msg: err.response,
+				status: err.response}
+		})
+		const error = err.response.data.errors;
+		if (error){
+			error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		}
+	}
+}
 export const addLearningSession = () => {
 	
 }
