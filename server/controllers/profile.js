@@ -29,12 +29,13 @@ const addProfile = (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-    const { bio, skills, githubusername, linkedIn, twitter} = req.body;
+    const { bio, skills, githubusername, linkedIn, twitter, blockchainAddress} = req.body;
 
     //Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
     if (bio) profileFields.bio = bio;
+    if (blockchainAddress) profileFields.blockchainAddress = blockchainAddress;
     if (skills) {
         profileFields.skills = skills.split(',').map(skill => skill.trim().toLowerCase());
     }
