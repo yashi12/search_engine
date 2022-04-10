@@ -24,7 +24,7 @@ const AddDoubt = ({addDoubt}) => {
 		tags : []
 	})
 	const [value, setValue] = useState('')
-	let [price] = useState(0)
+	const [price, setPrice] = useState(0)
  	const {text,title} = formData
 
 	// setting values from inputs into a formData
@@ -35,15 +35,22 @@ const AddDoubt = ({addDoubt}) => {
 		setFormData({...formData,"text":value})
 		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
 			.then((data)=>{
-				price = data.data.ethereum.inr;
+				setPrice(data.data.ethereum.inr);
 			})
 	}, [value])
 
 	// Submitting the data
 	const onSubmit = e => {
 		e.preventDefault();
-		formData.description = formData.text;
-		addDoubt(formData);
+		if(formData.raisedAmount > 0){
+			formData.description = formData.text;
+			formData.raisedAmount = formData.raisedAmount*10**18
+			addDoubt(formData);
+		}
+		else{
+			alert('Amount should be greater than 0')
+		}
+		//
 	}
 
 	return (
@@ -53,7 +60,7 @@ const AddDoubt = ({addDoubt}) => {
 				<br/><br/>
 				<div className="card">
 					<div className="card-body">
-						<form onSubmit={e => onSubmit(e)} id="add-post-form" encType="multipart/form-data">
+						<form  id="add-post-form" encType="multipart/form-data">
 							{/* Taking Inputs */}
 							<div className="form-group">
 								<div className="mb-3">
@@ -74,11 +81,11 @@ const AddDoubt = ({addDoubt}) => {
 									<textarea onChange={e => onChange(e)} className="form-control" id="tags" rows="2"/>
 								</div>
 								<div className="mb-3">
-									<label>Amount</label>
-									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="raisedAmount" step="50" min="0"/>
-									<div>{ formData.raisedAmount/10**18 } ETH (Rs. {price * formData.raisedAmount/10**18})</div>
+									<label>Amount (in ETH)</label>
+									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="raisedAmount"/>
+									<div>(Rs. {price * formData.raisedAmount})</div>
 								</div>
-								<button type="submit" className="btn btn-primary">Submit</button>
+								<button onClick={e => onSubmit(e)} className="btn btn-primary">Submit</button>
 							</div>
 						</form>
 					</div>

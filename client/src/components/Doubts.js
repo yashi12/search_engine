@@ -2,11 +2,13 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import styled from "styled-components";
+import { CgProfile } from 'react-icons/cg'
+import { Link } from 'react-router-dom'
 
 const Label = styled.label`
 	font-weight: bold;
 `;
-const Doubts = ({auth, doubt}) => {
+const Doubts = ({auth, doubt,price}) => {
 	return (
 		<div>
 			<div className="row">
@@ -16,6 +18,7 @@ const Doubts = ({auth, doubt}) => {
 				<div className="col-2"/>
 				<div className="card mb-3 col-8">
 					<div>
+					<h4>{doubt.user.name} <Link className="btn btn-primary" to={`/profile/${doubt.user._id}`}><CgProfile/></Link></h4>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>
@@ -36,7 +39,7 @@ const Doubts = ({auth, doubt}) => {
 						</div>
 						<div className="mb-3">
 							<Label>Amount</Label>
-							<div>{ doubt.raisedAmount ? doubt.raisedAmount : 0 }</div>
+							<div>{ doubt.raisedAmount ? <div>{ doubt.raisedAmount/10**18 } ETH (Rs. {price*doubt.raisedAmount/10**18})</div> : 0 }</div>
 						</div>
 					</div>
 				</div>
@@ -51,7 +54,8 @@ Doubts.defaultProps = {
 
 Doubts.propTypes = {
 	doubt: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
+	price: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
