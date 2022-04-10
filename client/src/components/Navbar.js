@@ -45,26 +45,24 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/searchDoubtContract">Search Contract</Link>
                 </div>
             </li>
+            <li className="nav-item dropdown active">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Questions
+                </a>
+                <div className="dropdown-menu" >
+                    <Link className="dropdown-item" to="/searchQuestion">Search Question</Link>
+                    <Link className="dropdown-item" to="/similarQuestion">Search Similar Question</Link>
+                    <Link className="dropdown-item" to="/askQuestion">Ask Question</Link>
+                    <Link className="dropdown-item" to="/questionsFeed">Questions Feed</Link>
+                    <Link className="dropdown-item" to="/myQuestions">My Questions</Link>
+                </div>
+            </li>
+
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
-                <Link className="nav-link" to="/searchQuestion">Search Question</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/similarQuestion">Search Similar Question</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/askQuestion">Ask Question</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/questionsFeed">Questions Feed</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/myQuestions">My Questions</Link>
-            </li>
-            <li className="nav-item active">
-                <Link className="nav-link" onClick={logout} >Log Out</Link>
+                <Link className="nav-link" onClick={logout} to="#">Log Out</Link>
             </li>
         </ul>
     )
