@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import styled from "styled-components";
+import ReactQuill from "react-quill";
 
 const Label = styled.label`
 	font-weight: bold;
@@ -24,9 +25,7 @@ const Doubts = ({auth, doubt}) => {
 						</div>
 						<div className="mb-3">
 							<Label>Description</Label>
-							<div>
-								{ doubt.description }
-							</div>
+							<ReactQuill value={doubt.description}></ReactQuill>
 						</div>
 						<div className="mb-3">
 							<Label>Tags</Label>

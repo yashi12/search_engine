@@ -30,6 +30,7 @@ const AddDoubt = ({addDoubt}) => {
 	// Submitting the data
 	const onSubmit = e => {
 		e.preventDefault();
+		formData.description = formData.text;
 		addDoubt(formData);
 	}
 
