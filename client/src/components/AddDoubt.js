@@ -5,7 +5,15 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import {FaMoneyBillAlt} from "react-icons/fa";
+import styled from "styled-components";
+import axios from "axios";
 
+const Label = styled.label`
+	font-weight: bold;
+    font-size: 1.1em;
+    font-family: Georgia, serif;
+`;
 const AddDoubt = ({addDoubt}) => {
 
 	// State Initialization
@@ -16,8 +24,8 @@ const AddDoubt = ({addDoubt}) => {
 		tags : []
 	})
 	const [value, setValue] = useState('')
-
-	const {text,title} = formData
+	let [price] = useState(0)
+ 	const {text,title} = formData
 
 	// setting values from inputs into a formData
 	const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
@@ -25,6 +33,10 @@ const AddDoubt = ({addDoubt}) => {
 	// To set the value of text in formData when the value changes
 	useEffect(() => {
 		setFormData({...formData,"text":value})
+		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
+			.then((data)=>{
+				price = data.data.ethereum.inr;
+			})
 	}, [value])
 
 	// Submitting the data
@@ -64,6 +76,7 @@ const AddDoubt = ({addDoubt}) => {
 								<div className="mb-3">
 									<label>Amount</label>
 									<input type="number" width="100%" onChange={e => onChange(e)} className="form-control" id="raisedAmount" step="50" min="0"/>
+									<div>{ formData.raisedAmount/10**18 } ETH (Rs. {price * formData.raisedAmount/10**18})</div>
 								</div>
 								<button type="submit" className="btn btn-primary">Submit</button>
 							</div>
