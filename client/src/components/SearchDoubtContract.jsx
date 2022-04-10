@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import Web3 from 'web3'
 import Mycontract from '../abis/Mycontract.json'
 import ContractItem from './ContractItem';
+import { BiErrorCircle } from 'react-icons/bi'
 
 const SearchDoubtContract = () => {
     useEffect(() => {
@@ -47,6 +48,8 @@ const SearchDoubtContract = () => {
             window.alert("smart contract not deployed")
         }
     }
+
+    const [dataFound, setDataFound] = useState(true)
   
     const fetchData = async(e) => {
         e.preventDefault()
@@ -60,8 +63,16 @@ const SearchDoubtContract = () => {
             id: sessionData.id,
             raisedAmount : parseFloat(sessionData.amount).toFixed(2)
         }
-        setDoubtData(contractData)
-        setToggle(true)
+        console.log(contractData)
+        if(contractData.title === ''){
+            setToggle(false)
+            setDataFound(false)
+        }
+        else{
+            setDoubtData(contractData)
+            setToggle(true)
+            setDataFound(true)
+        } 
     }
 
   // State Initialization
@@ -95,12 +106,22 @@ const SearchDoubtContract = () => {
                 <div className="col"/>
             </div>
             <div >
-            { toggle ? <div>
-                <ContractItem doubt={doubtData} />
-            </div> :
-            <div></div>
-
-            }
+                { toggle ? 
+                <div>
+                    <ContractItem doubt={doubtData} />
+                </div> :
+                <div>
+                    {dataFound ? <div></div> : 
+                        <div className="row">
+                            <div className="col-4"></div>
+                            <div className="col-6">
+                                <br /><br />
+                                <h3 className="text text-danger">NO CONTRACT FOUND  <BiErrorCircle/></h3>
+                            </div>
+                            <div className="col"></div>
+                        </div>
+                    }</div>
+                }
             </div>
         </Fragment>
     )
