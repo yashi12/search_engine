@@ -36,8 +36,14 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/AddLearningSession">Add Learning Session</Link>
                 </div>
             </li>
-            <li className="nav-item active">
-                <Link className="nav-link" to="/blockchain">Blockchain</Link>
+            <li className="nav-item dropdown active">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contracts
+                </a>
+                <div className="dropdown-menu" >
+                    <Link className="dropdown-item" to="/blockchain">Add Contract</Link>
+                    <Link className="dropdown-item" to="/searchDoubtContract">Search Contract</Link>
+                </div>
             </li>
             <li className="nav-item active">
                 <Link className="nav-link" to="/profile">Profile</Link>
