@@ -14,7 +14,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             </li> */}
             <li className="nav-item dropdown active">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    V1
+                    Post
                 </a>
                 <div className="dropdown-menu" >
                     <Link className="dropdown-item" to="/feed">Feed</Link>
@@ -22,7 +22,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/searchPost">Search Post</Link>
                     <Link className="dropdown-item" to="/profiles">Find Devs</Link>
                     <Link className="dropdown-item" to="/searchProfile">Search Profile</Link>
-                    <Link className="dropdown-item" to="/search">Learn</Link>
+                    {/*<Link className="dropdown-item" to="/search">Learn</Link>*/}
                 </div>
             </li>
             <li className="nav-item dropdown active">
@@ -33,7 +33,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/addDoubt">Add Doubt</Link>
                     <Link className="dropdown-item" to="/doubtFeed">Doubts Feed</Link>
                     <Link className="dropdown-item" to="/myDoubt">My Doubt</Link>
-                    <Link className="dropdown-item" to="/AddLearningSession">Add Learning Session</Link>
+                    {/*<Link className="dropdown-item" to="/AddLearningSession">Add Learning Session</Link>*/}
                 </div>
             </li>
             <li className="nav-item dropdown active">
