@@ -60,7 +60,7 @@ contract Mycontract {
         return (_session.amount, _session.doubtAsker, _session.doubtSolver, _session.topic, _session.id, _session.isCompleted);
     }
 
-    function endSession(string calldata id) external payable {
+    function endSession(string calldata id) external {
         // Fetch the session
         Session memory _session = sessions[id];
         // Fetch address of doubt solver
