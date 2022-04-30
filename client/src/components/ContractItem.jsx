@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FaMoneyBillAlt, FaAddressCard } from 'react-icons/fa'
 import { BsCardHeading } from 'react-icons/bs'
 import { GrStatusInfo } from 'react-icons/gr'
+import { transactionFailed, transactionSuccessful } from '../action/transaction';
 import axios from 'axios';
 
 const Label = styled.label`
@@ -11,9 +12,11 @@ const Label = styled.label`
     font-family: Georgia, serif;
 `;
 
-const ContractItem = ({doubt}) => {
+const ContractItem = ({doubt,contract,account}) => {
 
     const [price, setPrice] = useState(0)
+
+    const [hash, setHash] = useState(null)
 
     useEffect(() => {
 		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
@@ -22,6 +25,40 @@ const ContractItem = ({doubt}) => {
         })
 	})
 
+    const endSession = async(e) => {
+        e.preventDefault()
+        console.log(contract)
+        contract.methods.endSession('1').send({from:account})
+        .on('transactionHash', function(hash){
+            setHash(hash)
+            console.log("hash : ",hash)
+        })
+        .on('confirmation', function(confirmationNumber, receipt){
+            console.log("confirmations : ",confirmationNumber)
+            console.log("receiptx : ",receipt)
+            transactionSuccessful()
+        })
+        .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+            console.log('error : ',error)
+            transactionFailed(error)
+            console.log('receipt 3 : ',receipt)
+        });
+        // .on('transactionHash', function(hash){
+        //     //setHash(hash)
+        //     console.log("hash : ",hash)
+        // })
+        // .on('confirmation', function(confirmationNumber, receipt){
+        //     console.log("confirmations : ",confirmationNumber)
+        //     console.log("receiptx : ",receipt)
+        //     transactionSuccessful()
+        // })
+        // .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+        //     console.log('error : ',error)
+        //     transactionFailed(error)
+        //     console.log('receipt 3 : ',receipt)
+        // });
+    }
+
 	return (
 		<div>
 			<div className="row">
@@ -29,6 +66,14 @@ const ContractItem = ({doubt}) => {
 			</div>
 			<div className="row">
 				<div className="col-2"/>
+                {
+                    hash ? 
+                    <div>
+                        <h5 className="text text-info">Transaction Hash</h5>
+                        <p className="text text-info">{hash}</p>
+                    </div> :
+                    <div></div>
+                }
 				<div className="card mb-3 col-8">
                     <br />
 					<div>
@@ -60,6 +105,9 @@ const ContractItem = ({doubt}) => {
 							<Label>Amount <FaMoneyBillAlt/></Label>
 							<div>{ doubt.raisedAmount/10**18 } ETH (Rs. {price*doubt.raisedAmount/10**18})</div>
 						</div>
+                        
+                        <button onClick={e=>endSession(e)} className="btn btn-primary">End Session</button>
+                        <br />
                         <br />
 					</div>
 				</div>

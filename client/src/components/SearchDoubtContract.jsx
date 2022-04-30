@@ -108,7 +108,7 @@ const SearchDoubtContract = () => {
             <div >
                 { toggle ? 
                 <div>
-                    <ContractItem doubt={doubtData} />
+                    <ContractItem doubt={doubtData} contract={state.contract} account={state.account} />
                 </div> :
                 <div>
                     {dataFound ? <div></div> : 
