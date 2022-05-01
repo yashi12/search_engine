@@ -13,7 +13,7 @@ contract Mycontract {
 
     struct Session {
         uint amount;
-        address doubtAsker;
+        address payable doubtAsker;
         address payable doubtSolver;
         string topic;
         string id;
@@ -22,7 +22,7 @@ contract Mycontract {
 
     event SessionCreated (
         uint amount,
-        address doubtAsker,
+        address payable doubtAsker,
         address payable doubtSolver,
         string topic,
         string id,
@@ -31,7 +31,7 @@ contract Mycontract {
 
     event SessionEnded (
         uint amount,
-        address doubtAsker,
+        address payable doubtAsker,
         address payable doubtSolver,
         string topic,
         string id,
@@ -42,7 +42,7 @@ contract Mycontract {
         return address(this).balance;
     }
 
-    function createSession(uint amount, address doubtAsker,address payable doubtSolver,string memory topic,string memory id) public payable{
+    function createSession(uint amount, address payable doubtAsker,address payable doubtSolver,string memory topic,string memory id) public payable{
         // Check for valid info
         require(bytes(topic).length > 0);
         require(bytes(id).length > 0);
@@ -60,13 +60,28 @@ contract Mycontract {
         return (_session.amount, _session.doubtAsker, _session.doubtSolver, _session.topic, _session.id, _session.isCompleted);
     }
 
-    function endSession(string calldata id) external {
+    function endSession(string memory id) public {
         // Fetch the session
         Session memory _session = sessions[id];
         // Fetch address of doubt solver
         address payable _doubtSolver = _session.doubtSolver;
         // Pay the doubt solver by sending them Ether
         address(_doubtSolver).transfer(_session.amount);
+        // Update the completion
+        _session.isCompleted = true;
+        // Update the session
+        sessions[id] = _session;
+        // Trigger and emit event
+        emit SessionEnded(_session.amount, _session.doubtAsker, _session.doubtSolver, _session.topic, _session.id, _session.isCompleted);
+    }
+
+    function refund(string memory id) public {
+        // Fetch the session
+        Session memory _session = sessions[id];
+        // Fetch address of doubt solver
+        address payable _doubtAsker = _session.doubtAsker;
+        // Pay the doubt solver by sending them Ether
+        address(_doubtAsker).transfer(_session.amount);
         // Update the completion
         _session.isCompleted = true;
         // Update the session
