@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import styled from "styled-components";
@@ -8,7 +9,18 @@ import { Link } from 'react-router-dom'
 const Label = styled.label`
 	font-weight: bold;
 `;
-const Doubts = ({auth, doubt,price}) => {
+
+const DoubtItem = ({auth, doubt, GlobalId}) => {
+
+    const [price, setPrice] = useState(0)
+
+    useEffect(() => {
+		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
+        .then((data)=>{
+            setPrice(data.data.ethereum.inr)
+        })
+	})
+
 	return (
 		<div>
 			<div className="row">
@@ -41,16 +53,6 @@ const Doubts = ({auth, doubt,price}) => {
 							<Label>Amount</Label>
 							<div>{ doubt.raisedAmount ? <div>{ doubt.raisedAmount/10**18 } ETH (Rs. {price*doubt.raisedAmount/10**18})</div> : 0 }</div>
 						</div>
-						<div className="row g-1">
-							<div className="col-10"/>
-							<div className="col-2">
-								{/* Link to the page with question and all it's details */}
-								<Link to={`/doubt/${doubt._id}`} className="btn btn-primary">
-									Open
-								</Link>
-							</div>
-                        </div>
-						
 					</div>
 				</div>
 			</div>
@@ -58,18 +60,18 @@ const Doubts = ({auth, doubt,price}) => {
 	)
 }
 
-Doubts.defaultProps = {
+DoubtItem.defaultProps = {
 	showActions: true
 };
 
-Doubts.propTypes = {
+DoubtItem.propTypes = {
 	doubt: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired,
-	price: PropTypes.number.isRequired
+	auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+    doubt: state.doubt
 })
 
-export default connect(mapStateToProps, {})(Doubts)
+export default connect(mapStateToProps, {})(DoubtItem)

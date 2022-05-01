@@ -25,7 +25,8 @@ import ProfileInfo from './components/ProfileInfo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React , { Fragment, useEffect } from 'react'
 import SearchSimilarQuestion from './components/SearchSimilarQuestion';
-import BlockTry from './components/BlockTry';
+import BlockTry from './components/BlockTry'
+import DoubtsToSolve from './components/DoubtsToSolve';
 
 // Redux
 import { Provider } from 'react-redux'
@@ -39,6 +40,8 @@ import DoubtFeed from "./components/DoubtFeed";
 import MyDoubt from "./components/MyDoubt";
 import AddLearningSession from "./components/AddLearningSession";
 import SearchDoubtContract from './components/SearchDoubtContract';
+import DoubtItem from './components/DoubtItem';
+import DoubtContract from './components/DoubtContract';
 
 
 if (localStorage.token) {
@@ -84,6 +87,8 @@ function App() {
               <PrivateRoute exact path="/addDoubt" component={AddDoubt}/>
               <PrivateRoute exact path="/doubtFeed" component={DoubtFeed}/>
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
+              <PrivateRoute exact path="/doubtsToSolve" component={DoubtsToSolve}/>
+              <PrivateRoute exact path="/doubt/:id" component={DoubtContract}/>
               <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
 
               <PrivateRoute exact path="/blockchain" component={BlockTry}/>

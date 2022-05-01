@@ -6,6 +6,7 @@ import { transactionFailed, transactionSuccessful } from '../action/transaction'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
+/* global BigInt */
 
 const BlockTry = ({transactionFailed,transactionSuccessful}) => {
 
@@ -87,9 +88,11 @@ const BlockTry = ({transactionFailed,transactionSuccessful}) => {
 	// Submitting the data
 	const onSubmit = async(e) => {
 		e.preventDefault()
+
+        const web3 = window.web3
 		//setFormData({...formData,"text":value})
         //setFormData({...formData, amount: Web3.utils.BN(formData.amount)})
-        const amount = formData.amount*10**18
+        const amount = web3.utils.toWei(formData.amount.toString(), 'ether')
         console.log("amount : ",amount)
         state.contract.methods.createSession(amount,state.account,formData.address,formData.topic,formData.id).send({from:state.account,value:amount})
         .on('transactionHash', function(hash){
