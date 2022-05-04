@@ -177,7 +177,7 @@ const getAllDoubts = async(req, res, next) => {
     let pageNumber = req.query.page;
     let nPerPage = 15; // Number of questions per page
     
-    await Doubt.find().select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
+    await Doubt.find({user:{$ne:req.user.id}}).select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
     .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
     .limit( nPerPage )
     .populate('user','id name').sort({
@@ -192,46 +192,77 @@ const getAllDoubts = async(req, res, next) => {
         });
 };
 
+// const getMyDoubts = async(req, res, next) => {
+//     let pageNumber = req.query.page;
+//     let nPerPage = 15; // Number of questions per page
+    
+//     await Doubt.find({user:req.user.id}).select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
+//     .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
+//     .limit( nPerPage )
+//     .populate('user','id name').sort({
+//             date: -1
+//         })
+//         .then(questions => {
+//             res.json(questions);
+//         })
+//         .catch(err => {
+//             console.log(err.message);
+//             res.status(500).send('Server Error...');
+//         });
+// };
+
 const getMyDoubts = async(req, res, next) => {
     let pageNumber = req.query.page;
     let nPerPage = 15; // Number of questions per page
-    
-    await Doubt.find({user:req.user.id}).select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
+
+    let doubts =  await Doubt.find({user:req.user.id}).select({tags:1,_id:1,title:1,description:1,user:1,media:1,raisedAmount:1})
     .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
     .limit( nPerPage )
     .populate('user','id name').sort({
             date: -1
-        })
-        .then(questions => {
-            res.json(questions);
-        })
-        .catch(err => {
-            console.log(err.message);
-            res.status(500).send('Server Error...');
-        });
+        }).lean();
+        
+    // for(let i=0;i<doubts.length;i++) {
+    //     console.log(doubts[i]._id)
+    //     let status = await Booking.findOne({doubtId:doubts[i]._id});
+    //     console.log(status);
+    //     if(status){
+    //         doubts[i].status = status;
+    //         console.log("status is ",doubts[i]);
+    //     }
+    // }
+
+    if(doubts){
+        console.log(doubts, "\n sad\n");
+        res.json(doubts);
+    }
+    else
+    res.status(500).send('Server Error...');
 };
 
 const getToMentorDoubts = async(req, res, next) => {
     let pageNumber = req.query.page;
     let nPerPage = 15; // Number of questions per page
     
-    const doubts = await Booking.find({mentorId:req.user.id}).select({doubtId:1,_id:0,amount:1,meetLink:1});
+    const doubts = await Booking.find({mentorId:req.user.id}).select({doubtId:1,_id:0,amount:1,meetLink:1})
+    .populate('doubtId','title description tags media raisedAmount');
     // for(i in doubts){
     //     doubts[i]=doubts[i].doubtId;
     // } lookup unwind $project
     // const finalDoubts = await Doubt.find({_id:{$in:doubts}}).select({user:1,title:1,description:1,tags:1,media:1,date:1});
-    const finalDoubts = await Booking.aggregate([
-        {
-            $lookup:
-            {
-                from: "doubts",
-                localField:"doubtId",
-                foreignField: "_id",
-                as:"Doubt"
-            }
-        }
-    ])
-    res.status(200).send(finalDoubts);
+    // const finalDoubts = await Booking.aggregate([
+    //     {
+    //         $lookup:
+    //         {
+    //             from: "doubts",
+    //             localField:"doubtId",
+    //             foreignField: "_id",
+    //             as:"Doubt"
+    //         }
+    //     }
+    // ])
+    res.status(200).send(doubts);
+    // res.status(200).send(finalDoubts);
     if(!doubts) {
         console.log(err.message);
         res.status(500).send('Server Error...')
@@ -501,28 +532,60 @@ const mentorDoubt = async(req,res,next)=>{
     const mentorId = req.user.id;
     console.log(mentorId);
     const amount = req.body.amount;
+    let description;
+    if(req.body.description)
+        description = req.body.description;
     const doubt = await Doubt.findById(doubtId);
     if (!doubt) {
         return res.status(404).json({
             msg: 'No such doubt found'
         });
     }
-    const mentor = await Doubt.findOne({_id:doubtId,mentor:{$elemMatch:{mentorId:mentorId}}});
-    if (mentor) {
-        return res.status(404).json({
-            msg: 'Amount already raised'
-        });
+    const booking = await Booking.findOne({doubtId:doubtId,mentorId:mentorId});
+    if (booking) {
+        if(!description)
+            description = booking.description;
+        Booking.findOneAndUpdate({doubtId:doubtId,mentorId:mentorId},{$set:{amount:amount, description:description}},{new:true})
+        .then(booking => {
+            return res.json(booking);
+        }).catch(err => {
+            res.status(500).send(err.message);
+        })
+    }else{
+        let newBooking = {};
+        newBooking.doubtId = doubtId;
+        newBooking.mentorId = mentorId;
+        newBooking.userId = doubt.user;
+        newBooking.amount=amount;
+        newBooking.description = description;
+    
+        const newBookingIs = new Booking(newBooking);
+        newBookingIs.save()
+                        .then(booking => {
+                            res.json(booking);
+                        })
+                        .catch(err => {
+                            res.status(500).send(err.message);
+                        })
     }
-    Doubt.findByIdAndUpdate(
-        doubtId,
-        {$push:{mentor:{mentorId:mentorId,amount:amount}}},
-        {new:true}
-    ).then(doubt => {
-        return res.json(doubt);
-    })
-    .catch(err => {
-        res.status(500).send(err.message);
-    })
+   
+
+    // const mentor = await Doubt.findOne({_id:doubtId,mentor:{$elemMatch:{mentorId:mentorId}}});
+    // if (mentor) {
+    //     return res.status(404).json({
+    //         msg: 'Amount already raised'
+    //     });
+    // }
+    // Doubt.findByIdAndUpdate(
+    //     doubtId,
+    //     {$push:{mentor:{mentorId:mentorId,amount:amount}}},
+    //     {new:true}
+    // ).then(doubt => {
+    //     return res.json(doubt);
+    // })
+    // .catch(err => {
+    //     res.status(500).send(err.message);
+    // })
 }
 
 const changePrice = async (req,res,next)=>{

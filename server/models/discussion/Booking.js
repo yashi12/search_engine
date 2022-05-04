@@ -14,13 +14,19 @@ const BookingSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    description:{
+        type: String,
+        // required: true,
+        minlength: 20,
+        maxlength: 100
+    },
     date: {
         type: Date,
         default: Date.now
     },
     meetLink:{
         type: String,
-        required: true
+        // required: true
     },
     amount:{
         type: Number,
