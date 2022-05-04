@@ -40,16 +40,20 @@ const DoubtSchema = new Schema({
         type: Number,
         required:true
     },
-    mentor:[{
-        mentorId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        amount:{
-            type:Number,
-            required:true
-        }
-    }]
+    // mentor:[{
+    //     mentorId:{
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User'
+    //     },
+    //     amount:{
+    //         type:Number,
+    //         required:true
+    //     }
+    // }],
+    status:{
+        type: String,
+        default: "unsolved"
+    }
 });
 
 
