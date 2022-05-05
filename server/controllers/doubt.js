@@ -160,6 +160,13 @@ const getMyDoubts = async (req, res, next) => {
   } else res.status(500).send("Server Error...");
 };
 
+/* Mentor initiates a price to mentor a doubt 
+- raises an amount
+- gives his quotaion in form of description
+- in it a entery in booking model is formed
+- if entry already exists then the amount and desciption gets updated
+*/
+
 const mentorDoubt = async (req, res, next) => {
   console.log("hi");
   const errors = validationResult(req);
@@ -170,7 +177,6 @@ const mentorDoubt = async (req, res, next) => {
   }
   const doubtId = req.params.id;
   const mentorId = req.user.id;
-  console.log(mentorId);
   const amount = req.body.amount;
   let description;
   if (req.body.description) description = req.body.description;
@@ -187,12 +193,16 @@ const mentorDoubt = async (req, res, next) => {
   if (booking) {
     if (!description) description = booking.description;
     Booking.findOneAndUpdate(
-      { doubtId: doubtId, mentorId: mentorId },
+      { doubtId: doubtId, mentorId: mentorId, status: "pending" },
       { $set: { amount: amount, description: description } },
       { new: true }
     )
       .then((booking) => {
-        return res.json(booking);
+        if (booking == null) {
+          res.status(404).send("booking cannot be updated");
+        } else {
+          return res.json(booking);
+        }
       })
       .catch((err) => {
         res.status(500).send(err.message);
