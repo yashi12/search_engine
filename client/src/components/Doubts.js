@@ -1,14 +1,17 @@
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import styled from "styled-components";
 import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
+import Modal from "./Modal";
 
 const Label = styled.label`
 	font-weight: bold;
 `;
 const Doubts = ({auth, doubt,price}) => {
+	const [show, setShow] = useState(false);
+
 	return (
 		<div>
 			<div className="row">
@@ -18,7 +21,14 @@ const Doubts = ({auth, doubt,price}) => {
 				<div className="col-2"/>
 				<div className="card mb-3 col-8">
 					<div className="card-body">
-						<h4>{doubt.user.name} <Link className="btn btn-primary" to={`/profile/${doubt.user._id}`}><CgProfile/></Link></h4>
+						<h4 className="w-100">
+							{doubt.user.name}
+							<Link className="btn btn-primary ml-2" to={`/profile/${doubt.user._id}`}>
+								<CgProfile/>
+							</Link>
+							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} onClick={() => setShow(true)}>Send Message</button>
+							<Modal show={show} onClose={() => setShow(false)} id={doubt.user._id} name={doubt.user.name}/>
+						</h4>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>
@@ -48,9 +58,8 @@ const Doubts = ({auth, doubt,price}) => {
 								<Link to={`/doubt/${doubt._id}`} className="btn btn-primary">
 									Open
 								</Link>
-							</div>
+						</div>
                         </div>
-						
 					</div>
 				</div>
 			</div>
