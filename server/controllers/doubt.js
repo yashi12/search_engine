@@ -80,11 +80,21 @@ const addDoubt = async (req, res, next) => {
 
 const getDoubtById = async (req, res, next) => {
   const doubt_id = req.params.id;
-  Doubt.findById(doubt_id)
-    .populate("user", "id name email")
-    .then((doubt) => {
-      console.log(doubt);
-      res.json(doubt);
+
+  Booking.find({ doubtId: doubt_id })
+    .then((booking) => {
+      Doubt.findById(doubt_id)
+        .populate("user", "id name email")
+        .then((doubt) => {
+          let resp = {};
+          resp["doubt"] = doubt;
+          resp["bookings"] = booking;
+          res.json(resp);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          res.status(500).send("Server Error...");
+        });
     })
     .catch((err) => {
       console.log(err.message);
