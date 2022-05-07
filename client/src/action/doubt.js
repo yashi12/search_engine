@@ -56,7 +56,7 @@ export const getDoubtInfo = id => async dispatch => {
 	try {
 		axios.get(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`)
 			.then((res) => {
-				console.log("data : ",res)
+				
 				dispatch({
 					type: GET_DOUBT,
 					payload: res.data

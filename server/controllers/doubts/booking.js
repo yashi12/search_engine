@@ -15,6 +15,7 @@ const User = require("../../models/User");
 const Booking = require("../../models/discussion/Booking");
 const ContentMiddleware = require("../../middleware/content");
 const { paginatedResults } = require("../helper/pagenation");
+const { fetchMetamassAddress } = require("../helper/services");
 const { raw } = require("config/raw");
 
 const s3 = new AWS.S3({
@@ -26,6 +27,8 @@ let FormData = require("form-data");
 
 /* Here the user initiates a contract where his amount gets deducted but is not sent to the mentor
 the amount is held by the the third party application we are using
+Booking status
+pending-->initiated
 */
 
 const bookMentor = async (req, res, next) => {
@@ -39,6 +42,9 @@ const bookMentor = async (req, res, next) => {
     const doubtId = req.params.doubt_id;
     const mentorDoubtId = req.params.id;
     const userId = req.user.id;
+    const userMetamassAddress = req.body.user_address;
+    const mentorMetamassAddress = req.body.mentor_address;
+    console.log(userMetamassAddress, mentorMetamassAddress);
     const booking = await Booking.findOne({
       doubtId: doubtId,
       mentorId: mentorDoubtId,
@@ -49,13 +55,27 @@ const bookMentor = async (req, res, next) => {
         msg: "No such booking found",
       });
     } else {
+      // let user_address = await fetchMetamassAddress(userId);
+      // let mentor_address = await fetchMetamassAddress(mentorDoubtId);
+      // console.log(user_address);
+      // console.log(mentor_address);
       Booking.findOneAndUpdate(
         { doubtId: doubtId, mentorId: mentorDoubtId, userId: userId },
-        { $set: { status: "initiated" } },
+        {
+          $set: {
+            status: "initiated",
+            userMetamassAddress: userMetamassAddress,
+            mentorMetamassAddress: mentorMetamassAddress,
+          },
+        },
         { new: true }
       )
         .then((booking) => {
-          res.json(booking);
+          let resp = {};
+          resp["booking"] = booking;
+          // resp["userAddres"] = userMetamassAddress;
+          // resp["mentorAddress"] = mentorMetamassAddress;
+          res.json(resp);
         })
         .catch((err) => {
           res.status(500).send(err.message);

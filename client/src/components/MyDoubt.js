@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getOwnDoubts } from '../action/doubt';
 import Spinner from './Spinner';
 import Doubts from "./Doubts";
+import { BiErrorCircle } from 'react-icons/bi'
 
 const MyDoubt = ({ getOwnDoubts, doubt : {doubts} , auth}) => {
 
@@ -24,6 +25,16 @@ const MyDoubt = ({ getOwnDoubts, doubt : {doubts} , auth}) => {
 						<br />
 						<h1 className="large text-primary">Doubts you've asked</h1>
 						<div >
+							{
+                                doubts.length == 0 ? <div className="row">
+                                <div className="col-4"></div>
+                                <div className="col-6">
+                                    <br /><br />
+                                    <h4 className="text text-danger">NO DOUBTS ASKED <BiErrorCircle/></h4>
+                                </div>
+                                <div className="col"></div>
+                                </div> :<div>Here</div>
+                            }
 							{/* passing data from get all question api to Questions component */}
 							{doubts.map((doubt) => (
 								<Doubts key={doubt._id} doubt={doubt} price={price} />

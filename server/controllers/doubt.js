@@ -80,11 +80,21 @@ const addDoubt = async (req, res, next) => {
 
 const getDoubtById = async (req, res, next) => {
   const doubt_id = req.params.id;
-  Doubt.findById(doubt_id)
-    .populate("user", "id name email")
-    .then((doubt) => {
-      console.log(doubt);
-      res.json(doubt);
+
+  Booking.find({ doubtId: doubt_id })
+    .then((booking) => {
+      Doubt.findById(doubt_id)
+        .populate("user", "id name email")
+        .then((doubt) => {
+          let resp = {};
+          resp["doubt"] = doubt;
+          resp["bookings"] = booking;
+          res.json(resp);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          res.status(500).send("Server Error...");
+        });
     })
     .catch((err) => {
       console.log(err.message);
@@ -160,6 +170,13 @@ const getMyDoubts = async (req, res, next) => {
   } else res.status(500).send("Server Error...");
 };
 
+/* Mentor initiates a price to mentor a doubt 
+- raises an amount
+- gives his quotaion in form of description
+- in it a entery in booking model is formed
+- if entry already exists then the amount and desciption gets updated
+*/
+
 const mentorDoubt = async (req, res, next) => {
   console.log("hi");
   const errors = validationResult(req);
@@ -170,7 +187,6 @@ const mentorDoubt = async (req, res, next) => {
   }
   const doubtId = req.params.id;
   const mentorId = req.user.id;
-  console.log(mentorId);
   const amount = req.body.amount;
   let description;
   if (req.body.description) description = req.body.description;
@@ -187,12 +203,16 @@ const mentorDoubt = async (req, res, next) => {
   if (booking) {
     if (!description) description = booking.description;
     Booking.findOneAndUpdate(
-      { doubtId: doubtId, mentorId: mentorId },
+      { doubtId: doubtId, mentorId: mentorId, status: "pending" },
       { $set: { amount: amount, description: description } },
       { new: true }
     )
       .then((booking) => {
-        return res.json(booking);
+        if (booking == null) {
+          res.status(404).send("booking cannot be updated");
+        } else {
+          return res.json(booking);
+        }
       })
       .catch((err) => {
         res.status(500).send(err.message);
