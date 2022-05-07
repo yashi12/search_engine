@@ -63,6 +63,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                 <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item active">
+                <Link className="nav-link" to="/messages">Messages</Link>
+            </li>
+            <li className="nav-item active">
                 <Link className="nav-link" onClick={logout} to="#">Log Out</Link>
             </li>
         </ul>

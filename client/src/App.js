@@ -42,6 +42,7 @@ import AddLearningSession from "./components/AddLearningSession";
 import SearchDoubtContract from './components/SearchDoubtContract';
 import DoubtItem from './components/DoubtItem';
 import DoubtContract from './components/DoubtContract';
+import Messages from "./components/Messages";
 
 
 if (localStorage.token) {
@@ -73,6 +74,7 @@ function App() {
               <Route exact path="/register" component={Register}/>
               <PrivateRoute exact path="/search" component={SearchNew}/>
               <PrivateRoute exact path="/profile" component={Profile}/>
+              <PrivateRoute exact path="/messages" component={Messages}/>
               <PrivateRoute exact path="/addPost" component={AddPost}/>
               <PrivateRoute exact path="/askQuestion" component={AskQuestion}/>
               <PrivateRoute exact path="/questionsFeed" component={QuestionsFeed}/>

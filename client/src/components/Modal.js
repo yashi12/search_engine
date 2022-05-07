@@ -1,39 +1,53 @@
 import React from "react";
-import {message} from "../action/message";
+import axios from "axios";
+import {setAlert} from "../action/alert";
+import {connect} from "react-redux";
 
 const Modal = props =>{
-	if (!props.show){
-		return null;
-	}
 
-	function sendMessage(id) {
-		message({id : id, content : document.getElementById('send-message').innerText});
-		props.onClose();
-		return null;
+	const sendMessage = (id) =>{
+		let data = {_id : props.auth.user._id, content : document.getElementById('send-message').value};
+		const config = {
+			header: {'Content-Type': 'multipart/form-data'}
+		}
+		axios.post(`${process.env.REACT_APP_API}/api/message/send-message/${id}`, data, config).then(r => {
+			if(r.status === 201) {
+				setAlert('Message Sent Successfully', 'success');
+				document.getElementById('send-message').value = "";
+			}else {
+				setAlert('Message Not Sent', 'danger');
+			}
+		});
 	}
 
 	return(
-		<div className="modal fade p-0" onClick={props.onClose}>
-			<div className="modal-dialog w-100 mx-auto" onClick={e => e.stopPropagation()}>
+		<div id="modal-message" className="modal fade p-0 mt-5" tabIndex="-1" role="dialog">
+			<div className="modal-dialog w-100 mx-auto" role="document">
 				<div className="modal-content">
 					<div className="modal-header">
 						<h5 className="modal-title" id="staticBackdropLabel">Send Message to {props.name}</h5>
-						<button type="button" className="close" onClick={props.onClose}>
+						<button type="button" className="close" data-dismiss="modal">
 							<span>&times;</span>
 						</button>
 					</div>
 					<div className="modal-body">
-						<form className="" method="post" id="send-message">
-							<textarea name="name" placeholder="Your message..." rows="6" className="w-100" required></textarea>
+						<form className="" method="post">
+							<textarea id="send-message" name="name" placeholder="Your message..." rows="6" className="w-100" required></textarea>
 						</form>
 					</div>
 					<div className="modal-footer">
-						<button type="button" className="btn btn-secondary" onClick={props.onClose}>Never mind</button>
-						<button type="submit" className="btn btn-primary" form="send-message" onClick={sendMessage(props.id,props.name)}>Send Message</button>
+						<button type="button" className="btn btn-secondary" data-dismiss="modal">Never mind</button>
+						<button type="submit" className="btn btn-primary" form="send-message" onClick={e => sendMessage(props._id)} data-dismiss="modal">Send Message</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	)
 }
-export default Modal;
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	props : state.props
+});
+
+export default connect(mapStateToProps, {  })(Modal);
+

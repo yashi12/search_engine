@@ -26,8 +26,8 @@ const Doubts = ({auth, doubt,price}) => {
 							<Link className="btn btn-primary ml-2" to={`/profile/${doubt.user._id}`}>
 								<CgProfile/>
 							</Link>
-							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} onClick={() => setShow(true)}>Send Message</button>
-							<Modal show={show} onClose={() => setShow(false)} id={doubt.user._id} name={doubt.user.name}/>
+							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message">Send Message</button>
+							<Modal _id={doubt.user._id} name={doubt.user.name} />
 						</h4>
 						<div className="mb-3">
 							<Label>Title</Label>
