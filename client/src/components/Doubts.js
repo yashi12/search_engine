@@ -10,7 +10,8 @@ const Label = styled.label`
 	font-weight: bold;
 `;
 const Doubts = ({auth, doubt,price}) => {
-	const [show, setShow] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+	const [activeObject, setActiveObject] = useState(null);
 
 	return (
 		<div>
@@ -26,8 +27,16 @@ const Doubts = ({auth, doubt,price}) => {
 							<Link className="btn btn-primary ml-2" to={`/profile/${doubt.user._id}`}>
 								<CgProfile/>
 							</Link>
-							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message">Send Message</button>
-							<Modal _id={doubt.user._id} name={doubt.user.name} />
+							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message" onClick={e => {
+								let _id = doubt.user._id;
+								let name = doubt.user.name;
+
+								setActiveObject({_id, name});
+								setShowModal(true);
+							}}>Send Message</button>
+							{
+								showModal ? <Modal _id = {activeObject._id} name = {activeObject.name} auth={auth} closeModal = {e => setShowModal(false)}/> : null
+							}
 						</h4>
 						<div className="mb-3">
 							<Label>Title</Label>
@@ -43,7 +52,7 @@ const Doubts = ({auth, doubt,price}) => {
 							<Label>Tags</Label>
 							<div>
 								{doubt.tags.map((tag) => (
-									<span className="badge badge-secondary">{tag}</span>
+									<span key="{tag}" className="badge badge-secondary">{tag}</span>
 								))}
 							</div>
 						</div>

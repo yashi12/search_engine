@@ -100,8 +100,8 @@ const resetMessageNotifications = ({payload}, res)=>{
 	})
 }
 
-const deleteMessage  = ({payload,params},res)=>{
-	User.findById(payload._id,(err,user)=>{
+const deleteMessage  = ({body,params},res)=>{
+	User.findById(body._id,(err,user)=>{
 		if(err){
 			return res.json({ error : err });
 		}

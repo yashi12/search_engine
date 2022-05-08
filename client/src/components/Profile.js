@@ -47,13 +47,13 @@ const Profile = ({
                         {profile["social"] ?
                             <Fragment>
                                 <div className="col">
-                                    <h5><FaGithub/> Github</h5>
+                                    <h5 key="Github"><FaGithub/> Github</h5>
                                     {profile["social"].githubusername ?
                                         <a href={"https://github.com/"+profile["social"].githubusername} target="_blank">
                                         {"https://github.com/"+profile["social"].githubusername}</a> : <div/>}
                                 </div>
                                 <div className="col">
-                                    <h5><FaLinkedin/> Linked In</h5>
+                                    <h5 key="Linked In"><FaLinkedin/> Linked In</h5>
                                     {profile["social"].linkedIn ?
                                         <a href={"https://www.linkedin.com/in/"+profile["social"].linkedIn} target="_blank">
                                         {"https://www.linkedin.com/in/"+profile["social"].linkedIn}</a> : <div/>}
@@ -61,7 +61,7 @@ const Profile = ({
                                 </div>
 
                                 <div className="col">
-                                    <h5><FaTwitter/> Twitter</h5>
+                                    <h5 key="Twitter"><FaTwitter/> Twitter</h5>
                                     {profile["social"].twitter ?
                                         <a href={"https://twitter.com/"+profile["social"].twitter} target="_blank">
                                         {"https://twitter.com/"+profile["social"].twitter}</a> : <div/>}
@@ -71,14 +71,14 @@ const Profile = ({
                             : <div/>}
                     </div>
                     <div className="form-group card-body">
-                        <h5><RiProfileLine/> Bio</h5>
+                        <h5 key="Bio"><RiProfileLine/> Bio</h5>
                         {profile["bio"] ?
                             <p>{profile["bio"]}</p> : <div/>}
                     </div>
                     <div className="form-group card-header">
-                        <h5><GrUserExpert/> Skills</h5>
+                        <h5 key="Skills"><GrUserExpert/> Skills</h5>
                         {profile["skills"].map((skill) => (
-                            <h5>
+                            <h5 key="{skill}">
                                 <span className="badge badge-warning">{skill}</span></h5>
                         ))}
                     </div>
@@ -86,7 +86,7 @@ const Profile = ({
 
                         {profile["experience"].length > 0 ? (
                             <Fragment>
-                                <h5>Experience</h5>
+                                <h5 key="Experience">Experience</h5>
                                 <table className="table">
                                     <thead>
                                     <tr>

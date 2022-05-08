@@ -4,7 +4,7 @@ import {setAlert} from "../action/alert";
 import {connect} from "react-redux";
 
 const Modal = props =>{
-
+	console.log(props);
 	const sendMessage = (id) =>{
 		let data = {_id : props.auth.user._id, content : document.getElementById('send-message').value};
 		const config = {
@@ -13,7 +13,6 @@ const Modal = props =>{
 		axios.post(`${process.env.REACT_APP_API}/api/message/send-message/${id}`, data, config).then(r => {
 			if(r.status === 201) {
 				setAlert('Message Sent Successfully', 'success');
-				document.getElementById('send-message').value = "";
 			}else {
 				setAlert('Message Not Sent', 'danger');
 			}
@@ -26,7 +25,7 @@ const Modal = props =>{
 				<div className="modal-content">
 					<div className="modal-header">
 						<h5 className="modal-title" id="staticBackdropLabel">Send Message to {props.name}</h5>
-						<button type="button" className="close" data-dismiss="modal">
+						<button type="button" className="close" data-dismiss="modal" onClick={props.closeModal}>
 							<span>&times;</span>
 						</button>
 					</div>
@@ -36,8 +35,11 @@ const Modal = props =>{
 						</form>
 					</div>
 					<div className="modal-footer">
-						<button type="button" className="btn btn-secondary" data-dismiss="modal">Never mind</button>
-						<button type="submit" className="btn btn-primary" form="send-message" onClick={e => sendMessage(props._id)} data-dismiss="modal">Send Message</button>
+						<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={props.closeModal}>Never mind</button>
+						<button type="submit" className="btn btn-primary" form="send-message" onClick={e => {
+							sendMessage(props._id);
+							props.closeModal();
+						}} data-dismiss="modal">Send Message</button>
 					</div>
 				</div>
 			</div>
@@ -45,7 +47,6 @@ const Modal = props =>{
 	)
 }
 const mapStateToProps = (state) => ({
-	auth: state.auth,
 	props : state.props
 });
 
