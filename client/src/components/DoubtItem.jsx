@@ -17,7 +17,7 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 
     console.log("data : ",doubt)
 
-    const data = doubt.doubt
+    const data = doubt.doubt.doubt
 
     useEffect(() => {
 		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
@@ -34,7 +34,8 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 			<div className="row">
 				<div className="col-1"/>
 				<div className="card mb-3 col-10">
-					<div className="card-body">
+					<div >
+						<br />
 						<h4>{data.user.name} <Link className="btn btn-primary" to={`/profile/${data.user._id}`}><CgProfile/></Link></h4>
 						<div className="mb-3">
 							<Label>Title</Label>
@@ -62,7 +63,7 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 							<Label>Amount</Label>
 							<div>{ data.raisedAmount ? <div>{ data.raisedAmount/10**18 } ETH (Rs. {price*data.raisedAmount/10**18})</div> : 0 }</div>
 						</div>
-                        <ProposalItem/>
+                        <ProposalItem bookings={doubt.doubt} topic={data.title} id={data._id}/>
 					</div>
 				</div>
 			</div>
