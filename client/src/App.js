@@ -38,7 +38,6 @@ import * as process from "process";
 import AddDoubt from "./components/AddDoubt";
 import DoubtFeed from "./components/DoubtFeed";
 import MyDoubt from "./components/MyDoubt";
-import AddLearningSession from "./components/AddLearningSession";
 import SearchDoubtContract from './components/SearchDoubtContract';
 import DoubtItem from './components/DoubtItem';
 import DoubtContract from './components/DoubtContract';
@@ -91,7 +90,6 @@ function App() {
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
               <PrivateRoute exact path="/doubtsToSolve" component={DoubtsToSolve}/>
               <PrivateRoute exact path="/doubt/:id" component={DoubtContract}/>
-              <PrivateRoute exact path="/addLearningSection" component={AddLearningSession}/>
 
               <PrivateRoute exact path="/blockchain" component={BlockTry}/>
               <PrivateRoute exact path="/searchDoubtContract" component={SearchDoubtContract}/>
