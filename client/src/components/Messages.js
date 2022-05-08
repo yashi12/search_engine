@@ -3,7 +3,6 @@ import './Messages.css'
 import axios from "axios";
 import {setAlert} from "../action/alert";
 import {connect} from "react-redux";
-import {getQuestions} from "../action/question";
 import Spinner from './Spinner';
 
 const Messages = ({auth}) => {
