@@ -320,6 +320,26 @@ const changePrice = async (req, res, next) => {
     });
 };
 
+const getDoubtsByTags = (req, res) => {
+  const tags = req.params.tag;
+  let newTags = [];
+  const title = tags.split(",");
+  title.map((tag) => {
+    tag = tag.toString().trim();
+    tag = tag.toString().toLowerCase();
+    newTags.push(tag);
+  });
+  Doubt.find({ tags: { $in: newTags } })
+    .populate("user", ["name", "rating"])
+    .then((profiles) => {
+      res.json(profiles);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      return res.status(500).send("Server Error...");
+    });
+};
+
 module.exports = {
   addDoubt: addDoubt,
   getAllDoubts: getAllDoubts,
@@ -328,4 +348,5 @@ module.exports = {
   mentorDoubt: mentorDoubt,
   changePrice: changePrice,
   getDoubtById: getDoubtById,
+  getDoubtsByTags: getDoubtsByTags,
 };

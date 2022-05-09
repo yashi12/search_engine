@@ -53,4 +53,9 @@ router.post(
   doubtController.changePrice
 );
 
+// @route GET api/mentor/filter
+// @desc Get all doubts by tags
+// @access Public
+router.get("/filter/:tag", auth, doubtController.getDoubtsByTags);
+
 module.exports = router;
