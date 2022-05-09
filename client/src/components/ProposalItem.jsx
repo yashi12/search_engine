@@ -9,9 +9,7 @@ import { transactionFailed, transactionSuccessful } from '../action/transaction'
 import {connect} from 'react-redux'
 import { addProposal, updateProposal } from '../action/doubt'
 
-const ProposalItem = ({doubt:{proposals},auth,transactionFailed,transactionSuccessful,topic,id}) => {
-
-    console.log("booking : ",proposals)
+const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,addProposal,updateProposal}) => {
 
     useEffect(() => {
         loadWeb3()
@@ -101,7 +99,9 @@ const ProposalItem = ({doubt:{proposals},auth,transactionFailed,transactionSucce
 
     const [hash, setHash] = useState(null)
 
-    const handleClick = (e,description,amount) => {
+    const [proposalId, setProposalId] = useState(0)
+
+    const handleClick = (e,description,amount,id) => {
         e.preventDefault()
         if(e.target.name == "add"){
             setProposalToggle(!proposalToggle)
@@ -109,6 +109,7 @@ const ProposalItem = ({doubt:{proposals},auth,transactionFailed,transactionSucce
         else{
             setUpdateToggle(!updateToggle)
             setUpdateData({description:description,amount:amount,address:state.account})
+            setProposalId(id)
         }
     }
 
@@ -124,16 +125,24 @@ const ProposalItem = ({doubt:{proposals},auth,transactionFailed,transactionSucce
 
     const UpdateProposal = e => {
         e.preventDefault()
-        setUpdateData({...updateData,amount:parseInt(updateData.amount)})
-        console.log("update data : ",updateData)
+        setUpdateData({...updateData,amount:parseFloat(updateData.amount)})
+        updateProposal(id,updateData,auth.user._id)
     }
 
     const AddProposal = e => {
         e.preventDefault()
         setData({...data,address:state.account,amount:parseInt(data.amount)})
-        const sndData = {description: data.description,amount: parseInt(data.amount),address:state.account}
-        console.log("data : ",sndData)
+        const sndData = {description: data.description,amount: parseFloat(data.amount),address:state.account}
+        //console.log(id)
+        //console.log(auth.user._id)
+        addProposal(id,sndData,auth.user._id)
     }
+
+    {/*
+        add authentications
+        user can comment on his own doubt
+        auth on update and create contract
+    */}
 
     return (
         <div>
@@ -243,7 +252,7 @@ const ProposalItem = ({doubt:{proposals},auth,transactionFailed,transactionSucce
                                             (Rs. {price*element.amount})
                                         </div>
                                         <div className='col-1'>
-                                            <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount)}>Update</button>
+                                            <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount,element._id)}>Update</button>
                                         </div>
                                         <div className='col-1'></div>
                                         <div className='col-1'>
@@ -269,7 +278,9 @@ ProposalItem.propTypes = {
     topic: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     doubt: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    addProposal: PropTypes.func.isRequired,
+    updateProposal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -277,4 +288,4 @@ const mapStateToProps = state => ({
     doubt: state.doubt
 })
 
-export default connect(mapStateToProps, {transactionFailed,transactionSuccessful})(ProposalItem)
+export default connect(mapStateToProps, {transactionFailed,transactionSuccessful,addProposal,updateProposal})(ProposalItem)
