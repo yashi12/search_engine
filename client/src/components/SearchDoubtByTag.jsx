@@ -7,11 +7,13 @@ import Spinner from './Spinner';
 import Doubts from "./Doubts";
 import { BiErrorCircle } from 'react-icons/bi'
 
-const SearchDoubtByTag = ({ searchDoubt, doubt : {searchDoubtArr} , auth}) => {
+const SearchDoubtByTag = ({ searchDoubt, doubt : {searchDoubtArr, loading} , auth}) => {
 
 	const [price, setPrice] = useState(0)
 
     const [tag, setTag] = useState('')
+
+    const [toggle, setToggle] = useState(false)
 
 	useEffect(() => {
 		searchDoubt(tag);
@@ -20,39 +22,63 @@ const SearchDoubtByTag = ({ searchDoubt, doubt : {searchDoubtArr} , auth}) => {
             setPrice(data.data.ethereum.inr)
         })
 	}, [searchDoubt]);
+
+    const onChange = e => setTag(e.target.value)
+
+    const onSubmit = e => {
+        e.preventDefault()
+        searchDoubt(tag);
+        setToggle(true)
+    };
+
 	return (
-		<div>
-			{
-				searchDoubtArr ? <Fragment>
-						<br />
-						<h1 className="large text-primary">Doubts you've asked</h1>
-						<div >
-							{
-                                searchDoubtArr.length == 0 ? <div className="row">
-                                <div className="col-4"></div>
-                                <div className="col-6">
-                                    <br /><br />
-                                    <h4 className="text text-danger">NO DOUBTS ASKED <BiErrorCircle/></h4>
-                                </div>
-                                <div className="col"></div>
-                                </div> :<div>Here</div>
-                            }
-							{/* passing data from get all question api to Questions component */}
-							{searchDoubtArr.map((doubt) => (
-								<Doubts key={doubt._id} doubt={doubt} price={price} />
-							))}
-						</div>
-					</Fragment> :
-					<Spinner />
-			}
-		</div>
+		<Fragment>
+            <div className="container-fluid row align-items-center">
+            
+                <div className="col">
+                <br/>
+                <form className="bar" method="get" >
+                    <div>
+                        <h1 className="large text-primary">Enter Tag</h1>
+                        <input onChange={e => onChange(e)} type="text" className="form-control" id="title" placeholder="Search Doubt" name="title"/>
+                        <br/>
+                        <button onClick={e => onSubmit(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
+                    </div>
+                </form>
+                </div>
+                <div className="col"/>
+                <div className="col"/>
+            </div>
+            <div >
+                { toggle ? 
+                <div>
+                    {searchDoubtArr.map((doubt) => (
+                        <Doubts key={doubt._id} doubt={doubt} price={price} />
+                    ))}
+                </div> :
+                <div>
+                    {searchDoubtArr.length === 0 && !loading ? 
+                        <div className="row">
+                            <div className="col-4"></div>
+                            <div className="col-6">
+                                <br /><br />
+                                <h3 className="text text-danger">NO CONTRACT FOUND  <BiErrorCircle/></h3>
+                            </div>
+                            <div className="col"></div>
+                        </div> :
+                        <div></div>
+                    }</div>
+                }
+            </div>
+        </Fragment>
 	);
 };
 
 SearchDoubtByTag.propTypes = {
 	searchDoubt: PropTypes.func.isRequired,
 	searchDoubtArr: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({

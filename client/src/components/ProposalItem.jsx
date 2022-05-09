@@ -9,7 +9,7 @@ import { transactionFailed, transactionSuccessful } from '../action/transaction'
 import {connect} from 'react-redux'
 import { addProposal, updateProposal } from '../action/doubt'
 
-const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,addProposal,updateProposal}) => {
+const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,askerId,addProposal,updateProposal}) => {
 
     useEffect(() => {
         loadWeb3()
@@ -105,10 +105,12 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
         e.preventDefault()
         if(e.target.name == "add"){
             setProposalToggle(!proposalToggle)
+            setUpdateToggle(false)
         }
         else{
+            setProposalToggle(false)
             setUpdateToggle(!updateToggle)
-            setUpdateData({description:description,amount:amount,address:state.account})
+            setUpdateData({description:description,amount:amount,mentor_address:state.account})
             setProposalId(id)
         }
     }
@@ -126,16 +128,17 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
     const UpdateProposal = e => {
         e.preventDefault()
         setUpdateData({...updateData,amount:parseFloat(updateData.amount)})
-        updateProposal(id,updateData,auth.user._id)
+        updateProposal(id,updateData)
+        //addProposal(id,updateData)
     }
 
     const AddProposal = e => {
         e.preventDefault()
         setData({...data,address:state.account,amount:parseInt(data.amount)})
-        const sndData = {description: data.description,amount: parseFloat(data.amount),address:state.account}
+        const sndData = {description: data.description,amount: parseFloat(data.amount),mentor_address:state.account}
         //console.log(id)
         //console.log(auth.user._id)
-        addProposal(id,sndData,auth.user._id)
+        addProposal(id,sndData)
     }
 
     {/*
@@ -156,9 +159,11 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                 </div> :
                 <div></div>
             }
-            <div>
+            {
+                auth.user._id !== askerId ? 
                 <button name="add" className="btn btn-primary" onClick={e=>handleClick(e)}>Add Proposal</button>
-            </div>
+                : <br/>
+            }
             {
                 proposalToggle ? 
                 <div className="row g-2">
@@ -252,11 +257,19 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                             (Rs. {price*element.amount})
                                         </div>
                                         <div className='col-1'>
-                                            <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount,element._id)}>Update</button>
+                                            {
+                                                auth.user._id === element.mentorId ?
+                                                <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount,element._id)}>Update</button>
+                                                : <div></div>
+                                            }
                                         </div>
                                         <div className='col-1'></div>
                                         <div className='col-1'>
-                                            <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamassAddress)}>Create Contract</button>    
+                                            {
+                                                auth.user._id === askerId ?
+                                                <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress)}>Create Contract</button>:
+                                                <div></div>  
+                                            }
                                         </div>
                                     </div>
                                 </dir>

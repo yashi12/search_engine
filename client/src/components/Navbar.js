@@ -34,7 +34,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/doubtFeed">Doubts Feed</Link>
                     <Link className="dropdown-item" to="/myDoubt">My Doubts</Link>
                     <Link className="dropdown-item" to="/doubtsToSolve">Doubts To Solve</Link>
-                    {/*<Link className="dropdown-item" to="/AddLearningSession">Add Learning Session</Link>*/}
+                    <Link className="dropdown-item" to="/searchDoubtByTag">Search Doubt By Tag</Link>
                 </div>
             </li>
             <li className="nav-item dropdown active">
