@@ -33,14 +33,13 @@ export const addProposal = (id,data) => async dispatch => {
 	const config = {
 		header: {'Content-Type': 'multipart/form-data'}
 	}
-	console.log("proposal data:",id)
 	try {
-		const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
+		const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data)
+		//const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/62791e3dd925a92f2cd7fdec`, data, config)
 		dispatch({
 			type: ADD_PROPOSALS,
 			payload: res.data
 		});
-		console.log("Proposal Added")
 		dispatch(setAlert('Proposal Added','success'))
 
 	} catch (err) {
@@ -60,10 +59,10 @@ export const updateProposal = (id,data) => async dispatch => {
 	const config = {
 		header: {'Content-Type': 'multipart/form-data'}
 	}
-	console.log("proposal data:",data)
 	try {
-		axios.put(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
+		axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data)
 			.then((res) => {
+				console.log(res.data)
 				dispatch({
 					type: UPDATE_PROPOSAL,
 					payload: res.data
@@ -134,9 +133,8 @@ export const getDoubtInfo = id => async dispatch => {
 
 export const searchDoubt = tag => async dispatch => {
 	try {
-		axios.get(`${process.env.REACT_APP_API}/api/mentor/doubt/${tag}`)
+		axios.get(`${process.env.REACT_APP_API}/api/mentor/filter/${tag}`)
 			.then((res) => {
-				
 				dispatch({
 					type: SEARCH_DOUBT_BY_TAG,
 					payload: res.data

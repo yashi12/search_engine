@@ -42,6 +42,7 @@ import SearchDoubtContract from './components/SearchDoubtContract';
 import DoubtItem from './components/DoubtItem';
 import DoubtContract from './components/DoubtContract';
 import Messages from "./components/Messages";
+import SearchDoubtByTag from './components/SearchDoubtByTag';
 
 
 if (localStorage.token) {
@@ -89,6 +90,7 @@ function App() {
               <PrivateRoute exact path="/doubtFeed" component={DoubtFeed}/>
               <PrivateRoute exact path="/myDoubt" component={MyDoubt}/>
               <PrivateRoute exact path="/doubtsToSolve" component={DoubtsToSolve}/>
+              <PrivateRoute exact path="/searchDoubtByTag" component={SearchDoubtByTag}/>
               <PrivateRoute exact path="/doubt/:id" component={DoubtContract}/>
 
               <PrivateRoute exact path="/blockchain" component={BlockTry}/>
