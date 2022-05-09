@@ -233,6 +233,7 @@ const mentorDoubt = async (req, res, next) => {
     newBooking.userId = doubt.user;
     newBooking.amount = amount;
     newBooking.description = description;
+    newBooking.mentorMetamaskAddress = mentorMetamaskAddress;
 
     const newBookingIs = new Booking(newBooking);
     newBookingIs
