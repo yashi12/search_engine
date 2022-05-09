@@ -36,11 +36,11 @@ const BookingSchema = new Schema({
     type: String,
     default: "pending",
   },
-  userMetamassAddress: {
+  userMetamaskAddress: {
     type: String,
     // required:true
   },
-  mentorMetamassAddress: {
+  mentorMetamaskAddress: {
     type: String,
     // required:true
   },

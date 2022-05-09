@@ -42,9 +42,8 @@ const bookMentor = async (req, res, next) => {
     const doubtId = req.params.doubt_id;
     const mentorDoubtId = req.params.id;
     const userId = req.user.id;
-    const userMetamassAddress = req.body.user_address;
-    const mentorMetamassAddress = req.body.mentor_address;
-    console.log(userMetamassAddress, mentorMetamassAddress);
+    const userMetamaskAddress = req.body.user_address;
+
     const booking = await Booking.findOne({
       doubtId: doubtId,
       mentorId: mentorDoubtId,
@@ -64,8 +63,7 @@ const bookMentor = async (req, res, next) => {
         {
           $set: {
             status: "initiated",
-            userMetamassAddress: userMetamassAddress,
-            mentorMetamassAddress: mentorMetamassAddress,
+            userMetamaskAddress: userMetamaskAddress,
           },
         },
         { new: true }
@@ -73,8 +71,8 @@ const bookMentor = async (req, res, next) => {
         .then((booking) => {
           let resp = {};
           resp["booking"] = booking;
-          // resp["userAddres"] = userMetamassAddress;
-          // resp["mentorAddress"] = mentorMetamassAddress;
+          // resp["userAddres"] = userMetamaskAddress;
+          // resp["mentorAddress"] = mentorMetamaskAddress;
           res.json(resp);
         })
         .catch((err) => {
