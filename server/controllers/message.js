@@ -4,9 +4,8 @@ const User = mongoose.model("User");
 const Message = mongoose.model("Message");
 
 const sendMessage = ({body,params,payload},res)=>{
-	let from = payload._id;
+	let from = body._id;
 	let to = params.to;
-
 	let fromPromise = new Promise((resolve, reject)=>{
 		User.findById(from,"messages",(err,user)=>{
 			if(err){
@@ -101,8 +100,8 @@ const resetMessageNotifications = ({payload}, res)=>{
 	})
 }
 
-const deleteMessage  = ({payload,params},res)=>{
-	User.findById(payload._id,(err,user)=>{
+const deleteMessage  = ({body,params},res)=>{
+	User.findById(body._id,(err,user)=>{
 		if(err){
 			return res.json({ error : err });
 		}
@@ -116,7 +115,53 @@ const deleteMessage  = ({payload,params},res)=>{
 	})
 }
 
+const getMessage = (req, res)=>{
+	User.findById(req.params.userid, null,{lean:true},(err,user)=>{
+		if(err){
+			return res.status(400).json({ error : err });
+		}
+		if (!user){
+			return res.status(404).json({ error : "User does not exists."});
+		}
+
+		function addMessengerDetails(messages) {
+			return new Promise((resolve) => {
+				if (!messages.length){
+					resolve(messages);
+				}
+				let usersArray = [];
+				for (const message of messages) {
+					usersArray.push(message.fromID);
+				}
+
+				User.find({'_id': { $in : usersArray }},"name",{},(err,users)=>{
+					if(err){
+						return res.json({ error : err });
+					}
+					for (let message of messages) {
+						for (let i = 0; i < users.length; i++) {
+
+							if (message.fromID.toString() === users[i]._id.toString()){
+								message.messengerName = users[i].name;
+								users.splice(i,1);
+								break;
+							}
+						}
+					}
+					resolve(messages);
+				})
+			});
+		}
+
+		let messageDetails = addMessengerDetails(user.messages);
+		Promise.all([messageDetails]).then((val)=>{
+			res.status(200).json({ name : user.name, _id : user._id, messages : val[0] });
+		});
+	});
+}
+
 module.exports = {
+	getMessage,
 	sendMessage,
 	deleteMessage,
 	resetMessageNotifications

@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import styled from "styled-components";
 import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
+import ProposalItem from './ProposalItem';
 
 const Label = styled.label`
 	font-weight: bold;
@@ -13,6 +14,8 @@ const Label = styled.label`
 const DoubtItem = ({auth, doubt, GlobalId}) => {
 
     const [price, setPrice] = useState(0)
+
+    const data = doubt.doubt.doubt
 
     useEffect(() => {
 		axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
@@ -27,32 +30,38 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 				<br/>
 			</div>
 			<div className="row">
-				<div className="col-2"/>
-				<div className="card mb-3 col-8">
-					<div className="card-body">
-						<h4>{doubt.user.name} <Link className="btn btn-primary" to={`/profile/${doubt.user._id}`}><CgProfile/></Link></h4>
+				<div className="col-1"/>
+				<div className="card mb-3 col-10">
+					<div >
+						<br />
+						<h4>{data.user.name} <Link className="btn btn-primary" to={`/profile/${data.user._id}`}><CgProfile/></Link></h4>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>
-								{ doubt.title }
+								{ data.title }
 							</div>
 						</div>
 						<div className="mb-3">
 							<Label>Description</Label>
-							<div dangerouslySetInnerHTML={{__html: doubt.description}}/>
+							<div dangerouslySetInnerHTML={{__html: data.description}}/>
+						</div>
+                        <div className="mb-3">
+							<Label>Status</Label>
+							<div>{ data.status }</div>
 						</div>
 						<div className="mb-3">
 							<Label>Tags</Label>
 							<div>
-								{doubt.tags.map((tag) => (
+								{data.tags.map((tag) => (
 									<span className="badge badge-secondary">{tag}</span>
 								))}
 							</div>
 						</div>
 						<div className="mb-3">
 							<Label>Amount</Label>
-							<div>{ doubt.raisedAmount ? <div>{ doubt.raisedAmount/10**18 } ETH (Rs. {price*doubt.raisedAmount/10**18})</div> : 0 }</div>
+							<div>{ data.raisedAmount ? <div>{ data.raisedAmount/10**18 } ETH (Rs. {price*data.raisedAmount/10**18})</div> : 0 }</div>
 						</div>
+                        <ProposalItem bookings={doubt.doubt} topic={data.title} id={data._id}/>
 					</div>
 				</div>
 			</div>

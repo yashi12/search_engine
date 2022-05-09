@@ -1,6 +1,6 @@
 // Add Doubt
 import axios from "axios";
-import {ADD_DOUBT, DOUBT_ERROR, GET_DOUBTS, GET_DOUBT, GET_DOUBT_TO_SOLVE} from "./types";
+import {ADD_DOUBT, DOUBT_ERROR, GET_DOUBTS, GET_DOUBT, GET_DOUBT_TO_SOLVE, GET_PROPOSALS, UPDATE_PROPOSAL, ADD_PROPOSALS} from "./types";
 import {setAlert} from "./alert";
 
 export const addDoubt = (data) => async dispatch => {
@@ -17,7 +17,59 @@ export const addDoubt = (data) => async dispatch => {
 		dispatch(setAlert('Doubt Created','success'))
 
 	} catch (err) {
-		console.log("error add post dispatch",err);
+		dispatch({
+			type: DOUBT_ERROR,
+			payload: {msg: err.response,
+				status: err.response}
+		})
+		const error = err.response.data.errors;
+		if (error){
+			error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		}
+	}
+}
+
+export const addProposal = (id,data) => async dispatch => {
+	const config = {
+		header: {'Content-Type': 'multipart/form-data'}
+	}
+	console.log("proposal data:",id)
+	try {
+		const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
+		dispatch({
+			type: ADD_PROPOSALS,
+			payload: res.data
+		});
+		console.log("Proposal Added")
+		dispatch(setAlert('Proposal Added','success'))
+
+	} catch (err) {
+		dispatch({
+			type: DOUBT_ERROR,
+			payload: {msg: err.response,
+				status: err.response}
+		})
+		const error = err.response.data.errors;
+		if (error){
+			error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		}
+	}
+}
+
+export const updateProposal = (id,data) => async dispatch => {
+	const config = {
+		header: {'Content-Type': 'multipart/form-data'}
+	}
+	console.log("proposal data:",data)
+	try {
+		axios.put(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
+			.then((res) => {
+				dispatch({
+					type: UPDATE_PROPOSAL,
+					payload: res.data
+				})
+			})
+	} catch (err) {
 		dispatch({
 			type: DOUBT_ERROR,
 			payload: {msg: err.response,
@@ -56,10 +108,15 @@ export const getDoubtInfo = id => async dispatch => {
 	try {
 		axios.get(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`)
 			.then((res) => {
-				console.log("data : ",res)
+				
 				dispatch({
 					type: GET_DOUBT,
 					payload: res.data
+				})
+				console.log("res data : ",res.data)
+				dispatch({
+					type: GET_PROPOSALS,
+					payload: res.data.bookings
 				})
 			})
 	} catch (err) {
@@ -118,6 +175,6 @@ export const getOwnDoubts = () => async dispatch => {
 		}
 	}
 }
-export const addLearningSession = () => {
-	
-}
+
+
+

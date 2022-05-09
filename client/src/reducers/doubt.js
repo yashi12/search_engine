@@ -3,7 +3,10 @@ import {
     DOUBT_ERROR,
     GET_DOUBTS,
     GET_DOUBT,
-    GET_DOUBT_TO_SOLVE
+    GET_DOUBT_TO_SOLVE,
+    GET_PROPOSALS,
+    UPDATE_PROPOSAL,
+    ADD_PROPOSALS
 } from '../action/types'
 
 const initialState = {
@@ -11,7 +14,8 @@ const initialState = {
     doubt: null,
     doubtsToSolve: [],
     loading: true,
-    error: {}
+    error: {},
+    proposals: []
 }
 
 export default function(state = initialState, action){
@@ -45,6 +49,25 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 error: payload,
+                loading: false
+            }
+        case UPDATE_PROPOSAL:
+            return {
+                ...state,
+                proposals: state.proposals.map((post) => post._id === payload.ansId ? {...payload.data, user:post.user} : post),
+                loading: false
+            }
+        case ADD_PROPOSALS:
+            console.log("proposals", state);
+            return {
+                ...state,
+                proposals: [payload, ...state.proposals],
+                loading: false
+            }
+        case GET_PROPOSALS:
+            return {
+                ...state,
+                proposals: payload,
                 loading: false
             }
         default:

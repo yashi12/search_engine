@@ -1,14 +1,18 @@
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import styled from "styled-components";
 import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
+import Modal from "./Modal";
 
 const Label = styled.label`
 	font-weight: bold;
 `;
 const Doubts = ({auth, doubt,price}) => {
+	const [showModal, setShowModal] = useState(false);
+	const [activeObject, setActiveObject] = useState(null);
+
 	return (
 		<div>
 			<div className="row">
@@ -18,7 +22,22 @@ const Doubts = ({auth, doubt,price}) => {
 				<div className="col-2"/>
 				<div className="card mb-3 col-8">
 					<div className="card-body">
-						<h4>{doubt.user.name} <Link className="btn btn-primary" to={`/profile/${doubt.user._id}`}><CgProfile/></Link></h4>
+						<h4 className="w-100">
+							{doubt.user.name}
+							<Link className="btn btn-primary ml-2" to={`/profile/${doubt.user._id}`}>
+								<CgProfile/>
+							</Link>
+							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message" onClick={e => {
+								let _id = doubt.user._id;
+								let name = doubt.user.name;
+
+								setActiveObject({_id, name});
+								setShowModal(true);
+							}}>Send Message</button>
+							{
+								showModal ? <Modal _id = {activeObject._id} name = {activeObject.name} auth={auth} closeModal = {e => setShowModal(false)}/> : null
+							}
+						</h4>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>
@@ -33,7 +52,7 @@ const Doubts = ({auth, doubt,price}) => {
 							<Label>Tags</Label>
 							<div>
 								{doubt.tags.map((tag) => (
-									<span className="badge badge-secondary">{tag}</span>
+									<span key="{tag}" className="badge badge-secondary">{tag}</span>
 								))}
 							</div>
 						</div>
@@ -48,9 +67,8 @@ const Doubts = ({auth, doubt,price}) => {
 								<Link to={`/doubt/${doubt._id}`} className="btn btn-primary">
 									Open
 								</Link>
-							</div>
+						</div>
                         </div>
-						
 					</div>
 				</div>
 			</div>
