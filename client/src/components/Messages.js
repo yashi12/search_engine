@@ -18,6 +18,7 @@ const Messages = ({auth}) => {
 	const [msg, setMsg] = useState([]);
 	const [actMsg, setActMsg] = useState(activeMessage);
 	const [loading, setLoading] = useState(false)
+	const [action, setAction] = useState(false)
 
 	useEffect(()=>{
 		const config={
@@ -35,12 +36,12 @@ const Messages = ({auth}) => {
 				setLoading(true)
 			}
 		});
-	},[])
+	},[action])
 
 	useEffect(()=>{
 		activeMessage.fromID = activeMessage.fromID || ((msg.length > 0) ? msg[0].fromID : "");
 		setActiveMessage(activeMessage.fromID);
-	},[msg])
+	},[msg,action])
 
 	const messagesEndRef = useRef(null)
 
@@ -148,6 +149,7 @@ const Messages = ({auth}) => {
 				document.getElementById('newMessage').value = "";
 			}
 		});
+		setAction(!action)
 	}
 
 

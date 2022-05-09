@@ -6,13 +6,15 @@ import {
     GET_DOUBT_TO_SOLVE,
     GET_PROPOSALS,
     UPDATE_PROPOSAL,
-    ADD_PROPOSALS
+    ADD_PROPOSALS,
+    SEARCH_DOUBT_BY_TAG
 } from '../action/types'
 
 const initialState = {
     doubts: [],
     doubt: null,
     doubtsToSolve: [],
+    searchDoubtArr: [],
     loading: true,
     error: {},
     proposals: []
@@ -25,6 +27,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 doubts: payload,
+                loading: false
+            }
+        case SEARCH_DOUBT_BY_TAG:
+            return {
+                ...state,
+                searchDoubtArr: payload,
                 loading: false
             }
         case GET_DOUBT_TO_SOLVE:
