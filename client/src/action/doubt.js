@@ -33,13 +33,14 @@ export const addProposal = (id,data) => async dispatch => {
 	const config = {
 		header: {'Content-Type': 'multipart/form-data'}
 	}
+	console.log("proposal data:",id)
 	try {
-		const res = await axios.post(`${process.env.REACT_APP_API}/api/book/initiate/${id}`, data, config)
+		const res = await axios.post(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
 		dispatch({
 			type: ADD_PROPOSALS,
 			payload: res.data
 		});
-
+		console.log("Proposal Added")
 		dispatch(setAlert('Proposal Added','success'))
 
 	} catch (err) {
@@ -59,8 +60,9 @@ export const updateProposal = (id,data) => async dispatch => {
 	const config = {
 		header: {'Content-Type': 'multipart/form-data'}
 	}
+	console.log("proposal data:",data)
 	try {
-		axios.put(`${process.env.REACT_APP_API}/api/book/initiate/${id}`, data, config)
+		axios.put(`${process.env.REACT_APP_API}/api/mentor/doubt/${id}`, data, config)
 			.then((res) => {
 				dispatch({
 					type: UPDATE_PROPOSAL,

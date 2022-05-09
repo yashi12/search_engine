@@ -15,8 +15,6 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 
     const [price, setPrice] = useState(0)
 
-    console.log("data : ",doubt)
-
     const data = doubt.doubt.doubt
 
     useEffect(() => {
