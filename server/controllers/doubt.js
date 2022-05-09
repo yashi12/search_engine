@@ -188,8 +188,9 @@ const mentorDoubt = async (req, res, next) => {
   const doubtId = req.params.id;
   const mentorId = req.user.id;
   const amount = req.body.amount;
-  let description;
+  let description, mentorMetamaskAddress;
   if (req.body.description) description = req.body.description;
+  if (req.body.mentor_address) mentorMetamaskAddress = req.body.mentor_address;
   const doubt = await Doubt.findById(doubtId);
   if (!doubt) {
     return res.status(404).json({
@@ -201,10 +202,18 @@ const mentorDoubt = async (req, res, next) => {
     mentorId: mentorId,
   });
   if (booking) {
-    if (!description) description = booking.description;
+    if (!description && booking.description) description = booking.description;
+    if (!mentorMetamaskAddress && booking.mentorMetamaskAddress)
+      mentorMetamaskAddress = booking.mentorMetamaskAddress;
     Booking.findOneAndUpdate(
       { doubtId: doubtId, mentorId: mentorId, status: "pending" },
-      { $set: { amount: amount, description: description } },
+      {
+        $set: {
+          amount: amount,
+          description: description,
+          mentorMetamaskAddress: mentorMetamaskAddress,
+        },
+      },
       { new: true }
     )
       .then((booking) => {
