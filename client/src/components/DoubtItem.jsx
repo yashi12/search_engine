@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 import ProposalItem from './ProposalItem';
+import Modal from "./Modal";
 
 const Label = styled.label`
 	font-weight: bold;
@@ -15,6 +16,8 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 
     const [price, setPrice] = useState(0)
 
+	const [showModal, setShowModal] = useState(false);
+	const [activeObject, setActiveObject] = useState(null);
     const data = doubt.doubt.doubt
 
     useEffect(() => {
@@ -34,7 +37,29 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 				<div className="card mb-3 col-10">
 					<div >
 						<br />
-						<h4>{data.user.name} <Link className="btn btn-primary" to={`/profile/${data.user._id}`}><CgProfile/></Link></h4>
+						<h4>
+							{data.user.name}
+							<Link className="btn btn-primary" to={`/profile/${data.user._id}`}><CgProfile/></Link>
+							<div>
+								{
+									data.user._id.toString() !== auth.user._id ?
+										<div>
+											<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"}
+													data-toggle="modal" data-target="#modal-message" onClick={e => {
+												let _id = data.user._id;
+												let name = data.user.name;
+
+												setActiveObject({_id, name});
+												setShowModal(true);
+											}}>Send Message</button>
+											{
+												showModal ? <Modal _id = {activeObject._id} name = {activeObject.name} auth={auth} closeModal = {e => setShowModal(false)}/> : null
+											}
+										</div>
+									:null
+								}
+							</div>
+						</h4>
 						<div className="mb-3">
 							<Label>Title</Label>
 							<div>

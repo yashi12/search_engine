@@ -26,7 +26,7 @@ const DoubtsToSolve = ({ getDoubtsToSolve, doubt : {doubtsToSolve} , auth}) => {
 						<h1 className="large text-primary">Doubts to solve</h1>
 						<div >
                             {
-                                doubtsToSolve.length == 0 ? <div className="row">
+                                doubtsToSolve.length === 0 ? <div className="row">
                                 <div className="col-4"></div>
                                 <div className="col-6">
                                     <br /><br />

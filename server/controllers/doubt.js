@@ -82,7 +82,6 @@ const getDoubtById = async (req, res, next) => {
   const doubt_id = req.params.id;
 
   Booking.find({ doubtId: doubt_id })
-    .populate("userId", "id name email")
     .populate("mentorId", "id name email")
     .then((booking) => {
       Doubt.findById(doubt_id)

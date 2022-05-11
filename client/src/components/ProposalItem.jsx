@@ -8,6 +8,7 @@ import { CgProfile } from 'react-icons/cg'
 import { transactionFailed, transactionSuccessful } from '../action/transaction';
 import {connect} from 'react-redux'
 import { addProposal, updateProposal } from '../action/doubt'
+import Modal from "./Modal";
 
 const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,askerId,addProposal,updateProposal}) => {
 
@@ -16,8 +17,11 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
         loadBlockchain()
     },[])
 
-    const [state, setState] = useState({account:'',contract:null})
-    
+    const [state, setState] = useState({account:'',contract:null});
+
+    const [showModal, setShowModal] = useState(false);
+    const [activeObject, setActiveObject] = useState(null);
+
     const loadWeb3 = async () => {
         if (window.ethereum) {
             window.web3 = new Web3(window.ethereum)
@@ -35,16 +39,16 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
 
         const accounts = await web3.eth.requestAccounts()
         //setState({account : accounts[0],...state})
-        
+
         const networkId = await web3.eth.net.getId()
         if(Mycontract.networks[networkId]){
 
             const networkData = Mycontract.networks[networkId]
             const myContract = new web3.eth.Contract(Mycontract.abi, networkData.address)
             setState({account:accounts[0],contract:myContract})
-            
+
             //const send = await myContract.methods.createSession(1,'0x9B79Fcfb243236f12867a38B22B49c045792821f','0x3A314d8553e4bAB7cA9a2Fca4D8b3d28b95Bf2de', 'react js','2').send({from:address.account})
-            
+
             //const con = await state.contract.methods.sessions('1').call()
         }
         else{
@@ -103,7 +107,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
 
     const handleClick = (e,description,amount,id) => {
         e.preventDefault()
-        if(e.target.name == "add"){
+        if(e.target.name === "add"){
             setProposalToggle(!proposalToggle)
             setUpdateToggle(false)
         }
@@ -150,7 +154,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
     return (
         <div>
             {
-                hash ? 
+                hash ?
                 <div>
                     <br />
                     <h5 className="text text-info">Transaction Hash</h5>
@@ -160,12 +164,12 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                 <div></div>
             }
             {
-                auth.user._id !== askerId ? 
+                auth.user._id !== askerId ?
                 <button name="add" className="btn btn-primary" onClick={e=>handleClick(e)}>Add Proposal</button>
                 : <br/>
             }
             {
-                proposalToggle ? 
+                proposalToggle ?
                 <div className="row g-2">
                     <div className="col">
                         <form>
@@ -186,7 +190,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                 </div> : <div></div>
             }
             {
-                updateToggle ? 
+                updateToggle ?
                 <div className="row g-2">
                     <div className="col">
                         <form>
@@ -209,17 +213,17 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
             <div className='row g-3'>
                 <div className='col mb-3'>
                     {
-                        proposals.length > 0 ? 
+                        proposals.length > 0 ?
                         <div>
                             <br />
                             <h3>Responses</h3>
-                            
+
                             <dir>
                                 <div className='row g-3'>
                                     <div className='col-1'>
                                         <h6>User</h6>
                                     </div>
-                                    <div className='col-5'>
+                                    <div className='col-4'>
                                         <h6>Description</h6>
                                     </div>
                                     <div className='col-2'>
@@ -227,7 +231,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                     </div>
                                 </div>
                             </dir>
-                            
+
                         </div>
                         : <div>No Responses Yet</div>
                     }
@@ -236,7 +240,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
             <div className='row g-3'>
                 <div className='col'>
                     {
-                        proposals.length > 0 ? 
+                        proposals.length > 0 ?
                         <div>
                             {
                             proposals.map((element)=>(
@@ -244,31 +248,43 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                     <div className='row'>
                                         <div className='col-1'>
                                             {
-                                            element.mentorId ? 
-                                            <div><Link className="btn btn-primary" to={`/profile/${element.mentorId}`}><CgProfile/></Link></div>:
+                                            element.mentorId._id ?
+                                            <div><Link className="btn btn-primary" to={`/profile/${element.mentorId._id}`}><CgProfile/></Link></div>:
                                             <div></div>
                                             }
                                         </div>
-                                        <div className='col-5'>
+                                        <div className='col-4'>
                                             {element.description}
                                         </div>
                                         <div className='col-2'>
                                             {element.amount}
                                             (Rs. {price*element.amount})
                                         </div>
-                                        <div className='col-1'>
+                                        <div className='col-2'>
                                             {
-                                                auth.user._id === element.mentorId ?
-                                                <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount,element._id)}>Update</button>
-                                                : <div></div>
+                                                auth.user._id === element.mentorId._id ? <button name="update" className="btn btn-primary" onClick={e=>handleClick(e,element.description,element.amount,element._id)}>Update</button> : <div></div>
                                             }
                                         </div>
-                                        <div className='col-1'></div>
-                                        <div className='col-1'>
+                                        <div>
                                             {
-                                                auth.user._id === askerId ?
-                                                <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress)}>Create Contract</button>:
-                                                <div></div>  
+                                                auth.user._id === askerId ? <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress)}>Create Contract</button>: null
+                                            }
+                                        </div>
+                                        <div>
+                                            {
+                                                auth.user._id === askerId?
+                                                    <div>
+                                                        <button className={"btn btn-success ml-2"} data-toggle="modal" data-target="#modal-message" onClick={e => {
+                                                                let _id = element.mentorId._id;
+                                                                let name = element.mentorId.name;
+
+                                                                setActiveObject({_id, name});
+                                                                setShowModal(true);
+                                                        }}> Send Message </button>
+                                                        {
+                                                            showModal ? <Modal _id={activeObject._id} name={activeObject.name} auth={auth} closeModal={_ => setShowModal(false)}/> : null
+                                                        }
+                                                    </div> : null
                                             }
                                         </div>
                                     </div>

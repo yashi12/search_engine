@@ -21,7 +21,6 @@ const Profile = ({
     useEffect(() => {
         getCurrentProfile()
     }, [])
-    console.log("profile log:", profile);
 
 
     // const {githubusername, linkedIn, twitter, bio, skills} = profile;
@@ -77,8 +76,8 @@ const Profile = ({
                     </div>
                     <div className="form-group card-header">
                         <h5 key="Skills"><GrUserExpert/> Skills</h5>
-                        {profile["skills"].map((skill) => (
-                            <h5 key="{skill}">
+                        {profile["skills"].map((skill,index) => (
+                            <h5 key={skill + " " + index}>
                                 <span className="badge badge-warning">{skill}</span></h5>
                         ))}
                     </div>
