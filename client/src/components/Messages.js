@@ -39,7 +39,7 @@ const Messages = ({auth}) => {
 	},[action])
 
 	useEffect(()=>{
-		activeMessage.fromID = activeMessage.fromID || ((msg.length > 0) ? msg[0].fromID : "");
+		activeMessage.fromID = actMsg.fromID || ((msg.length > 0) ? msg[0].fromID : "");
 		setActiveMessage(activeMessage.fromID);
 	},[msg,action])
 
@@ -97,6 +97,9 @@ const Messages = ({auth}) => {
 		}
 		axios.post(`${process.env.REACT_APP_API}/api/message/delete-messages/${id}`, data ,config).then(r => {
 			if(r.status === 201) {
+				if(actMsg.fromID.toString() === id.toString()){
+					actMsg.fromID = "";
+				}
 				setMsg(msg.filter(item => item._id.toString() !== id.toString()));
 			}else {
 				setAlert('Error', 'danger');
