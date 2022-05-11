@@ -17,4 +17,6 @@ router.post("/confirm/:id", auth, bookController.confirmMentor);
 
 router.post("/solved/:id", auth, bookController.bookedDoubtSolved);
 
+router.get("/initiate/", auth, bookController.getDoubtsUserInitiateContract);
+
 module.exports = router;
