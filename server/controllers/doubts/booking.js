@@ -161,8 +161,36 @@ const bookedDoubtSolved = async (req, res, next) => {
   }
 };
 
+const getDoubtsUserInitiateContract = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(404).json({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const userId = req.user.id;
+
+    await Booking.find({
+      userId: userId,
+      status: "initiated",
+    })
+      .select({ doubtId: 1, _id: 0 })
+      .then((bookings) => {
+        res.json(bookings);
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error...");
+  }
+};
+
 module.exports = {
   bookMentor: bookMentor,
   confirmMentor: confirmMentor,
   bookedDoubtSolved: bookedDoubtSolved,
+  getDoubtsUserInitiateContract: getDoubtsUserInitiateContract,
 };
