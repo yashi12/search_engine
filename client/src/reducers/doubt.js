@@ -7,7 +7,8 @@ import {
     GET_PROPOSALS,
     UPDATE_PROPOSAL,
     ADD_PROPOSALS,
-    SEARCH_DOUBT_BY_TAG
+    SEARCH_DOUBT_BY_TAG,
+    DOUBT_CONTRACT
 } from '../action/types'
 
 const initialState = {

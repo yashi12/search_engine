@@ -3,14 +3,25 @@ import Web3 from 'web3'
 import Mycontract from '../abis/Mycontract.json'
 import ContractItem from './ContractItem';
 import { BiErrorCircle } from 'react-icons/bi'
+import axios from 'axios';
 
 const SearchDoubtContract = () => {
+
+    const [contractArr, setContractArr] = useState([])
+
     useEffect(() => {
-        loadWeb3()
-        loadBlockchain()
+        axios.get('http://localhost:3000/api/book/initiate').then((res)=>{
+            setContractArr(res.data)
+            loadWeb3()
+            loadBlockchain(res.data)
+        })
+        
     },[])
 
     const [state, setState] = useState({account:'',contract:null})
+    const [dataFound, setDataFound] = useState(true)
+    const [doubtData, setDoubtData] = useState([])
+    const [toggle, setToggle] = useState(false)
     
     const loadWeb3 = async () => {
         if (window.ethereum) {
@@ -24,9 +35,9 @@ const SearchDoubtContract = () => {
         }
     }
 
-    const loadBlockchain = async () => {
+    const loadBlockchain = async (data) => {
         const web3 = window.web3
-
+        
         const accounts = await web3.eth.requestAccounts()
         //setState({account : accounts[0],...state})
         
@@ -36,9 +47,33 @@ const SearchDoubtContract = () => {
             const networkData = Mycontract.networks[networkId]
             const myContract = new web3.eth.Contract(Mycontract.abi, networkData.address)
             setState({account:accounts[0],contract:myContract})
+            console.log("responce : ",data)
+            for(let i=0;i<data.length;i++){
+                const sessionData = await myContract.methods.sessions(data[i].doubtId).call()
+                const contractData = {
+                    addressOfDoubtSolver : sessionData.doubtSolver,
+                    addressOfDoubtResolver : sessionData.doubtAsker,
+                    title : sessionData.topic,
+                    description : sessionData.isCompleted ? 'Completed':'Not completed',
+                    tags : [],
+                    id: sessionData.id,
+                    raisedAmount : parseFloat(sessionData.amount).toFixed(2)
+                }
+                console.log(contractData)
+                if(contractData.title === ''){
+                    setToggle(false)
+                    setDataFound(false)
+                }
+                else{
+                    setDoubtData([...doubtData,contractData])
+                    setToggle(true)
+                    setDataFound(true)
+                }
+            }
+            
 
             //const name =  await myContract.methods.name().call()
-            const bal =  await myContract.methods.balance.call()
+            //const bal =  await myContract.methods.balance.call()
             
             //const send = await myContract.methods.createSession(1,'0x9B79Fcfb243236f12867a38B22B49c045792821f','0x3A314d8553e4bAB7cA9a2Fca4D8b3d28b95Bf2de', 'react js','2').send({from:address.account})
             
@@ -47,45 +82,11 @@ const SearchDoubtContract = () => {
         else{
             window.alert("smart contract not deployed")
         }
+        
+        
+        console.log("doubt data : ",doubtData)
     }
 
-    const [dataFound, setDataFound] = useState(true)
-  
-    const fetchData = async(e) => {
-        e.preventDefault()
-        const sessionData = await state.contract.methods.sessions(formData.fetchId).call()
-        const contractData = {
-            addressOfDoubtSolver : sessionData.doubtSolver,
-            addressOfDoubtResolver : sessionData.doubtAsker,
-            title : sessionData.topic,
-            description : sessionData.isCompleted ? 'Completed':'Not completed',
-            tags : [],
-            id: sessionData.id,
-            raisedAmount : parseFloat(sessionData.amount).toFixed(2)
-        }
-        console.log(contractData)
-        if(contractData.title === ''){
-            setToggle(false)
-            setDataFound(false)
-        }
-        else{
-            setDoubtData(contractData)
-            setToggle(true)
-            setDataFound(true)
-        } 
-    }
-
-  // State Initialization
-	const [formData, setFormData] = useState({
-        fetchId: ''
-	})
-
-    const [doubtData, setDoubtData] = useState(null)
-
-    const [toggle, setToggle] = useState(false)
-
-	// setting values from inputs into a formData
-	const onChange = e => setFormData({...formData, [e.target.id] : e.target.value})
 
     return (
         <Fragment>
@@ -93,25 +94,17 @@ const SearchDoubtContract = () => {
             
                 <div className="col">
                 <br/>
-                <form className="bar" method="get" >
-                    <div>
-                        <h1 className="large text-primary">Enter Contract Id</h1>
-                        <input onChange={e => onChange(e)} type="text" className="form-control" id="fetchId" placeholder="Search Contract"/>
-                        <br/>
-                        <button onClick={(e)=>fetchData(e)} type="submit" className="btn btn-primary" id="searchQuery">Search</button>
-                    </div>
-                </form>
+                <h1 className="large text-primary">Your Contracts</h1>
                 </div>
                 <div className="col"/>
                 <div className="col"/>
             </div>
             <div >
-                { toggle ? 
                 <div>
-                    <ContractItem doubt={doubtData} contract={state.contract} account={state.account} />
-                </div> :
-                <div>
-                    {dataFound ? <div></div> : 
+                    {   doubtData.length !== 0 ?
+                        doubtData.map((contract)=>(
+                            <ContractItem doubt={contract} contract={state.contract} account={state.account} />
+                        )) :
                         <div className="row">
                             <div className="col-4"></div>
                             <div className="col-6">
@@ -120,8 +113,8 @@ const SearchDoubtContract = () => {
                             </div>
                             <div className="col"></div>
                         </div>
-                    }</div>
-                }
+                    }
+                </div> 
             </div>
         </Fragment>
     )
