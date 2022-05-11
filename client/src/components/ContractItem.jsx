@@ -112,11 +112,19 @@ const ContractItem = ({doubt,contract,account}) => {
                                 <Label>Amount <FaMoneyBillAlt/></Label>
                                 <div>{ doubt.raisedAmount/10**18 } ETH (Rs. {price*doubt.raisedAmount/10**18})</div>
                             </div>
+                            {
+                                doubt.addressOfDoubtResolver.toLowerCase() === account && doubt.description === 'Not completed' ?
+                                <button onClick={e=>endSession(e)} className="btn btn-primary">End Session</button> :
+                                <button onClick={e=>endSession(e)} className="btn btn-primary disabled">End Session</button>
+                            }
+                            <br />
+                            <br />
+                            {
+                                doubt.addressOfDoubtSolver.toLowerCase() == account ?
+                                <button onClick={e=>refund(e)} className="btn btn-primary">Refund</button> :
+                                <button onClick={e=>refund(e)} className="btn btn-primary disabled">Refund</button>
+                            }
                             
-                            <button onClick={e=>endSession(e)} className="btn btn-primary">End Session</button>
-                            <br />
-                            <br />
-                            <button onClick={e=>refund(e)} className="btn btn-primary">Refund</button>
                             <br />
                         </div>
                     </div>

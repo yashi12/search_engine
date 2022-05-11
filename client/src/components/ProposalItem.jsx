@@ -138,11 +138,23 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
 
     const AddProposal = e => {
         e.preventDefault()
+        let allow = true
         setData({...data,address:state.account,amount:parseInt(data.amount)})
         const sndData = {description: data.description,amount: parseFloat(data.amount),mentor_address:state.account}
         //console.log(id)
         //console.log(auth.user._id)
-        addProposal(id,sndData)
+        proposals.map((element)=>{
+            console.log("ids:",element.mentorId._id,"   ",auth.user._id)
+            if(element.mentorId._id === auth.user._id){
+                allow = false
+            }
+        })
+        if(allow){
+            addProposal(id,sndData)
+        }
+        else{
+            alert('Your already have a proposal, please click on "Update" if you wish to change proposal')
+        }
     }
 
     {/*
@@ -249,7 +261,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                         <div className='col-1'>
                                             {
                                             element.mentorId._id ?
-                                            <div><Link className="btn btn-primary" to={`/profile/${element.mentorId._id}`}><CgProfile/></Link></div>:
+                                            <div>{element.mentorId.name}<Link className="btn btn-primary" to={`/profile/${element.mentorId._id}`}><CgProfile/></Link></div>:
                                             <div></div>
                                             }
                                         </div>
