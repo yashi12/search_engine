@@ -37,14 +37,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <Link className="dropdown-item" to="/searchDoubtByTag">Search Doubt By Tag</Link>
                 </div>
             </li>
-            <li className="nav-item dropdown active">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Contracts
-                </a>
-                <div className="dropdown-menu" >
-                    <Link className="dropdown-item" to="/blockchain">Add Contract</Link>
-                    <Link className="dropdown-item" to="/searchDoubtContract">Search Contract</Link>
-                </div>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/searchDoubtContract">Contracts</Link>
             </li>
             <li className="nav-item dropdown active">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
