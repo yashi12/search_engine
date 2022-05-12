@@ -81,6 +81,52 @@ export const updateProposal = (id,data) => async dispatch => {
 	}
 }
 
+export const initiateProposal = (doubt_id,mentor_id) => async dispatch => {
+	const config = {
+		header: {'Content-Type': 'multipart/form-data'}
+	}
+	try {
+		axios.post(`${process.env.REACT_APP_API}/api/book/initiate/${doubt_id}/mentor/${mentor_id}`)
+			.then((res) => {
+				console.log(res.data)
+				dispatch(setAlert('Proposal Accepted','success'))
+			})
+	} catch (err) {
+		dispatch({
+			type: DOUBT_ERROR,
+			payload: {msg: err.response,
+				status: err.response}
+		})
+		const error = err.response.data.errors;
+		if (error){
+			error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		}
+	}
+}
+
+export const doubtSolved = (id) => async dispatch => {
+	const config = {
+		header: {'Content-Type': 'multipart/form-data'}
+	}
+	try {
+		axios.post(`${process.env.REACT_APP_API}/api/book/solved/${id}`)
+			.then((res) => {
+				console.log(res.data)
+				dispatch(setAlert('Doubt Solved','success'))
+			})
+	} catch (err) {
+		dispatch({
+			type: DOUBT_ERROR,
+			payload: {msg: err.response,
+				status: err.response}
+		})
+		const error = err.response.data.errors;
+		if (error){
+			error.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		}
+	}
+}
+
 export const getDoubts = () => async dispatch => {
 	try {
 		axios.get(`${process.env.REACT_APP_API}/api/mentor/`)
@@ -139,6 +185,9 @@ export const searchDoubt = tag => async dispatch => {
 					type: SEARCH_DOUBT_BY_TAG,
 					payload: res.data
 				})
+				if(res.data.length === 0){
+					dispatch(setAlert('No Doubt Found','danger'))
+				}
 			})
 	} catch (err) {
 		dispatch({

@@ -86,7 +86,7 @@ const DoubtItem = ({auth, doubt, GlobalId}) => {
 							<Label>Amount</Label>
 							<div>{ data.raisedAmount ? <div>{ data.raisedAmount/10**18 } ETH (Rs. {price*data.raisedAmount/10**18})</div> : 0 }</div>
 						</div>
-                        <ProposalItem bookings={doubt.doubt} topic={data.title} id={data._id} askerId={data.user._id}/>
+                        <ProposalItem bookings={doubt.doubt} topic={data.title} id={data._id} askerId={data.user._id} status={data.status}/>
 					</div>
 				</div>
 			</div>

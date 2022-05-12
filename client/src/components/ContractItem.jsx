@@ -4,7 +4,10 @@ import { FaMoneyBillAlt, FaAddressCard } from 'react-icons/fa'
 import { BsCardHeading } from 'react-icons/bs'
 import { GrStatusInfo } from 'react-icons/gr'
 import { transactionFailed, transactionSuccessful } from '../action/transaction';
+import { doubtSolved } from '../action/doubt'
 import axios from 'axios';
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 
 const Label = styled.label`
 	font-weight: bold;
@@ -12,7 +15,7 @@ const Label = styled.label`
     font-family: Georgia, serif;
 `;
 
-const ContractItem = ({doubt,contract,account}) => {
+const ContractItem = ({doubt,contract,account,doubtSolved}) => {
 
     const [price, setPrice] = useState(0)
 
@@ -25,7 +28,7 @@ const ContractItem = ({doubt,contract,account}) => {
         })
 	})
 
-    const endSession = async(e) => {
+    const endSession = async(e,id) => {
         e.preventDefault()
         console.log(contract)
         contract.methods.endSession(doubt.id).send({from:account})
@@ -37,6 +40,7 @@ const ContractItem = ({doubt,contract,account}) => {
             console.log("confirmations : ",confirmationNumber)
             console.log("receiptx : ",receipt)
             transactionSuccessful()
+            doubtSolved(id)
         })
         .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
             console.log('error : ',error)
@@ -45,7 +49,7 @@ const ContractItem = ({doubt,contract,account}) => {
         });
     }
 
-    const refund = async(e) => {
+    const refund = async(e,id) => {
         e.preventDefault()
         console.log(contract)
         contract.methods.refund(doubt.id).send({from:account})
@@ -57,6 +61,7 @@ const ContractItem = ({doubt,contract,account}) => {
             console.log("confirmations : ",confirmationNumber)
             console.log("receiptx : ",receipt)
             transactionSuccessful()
+            doubtSolved(id)
         })
         .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
             console.log('error : ',error)
@@ -84,6 +89,12 @@ const ContractItem = ({doubt,contract,account}) => {
                     <div className="card" >
                         <br />
                         <div className="card-body">
+                            <div className="mb-3">
+                                <Label>ID</Label>
+                                <div>
+                                    { doubt.id }
+                                </div>
+                            </div>
                             <div className="mb-3">
                                 <Label>Title <BsCardHeading/></Label>
                                 <div>
@@ -114,14 +125,14 @@ const ContractItem = ({doubt,contract,account}) => {
                             </div>
                             {
                                 doubt.addressOfDoubtResolver.toLowerCase() === account && doubt.description === 'Not completed' ?
-                                <button onClick={e=>endSession(e)} className="btn btn-primary">End Session</button> :
+                                <button onClick={e=>endSession(e,doubt.id)} className="btn btn-primary">End Session</button> :
                                 <button onClick={e=>endSession(e)} className="btn btn-primary disabled">End Session</button>
                             }
                             <br />
                             <br />
                             {
-                                doubt.addressOfDoubtSolver.toLowerCase() == account ?
-                                <button onClick={e=>refund(e)} className="btn btn-primary">Refund</button> :
+                                doubt.addressOfDoubtSolver.toLowerCase() === account && doubt.description === 'Not completed'  ?
+                                <button onClick={e=>refund(e,doubt.id)} className="btn btn-primary">Refund</button> :
                                 <button onClick={e=>refund(e)} className="btn btn-primary disabled">Refund</button>
                             }
                             
@@ -135,4 +146,8 @@ const ContractItem = ({doubt,contract,account}) => {
 	)
 }
 
-export default ContractItem
+ContractItem.propTypes = {
+    doubtSolved: PropTypes.func.isRequired
+}
+
+export default connect(null, {doubtSolved})(ContractItem)

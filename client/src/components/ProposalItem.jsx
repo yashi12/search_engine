@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom'
 import { CgProfile } from 'react-icons/cg'
 import { transactionFailed, transactionSuccessful } from '../action/transaction';
 import {connect} from 'react-redux'
-import { addProposal, updateProposal } from '../action/doubt'
+import { addProposal, updateProposal, initiateProposal } from '../action/doubt'
 import Modal from "./Modal";
 
-const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,askerId,addProposal,updateProposal}) => {
+const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transactionSuccessful,topic,id,askerId,addProposal,updateProposal,initiateProposal,status}) => {
 
     useEffect(() => {
         loadWeb3()
@@ -56,7 +56,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
         }
     }
 
-    const onSubmit = async(e,amount,address) => {
+    const onSubmit = async(e,amount,address,mentorId) => {
 		e.preventDefault()
 
         const web3 = window.web3
@@ -77,6 +77,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
             console.log("confirmations : ",confirmationNumber)
             console.log("receiptx : ",receipt)
             transactionSuccessful()
+            initiateProposal(id,mentorId)
         })
         .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
             console.log('error : ',error)
@@ -176,7 +177,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                 <div></div>
             }
             {
-                auth.user._id !== askerId ?
+                auth.user._id !== askerId && status==='unsolved' ?
                 <button name="add" className="btn btn-primary" onClick={e=>handleClick(e)}>Add Proposal</button>
                 : <br/>
             }
@@ -279,7 +280,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                         </div>
                                         <div>
                                             {
-                                                auth.user._id === askerId ? <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress)}>Create Contract</button>: null
+                                                auth.user._id === askerId ? <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress,element.mentorId._id)}>Create Contract</button>: null
                                             }
                                         </div>
                                         <div>
@@ -318,10 +319,12 @@ ProposalItem.propTypes = {
     transactionSuccessful: PropTypes.func.isRequired,
     topic: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     doubt: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     addProposal: PropTypes.func.isRequired,
-    updateProposal: PropTypes.func.isRequired
+    updateProposal: PropTypes.func.isRequired,
+    initiateProposal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -329,4 +332,4 @@ const mapStateToProps = state => ({
     doubt: state.doubt
 })
 
-export default connect(mapStateToProps, {transactionFailed,transactionSuccessful,addProposal,updateProposal})(ProposalItem)
+export default connect(mapStateToProps, {transactionFailed,transactionSuccessful,addProposal,updateProposal,initiateProposal})(ProposalItem)
