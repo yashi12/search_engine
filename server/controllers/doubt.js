@@ -217,6 +217,8 @@ const mentorDoubt = async (req, res, next) => {
       },
       { new: true }
     )
+      .populate("mentorId", "name email id")
+      .populate("userId", "name email id")
       .then((booking) => {
         if (booking == null) {
           res.status(404).send("booking cannot be updated");

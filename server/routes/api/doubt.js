@@ -9,7 +9,7 @@ const auth = require("../../middleware/auth");
 const upload = multer();
 
 // @route POST api/discussion/ques
-// @desc Create a Question
+// @desc Create a new doubt
 // @access Private
 router.post(
   "/doubt",
@@ -22,6 +22,7 @@ router.post(
         .not()
         .isEmpty()
         .isLength({ min: 20 }),
+      check("raisedAmount", "Amount is required").not().isEmpty(),
     ],
   ],
   doubtController.addDoubt
