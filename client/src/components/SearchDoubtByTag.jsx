@@ -57,17 +57,7 @@ const SearchDoubtByTag = ({ searchDoubt, doubt : {searchDoubtArr, loading} , aut
                     ))}
                 </div> :
                 <div>
-                    {searchDoubtArr.length === 0 && !loading ? 
-                        <div className="row">
-                            <div className="col-4"></div>
-                            <div className="col-6">
-                                <br /><br />
-                                <h3 className="text text-danger">NO CONTRACT FOUND  <BiErrorCircle/></h3>
-                            </div>
-                            <div className="col"></div>
-                        </div> :
-                        <div></div>
-                    }</div>
+                    </div>
                 }
             </div>
         </Fragment>

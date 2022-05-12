@@ -63,7 +63,7 @@ export default function(state = initialState, action){
         case UPDATE_PROPOSAL:
             return {
                 ...state,
-                proposals: state.proposals.map((proposal) => proposal._id === payload._id ? {...payload, description: payload.description, amount: payload.amount, mentorMetamaskAddress: payload.mentorMetamaskAddress} : proposal),
+                proposals: state.proposals.map((proposal) => proposal._id === payload._id ? {...payload, description: payload.description, amount: payload.amount, mentorMetamaskAddress: payload.mentorMetamaskAddress, mentorId: proposal.mentorId} : proposal),
                 loading: false
             }
         case ADD_PROPOSALS:

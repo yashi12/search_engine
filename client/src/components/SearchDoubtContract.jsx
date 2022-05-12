@@ -40,7 +40,7 @@ const SearchDoubtContract = () => {
         
         const accounts = await web3.eth.requestAccounts()
         //setState({account : accounts[0],...state})
-        
+        let contracts = []
         const networkId = await web3.eth.net.getId()
         if(Mycontract.networks[networkId]){
 
@@ -65,12 +65,13 @@ const SearchDoubtContract = () => {
                     setDataFound(false)
                 }
                 else{
-                    setDoubtData([...doubtData,contractData])
+                    contracts.push(contractData)
+                    
                     setToggle(true)
                     setDataFound(true)
                 }
             }
-            
+            setDoubtData(contracts)
 
             //const name =  await myContract.methods.name().call()
             //const bal =  await myContract.methods.balance.call()
