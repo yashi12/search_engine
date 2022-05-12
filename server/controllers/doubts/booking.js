@@ -131,7 +131,7 @@ const confirmMentor = async (req, res, next) => {
 - mentor denies
 */
 
-const bookedDoubtSolved = async (req, res, next) => {
+const markDoubtSolved = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(404).json({
@@ -139,17 +139,17 @@ const bookedDoubtSolved = async (req, res, next) => {
     });
   }
   try {
-    const bookingId = req.params.id;
+    const doubtId = req.params.id;
     const userId = req.user.id;
-    Booking.findOneAndUpdate(
-      { $and: [{ _id: bookingId }, { userId: userId }] },
+    Doubt.findOneAndUpdate(
+      { $and: [{ _id: doubtId }, { user: userId }] },
       { $set: { status: "solved" } },
       { new: true }
     )
-      .then((booking) => {
-        if (booking == null) res.status(404).send("no such booking found");
+      .then((doubt) => {
+        if (doubt == null) res.status(404).send("no such doubt found");
         else {
-          res.json(booking);
+          res.json(doubt);
         }
       })
       .catch((err) => {
@@ -191,6 +191,6 @@ const getDoubtsUserInitiateContract = async (req, res, next) => {
 module.exports = {
   bookMentor: bookMentor,
   confirmMentor: confirmMentor,
-  bookedDoubtSolved: bookedDoubtSolved,
+  bookedDoubtSolved: markDoubtSolved,
   getDoubtsUserInitiateContract: getDoubtsUserInitiateContract,
 };
