@@ -242,6 +242,8 @@ const mentorDoubt = async (req, res, next) => {
     const newBookingIs = new Booking(newBooking);
     newBookingIs
       .save()
+      .populate("mentorId", "name email id")
+      .populate("userId", "name email id")
       .then((booking) => {
         res.json(booking);
       })
