@@ -124,7 +124,6 @@ const getAllDoubts = async (req, res, next) => {
       date: -1,
     })
     .then((questions) => {
-      console.log(questions);
       res.json(questions);
     })
     .catch((err) => {
