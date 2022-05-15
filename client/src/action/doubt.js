@@ -40,6 +40,7 @@ export const addProposal = (id,data) => async dispatch => {
 			type: ADD_PROPOSALS,
 			payload: res.data
 		});
+		console.log("add proposal data",res.data)
 		dispatch(setAlert('Proposal Added','success'))
 
 	} catch (err) {
@@ -67,6 +68,7 @@ export const updateProposal = (id,data) => async dispatch => {
 					type: UPDATE_PROPOSAL,
 					payload: res.data
 				})
+				dispatch(setAlert('Proposal Updated','success'))
 			})
 	} catch (err) {
 		dispatch({

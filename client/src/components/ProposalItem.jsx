@@ -133,7 +133,18 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
     const UpdateProposal = e => {
         e.preventDefault()
         setUpdateData({...updateData,amount:parseFloat(updateData.amount)})
-        updateProposal(id,updateData)
+        if(updateData.description.length < 20){
+            alert('Description should be at least 20 characters')
+        }
+        if(updateData.mentor_address.length == 0){
+            alert("Address can't be null")
+        }
+        if(updateData.amount <= 0){
+            alert('Amount should be greater than 0')
+        }
+        else{
+            updateProposal(id,updateData)
+        }
         //addProposal(id,updateData)
     }
 
@@ -151,7 +162,18 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
             }
         })
         if(allow){
-            addProposal(id,sndData)
+            if(sndData.description.length < 20){
+                alert('Description should be at least 20 characters')
+            }
+            if(sndData.mentor_address.length == 0){
+                alert("Address can't be null")
+            }
+            if(sndData.amount <= 0){
+                alert('Amount should be greater than 0')
+            }
+            else{
+                addProposal(id,sndData)
+            }
         }
         else{
             alert('Your already have a proposal, please click on "Update" if you wish to change proposal')
@@ -280,7 +302,7 @@ const ProposalItem = ({doubt:{proposals, loading},auth,transactionFailed,transac
                                         </div>
                                         <div>
                                             {
-                                                auth.user._id === askerId ? <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress,element.mentorId._id)}>Create Contract</button>: null
+                                                auth.user._id === askerId && status==='unsolved' ? <button className='btn btn-primary' onClick={e=>onSubmit(e,element.amount,element.mentorMetamaskAddress,element.mentorId._id)}>Create Contract</button>: null
                                             }
                                         </div>
                                         <div>

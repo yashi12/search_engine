@@ -33,7 +33,7 @@ const MyDoubt = ({ getOwnDoubts, doubt : {doubts} , auth}) => {
                                     <h4 className="text text-danger">NO DOUBTS ASKED <BiErrorCircle/></h4>
                                 </div>
                                 <div className="col"></div>
-                                </div> :<div>Here</div>
+                                </div> :<div></div>
                             }
 							{/* passing data from get all question api to Questions component */}
 							{doubts.map((doubt) => (
