@@ -39,7 +39,7 @@ export default function(state = initialState, action){
         case GET_DOUBT_TO_SOLVE:
             return {
                 ...state,
-                doubtsToSolve: payload,
+                doubtsToSolve: payload.map((proposal) => {return {...proposal,_id: proposal.doubtId._id,title:proposal.doubtId.title, user: proposal.userId, tags: proposal.doubtId.tags, raisedAmount: proposal.amount}}),
                 loading: false
             }
         case GET_DOUBT:

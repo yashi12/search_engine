@@ -12,7 +12,7 @@ const Label = styled.label`
 const Doubts = ({auth, doubt,price}) => {
 	const [showModal, setShowModal] = useState(false);
 	const [activeObject, setActiveObject] = useState(null);
-
+	
 	return (
 		<div>
 			<div className="row">

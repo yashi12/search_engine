@@ -17,6 +17,7 @@ const DoubtsToSolve = ({ getDoubtsToSolve, doubt : {doubtsToSolve} , auth}) => {
         .then((data)=>{
             setPrice(data.data.ethereum.inr)
         })
+		//console.log("doubt to solve : ",doubtsToSolve)
 	}, [getDoubtsToSolve]);
 	return (
 		<div>
@@ -33,11 +34,11 @@ const DoubtsToSolve = ({ getDoubtsToSolve, doubt : {doubtsToSolve} , auth}) => {
                                     <h4 className="text text-danger">NO DOUBTS FOUND  <BiErrorCircle/></h4>
                                 </div>
                                 <div className="col"></div>
-                                </div> :<div>Here</div>
+                                </div> :<div></div>
                             }
 							{/* passing data from get all question api to Questions component */}
 							{doubtsToSolve.map((doubt) => (
-								<Doubts key={doubt._id} doubt={doubtsToSolve} price={price} />
+								<Doubts key={doubt._id} doubt={doubt} price={price} />
 							))}
 						</div>
 					</Fragment> :

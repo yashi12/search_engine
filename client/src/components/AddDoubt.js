@@ -42,13 +42,23 @@ const AddDoubt = ({addDoubt}) => {
 	// Submitting the data
 	const onSubmit = e => {
 		e.preventDefault();
-		if(formData.raisedAmount > 0){
+		if(formData.raisedAmount <= 0){
+			alert('Amount should be greater than 0')
+		}
+		if(formData.text.length < 20){
+			alert("Description can't be empty")
+		}
+		if(formData.title.length <= 0){
+			alert("Title can't be empty")
+		}
+		if(formData.tags.length <= 0){
+			alert("Tags can't be empty")
+		}
+		else{
 			formData.description = formData.text;
 			formData.raisedAmount = formData.raisedAmount*10**18
 			addDoubt(formData);
-		}
-		else{
-			alert('Amount should be greater than 0')
+			
 		}
 		//
 	}
