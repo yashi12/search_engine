@@ -8,6 +8,7 @@ import { doubtSolved } from '../action/doubt'
 import axios from 'axios';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Label = styled.label`
 	font-weight: bold;
@@ -90,7 +91,9 @@ const ContractItem = ({doubt,contract,account,doubtSolved}) => {
                         <br />
                         <div className="card-body">
                             <div className="mb-3">
-                                <Label>ID</Label>
+                                <Label><Link to={`/doubt/${doubt.id}`} className="btn btn-primary">
+									ID
+								</Link></Label>
                                 <div>
                                     { doubt.id }
                                 </div>
@@ -125,8 +128,8 @@ const ContractItem = ({doubt,contract,account,doubtSolved}) => {
                             </div>
                             {
                                 doubt.addressOfDoubtResolver.toLowerCase() === account && doubt.description === 'Not completed' ?
-                                <button onClick={e=>endSession(e,doubt.id)} className="btn btn-primary">End Session</button> :
-                                <button onClick={e=>endSession(e)} className="btn btn-primary disabled">End Session</button>
+                                <button onClick={e=>endSession(e,doubt.id)} className="btn btn-primary">End Contract</button> :
+                                <button onClick={e=>endSession(e)} className="btn btn-primary disabled">End Contract</button>
                             }
                             <br />
                             <br />
