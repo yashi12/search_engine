@@ -11,11 +11,12 @@ const SearchDoubtContract = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/book/initiate').then((res)=>{
-            setContractArr(res.data)
-            loadWeb3()
-            loadBlockchain(res.data)
+            axios.get(`${process.env.REACT_APP_API}/api/mentor/final/`).then((res2)=>{
+                setContractArr(res.data)
+                loadWeb3()
+                loadBlockchain(res.data,res2.data)
+            })
         })
-        
     },[])
 
     const [state, setState] = useState({account:'',contract:null})
@@ -35,7 +36,7 @@ const SearchDoubtContract = () => {
         }
     }
 
-    const loadBlockchain = async (data) => {
+    const loadBlockchain = async (data,data2) => {
         const web3 = window.web3
         
         const accounts = await web3.eth.requestAccounts()
@@ -49,8 +50,8 @@ const SearchDoubtContract = () => {
             setState({account:accounts[0],contract:myContract})
             console.log("responce : ",data)
             for(let i=0;i<data.length;i++){
-                const sessionData = await myContract.methods.sessions(data[i].doubtId).call()
-                const contractData = {
+                let sessionData = await myContract.methods.sessions(data[i].doubtId).call()
+                let contractData = {
                     addressOfDoubtSolver : sessionData.doubtSolver,
                     addressOfDoubtResolver : sessionData.doubtAsker,
                     title : sessionData.topic,
@@ -59,7 +60,6 @@ const SearchDoubtContract = () => {
                     id: sessionData.id,
                     raisedAmount : parseFloat(sessionData.amount).toFixed(2)
                 }
-                console.log(contractData)
                 if(contractData.title === ''){
                     setToggle(false)
                     setDataFound(false)
@@ -69,6 +69,31 @@ const SearchDoubtContract = () => {
                     
                     setToggle(true)
                     setDataFound(true)
+                }
+            }
+            console.log("data 2:",data2)
+            for(let i=0;i<data2.length;i++){
+                if(data2[i].status !== 'solved'){
+                    let sessionData = await myContract.methods.sessions(data2[i].doubtId._id).call()
+                    let contractData = {
+                        addressOfDoubtSolver : sessionData.doubtSolver,
+                        addressOfDoubtResolver : sessionData.doubtAsker,
+                        title : sessionData.topic,
+                        description : sessionData.isCompleted ? 'Completed':'Not completed',
+                        tags : [],
+                        id: sessionData.id,
+                        raisedAmount : parseFloat(sessionData.amount).toFixed(2)
+                    }
+                    if(contractData.title === ''){
+                        setToggle(false)
+                        setDataFound(false)
+                    }
+                    else{
+                        contracts.push(contractData)
+                        
+                        setToggle(true)
+                        setDataFound(true)
+                    }
                 }
             }
             setDoubtData(contracts)
