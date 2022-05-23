@@ -53,7 +53,8 @@ contract("Mycontract",([deployer, doubtAsker, doubtSolver])=>{
             assert.equal(event.topic,'Solidity Doubts',"topic is correct")
             assert.equal(event.isCompleted,false,"completion is correct")
             //assert.equal(event.amount,amount,"amount is correct")
-
+            assert.notEqual(event.id,'','id is not empty')
+            assert.notEqual(event.topic,'','topic is not empty')
             // Track the contract balance after fee
             let newContractBalance
             newContractBalance = await web3.eth.getBalance(myContract.address)
