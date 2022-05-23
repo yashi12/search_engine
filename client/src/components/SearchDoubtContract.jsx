@@ -74,6 +74,7 @@ const SearchDoubtContract = () => {
             console.log("data 2:",data2)
             for(let i=0;i<data2.length;i++){
                 if(data2[i].status !== 'solved'){
+                    console.log(data2[i].doubtId)
                     let sessionData = await myContract.methods.sessions(data2[i].doubtId._id).call()
                     let contractData = {
                         addressOfDoubtSolver : sessionData.doubtSolver,

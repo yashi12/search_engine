@@ -146,6 +146,7 @@ const getMyDoubts = async (req, res, next) => {
       user: 1,
       media: 1,
       raisedAmount: 1,
+      status: 1
     })
     .skip(pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0)
     .limit(nPerPage)

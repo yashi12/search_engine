@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 import Modal from "./Modal";
+//import { IoCheckmarkDoneSharp } from 'react-icons/io'
+import { MdOutlinePendingActions, MdOutlineDoneOutline } from 'react-icons/md'
 
 const Label = styled.label`
 	font-weight: bold;
@@ -12,7 +14,7 @@ const Label = styled.label`
 const Doubts = ({auth, doubt,price}) => {
 	const [showModal, setShowModal] = useState(false);
 	const [activeObject, setActiveObject] = useState(null);
-	
+
 	return (
 		<div>
 			<div className="row">
@@ -27,21 +29,27 @@ const Doubts = ({auth, doubt,price}) => {
 							<Link className="btn btn-primary ml-2" to={`/profile/${doubt.user._id}`}>
 								<CgProfile/>
 							</Link>
-							<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message" onClick={e => {
+							{	auth.user._id !== doubt.user._id ?
+								<div>
+								<button className={"btn btn-sm btn-success rounded-pill ml-5 float-right"} data-toggle="modal" data-target="#modal-message" onClick={e => {
 								let _id = doubt.user._id;
 								let name = doubt.user.name;
 
 								setActiveObject({_id, name});
 								setShowModal(true);
-							}}>Send Message</button>
-							{
-								showModal ? <Modal _id = {activeObject._id} name = {activeObject.name} auth={auth} closeModal = {e => setShowModal(false)}/> : null
+								}}>Send Message</button>
+								{
+									showModal ? <Modal _id = {activeObject._id} name = {activeObject.name} auth={auth} closeModal = {e => setShowModal(false)}/> : null
+								}
+								</div> :<div></div>
 							}
+							
 						</h4>
 						<div className="mb-3">
-							<Label>Title</Label>
+							<Label>Title<h4>{doubt.status === 'solved' ? <MdOutlineDoneOutline/>:<MdOutlinePendingActions/>}</h4> </Label>
 							<div>
-								{ doubt.title }
+								{ doubt.title} 
+								
 							</div>
 						</div>
 						<div className="mb-3">
@@ -51,8 +59,8 @@ const Doubts = ({auth, doubt,price}) => {
 						<div className="mb-3">
 							<Label>Tags</Label>
 							<div>
-								{doubt.tags.map((tag) => (
-									<span key="{tag}" className="badge badge-secondary">{tag}</span>
+								{doubt.tags.map((tag,index) => (
+									<span key={`tag${index}`} className="badge badge-secondary">{tag}</span>
 								))}
 							</div>
 						</div>
