@@ -1,4 +1,6 @@
 const Profile = require("../../models/Profile");
+const Doubt = require("../../models/discussion/Doubt");
+const Booking = require("../../models/discussion/Booking");
 
 const fetchMetamassAddress = (user_id) => {
   try {
@@ -14,6 +16,31 @@ const fetchMetamassAddress = (user_id) => {
   }
 };
 
+const makDoubtsAsSolved = () => {
+  try {
+    Doubt.find({
+      status: "in process",
+      date: {
+        $lte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+      },
+    })
+      .select({ _id: 1, date: 1 })
+      .then((doubts) => {
+        console.log(doubts);
+        for (let i = 0; i < doubts.length; i++) {
+          Doubt.findByIdAndUpdate(doubts[i]._id, {
+            $set: {
+              status: "solved",
+            },
+          }).then((doubt) => {});
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   fetchMetamassAddress: fetchMetamassAddress,
+  makDoubtsAsSolved: makDoubtsAsSolved,
 };
