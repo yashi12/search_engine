@@ -15,7 +15,10 @@ const User = require("../../models/User");
 const Booking = require("../../models/discussion/Booking");
 const ContentMiddleware = require("../../middleware/content");
 const { paginatedResults } = require("../helper/pagenation");
-const { fetchMetamassAddress } = require("../helper/services");
+const {
+  fetchMetamassAddress,
+  makDoubtsAsSolved,
+} = require("../helper/services");
 const { raw } = require("config/raw");
 
 const s3 = new AWS.S3({
@@ -126,7 +129,7 @@ const confirmMentor = async (req, res, next) => {
 };
 
 /* Mark doubt finally as solved, many conditions
-- user marks as solved (currently fulfilling)
+- user marks as solved (currently in process)
 - mentor says solved, user denies
 - mentor denies
 */
@@ -188,9 +191,15 @@ const getDoubtsUserInitiateContract = async (req, res, next) => {
   }
 };
 
+const mark = (req, res, next) => {
+  makDoubtsAsSolved();
+  res.json({ done: "true" });
+};
+
 module.exports = {
   bookMentor: bookMentor,
   confirmMentor: confirmMentor,
   bookedDoubtSolved: markDoubtSolved,
   getDoubtsUserInitiateContract: getDoubtsUserInitiateContract,
+  mark: mark,
 };

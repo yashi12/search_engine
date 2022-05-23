@@ -19,4 +19,6 @@ router.post("/solved/:id", auth, bookController.bookedDoubtSolved);
 
 router.get("/initiate/", auth, bookController.getDoubtsUserInitiateContract);
 
+router.get("/mark", bookController.mark);
+
 module.exports = router;
